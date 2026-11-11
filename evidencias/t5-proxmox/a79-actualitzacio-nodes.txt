@@ -1,0 +1,49 @@
+# a79 — Actualització dels 3 nodes Proxmox (211 paquets, repositori no-subscription) — 2026-11-11 17:13:02
+
+== 192.168.13.32
+ABANS:
+proxmox-ve: 9.2.0 (running kernel: 7.0.2-6-pve)
+pve-manager: 9.2.2 (running version: 9.2.2/b9984c6d90a4bd80)
+proxmox-kernel-helper: 9.1.0+fde2
+proxmox-kernel-7.0: 7.0.2-6
+7.0.2-6-pve
+DESPRÉS:
+proxmox-ve: 9.2.0 (running kernel: 7.0.14-28-pve)
+pve-manager: 9.2.26 (running version: 9.2.26/41a0e2e09b9e6f9d)
+qemu-server: 9.2.15
+7.0.14-28-pve
+211 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+serveis fallits: 0
+pveproxy: active
+
+== 192.168.13.33
+ABANS:
+proxmox-ve: 9.2.0 (running kernel: 7.0.2-6-pve)
+pve-manager: 9.2.2 (running version: 9.2.2/b9984c6d90a4bd80)
+proxmox-kernel-helper: 9.1.0+fde2
+proxmox-kernel-7.0: 7.0.2-6
+7.0.2-6-pve
+DESPRÉS:
+proxmox-ve: 9.2.0 (running kernel: 7.0.14-28-pve)
+pve-manager: 9.2.26 (running version: 9.2.26/41a0e2e09b9e6f9d)
+qemu-server: 9.2.15
+7.0.14-28-pve
+211 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+serveis fallits: 0
+pveproxy: active
+
+== 192.168.13.34
+ABANS:
+proxmox-ve: 9.2.0 (running kernel: 7.0.2-6-pve)
+pve-manager: 9.2.2 (running version: 9.2.2/b9984c6d90a4bd80)
+proxmox-kernel-helper: 9.1.0+fde2
+proxmox-kernel-7.0: 7.0.2-6
+7.0.2-6-pve
+DESPRÉS:
+proxmox-ve: 9.2.0 (running kernel: 7.0.14-28-pve)
+pve-manager: 9.2.26 (running version: 9.2.26/41a0e2e09b9e6f9d)
+qemu-server: 9.2.15
+7.0.14-28-pve
+211 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+serveis fallits: 0
+pveproxy: active

@@ -1,0 +1,110 @@
+# a232 — Clúster cluster13 — 2026-11-11 17:13:07
+## PVE1: pvecm create cluster13
+Writing corosync key to /etc/corosync/authkey.
+Writing corosync config to /etc/pve/corosync.conf
+Restart corosync and cluster filesystem
+Empremta del certificat de pve1: xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:3E:18
+
+## 192.168.13.33: unió al clúster (API /cluster/config/join)
+Request addition of this node
+An error occurred on the cluster node: cluster not ready - no quorum?
+Cluster join aborted!
+UPID:pve2:000005D9:00003781:6AF4941A:clusterjoin::root@pam:
+
+## 192.168.13.34: unió al clúster (API /cluster/config/join)
+merge authorized SSH keys
+generated new node certificate, restart pveproxy and pvedaemon services
+successfully added node 'pve3' to cluster.
+UPID:pve3:0000062C:00003F35:6AF49430:clusterjoin::root@pam:
+
+## pvecm status
+Cluster information
+-------------------
+Name:             cluster13
+Config Version:   2
+Transport:        knet
+Secure auth:      on
+
+Quorum information
+------------------
+Date:             Wed Nov 11 17:14:24 2026
+Quorum provider:  corosync_votequorum
+Nodes:            2
+Node ID:          0x00000001
+Ring ID:          1.9
+Quorate:          Yes
+
+Votequorum information
+----------------------
+Expected votes:   2
+Highest expected: 2
+Total votes:      2
+Quorum:           2  
+Flags:            Quorate 
+
+Membership information
+----------------------
+    Nodeid      Votes Name
+0x00000001          1 192.168.13.32 (local)
+0x00000002          1 192.168.13.34
+
+## pvecm nodes
+
+Membership information
+----------------------
+    Nodeid      Votes Name
+         1          1 pve1 (local)
+         2          1 pve3
+
+## Reintent de pve2 (17:16:47): el primer intent va fallar amb «cluster not ready - no quorum?»
+## perquè es va llançar quan el clúster acabava de crear-se i corosync encara no tenia quòrum.
+generated new node certificate, restart pveproxy and pvedaemon services
+successfully added node 'pve2' to cluster.
+UPID:pve2:00000868:00008B74:6AF494F1:clusterjoin::root@pam:
+
+## pvecm status (final)
+Quorum information
+------------------
+Date:             Wed Nov 11 17:17:42 2026
+Quorum provider:  corosync_votequorum
+Nodes:            3
+Node ID:          0x00000001
+Ring ID:          1.d
+Quorate:          Yes
+
+Votequorum information
+----------------------
+Expected votes:   3
+Highest expected: 3
+Total votes:      3
+Quorum:           2  
+Flags:            Quorate 
+
+Membership information
+----------------------
+    Nodeid      Votes Name
+0x00000001          1 192.168.13.32 (local)
+0x00000002          1 192.168.13.34
+0x00000003          1 192.168.13.33
+
+## pvecm nodes
+
+Membership information
+----------------------
+    Nodeid      Votes Name
+         1          1 pve1 (local)
+         2          1 pve3
+         3          1 pve2
+
+## pvesh get /cluster/status
+┌───────────┬───────────┬─────────┬───────────────┬───────┬───────┬────────┬───────┬────────┬─────────┬─────────┐
+│ id        │ name      │ type    │ ip            │ level │ local │ nodeid │ nodes │ online │ quorate │ version │
+╞═══════════╪═══════════╪═════════╪═══════════════╪═══════╪═══════╪════════╪═══════╪════════╪═════════╪═════════╡
+│ cluster   │ cluster13 │ cluster │               │       │       │        │     3 │        │ 1       │       3 │
+├───────────┼───────────┼─────────┼───────────────┼───────┼───────┼────────┼───────┼────────┼─────────┼─────────┤
+│ node/pve1 │ pve1      │ node    │ 192.168.13.32 │       │ 1     │      1 │       │ 1      │         │         │
+├───────────┼───────────┼─────────┼───────────────┼───────┼───────┼────────┼───────┼────────┼─────────┼─────────┤
+│ node/pve2 │ pve2      │ node    │ 192.168.13.33 │       │ 0     │      3 │       │ 1      │         │         │
+├───────────┼───────────┼─────────┼───────────────┼───────┼───────┼────────┼───────┼────────┼─────────┼─────────┤
+│ node/pve3 │ pve3      │ node    │ 192.168.13.34 │       │ 0     │      2 │       │ 1      │         │         │
+└───────────┴───────────┴─────────┴───────────────┴───────┴───────┴────────┴───────┴────────┴─────────┴─────────┘

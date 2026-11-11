@@ -155,6 +155,28 @@ Evidències a `evidencias/t5-opnsense/`.
    - Instantània → esborrar les regles de LAN o fer *Reset to factory defaults*. Símptoma: no hi ha eixida, o bé la IP LAN torna a 192.168.1.1.
    - Restaurar `config.xml` (Backups → *Restore*) i reiniciar. Comprovar el client. **Temps.**
 
+
+### 🟡 Estat R2 (11/11/2026) — configuració en curs
+
+- ✅ **a210** OPNsense **26.7** instal·lat en UFS (ZFS consumeix massa RAM amb 2 GB). L'instal·lador recomana 3 GB des de la imatge *live*, però amb 2 GB ha funcionat.
+- ✅ **a211 (parcial)** contrasenya de root posada. Falta crear `admin-ivan` com a R1.
+- ✅ **a212** WAN `em0` 10.0.2.15 per DHCP · LAN `em1` **192.168.13.2/24**, sense DHCP propi (el dona R1).
+- ⬜ a213–a216: NAT, regles iguals que R1 i R3 (bloqueig de tcp/22 amb registre), còpia de `config.xml` al NAS i fallada amb recuperació.
+
+**Problemes trobats:**
+1. A l'arrencada *live* va assignar les interfícies al revés (LAN = em0, WAN = em1). Corregit amb l'opció 1 de la consola.
+2. Després de canviar la LAN a estàtica, `em1` va continuar amb la IP de DHCP (.197) perquè el client DHCP de quan era WAN seguia en marxa. Resolt amb un reinici (la configuració, `config.xml`, ja tenia la .2).
+3. **Timeouts de TRIM** al disc (`DSM TRIM ... Command timeout`, `DELETE ... error = 5`): FreeBSD i el TRIM del controlador AHCI de VirtualBox no s'entenen, i el sistema es penja esperant el disc (la web no responia). Solució: `--discard off` al disc de R2 (aplicat i corregit a `crear-entorn.sh`).
+
+**Requisit del treball: els 3 routers han d'estar configurats igual.** La mateixa política a R1, R2 i R3:
+- usuaris d'administració;
+- WAN per DHCP i LAN estàtica (.1 / .2 / .3);
+- NAT masquerade;
+- DHCP .100–.200 només al router actiu;
+- DNS reenviat;
+- bloqueig de tcp/22 cap a Internet amb registre, i la resta d'eixida permesa amb registre;
+- còpia a `/mnt/copies/routers/rN` i prova de fallada.
+
 ## 4. R3 · Debian 13 + nftables (a217–a223)
 
 **Configuració:** [`configs/nftables/`](../configs/nftables/) (vegeu-ne el README) · evidències a `evidencias/t5-nftables/`
@@ -241,7 +263,8 @@ Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node:
    - Usuari de consulta: rol `PVEAuditor`.
 3. **Xarxa (a230):** `/etc/network/interfaces` amb `vmbr0` sobre `enp0s3` (exemple a [03 §2](03-xarxa.md#2-configuració-de-cada-interfície-a148)). Comprovar `ip a` i `bridge link`.
 4. **Clúster (a232):**
-   - PVE1: `pvecm create cluster13`. PVE2 i PVE3: `pvecm add 192.168.13.32`.
+   - PVE1: `pvecm create cluster13`. PVE2 i PVE3 s'uneixen per l'API, sense haver d'escriure la contrasenya de manera interactiva:
+     `pvesh create /cluster/config/join --hostname 192.168.13.32 --fingerprint <empremta de pve-ssl.pem> --password <...>`
    - Després, `pvecm status` (`Expected votes: 3`, `Quorate: Yes`) i `pvecm nodes`.
    - **Quòrum amb 3 nodes:** cada node té 1 vot i en calen 2, la majoria. Si en cau un, els altres dos continuen funcionant. Si en cauen dos, el que queda passa `/etc/pve` a només lectura per evitar un *split-brain*.
    - **Prova:** apagar PVE3 → `pvecm status` encara diu `Quorate: Yes`.
@@ -282,6 +305,24 @@ Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node:
    - **Avantatges:** aprofitar millor el maquinari, instantànies, migració, aïllament entre serveis i proves sense risc.
    - **Inconvenients:** punt únic de fallada, sobrecàrrega i complexitat. Al meu entorn hi ha **tres nivells** (VirtualBox → Proxmox → VM) i tot depén d'un sol SSD USB.
    - **CT vs VM:** el contenidor comparteix el nucli del node, de manera que és més lleuger, arrenca en segons i ocupa centenars de MB. Va bé per a serveis Linux. La VM porta el seu propi nucli: cal per a Windows, per a altres nuclis o quan es necessita més aïllament.
+
+
+### ✅ Resultat Proxmox (11/11/2026)
+
+| Acció | Estat | Evidència |
+|---|---|---|
+| a228 instal·lació i versió | ✅ 3 nodes amb l'instal·lador en mode text: ext4/LVM-thin, Europe/Madrid, teclat US. `pve-manager` 9.2.2 → **9.2.26** després d'actualitzar | `t5-proxmox/01..03-*-resum-installacio.png`, `a79-actualitzacio-nodes.txt` |
+| a229 usuaris | ✅ `root@pam` · **`ivan@pam`** (rol Administrator a `/`) · `consulta@pve` (rol PVEAuditor). El *realm* `pve` exigeix 8 caràcters com a mínim, per això l'administrador és un usuari PAM (Linux) | — |
+| a230 xarxa | ✅ `vmbr0` amb IP fixa sobre **`nic0`** (Proxmox 9 «fixa» els noms de les targetes), GW i DNS .1, `/etc/hosts` correcte als 3 nodes | `t4-xarxa/ifaces-rutes-pve{1,2,3}.txt` |
+| a232 clúster | ✅ **`cluster13`**: 3 nodes, 3 vots, quòrum 2, `Quorate: Yes` | `a232-cluster.txt` |
+| a79 actualització | ✅ repositori *enterprise* desactivat i *no-subscription* activat; 211 paquets actualitzats; nucli 7.0.2-6 → **7.0.14-28**; 0 serveis fallits després de reiniciar | `a79-actualitzacio-nodes.txt` |
+| a231, a235, a236 | ⬜ pendents (VM i CT dins del clúster, migració, còpies) | — |
+
+**Problemes trobats:**
+1. **Contrasenya de root de 8 caràcters com a mínim** a l'instal·lador. S'instal·la amb una de 8 i després es canvia amb `chpasswd`.
+2. **Teclat espanyol** a l'instal·lador i teclat virtual US de VirtualBox: es tria «U.S. English».
+3. **Error meu a PVE1:** vaig traure la ISO abans de prémer «Reboot now» i l'entorn de l'instal·lador, que llegia del CD, va avortar amb errors d'E/S. La instal·lació al disc ja havia acabat: un reinici en fred i les comprovacions (`dpkg --audit`, `systemctl --failed`) ho confirmen. A PVE2 i PVE3: reiniciar amb la ISO posada, apagar i després traure-la.
+4. **pve2 no es podia unir al clúster** («cluster not ready - no quorum?») perquè es va intentar just en crear-lo. Reintentat quan el clúster ja tenia quòrum: ✅.
 
 ## 7. Windows Server 2025 (a237–a241)
 
