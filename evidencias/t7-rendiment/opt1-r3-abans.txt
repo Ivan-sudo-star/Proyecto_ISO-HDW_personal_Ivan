@@ -1,0 +1,18 @@
+# Optimització 1 (R3) — ABANS — 2026-11-11 16:58:49
+VM: Debian_NFtables · memory=4096 cpus=2 
+target: graphical.target
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:            3921         806        2578           5         765        3115
+Inter:          1245           0        1245
+
+COMMAND           RSS
+gnome-shell     246044
+mutter-x11-fram 127212
+fwupd           69676
+ibus-x11        66276
+Xwayland        64852
+xdg-desktop-por 40156
+ibus-extension- 30772
+
+processos: 200
+Startup finished in 2.961s (kernel) + 8.489s (userspace) = 11.450s 

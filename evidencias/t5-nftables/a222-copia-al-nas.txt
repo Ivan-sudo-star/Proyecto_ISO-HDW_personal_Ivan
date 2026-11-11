@@ -1,0 +1,14 @@
+# a222 — Còpia de R3 al NAS — 2026-11-11 16:57:37
+Què es copia: /etc/nftables.conf, /etc/network, /etc/sysctl.d, /etc/dnsmasq.d (tgz) + el ruleset actiu en text. Què NO: el sistema (es reinstal·la Debian i es restauren aquests fitxers).
+## Comprovació al NAS
+total 13
+-rw-r--r-- 1 copies copies 4455 Nov 11 16:57 etc-2026-11-11_1657.tgz
+-rw-r--r-- 1 copies copies 1199 Nov 11 16:57 ruleset-2026-11-11_1657.txt
+etc/nftables.conf
+etc/network/
+etc/network/if-post-down.d/
+etc/network/if-post-down.d/wpasupplicant
+etc/network/if-post-down.d/wireless-tools
+etc/network/interfaces
+etc/network/if-pre-up.d/
+etc/network/if-pre-up.d/wpasupplicant

@@ -174,6 +174,24 @@ Evidències a `evidencias/t5-opnsense/`.
    - Diagnòstic: `nft list ruleset` buit, `sysctl net.ipv4.ip_forward`, `ip route`.
    - Recuperació: `nft -f /etc/nftables.conf` o restaurar la còpia del NAS amb `rsync`. **Temps.**
 
+
+### ✅ Resultat R3 (11/11/2026)
+
+| Acció | Estat | Evidència |
+|---|---|---|
+| a217 instal·lació i versió | ✅ VM existent: Debian **13.7**, nucli 6.12.107, nftables. Tenia **escriptori GNOME**: el router no el necessita (optimització 1 de la T7) | `t5-nftables/a217-a219-versio-usuaris-xarxa.txt` |
+| a218 usuaris | ✅ `ivancambra` no era al grup `sudo`: s'hi ha afegit des de la consola com a root (`su -`). SSH instal·lat (`openssh-server`); root sense login SSH per contrasenya (`PermitRootLogin prohibit-password`, valor per defecte) | ídem |
+| a219 xarxa | ✅ enp0s3 WAN 10.0.2.15 per DHCP · enp0s8 LAN **192.168.13.3/24** amb ifupdown (NetworkManager deixa de gestionar-la) · `ip_forward=1` | ídem |
+| a220 Internet per a la LAN | ✅ CLI-Debian amb porta d'enllaç .3: `traceroute` → 192.168.13.3 → 10.0.2.2 → router de casa; `curl` → `HTTP/2 200` | `a220-a221-prova-permesa-bloquejada.txt` |
+| a221 permesa/bloquejada | ✅ `NFT-FWD-OK ... DPT=443` i `NFT-FWD-BLOQ-SSH ... DPT=22` a `journalctl -k`, amb comptadors per regla | ídem |
+| a222 còpia al NAS | ✅ `etc-AAAA-MM-DD_HHMM.tgz` (nftables, network, sysctl, dnsmasq) + `ruleset-*.txt` a `/mnt/copies/routers/r3/` | `a222-copia-al-nas.txt` |
+| a223 fallada i recuperació | ✅ `nft flush ruleset` + `ip_forward=0` + s'esborra `/etc/nftables.conf` → el client no té Internet. Es restaura des del tgz del NAS, amb `nft -c` abans d'aplicar-lo. **Temps d'inactivitat: 22 s** | `a223-fallada-recuperacio.txt` |
+
+**Problemes trobats:**
+1. La WAN (enp0s3) no tenia IP: NetworkManager només tenia perfil per a enp0s8. Resolt passant les dues interfícies a `/etc/network/interfaces`.
+2. Des de la consola de VirtualBox, el teclat espanyol de la VM converteix la `/` en `-` i la `|` en `Ç`. Es van escriure les ordres tenint-ho en compte només fins que SSH va funcionar.
+3. El DHCP de R3 (`dnsmasq`) queda **instal·lat però desactivat**, perquè el DHCP de la LAN el dona R1. S'activa (`systemctl start dnsmasq`) només en provar R3 amb R1 apagat.
+
 ## 5. NAS · TrueNAS SCALE (a224–a227, a259)
 
 Evidències a `evidencias/t5-truenas/`.
@@ -347,7 +365,7 @@ comprovar al NAS que el fitxer porta la data i l'hora correctes.
 |---|---|---|---|---|---|
 | R1 sense NAT ni IP LAN | Internet de la LAN | `r1-backup.backup` del NAS | 15 min | **42 s** | cap (la còpia era de pocs minuts abans) |
 | R2 restablert de fàbrica | Internet + DHCP | `config.xml` | 15 min | | |
-| R3 sense regles | Internet + filtre | `/etc/nftables.conf` / NAS | 10 min | | |
+| R3 sense regles | Internet + filtre | `etc-*.tgz` del NAS | 10 min | **22 s** | cap |
 | Disc RAID fallit | Volum de dades | RAID 1/5 + reconstrucció | 0 (servei continu) | | |
 | Node DRBD A caigut | Carpeta replicada | Node B → primari | 5 min | | |
 | Configuració de Linux trencada | Servidor | `/etc` del NAS | 20 min | | |

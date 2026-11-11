@@ -1,0 +1,31 @@
+# R3 Debian 13 + nftables — 2026-11-11 16:56:28
+## a217 versió
+PRETTY_NAME="Debian GNU/Linux 13 (trixie)"
+NAME="Debian GNU/Linux"
+13.7
+6.12.107+deb13-amd64
+nftables v1.1.3 (Commodore Bullmoose #4)
+
+## a218 usuaris d'administració
+uid=1000(ivancambra) gid=1000(ivancambra) grupos=1000(ivancambra),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),100(users),101(netdev),102(scanner),106(bluetooth),108(lpadmin)
+sudo:x:27:ivancambra
+#PermitRootLogin prohibit-password
+permitrootlogin without-password
+
+## a219 xarxa
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp0s3           UP             10.0.2.15/24 fd17:625c:f037:2:c633:d3ec:96bb:8b69/64 fe80::eb9b:7f34:65f:f241/64 
+enp0s8           UP             192.168.13.3/24 
+default via 10.0.2.2 dev enp0s3 proto dhcp src 10.0.2.15 metric 1002 
+10.0.2.0/24 dev enp0s3 proto dhcp scope link src 10.0.2.15 metric 1002 
+192.168.13.0/24 dev enp0s8 proto kernel scope link src 192.168.13.3 
+auto lo
+iface lo inet loopback
+
+allow-hotplug enp0s3
+iface enp0s3 inet dhcp
+
+auto enp0s8
+iface enp0s8 inet static
+    address 192.168.13.3/24
+net.ipv4.ip_forward = 1
