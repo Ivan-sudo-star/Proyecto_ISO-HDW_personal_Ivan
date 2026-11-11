@@ -1,0 +1,12 @@
+# Hashes SHA-256 oficials consultats l'11/11/2026 (curl a la font del fabricant)
+# Debian — https://cdimage.debian.org/cdimage/archive/13.1.0/amd64/iso-cd/SHA256SUMS
+658b28e209b578fe788ec5867deebae57b6aac5fce3692bbb116bab9c65568b3  debian-13.1.0-amd64-netinst.iso
+# Proxmox — https://enterprise.proxmox.com/iso/SHA256SUMS
+4e88fe416df9b527624a175f24c9aa07c714d3332afb1ee3dbf3879573ef2c6c  proxmox-ve_9.2-1.iso
+# TrueNAS — https://download.sys.truenas.net/TrueNAS-SCALE-Goldeye/25.10.7/TrueNAS-SCALE-25.10.7.iso.sha256
+54ce9441ce66966a392e28f63604ca3c2c083d0bec4db7bb5af2f74f7a007c8e  TrueNAS-SCALE-25.10.7.iso
+# OPNsense — https://pkg.opnsense.org/releases/26.7/OPNsense-26.7-checksums-amd64.sha256
+# (el fabricant publica el hash de la imatge COMPRIMIDA .bz2, no del .iso descomprimit)
+95cafedda6d5b22ce832e249dc2309110fbee19f813ad78cf28bb3d387186bfb  OPNsense-26.7-dvd-amd64.iso.bz2
+# MikroTik — N/C (https://download.mikrotik.com/routeros/7.24.5/SHA256SUMS no va respondre; consultar mikrotik.com/download)
+# Windows 11 — N/C (consultar la taula de hashes de microsoft.com/software-download/windows11)

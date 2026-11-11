@@ -1,0 +1,10 @@
+[Unit]
+Description=Execució diària de copia-configs
+
+[Timer]
+OnCalendar=*-*-* 02:30:00
+Persistent=true
+RandomizedDelaySec=5min
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,38 @@
+# Tests de diagnòstic — equip: casa — 2026-11-11 15:04:21
+## Condicions
+- Host: canvia-al-teu-nom | Kernel: 6.8.0-142-generic | Uptime: up 4 minutes
+- Alimentació: N/C
+- VM en marxa: 7
+- Càrrega (1/5/15 min): 1.94 1.10 0.45
+- Memòria: total 31Gi, usada 4,5Gi, disponible 26Gi
+
+## 1. Memòria
+memtester no instal·lat (sudo apt install memtester). Alternatives: MemTest86 (USB arrencable) o
+Diagnòstic de memòria de Windows (mdsched.exe) en l'equip de casa.
+Errors de memòria registrats pel nucli (EDAC/MCE):
+(cap línia = cap error registrat)
+
+## 2. Disc (/home/gordito)
+Eina: dd (coreutils) 9.4 | Dispositiu: /dev/sda3 | FS: ext4
+Escriptura seqüencial 1 GiB (oflag=direct, sense memòria cau):
+1073741824 bytes (1,1 GB, 1,0 GiB) copied, 2,98687 s, 359 MB/s
+Lectura seqüencial 1 GiB (iflag=direct):
+1073741824 bytes (1,1 GB, 1,0 GiB) copied, 3,4661 s, 310 MB/s
+Escriptura síncrona 4 KiB x 2000 (oflag=direct,dsync; límit 90 s) — aproximació a IOPS d'escriptura:
+8192000 bytes (8,2 MB, 7,8 MiB) copied, 4,93627 s, 1,7 MB/s
+fio no instal·lat (sudo apt install fio) — prova d'IOPS real pendent.
+Estat SMART: sudo smartctl -H /dev/sdX (requereix smartmontools i sudo)
+
+## 3. Xarxa
+Interfície: enp7s0 | Velocitat negociada: 100 Mb/s | Porta d'enllaç: 192.168.1.1
+Latència a la porta d'enllaç (20 paquets):
+20 packets transmitted, 20 received, 0% packet loss, time 19024ms
+rtt min/avg/max/mdev = 2.809/4.387/15.672/2.654 ms
+Latència a Internet 1.1.1.1 (20 paquets):
+20 packets transmitted, 20 received, 0% packet loss, time 19002ms
+rtt min/avg/max/mdev = 9.904/11.209/18.683/1.853 ms
+Descàrrega 100 MB (curl, speed.cloudflare.com):
+velocitat mitjana: 0,0 Mb/s (0.061758 s)
+iperf3 no instal·lat — prova LAN equip↔equip pendent.
+
+Informe desat en evidencias/t2-tests/tests-classe-20261111-1504.txt

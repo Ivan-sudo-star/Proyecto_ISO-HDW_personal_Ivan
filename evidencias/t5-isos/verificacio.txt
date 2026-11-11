@@ -1,0 +1,4 @@
+# sha256sum -c contra els hashes oficials — 2026-11-11 15:22:09
+  debian-13.1.0-amd64-netinst.iso: La suma coincide
+  proxmox-ve_9.2-1.iso: La suma coincide
+  TrueNAS-SCALE-25.10.7.iso: La suma coincide

@@ -1,0 +1,22 @@
+# Credencials i secrets: MAI al repositori
+secrets/
+credencials*
+*.key
+*.pem
+.env
+# Còpies binàries amb dades sensibles (MikroTik .backup, config TrueNAS amb seed)
+*.backup
+*secretseed*
+*.tar.gz.enc
+# Discos i imatges de VM / ISOs (massa grans; viuen al disc USB)
+*.vdi
+*.vmdk
+*.vhd
+*.ova
+*.iso
+*.sav
+# Temporals
+*.swp
+*~
+.ddtest*
+.fiotest

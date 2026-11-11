@@ -1,0 +1,9 @@
+[Unit]
+Description=Còpia de configuracions dels equips crítics al NAS
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=copies
+ExecStart=/usr/local/bin/copia-configs.sh
