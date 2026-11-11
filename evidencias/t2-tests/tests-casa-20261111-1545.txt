@@ -1,0 +1,62 @@
+# Tests de diagnòstic — equip: casa — 2026-11-11 15:45:46
+## Condicions
+- Host: canvia-al-teu-nom | Kernel: 6.8.0-142-generic | Uptime: up 3 minutes
+- Alimentació: N/C
+- VM en marxa: 0
+- Càrrega (1/5/15 min): 3.11 1.16 0.45
+- Memòria: total 31Gi, usada 5,3Gi, disponible 25Gi
+
+## 1. Memòria
+Eina: memtester version 4.6.0 (64-bit)
+(executat sense root; el bloqueig de memòria amb mlock ha funcionat: «locked»)
+Ordre: memtester 2G 1
+got 2048MB (2147483648 bytes), trying mlock ...locked.
+Loop 1/1:
+ Stuck Address : ok
+ Random Value : ok
+ Compare XOR : ok
+ Compare SUB : ok
+ Compare MUL : ok
+ Compare DIV : ok
+ Compare OR : ok
+ Compare AND : ok
+ Sequential Increment: ok
+ Solid Bits : ok
+ Checkerboard : ok
+ 8-bit Writes : ok
+ 16-bit Writes : ok
+Done.
+Errors de memòria registrats pel nucli (EDAC/MCE):
+(cap línia = cap error registrat)
+
+## 2. Disc (/home/gordito)
+Eina: dd (coreutils) 9.4 | Dispositiu: /dev/sda3 | FS: ext4
+Escriptura seqüencial 1 GiB (oflag=direct, sense memòria cau):
+1073741824 bytes (1,1 GB, 1,0 GiB) copied, 2,99914 s, 358 MB/s
+Lectura seqüencial 1 GiB (iflag=direct):
+1073741824 bytes (1,1 GB, 1,0 GiB) copied, 2,67274 s, 402 MB/s
+Escriptura síncrona 4 KiB x 2000 (oflag=direct,dsync; límit 90 s) — aproximació a IOPS d'escriptura:
+8192000 bytes (8,2 MB, 7,8 MiB) copied, 3,81427 s, 2,1 MB/s
+Eina: fio-3.36 (ioengine=libaio, direct=1, fitxer 1 GiB, 20 s per prova)
+ Seqüencial lectura 1M QD8 lectura 438,6 MB/s 438 IOPS | escriptura 0,0 MB/s 0 IOPS
+ Seqüencial escriptura 1M QD8 lectura 0,0 MB/s 0 IOPS | escriptura 406,3 MB/s 406 IOPS
+ Aleatori lectura 4K QD32 lectura 90,2 MB/s 23088 IOPS | escriptura 0,0 MB/s 0 IOPS
+ Aleatori escriptura 4K QD32 lectura 0,0 MB/s 0 IOPS | escriptura 71,6 MB/s 18332 IOPS
+ Aleatori lectura 4K QD1 lectura 14,5 MB/s 3707 IOPS | escriptura 0,0 MB/s 0 IOPS
+ Aleatori escriptura 4K QD1 + fsync lectura 0,0 MB/s 0 IOPS | escriptura 1,6 MB/s 422 IOPS
+Estat SMART:
+ (sudo smartctl -H /dev/sda — es registra a l'inventari amb sudo)
+
+## 3. Xarxa
+Interfície: enp7s0 | Velocitat negociada: 100 Mb/s | Porta d'enllaç: 192.168.1.1
+Latència a la porta d'enllaç (20 paquets):
+20 packets transmitted, 20 received, 0% packet loss, time 19012ms
+rtt min/avg/max/mdev = 2.993/5.480/17.881/3.816 ms
+Latència a Internet 1.1.1.1 (20 paquets):
+20 packets transmitted, 20 received, 0% packet loss, time 19021ms
+rtt min/avg/max/mdev = 9.926/12.389/20.683/3.151 ms
+Descàrrega 100 MB (curl, speed.cloudflare.com):
+velocitat mitjana: 0,0 Mb/s (0.070429 s)  [ERROR: el servidor no va servir el fitxer; vàlid el test de 15:05 amb OVH/Hetzner ≈ 48 Mb/s]
+iperf3: executa 'iperf3 -s' en un altre equip i després 'iperf3 -c <IP>'
+
+Informe desat en evidencias/t2-tests/tests-casa-20261111-1545.txt

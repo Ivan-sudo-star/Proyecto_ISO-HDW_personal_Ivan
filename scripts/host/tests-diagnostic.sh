@@ -21,8 +21,9 @@ echo
 
 echo "## 1. Memòria"
 if command -v memtester >/dev/null; then
-  echo "Eina: $(memtester 2>&1 | head -1)"
-  echo "Ordre: sudo memtester 1G 1"; sudo memtester 1G 1 | tail -15
+  echo "Eina: $(memtester 2>&1 | grep -m1 -i version)"
+  if [ "$(id -u)" = 0 ]; then MT="memtester"; else MT="memtester"; echo "(sense root: memtester no pot bloquejar la RAM amb mlock, el test és vàlid però menys exhaustiu)"; fi
+  echo "Ordre: memtester ${MEMTEST:-2G} 1"; $MT "${MEMTEST:-2G}" 1 2>&1 | grep -vE '\x08|testing [0-9]|setting [0-9]' | tr -d '\b' | sed 's/  */ /g' | grep -E ':|Done|ok|FAIL|got' | tail -25
 else
   echo "memtester no instal·lat (sudo apt install memtester). Alternatives: MemTest86 (USB arrencable) o"
   echo "Diagnòstic de memòria de Windows (mdsched.exe) en l'equip de casa."
@@ -43,14 +44,24 @@ echo "Escriptura síncrona 4 KiB x 2000 (oflag=direct,dsync; límit 90 s) — ap
 timeout 90 dd if=/dev/zero of="$F" bs=4k count=2000 oflag=direct,dsync 2>&1 | tail -1 || echo "  >90 s: menys de 22 IOPS síncrones"
 rm -f "$F"
 if command -v fio >/dev/null; then
-  echo "fio randread 4k QD32 30 s:"
-  fio --name=rr --filename="$DIR/.fiotest" --size=1G --rw=randread --bs=4k --iodepth=32 \
-      --ioengine=libaio --direct=1 --runtime=30 --time_based --group_reporting | grep -E 'IOPS|lat \('
-  rm -f "$DIR/.fiotest"
+  echo "Eina: $(fio --version) (ioengine=libaio, direct=1, fitxer 1 GiB, 20 s per prova)"
+  FF="$DIR/.fiotest"
+  run() { fio --name="$1" --filename="$FF" --size=1G --direct=1 --ioengine=libaio --runtime=20 --time_based \
+            --group_reporting --output-format=terse --terse-version=3 "${@:2}" ; }
+  pr() {  # terse v3: 7=read KiB/s 8=read IOPS 48=write KiB/s 49=write IOPS ; lat mitjana clat: 40 (r) 81 (w) en us
+    awk -F';' -v n="$1" '{printf "  %-34s lectura %8.1f MB/s %8.0f IOPS | escriptura %8.1f MB/s %8.0f IOPS\n", n, $7/1024, $8, $48/1024, $49}'; }
+  run seqread  --rw=read  --bs=1M --iodepth=8  | pr "Seqüencial lectura 1M QD8"
+  run seqwrite --rw=write --bs=1M --iodepth=8  | pr "Seqüencial escriptura 1M QD8"
+  run rr32     --rw=randread  --bs=4k --iodepth=32 | pr "Aleatori lectura 4K QD32"
+  run rw32     --rw=randwrite --bs=4k --iodepth=32 | pr "Aleatori escriptura 4K QD32"
+  run rr1      --rw=randread  --bs=4k --iodepth=1  | pr "Aleatori lectura 4K QD1"
+  run rw1sync  --rw=randwrite --bs=4k --iodepth=1 --fsync=1 | pr "Aleatori escriptura 4K QD1 + fsync"
+  rm -f "$FF"
 else
   echo "fio no instal·lat (sudo apt install fio) — prova d'IOPS real pendent."
 fi
-echo "Estat SMART: sudo smartctl -H /dev/sdX (requereix smartmontools i sudo)"
+echo "Estat SMART:"; D=$(lsblk -no PKNAME "$(df --output=source "$DIR" | tail -1)")
+if [ "$(id -u)" = 0 ]; then smartctl -H -A /dev/$D | grep -E 'result|Power_On|Reallocated|Wear|Temperature'; else echo "  (sudo smartctl -H /dev/$D — es registra a l'inventari amb sudo)"; fi
 echo
 
 echo "## 3. Xarxa"
@@ -58,9 +69,9 @@ IF=$(ip route | awk '/^default/{print $5; exit}'); GW=$(ip route | awk '/^defaul
 echo "Interfície: $IF | Velocitat negociada: $(cat /sys/class/net/$IF/speed 2>/dev/null || echo N/C) Mb/s | Porta d'enllaç: $GW"
 echo "Latència a la porta d'enllaç (20 paquets):"; ping -c 20 -q "$GW" | tail -2
 echo "Latència a Internet 1.1.1.1 (20 paquets):"; ping -c 20 -q 1.1.1.1 | tail -2
-echo "Descàrrega 100 MB (curl, speed.cloudflare.com):"
+echo "Descàrrega 100 MB (curl, proof.ovh.net):"
 curl -s -o /dev/null -m 60 -w 'velocitat mitjana: %{speed_download} B/s en %{time_total} s\n' \
-  'https://speed.cloudflare.com/__down?bytes=100000000' \
+  'https://proof.ovh.net/files/100Mb.dat' \
   | awk '{printf "%s %s %.1f Mb/s (%s s)\n",$1,$2,$3*8/1e6,$6}'
 if command -v iperf3 >/dev/null; then
   echo "iperf3: executa 'iperf3 -s' en un altre equip i després 'iperf3 -c <IP>'"

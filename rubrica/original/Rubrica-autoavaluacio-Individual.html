@@ -1,0 +1,2794 @@
+<!doctype html>
+<html lang="en" data-visualize-standalone=""><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Guia Individual Font</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+
+<style>#tg-file-tools button{font:inherit;padding:8px 11px;border:1px solid light-dark(#dce3f0,#46536d);border-radius:7px;color:light-dark(#25314c,#eff3ff);background:light-dark(#fff,#242d40)}#tg-file-tools [hidden]{display:none!important}#tg-file-tools span{max-width:100%;overflow-wrap:anywhere}</style></head>
+<body><section id="tg-file-tools" style="font:14px/1.5 system-ui;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px">
+ <button type="button" id="tg-open">Obri fitxer</button><button type="button" id="tg-save">Desa fitxer (.txt)</button><button type="button" id="tg-backup">Descarrega còpia</button>
+ <span id="tg-generation" style="display:none"><button type="button" id="tg-export-individual">Genera guia individual</button> <button type="button" id="tg-export-group">Genera guia de grup</button></span>
+ <input type="file" id="tg-input" accept=".txt,.json" hidden=""><span id="tg-file-message" role="status" aria-live="polite">Sense fitxer obert</span>
+</section>
+
+<iframe id="codex-visualization" sandbox="allow-scripts" referrerpolicy="no-referrer" title="Guia Individual Font" data-srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-visualize-standalone&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'&quot;&gt;
+&lt;title&gt;Guia Individual Font&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 16px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans:
+    -apple-system-body, ui-sans-serif, -apple-system, system-ui, &quot;Segoe UI&quot;,
+    Helvetica, &quot;Apple Color Emoji&quot;, Arial, sans-serif, &quot;Segoe UI Emoji&quot;,
+    &quot;Segoe UI Symbol&quot;;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 8px);
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 17'%3E%3Cpath d='M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z'/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  -webkit-font-smoothing: antialiased;
+  font-size: var(--font-size-base);
+  line-height: calc(var(--font-size-base) * 1.625);
+  font-weight: var(--font-weight-normal);
+}
+
+.cursor-interaction {
+  cursor: var(--cursor-interaction, pointer);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: var(--cursor-interaction, pointer);
+  text-decoration: none;
+  text-underline-offset: 2px;
+  font-weight: inherit;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+.table {
+  font-family: var(--font-sans);
+}
+
+h1 {
+  font-size: calc(var(--font-size-base) * 1.5);
+  line-height: 1.3333333333;
+}
+
+h2 {
+  font-size: calc(var(--font-size-base) * 1.25);
+  line-height: 1.4;
+}
+h3 {
+  font-size: calc(var(--font-size-base) * 1.125);
+  line-height: 1.5555555556;
+}
+h4 {
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+h5,
+h6 {
+  font-size: var(--font-size-base);
+  line-height: calc(var(--font-size-base) * 1.625);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+b,
+strong,
+th {
+  font-weight: 600;
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+pre,
+pre code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: calc(var(--font-size-base) * 0.875);
+  line-height: calc(var(--font-size-base) * 1.625);
+  font-family: var(--font-sans);
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 5%, transparent);
+}
+.table :is(th, td):not(:last-child) {
+  padding-inline-end: calc(var(--font-size-base) * 1.5);
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead :is(th, td) {
+  border-bottom-color: var(--border-strong, var(--input));
+  padding-block: calc(var(--font-size-base) / 2);
+  line-height: var(--font-size-base);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+.table tbody :is(th, td) {
+  padding-block: calc(var(--font-size-base) * 0.625);
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 8px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+.widget {
+  min-width: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  box-shadow: 0 0 0 0.5px var(--border-strong, var(--border));
+  color: var(--foreground);
+  background: var(--background);
+}
+
+#widget &gt; :not(.card, .widget, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  border: 1px solid var(--border);
+  corner-shape: var(--corner-shape);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-sans);
+  padding: 5px 12px;
+  border-color: color-mix(
+    in oklab,
+    light-dark(var(--primary-foreground), var(--foreground)) 5%,
+    transparent
+  );
+  border-radius: var(--radius-2xl);
+  color: light-dark(var(--primary-foreground), var(--foreground));
+  background: light-dark(var(--foreground), var(--popover));
+  box-shadow: 0 8px 18px rgb(15 23 42 / 20%);
+  letter-spacing: -0.15px;
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  color: color-mix(in srgb, var(--foreground) 40%, var(--muted-foreground));
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  font-family: var(--font-sans);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 1;
+}
+
+small,
+.text-small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+/* Match inline alignment without overriding a containing flex or grid layout. */
+.btn,
+.nav-link,
+.form-control,
+.form-select,
+.form-range,
+.form-check {
+  vertical-align: middle;
+}
+
+.btn,
+.nav-link {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  corner-shape: var(--corner-shape);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: inherit;
+  font-family: var(--font-sans);
+  height: fit-content;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding-inline: var(--control-spacing, 12px);
+  border-color: transparent;
+  border-radius: var(--radius-full);
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+}
+
+.btn {
+  border-color: var(--border);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: var(--cursor-interaction, pointer);
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.nav-link:not(:disabled):not([aria-disabled=&quot;true&quot;]):hover {
+  background: color-mix(in srgb, var(--foreground) 10%, transparent);
+}
+
+.btn-primary {
+  border-color: var(--border);
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: border-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: border-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--muted-foreground);
+  background: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+/* Shared preview chrome; product styles stay inside each variant. */
+.viz-dotted-background {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--foreground) 14%, transparent) 0.8px,
+    transparent 0.8px
+  );
+  background-position: center;
+  background-size: 16px 16px;
+}
+
+.viz-carousel {
+  position: relative;
+  min-width: 0;
+}
+
+.viz-carousel:has(&gt; .viz-carousel-controls) {
+  min-height: calc(60px + var(--viz-carousel-picker-height, 0px));
+  padding-bottom: 60px;
+}
+
+.viz-carousel &gt; [data-variant][hidden] {
+  display: none !important;
+}
+
+.viz-carousel &gt; [data-variant] {
+  isolation: isolate;
+}
+
+.viz-carousel-controls {
+  --viz-carousel-hover: light-dark(
+    color-mix(in srgb, var(--foreground) 5.4%, transparent),
+    color-mix(in srgb, var(--foreground) 7.8%, transparent)
+  );
+  position: absolute;
+  z-index: 2;
+  bottom: 8px;
+  left: 50%;
+  display: flex;
+  width: max-content;
+  /* Leave room for the host's design-controls launcher at the trailing edge. */
+  max-width: calc(100% - 96px);
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-sans);
+  /* Match the settings dropdown chrome independently of the content font size. */
+  font-size: 13px;
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+  transform: translateX(-50%);
+  user-select: none;
+}
+
+/* Keep authored mockup button styles out of the shared carousel chrome. */
+.viz-carousel-controls button,
+.viz-carousel-picker &gt; summary {
+  display: flex !important;
+  height: auto !important;
+  min-height: 30px;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px;
+  padding: 0 6px !important;
+  -webkit-app-region: no-drag;
+  border: 0 !important;
+  border-radius: 14px !important;
+  color: inherit !important;
+  background: transparent !important;
+  font: inherit !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.viz-carousel-controls &gt; button,
+.viz-carousel-picker &gt; summary {
+  position: relative;
+  isolation: isolate;
+}
+
+.viz-carousel-controls &gt; button {
+  --icon-size: 16px;
+  width: 30px !important;
+  padding: 0 !important;
+}
+
+.viz-carousel-picker &gt; summary {
+  padding-inline: 12px !important;
+}
+
+.viz-carousel-controls .viz-carousel-caret {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  margin: 0;
+  color: inherit;
+  transform: rotate(180deg);
+}
+
+.viz-carousel-controls &gt; button &gt; svg,
+.viz-carousel-controls .viz-carousel-caret,
+.viz-carousel-count {
+  opacity: 0.5;
+}
+
+.viz-carousel-controls &gt; button::before,
+.viz-carousel-picker &gt; summary::before {
+  position: absolute;
+  z-index: -1;
+  inset: 3px;
+  border-radius: 12px;
+  content: &quot;&quot;;
+  pointer-events: none;
+}
+
+.viz-carousel-controls &gt; button:hover::before,
+.viz-carousel-picker &gt; summary:hover::before {
+  background: var(--viz-carousel-hover);
+}
+
+.viz-carousel-controls &gt; button,
+.viz-carousel-controls [data-lucide],
+.viz-carousel-controls .lucide {
+  flex-shrink: 0;
+}
+
+.viz-carousel-picker {
+  min-width: 0;
+}
+
+.viz-carousel-picker &gt; summary {
+  min-width: 0;
+  list-style: none;
+}
+
+.viz-carousel-picker &gt; summary::-webkit-details-marker {
+  display: none;
+}
+
+.viz-carousel-count {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.viz-carousel-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viz-carousel-options {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 4px);
+  left: 0;
+  display: flex;
+  max-height: 240px;
+  flex-direction: column;
+  gap: 2px;
+  overflow: auto;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--background);
+  box-shadow: 0 4px 12px light-dark(rgb(0 0 0 / 6%), rgb(0 0 0 / 25%));
+}
+
+.viz-carousel-options &gt; button {
+  border-radius: max(0px, calc(var(--radius-lg) - 5px)) !important;
+  width: 100% !important;
+  min-height: 28px;
+  justify-content: flex-start !important;
+  padding: 4px 8px !important;
+  font-size: var(--font-size-small) !important;
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.viz-carousel-options &gt; [aria-current=&quot;true&quot;],
+.viz-carousel-options &gt; button:hover {
+  background: var(--viz-carousel-hover) !important;
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled=&quot;true&quot;] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding-inline: calc(4px + var(--control-spacing, 12px) / 2);
+  border-color: var(--input);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--popover) 96%, transparent);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.4285714286;
+}
+.form-control:is(
+  [type=&quot;file&quot;],
+  [type=&quot;date&quot;],
+  [type=&quot;datetime-local&quot;],
+  [type=&quot;month&quot;],
+  [type=&quot;week&quot;],
+  [type=&quot;color&quot;]
+) {
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  line-height: 18px;
+}
+.form-control:is(
+  [type=&quot;date&quot;],
+  [type=&quot;datetime-local&quot;],
+  [type=&quot;month&quot;],
+  [type=&quot;week&quot;]
+) {
+  padding-inline: var(--control-spacing, 12px);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+  padding: 0;
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+  min-height: calc(10px + 2 * var(--control-spacing, 12px));
+  padding-inline: var(--control-spacing, 12px);
+  margin-inline-end: var(--control-spacing, 12px);
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  resize: vertical;
+  min-height: 96px;
+  padding: 8px 10px;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: none;
+}
+.form-control:disabled {
+  color: var(--muted-foreground);
+  background: color-mix(in srgb, var(--foreground) 5%, transparent);
+  opacity: 1;
+}
+.form-control[aria-invalid=&quot;true&quot;] {
+  border-color: var(--red);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--red) 20%, transparent);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: fit-content;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  margin: 0;
+  /* The secondary icon role is 14px at compact density and 16px at web density. */
+  --icon-size: calc(10px + var(--control-spacing, 12px) / 2);
+  /* Settings dropdowns retain a 12px inset and a 4px text-to-chevron gap. */
+  padding: 0 calc(16px + var(--icon-size)) 0 12px;
+  outline: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(
+      45deg,
+      transparent calc(50% - 0.6px),
+      var(--muted-foreground) calc(50% - 0.6px) calc(50% + 0.6px),
+      transparent calc(50% + 0.6px)
+    ),
+    linear-gradient(
+      135deg,
+      transparent calc(50% - 0.6px),
+      var(--muted-foreground) calc(50% - 0.6px) calc(50% + 0.6px),
+      transparent calc(50% + 0.6px)
+    );
+  background-position:
+    calc(100% - 12px - var(--icon-size) / 2) 50%,
+    calc(100% - 12px - var(--icon-size) * 0.18) 50%;
+  background-repeat: no-repeat;
+  background-size: calc(var(--icon-size) * 0.32) calc(var(--icon-size) * 0.32);
+  cursor: var(--cursor-interaction, default);
+  font-size: calc(var(--font-size-base) * 14 / 16);
+  font-size: round(nearest, calc(var(--font-size-base) * 14 / 16), 1px);
+  font-weight: var(--font-weight-normal);
+  line-height: 18px;
+}
+
+.form-select option {
+  color: var(--popover-foreground);
+  background-color: var(--popover);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: light-dark(
+    color-mix(in srgb, var(--foreground) 5.5%, transparent),
+    color-mix(in srgb, var(--foreground) 8%, transparent)
+  );
+}
+
+.form-select:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+.form-select:disabled {
+  opacity: 0.4;
+}
+
+.form-check {
+  display: flex;
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  corner-shape: round;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  width: calc(10px + var(--control-spacing, 12px) / 2);
+  height: calc(10px + var(--control-spacing, 12px) / 2);
+  border-color: var(--border-strong, var(--input));
+  border-radius: calc(var(--radius-sm) / 2);
+  background-color: transparent;
+  color: var(--foreground);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:is(:checked, :indeterminate) {
+  border-color: var(--border-strong, var(--input));
+  background-color: color-mix(in srgb, var(--popover) 96%, transparent);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+  background-color: var(--foreground);
+}
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:indeterminate::before {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 65%;
+  height: 6.65%;
+  margin: auto;
+  border-radius: var(--radius-full);
+  background: var(--foreground);
+  mask: none;
+  content: &quot;&quot;;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  border-radius: var(--radius-full);
+  width: 16px;
+  height: 16px;
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--input);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 0;
+  background: radial-gradient(
+    circle,
+    var(--primary-foreground) 0 3px,
+    var(--foreground) 3px
+  );
+  box-shadow: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:focus-visible {
+  border-color: var(--ring);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+.form-check:not(.form-switch) .form-check-input[type=&quot;radio&quot;]:disabled,
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;radio&quot;]:disabled
+  + .form-check-label {
+  opacity: 0.5;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+  border-color: #fff;
+  background: #fff;
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--blue);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+  outline: none;
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  accent-color: var(--primary);
+  height: calc(12px + 2 * var(--control-spacing, 12px));
+  min-height: calc(12px + 2 * var(--control-spacing, 12px));
+  outline: none;
+  border-radius: var(--radius-full);
+  color: var(--foreground);
+  background: transparent;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  background: var(--form-range-track, var(--border));
+  height: 2px;
+  border-radius: var(--radius-full);
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  margin-top: -9px;
+  border-color: transparent;
+  background: currentColor;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Outline the native track and thumb, preserving the larger input hit area. */
+.form-range:focus-visible::-webkit-slider-runnable-track {
+  outline: 2px auto Highlight;
+  outline-color: -webkit-focus-ring-color;
+}
+
+.form-range::-moz-range-track {
+  background: var(--form-range-track, var(--border));
+  height: 2px;
+  border-radius: var(--radius-full);
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  border-color: transparent;
+  background: currentColor;
+  box-shadow: var(--shadow-sm);
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
+}
+
+.form-range:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed=&quot;true&quot;],
+  [aria-selected=&quot;true&quot;],
+  .is-selected
+) {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--blue);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.viz-carousel-controls :is(button, summary):focus-visible {
+  outline: 2px solid var(--ring) !important;
+  outline-offset: 2px !important;
+}
+
+/* Web recipes are the default, including on renderers without inline style queries. */
+@supports (border-radius: if(style(--corner-shape: round): 1px; else: 2px)) {
+  /* Match the host's proportional text-sm scale at every text preference. */
+  .tooltip,
+  .viz-badge,
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    font-size: if(
+      style(--corner-shape: round): round(
+          nearest,
+          calc(var(--font-size-base) * 14 / 16),
+          1px
+        );
+        else: round(nearest, calc(var(--font-size-base) * 13 / 14), 1px)
+    );
+  }
+
+  .btn,
+  .nav-link,
+  .form-select {
+    border-radius: if(
+      style(--corner-shape: round): var(--radius-full); else: var(--radius-lg)
+    );
+  }
+
+  .form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+    border-radius: if(
+      style(--corner-shape: round): calc(var(--radius-sm) / 2);
+        else: calc(var(--radius-lg) * 0.4)
+    );
+  }
+
+  .tooltip {
+    font-weight: if(
+      style(--corner-shape: round): 600; else: var(--font-weight-normal)
+    );
+  }
+}
+
+@media (pointer: coarse) {
+  .viz-carousel:has(&gt; .viz-carousel-controls) {
+    min-height: calc(76px + var(--viz-carousel-picker-height, 0px));
+    padding-bottom: 76px;
+  }
+
+  .btn,
+  .nav-link,
+  .viz-carousel-controls button,
+  .viz-carousel-picker &gt; summary,
+  .form-control,
+  .form-select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Keep small-screen WebKit from zooming when a text field receives focus. */
+  .form-control,
+  .form-select {
+    font-size: max(16px, calc(var(--font-size-base) * 14 / 16));
+    font-size: max(
+      16px,
+      round(nearest, calc(var(--font-size-base) * 14 / 16), 1px)
+    );
+  }
+  .form-control:is(
+    [type=&quot;file&quot;],
+    [type=&quot;date&quot;],
+    [type=&quot;datetime-local&quot;],
+    [type=&quot;month&quot;],
+    [type=&quot;week&quot;],
+    [type=&quot;time&quot;],
+    [type=&quot;color&quot;]
+  ) {
+    height: 44px;
+    min-height: 44px;
+    font-size: max(16px, calc(var(--font-size-base) * 14 / 16));
+    font-size: max(
+      16px,
+      round(nearest, calc(var(--font-size-base) * 14 / 16), 1px)
+    );
+  }
+
+  .form-control[type=&quot;file&quot;]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type=&quot;color&quot;] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type=&quot;date&quot;],
+    [type=&quot;datetime-local&quot;],
+    [type=&quot;month&quot;],
+    [type=&quot;time&quot;],
+    [type=&quot;week&quot;]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: &quot;&quot;;
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;script type=&quot;application/json&quot; id=&quot;codex-visualization-widget-state&quot;&gt;__CODEX_VISUALIZATION_WIDGET_STATE__&lt;/script&gt;
+&lt;script&gt;(() =&gt; {
+  const root = document.documentElement;
+  const mediaQuery = globalThis.matchMedia(&quot;(prefers-color-scheme: dark)&quot;);
+  const apply = Reflect.apply;
+  const isArray = Array.isArray;
+  const hasOwn = Object.hasOwn;
+  const parentWindow = globalThis.parent;
+  const stringify = JSON.stringify;
+  const parse = JSON.parse;
+  const encode = TextEncoder.prototype.encode.bind(new TextEncoder());
+  const initialStateElement = document.getElementById(
+    &quot;codex-visualization-widget-state&quot;,
+  );
+  const initialGlobals = parse(initialStateElement?.textContent ?? &quot;{}&quot;);
+  initialStateElement?.remove();
+  /** @type {Record&lt;string, unknown&gt; | null} */
+  let state = initialGlobals.widgetState ?? null;
+  const statePersistence = initialGlobals.statePersistence ?? &quot;none&quot;;
+  let nextStateRequestId = 0;
+  /** @type {Map&lt;number, { resolve: () =&gt; void; reject: (error: Error) =&gt; void; timeout: ReturnType&lt;typeof globalThis.setTimeout&gt;; serializedState: string }&gt;} */
+  const pendingStateWrites = new Map();
+  const persistenceError = () =&gt;
+    Object.assign(
+      new Error(&quot;The host could not persist the widget state update&quot;),
+      {
+        code: -32000,
+        data: { code: &quot;widget_state_persistence_failed&quot;, retryable: false },
+      },
+    );
+  /**
+   * @param {object} prototype
+   * @param {string} property
+   */
+  const getPrototypeGetter = (prototype, property) =&gt; {
+    // oxlint-disable-next-line typescript/unbound-method -- invoked through captured Reflect.apply
+    const getter = Object.getOwnPropertyDescriptor(prototype, property)?.get;
+    if (getter == null) {
+      throw new Error(`Missing ${property} getter`);
+    }
+    return getter;
+  };
+  const getMessageData = getPrototypeGetter(MessageEvent.prototype, &quot;data&quot;);
+  const getMessagePorts = getPrototypeGetter(MessageEvent.prototype, &quot;ports&quot;);
+  const getMessageSource = getPrototypeGetter(MessageEvent.prototype, &quot;source&quot;);
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const addHostMessageListener = MessagePort.prototype.addEventListener;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const postHostMessage = MessagePort.prototype.postMessage;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const startHostPort = MessagePort.prototype.start;
+  // oxlint-disable-next-line typescript/unbound-method -- captured before the untrusted fragment runs
+  const stopMessagePropagation = Event.prototype.stopImmediatePropagation;
+  /** @type {MessagePort | null} */
+  let hostPort = null;
+  const postToHost = (type, payload) =&gt; {
+    if (hostPort != null) {
+      apply(postHostMessage, hostPort, [{ type, ...payload }]);
+    }
+  };
+  const openExternal = ({ href }) =&gt; {
+    if (globalThis.navigator.userActivation?.isActive === true) {
+      postToHost(&quot;open-external&quot;, { href });
+    }
+  };
+  const sendFollowUpMessage = ({ context, prompt, title }) =&gt; {
+    if (globalThis.navigator.userActivation?.isActive === true) {
+      postToHost(&quot;follow-up&quot;, { context, prompt, title });
+    }
+    return Promise.resolve();
+  };
+  /**
+   * @param {Record&lt;string, unknown&gt; | ((previous: Record&lt;string, unknown&gt; | null) =&gt; Record&lt;string, unknown&gt;)} next
+   * @returns {Promise&lt;void&gt;}
+   */
+  const setWidgetState = async (next) =&gt; {
+    const nextState = typeof next === &quot;function&quot; ? next(state) : next;
+    if (
+      nextState == null ||
+      typeof nextState !== &quot;object&quot; ||
+      isArray(nextState)
+    ) {
+      throw new TypeError(&quot;Widget state must be a JSON object&quot;);
+    }
+    const inputState = stringify(
+      nextState,
+      (_key, /** @type {unknown} */ value) =&gt; {
+        if (
+          typeof value === &quot;undefined&quot; ||
+          typeof value === &quot;function&quot; ||
+          typeof value === &quot;symbol&quot; ||
+          (typeof value === &quot;number&quot; &amp;&amp; !Number.isFinite(value))
+        ) {
+          throw new TypeError(&quot;Widget state must be a JSON object&quot;);
+        }
+        return value;
+      },
+    );
+    const parsedState = parse(inputState);
+    if (
+      parsedState == null ||
+      typeof parsedState !== &quot;object&quot; ||
+      isArray(parsedState)
+    ) {
+      throw new TypeError(&quot;Widget state must be a JSON object&quot;);
+    }
+    const storedState = {
+      modelContent: null,
+      privateContent: null,
+      ...parsedState,
+    };
+    const serializedState = stringify(storedState);
+    if (encode(serializedState).length &gt; 16 * 1024) {
+      throw new TypeError(
+        &quot;Widget state must be a JSON object of at most 16 KiB&quot;,
+      );
+    }
+    if (
+      hasOwn(storedState, &quot;imageIds&quot;) &amp;&amp;
+      (!isArray(storedState.imageIds) ||
+        storedState.imageIds.some(
+          (/** @type {unknown} */ id) =&gt; typeof id !== &quot;string&quot;,
+        ))
+    ) {
+      throw new TypeError(&quot;Widget state imageIds must be an array of strings&quot;);
+    }
+    if (storedState.imageIds?.length &gt; 0) {
+      throw Object.assign(
+        new TypeError(&quot;Visualization state does not support image attachments&quot;),
+        { code: -32602, data: { code: &quot;images_unsupported&quot; } },
+      );
+    }
+    state = storedState;
+    globalThis.openai.widgetState = state;
+    globalThis.dispatchEvent(
+      new CustomEvent(&quot;openai:set_globals&quot;, {
+        detail: { globals: { widgetState: state } },
+      }),
+    );
+    if (statePersistence === &quot;none&quot;) {
+      throw persistenceError();
+    }
+    const id = ++nextStateRequestId;
+    return new Promise((resolve, reject) =&gt; {
+      const timeout = globalThis.setTimeout(() =&gt; {
+        pendingStateWrites.delete(id);
+        reject(persistenceError());
+      }, 30_000);
+      pendingStateWrites.set(id, { resolve, reject, timeout, serializedState });
+      postToHost(&quot;widget-state-write&quot;, { id, state: serializedState });
+    });
+  };
+  const syncTheme = () =&gt; {
+    const theme = mediaQuery.matches ? &quot;dark&quot; : &quot;light&quot;;
+    root.dataset.theme = theme;
+    globalThis.openai = {
+      ...globalThis.openai,
+      openExternal,
+      sendFollowUpMessage,
+      setWidgetState,
+      theme,
+      visualizationStyleVariables: {},
+      visualizationTheme: theme,
+      widgetState: state,
+      statePersistence,
+      stateModelContext: &quot;none&quot;,
+    };
+    globalThis.dispatchEvent(
+      new CustomEvent(&quot;openai:set_globals&quot;, {
+        detail: { globals: globalThis.openai },
+      }),
+    );
+  };
+  const sendHeight = () =&gt; {
+    postToHost(&quot;height&quot;, {
+      height: Math.ceil(
+        Math.max(
+          document.body.scrollHeight,
+          document.body.getBoundingClientRect().height,
+        ),
+      ),
+    });
+  };
+
+  globalThis.addEventListener(
+    &quot;message&quot;,
+    (event) =&gt; {
+      const data = apply(getMessageData, event, []);
+      const ports = apply(getMessagePorts, event, []);
+      const source = apply(getMessageSource, event, []);
+      if (
+        hostPort != null ||
+        source !== parentWindow ||
+        typeof data !== &quot;object&quot; ||
+        data?.type !== &quot;codex-visualization-initialize&quot; ||
+        !isArray(ports) ||
+        ports.length !== 1
+      ) {
+        return;
+      }
+      apply(stopMessagePropagation, event, []);
+      const nextHostPort = ports[0];
+      try {
+        apply(addHostMessageListener, nextHostPort, [
+          &quot;message&quot;,
+          (event) =&gt; {
+            const data = apply(getMessageData, event, []);
+            if (typeof data === &quot;object&quot; &amp;&amp; data?.type === &quot;measure&quot;) {
+              sendHeight();
+            } else if (
+              typeof data === &quot;object&quot; &amp;&amp;
+              data?.type === &quot;widget-state-result&quot;
+            ) {
+              /** @type {unknown} */
+              const id = data.id;
+              if (typeof id !== &quot;number&quot;) {
+                return;
+              }
+              const pending = pendingStateWrites.get(id);
+              if (pending != null) {
+                pendingStateWrites.delete(id);
+                globalThis.clearTimeout(pending.timeout);
+                if (data.ok === true) {
+                  pending.resolve();
+                } else {
+                  pending.reject(persistenceError());
+                }
+              }
+            }
+          },
+        ]);
+        apply(startHostPort, nextHostPort, []);
+      } catch {
+        return;
+      }
+      hostPort = nextHostPort;
+      for (const [id, { serializedState }] of pendingStateWrites) {
+        postToHost(&quot;widget-state-write&quot;, { id, state: serializedState });
+      }
+      sendHeight();
+    },
+    { capture: true },
+  );
+  document.currentScript?.remove();
+  mediaQuery.addEventListener(&quot;change&quot;, syncTheme);
+  globalThis.addEventListener(&quot;click&quot;, (event) =&gt; {
+    if (event.defaultPrevented) {
+      return;
+    }
+    let element = null;
+    if (event.target instanceof globalThis.Element) {
+      element = event.target;
+    } else if (event.target instanceof globalThis.Node) {
+      element = event.target.parentElement;
+    }
+    const link = element?.closest(&quot;a[href]&quot;);
+    const href = link?.getAttribute(&quot;href&quot;);
+    if (href == null) {
+      return;
+    }
+    if (href.startsWith(&quot;#&quot;)) {
+      let id;
+      try {
+        id = decodeURIComponent(href.slice(1));
+      } catch {
+        return;
+      }
+      const target = id.length === 0 ? root : document.getElementById(id);
+      if (
+        target == null ||
+        globalThis.navigator.userActivation?.isActive !== true
+      ) {
+        return;
+      }
+      event.preventDefault();
+      postToHost(&quot;scroll-to&quot;, {
+        top: target.getBoundingClientRect().top + globalThis.scrollY,
+      });
+      return;
+    }
+    event.preventDefault();
+    openExternal({ href });
+  });
+  new ResizeObserver(sendHeight).observe(document.body);
+  syncTheme();
+})();
+&lt;/script&gt;
+&lt;div id=&quot;thinklab-guide&quot;&gt;
+ &lt;header class=&quot;tg-header&quot;&gt;&lt;div&gt;&lt;span class=&quot;tg-kicker&quot;&gt;ASIX THINKLAB · NAIX UN SISTEMA · 2.0&lt;/span&gt;&lt;h2 data-heading&gt;Rúbrica i seguiment de les tasques&lt;/h2&gt;&lt;/div&gt;&lt;span class=&quot;tg-role&quot; data-role&gt;&lt;/span&gt;&lt;/header&gt;
+ &lt;div class=&quot;tg-toolbar&quot;&gt;&lt;label data-mode-label&gt;Modalitat&lt;select data-mode&gt;&lt;option&gt;Grupal&lt;/option&gt;&lt;option&gt;Individual&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;label&gt;&lt;span data-name-caption&gt;Nom del grup&lt;/span&gt;&lt;input data-name maxlength=&quot;80&quot; placeholder=&quot;Escriu el nom&quot;&gt;&lt;/label&gt;&lt;span data-teacher-tools&gt;&lt;button type=&quot;button&quot; data-toggle-edit class=&quot;cursor-interaction&quot;&gt;Edita activitats&lt;/button&gt; &lt;button type=&quot;button&quot; data-generate=&quot;Individual&quot; class=&quot;cursor-interaction tg-primary&quot;&gt;Genera versió individual&lt;/button&gt; &lt;button type=&quot;button&quot; data-generate=&quot;Grupal&quot; class=&quot;cursor-interaction tg-primary&quot;&gt;Genera versió de grup&lt;/button&gt;&lt;/span&gt;&lt;/div&gt;
+ &lt;section class=&quot;tg-coverage&quot; data-coverage role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;&lt;/section&gt;
+ &lt;div class=&quot;tg-layout&quot;&gt;&lt;nav data-nav aria-label=&quot;Tasques&quot;&gt;&lt;/nav&gt;&lt;main&gt;
+  &lt;header class=&quot;tg-hero&quot;&gt;&lt;span class=&quot;tg-picture&quot; data-picture aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;&lt;div&gt;&lt;span class=&quot;tg-kicker&quot; data-number&gt;&lt;/span&gt;&lt;h3 data-title&gt;&lt;/h3&gt;&lt;span data-progress-text class=&quot;tg-small&quot; aria-live=&quot;polite&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;/header&gt;
+  &lt;div class=&quot;tg-progress&quot;&gt;&lt;div data-progress&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;tg-task-tools&quot; data-task-tools hidden&gt;&lt;button type=&quot;button&quot; data-add class=&quot;cursor-interaction&quot;&gt;+ Nova activitat&lt;/button&gt;&lt;span class=&quot;tg-small&quot;&gt;Els canvis afecten la plantilla que compartiràs.&lt;/span&gt;&lt;/div&gt;
+  &lt;form data-form hidden class=&quot;tg-form&quot;&gt;&lt;h4 data-form-title&gt;Nova activitat&lt;/h4&gt;&lt;label&gt;Què cal fer&lt;textarea data-description rows=&quot;3&quot; maxlength=&quot;2000&quot; required&gt;&lt;/textarea&gt;&lt;/label&gt;&lt;div class=&quot;tg-form-row&quot;&gt;&lt;label&gt;Modalitat&lt;select data-new-mode&gt;&lt;option&gt;Grupal&lt;/option&gt;&lt;option&gt;Individual&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;label&gt;Nivell&lt;select data-new-level&gt;&lt;option&gt;Apte&lt;/option&gt;&lt;option&gt;Apte+&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;&lt;/div&gt;&lt;fieldset data-ra-fields&gt;&lt;legend&gt;Mòduls i RAs vinculats&lt;/legend&gt;&lt;/fieldset&gt;&lt;p data-form-error role=&quot;alert&quot; class=&quot;tg-error&quot;&gt;&lt;/p&gt;&lt;div class=&quot;tg-buttons&quot;&gt;&lt;button type=&quot;button&quot; data-form-save class=&quot;cursor-interaction tg-primary&quot;&gt;Desa activitat&lt;/button&gt;&lt;button type=&quot;button&quot; data-cancel class=&quot;cursor-interaction&quot;&gt;Cancel·la&lt;/button&gt;&lt;/div&gt;&lt;/form&gt;
+  &lt;div data-activities&gt;&lt;/div&gt;
+  &lt;details data-removed-panel hidden class=&quot;tg-removed&quot;&gt;&lt;summary data-removed-title&gt;Activitats eliminades&lt;/summary&gt;&lt;div data-removed&gt;&lt;/div&gt;&lt;/details&gt;
+  &lt;label class=&quot;tg-notes&quot;&gt;Observacions i evidències de la tasca&lt;textarea data-notes rows=&quot;3&quot; maxlength=&quot;5000&quot; placeholder=&quot;Què falta completar? On està l’evidència?&quot;&gt;&lt;/textarea&gt;&lt;/label&gt;
+ &lt;/main&gt;&lt;/div&gt;
+ &lt;section class=&quot;tg-grades&quot;&gt;&lt;h3&gt;Com vaig per mòdul i RA?&lt;/h3&gt;&lt;p class=&quot;tg-small&quot; data-grade-help&gt;Estimació del seguiment. Si anotes una correcció del professorat, eixe resultat preval sobre la teua autoavaluació. No és una nota oficial.&lt;/p&gt;&lt;div data-grades class=&quot;tg-grade-grid&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;&lt;/section&gt;
+ &lt;footer&gt;&lt;span data-message role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;Les dades estan obertes en esta vista.&lt;/span&gt;&lt;span&gt;Desa el fitxer de seguiment abans de tancar.&lt;/span&gt;&lt;/footer&gt;
+&lt;/div&gt;
+&lt;style&gt;
+#thinklab-guide [data-teacher-tools]{display:flex;gap:8px;flex-wrap:wrap}#thinklab-guide .tg-status[data-status=correct]&gt;label&gt;select{color:light-dark(#22603d,#a8e8be);background:light-dark(#e5f5e9,#233e2e)}
+
+#thinklab-guide{--tg-bg:light-dark(#f5f6fc,#171c29);--tg-panel:light-dark(#fff,#242d40);--tg-text:light-dark(#25314c,#eff3ff);--tg-muted:light-dark(#59677f,#b9c8df);--tg-line:light-dark(#dce3f0,#46536d);--tg-purple:light-dark(#584498,#c5b7f7);--tg-lavender:light-dark(#eee9fb,#37304e);--tg-teal:light-dark(#176d65,#9cddd2);--tg-mint:light-dark(#e4f4ef,#233e3d);--tg-amber:light-dark(#815b13,#f0d48d);--tg-sand:light-dark(#fff2d5,#453b2b);--tg-red:light-dark(#9a3946,#ffb9c1);--tg-rose:light-dark(#fcecef,#4a2d38);font:14px/1.5 system-ui,sans-serif;color:var(--tg-text);background:var(--tg-bg);padding:24px;border-radius:16px;color-scheme:light dark}
+#thinklab-guide *{box-sizing:border-box}#thinklab-guide [hidden]{display:none!important}#thinklab-guide h2{font-size:24px;font-weight:500;margin:5px 0}#thinklab-guide h3{font-size:20px;font-weight:500;margin:4px 0}#thinklab-guide h4{font-size:15px;font-weight:500;margin:0}#thinklab-guide .tg-kicker{font-size:11px;letter-spacing:.7px;color:var(--tg-muted)}#thinklab-guide .tg-small{font-size:12px;color:var(--tg-muted)}#thinklab-guide .tg-header{display:flex;justify-content:space-between;align-items:start;gap:16px;flex-wrap:wrap}#thinklab-guide .tg-role{font-size:12px;background:var(--tg-lavender);color:var(--tg-purple);padding:7px 12px;border-radius:30px;margin-right:70px}
+#thinklab-guide input,#thinklab-guide select,#thinklab-guide textarea,#thinklab-guide button{font:inherit;color:var(--tg-text);background:var(--tg-panel);border:1px solid var(--tg-line);border-radius:8px;padding:9px 11px;max-width:100%}#thinklab-guide button:focus-visible,#thinklab-guide input:focus-visible,#thinklab-guide select:focus-visible,#thinklab-guide textarea:focus-visible,#thinklab-guide summary:focus-visible{outline:3px solid var(--tg-purple);outline-offset:3px}#thinklab-guide .tg-primary{color:var(--tg-purple);background:var(--tg-lavender)}#thinklab-guide .tg-toolbar{display:flex;gap:16px;align-items:end;flex-wrap:wrap;margin:22px 0}#thinklab-guide label{font-size:12px;color:var(--tg-muted)}#thinklab-guide .tg-toolbar label{display:flex;flex-direction:column;gap:5px;min-width:180px}#thinklab-guide .tg-toolbar input{min-width:220px}#thinklab-guide .tg-coverage{font-size:12px;padding:12px 15px;border-radius:9px;background:var(--tg-mint);color:var(--tg-teal);margin:16px 0 22px}#thinklab-guide .tg-coverage.warn{background:var(--tg-sand);color:var(--tg-amber)}#thinklab-guide .tg-coverage strong{font-weight:500}#thinklab-guide .tg-coverage ul{margin:7px 0;padding-left:20px}
+#thinklab-guide .tg-layout{display:grid;grid-template-columns:185px minmax(0,1fr);gap:22px}#thinklab-guide nav{display:flex;flex-direction:column;gap:5px}#thinklab-guide nav button{border-color:transparent;background:transparent;display:flex;gap:8px;align-items:start;text-align:left;font-size:12px}#thinklab-guide nav button[aria-current=step]{background:var(--tg-lavender);color:var(--tg-purple)}#thinklab-guide nav button span:first-child{min-width:18px}#thinklab-guide main{min-width:0;background:var(--tg-panel);border:1px solid var(--tg-line);padding:20px;border-radius:12px}#thinklab-guide .tg-hero{display:flex;gap:17px;align-items:center;padding:17px;background:var(--tg-lavender);border-radius:11px}#thinklab-guide .tg-hero.tg-tone-mint{background:var(--tg-mint)}#thinklab-guide .tg-hero.tg-tone-sand{background:var(--tg-sand)}#thinklab-guide .tg-picture{font-size:40px;flex-shrink:0}#thinklab-guide .tg-progress{height:6px;background:var(--tg-lavender);border-radius:10px;overflow:hidden;margin:15px 0}#thinklab-guide .tg-progress&gt;div{height:100%;background:var(--tg-purple);transition:width .2s}#thinklab-guide .tg-task-tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:18px 0}
+#thinklab-guide .tg-level{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:25px 0 5px;padding:10px 12px;border-radius:8px;background:var(--tg-mint);color:var(--tg-teal)}#thinklab-guide .tg-level.plus{background:var(--tg-sand);color:var(--tg-amber)}#thinklab-guide .tg-level span{font-size:12px}#thinklab-guide .tg-section{margin-top:10px}#thinklab-guide .tg-section&gt;summary{font-size:14px;font-weight:500;color:var(--tg-purple);padding:12px 0}#thinklab-guide .tg-activity{padding:17px 0;border-bottom:1px solid var(--tg-line);display:grid;grid-template-columns:minmax(0,1fr) 205px;gap:18px;align-items:start}#thinklab-guide .tg-activitytext{overflow-wrap:anywhere}#thinklab-guide .tg-activitytext&gt;details{font-size:12px;color:var(--tg-muted);margin-top:8px}#thinklab-guide .tg-activitytext&gt;details p{margin:7px 0}#thinklab-guide .tg-activitytext .tg-buttons{margin-top:9px}#thinklab-guide .tg-activitytext button{font-size:12px;padding:6px 9px}#thinklab-guide .tg-status select{width:100%;font-size:12px;margin-bottom:11px}#thinklab-guide .tg-status label{display:block}#thinklab-guide .tg-status[data-status=correct]&gt;label&gt;select{color:light-dark(#22603d,#a8e8be);background:light-dark(#e5f5e9,#233e2e)}#thinklab-guide .tg-status[data-status=incorrect]&gt;label&gt;select{color:var(--tg-red);background:var(--tg-rose)}#thinklab-guide .tg-status[data-status=pending]&gt;label&gt;select{color:var(--tg-amber);background:var(--tg-sand)}#thinklab-guide .tg-check{display:flex!important;align-items:center;gap:6px;min-height:30px}#thinklab-guide .tg-check input{accent-color:var(--tg-purple);width:16px;height:16px}#thinklab-guide .tg-review{padding-top:8px;border-top:1px dashed var(--tg-line)}#thinklab-guide .tg-review select{margin:5px 0}#thinklab-guide .tg-redo{color:var(--tg-red);font-size:12px;display:block;margin-top:5px}#thinklab-guide .tg-notrequired{color:var(--tg-muted);font-size:12px;padding:8px 0}#thinklab-guide .tg-buttons{display:flex;gap:8px;align-items:center;flex-wrap:wrap}#thinklab-guide .tg-form{padding:17px;background:var(--tg-bg);border:1px solid var(--tg-line);border-radius:10px;margin:15px 0}#thinklab-guide .tg-form&gt;label{display:block;margin:10px 0}#thinklab-guide textarea{width:100%;display:block;resize:vertical;margin-top:6px}#thinklab-guide .tg-form-row{display:flex;gap:14px;flex-wrap:wrap}#thinklab-guide .tg-form-row label{flex:1;min-width:150px}#thinklab-guide .tg-form select{display:block;width:100%;margin-top:5px}#thinklab-guide fieldset{border:0;padding:0;margin:12px 0}#thinklab-guide legend{font-size:12px;color:var(--tg-muted)}#thinklab-guide .tg-ra-fields{display:flex;gap:8px 16px;flex-wrap:wrap}#thinklab-guide .tg-error{color:var(--tg-red);font-size:12px}#thinklab-guide .tg-removed{margin:20px 0;font-size:12px;color:var(--tg-muted)}#thinklab-guide .tg-removed-row{display:flex;gap:14px;align-items:start;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--tg-line)}#thinklab-guide .tg-removed-row span{overflow-wrap:anywhere;min-width:0}#thinklab-guide .tg-notes{display:block;margin-top:24px}#thinklab-guide .tg-empty{color:var(--tg-muted);padding:20px 0}#thinklab-guide .tg-grades{margin-top:26px}#thinklab-guide .tg-grade-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:15px}#thinklab-guide .tg-grade{background:var(--tg-panel);border:1px solid var(--tg-line);padding:16px;border-radius:12px;min-width:0}#thinklab-guide .tg-grade&gt;strong{font-weight:500;color:var(--tg-purple)}#thinklab-guide .tg-grade-number{font-size:23px;font-weight:500;margin:8px 0}#thinklab-guide .tg-grade-number.bad{color:var(--tg-red)}#thinklab-guide .tg-grade label{display:block;margin-top:9px}#thinklab-guide .tg-grade select{width:100%;display:block;font-size:12px;margin-top:4px}#thinklab-guide .tg-final{padding:8px 10px;margin-top:10px;background:var(--tg-lavender);border-radius:7px;font-size:12px}#thinklab-guide .tg-final.blocked{background:var(--tg-rose);color:var(--tg-red)}#thinklab-guide footer{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;color:var(--tg-muted);font-size:12px;margin-top:22px}
+@media(max-width:760px){#thinklab-guide .tg-layout{grid-template-columns:1fr}#thinklab-guide nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}#thinklab-guide .tg-activity{grid-template-columns:1fr;gap:12px}#thinklab-guide .tg-status{max-width:320px}#thinklab-guide .tg-grade-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:440px){#thinklab-guide{padding:14px}#thinklab-guide main{padding:13px}#thinklab-guide .tg-role{margin-right:0}#thinklab-guide .tg-toolbar label,#thinklab-guide .tg-toolbar input{min-width:0;width:100%}#thinklab-guide nav{grid-template-columns:repeat(2,minmax(0,1fr))}#thinklab-guide .tg-grade-grid{grid-template-columns:1fr}#thinklab-guide .tg-hero{padding:12px;gap:10px}#thinklab-guide .tg-picture{font-size:32px}#thinklab-guide input,#thinklab-guide textarea,#thinklab-guide select{font-size:16px}#thinklab-guide .tg-removed-row{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){#thinklab-guide .tg-progress&gt;div{transition:none}}
+&lt;/style&gt;
+&lt;script type=&quot;application/json&quot; id=&quot;thinklab-config&quot;&gt;{&quot;role&quot;:&quot;student&quot;,&quot;standalone&quot;:true,&quot;mode&quot;:&quot;Individual&quot;,&quot;templateId&quot;:&quot;tpl-845545c&quot;,&quot;identity&quot;:{&quot;name&quot;:&quot;Nom de l’alumne&quot;,&quot;groupName&quot;:&quot;Grup 1&quot;},&quot;actions&quot;:[{&quot;id&quot;:&quot;a17&quot;,&quot;task&quot;:0,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Preparar l’entorn propi de proves.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 5 · Tasca 0&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a18&quot;,&quot;task&quot;:0,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Identificar-ne els recursos físics i justificar-ne les limitacions.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 5 · Tasca 0&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a19&quot;,&quot;task&quot;:2,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Inventariar l’equip de classe i el de casa.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 6–7 · Tasca 2&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a20&quot;,&quot;task&quot;:2,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Comparar els equips i identificar colls de botella.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 6–7 · Tasca 2&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a21&quot;,&quot;task&quot;:2,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Proposar solucions ajustades al maquinari disponible.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 6–7 · Tasca 2&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a22&quot;,&quot;task&quot;:7,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Mesurar CPU, RAM, disc i xarxa durant les càrregues previstes.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 13 · Tasca 7&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a23&quot;,&quot;task&quot;:7,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Interpretar les mesures i identificar els recursos saturats.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;,&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 13 · Tasca 7&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a24&quot;,&quot;task&quot;:7,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Determinar la capacitat del maquinari per executar les VM.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 13 · Tasca 7&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a25&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Diagnosticar i resoldre la incidència de maquinari del cas final.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 15–17 · Tasca 8&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a26&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Justificar la solució i comprovar el resultat.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;,&quot;ISO-RA1&quot;,&quot;ISO-RA3&quot;,&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 15–17 · Tasca 8&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a27&quot;,&quot;task&quot;:2,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Executar tests de memòria, disc i xarxa en l’equip de classe i en el de casa.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 6–7 · Tasca 2&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a28&quot;,&quot;task&quot;:2,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Registrar l’eina, les condicions i els resultats dels tests.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 6–7 · Tasca 2&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a29&quot;,&quot;task&quot;:2,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Confirmar o descartar amb dades els colls de botella previstos.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 6–7 · Tasca 2&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a30&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Respondre el bloc del qüestionari teòric/pràctic corresponent a FDM RA1, justificant les respostes. El bloc ha d’estar identificat per RA; complementa les evidències pràctiques.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 15–17 · Tasca 8&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a50&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Identificar els equips empresarials i la seua funció en el cas final.&quot;,&quot;links&quot;:[&quot;FDM-RA4&quot;],&quot;section&quot;:&quot;Concreció docent · Cas final FDM RA4&quot;,&quot;source&quot;:&quot;Concreció docent anterior · Tasca 8 (no és una exigència literal del PDF)&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a51&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Inventariar les connexions i els ports del cas assignat.&quot;,&quot;links&quot;:[&quot;FDM-RA4&quot;],&quot;section&quot;:&quot;Concreció docent · Cas final FDM RA4&quot;,&quot;source&quot;:&quot;Concreció docent anterior · Tasca 8 (no és una exigència literal del PDF)&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a52&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Analitzar alimentació, ventilació i ordre del cablejat.&quot;,&quot;links&quot;:[&quot;FDM-RA4&quot;],&quot;section&quot;:&quot;Concreció docent · Cas final FDM RA4&quot;,&quot;source&quot;:&quot;Concreció docent anterior · Tasca 8 (no és una exigència literal del PDF)&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a53&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Aportar l’esquema i l’explicació individual de la solució.&quot;,&quot;links&quot;:[&quot;FDM-RA4&quot;],&quot;section&quot;:&quot;Concreció docent · Cas final FDM RA4&quot;,&quot;source&quot;:&quot;Concreció docent anterior · Tasca 8 (no és una exigència literal del PDF)&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a54&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Elaborar i defensar una millora de la sala de servidors a partir del cas final.&quot;,&quot;links&quot;:[&quot;FDM-RA4&quot;],&quot;section&quot;:&quot;Propostes docents opcionals · Final&quot;,&quot;source&quot;:&quot;Concreció docent anterior · Tasca 8 (no és una exigència literal del PDF)&quot;,&quot;enabled&quot;:false},{&quot;id&quot;:&quot;a55&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Justificar la selecció i disposició del maquinari, alimentació, ventilació i seguretat.&quot;,&quot;links&quot;:[&quot;FDM-RA4&quot;],&quot;section&quot;:&quot;Propostes docents opcionals · Final&quot;,&quot;source&quot;:&quot;Concreció docent anterior · Tasca 8 (no és una exigència literal del PDF)&quot;,&quot;enabled&quot;:false},{&quot;id&quot;:&quot;a56&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Explicar què es reutilitza i quin material falta.&quot;,&quot;links&quot;:[&quot;FDM-RA4&quot;],&quot;section&quot;:&quot;Propostes docents opcionals · Final&quot;,&quot;source&quot;:&quot;Concreció docent anterior · Tasca 8 (no és una exigència literal del PDF)&quot;,&quot;enabled&quot;:false},{&quot;id&quot;:&quot;a57&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Respondre el bloc del qüestionari teòric/pràctic corresponent a FDM RA4, justificant les respostes. El bloc ha d’estar identificat per RA; complementa les evidències pràctiques.&quot;,&quot;links&quot;:[&quot;FDM-RA4&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 15–17 · Tasca 8&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a78&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Comprovar els requisits i l’origen de les imatges d’instal·lació (arquitectura, fiabilitat de l'origen, etc). Verificar la integritat de les imatges quan el fabricant publique el mecanisme&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a79&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Abans de ficar en producció, realitzar l'actualització i comprovació del correcte funcionament del sistemes instal·lats.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a80&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Resoldre la incidència d’instal·lació, actualització o arrencada del cas final.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 15–17 · Tasca 8&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a81&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Comparar dues opcions d’instal·lació o actualització en VM de proves.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Propostes docents opcionals · Final&quot;,&quot;source&quot;:&quot;Concreció docent anterior · Tasca 8 (no és una exigència literal del PDF)&quot;,&quot;enabled&quot;:false},{&quot;id&quot;:&quot;a82&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Executar les opcions en condicions equivalents i comprovar els resultats.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Propostes docents opcionals · Final&quot;,&quot;source&quot;:&quot;Concreció docent anterior · Tasca 8 (no és una exigència literal del PDF)&quot;,&quot;enabled&quot;:false},{&quot;id&quot;:&quot;a83&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Demostrar la recuperació de l’estat anterior i justificar l’opció triada.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Propostes docents opcionals · Final&quot;,&quot;source&quot;:&quot;Concreció docent anterior · Tasca 8 (no és una exigència literal del PDF)&quot;,&quot;enabled&quot;:false},{&quot;id&quot;:&quot;a84&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Respondre el bloc del qüestionari teòric/pràctic corresponent a ISO RA1, justificant les respostes. El bloc ha d’estar identificat per RA; complementa les evidències pràctiques.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 15–17 · Tasca 8&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a102&quot;,&quot;task&quot;:6,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Crear i verificar almenys tres tipus de RAID.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 12 · Tasca 6&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a103&quot;,&quot;task&quot;:6,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Explicar què aporta cada tipus de RAID.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 12 · Tasca 6&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a104&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Recuperar la informació o el sistema previst en el cas final.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 15–17 · Tasca 8&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a105&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Automatitzar les còpies de configuracions o imatges.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a106&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Si s’opta per ampliar amb recuperació automatitzada, executar-la i comprovar la recuperació funcional.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:false},{&quot;id&quot;:&quot;a107&quot;,&quot;task&quot;:6,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Investigar i justificar l’espill entre discos de dos equips diferents.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 12 · Tasca 6&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a108&quot;,&quot;task&quot;:6,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Implementar l’espill entre dos discos de dos equips mitjançant la solució de replicació o emmagatzematge distribuït seleccionada.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 12 · Tasca 6&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a109&quot;,&quot;task&quot;:6,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Verificar el funcionament i explicar un cas d’ús.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 12 · Tasca 6&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a110&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Respondre el bloc del qüestionari teòric/pràctic corresponent a ISO RA3, justificant les respostes. El bloc ha d’estar identificat per RA; complementa les evidències pràctiques.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 15–17 · Tasca 8&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a119&quot;,&quot;task&quot;:7,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Analitzar els recursos físics amb diferents càrregues de VM.&quot;,&quot;links&quot;:[&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 13 · Tasca 7&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a120&quot;,&quot;task&quot;:7,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Determinar quantes VM permeten treballar sense bloquejar l’equip.&quot;,&quot;links&quot;:[&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 13 · Tasca 7&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a121&quot;,&quot;task&quot;:7,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Lliurar l’informe de mesures i conclusions.&quot;,&quot;links&quot;:[&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 13 · Tasca 7&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a122&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Diagnosticar el problema de rendiment del cas final.&quot;,&quot;links&quot;:[&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 15–17 · Tasca 8&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a123&quot;,&quot;task&quot;:7,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Proposar i aplicar una primera optimització de les VM.&quot;,&quot;links&quot;:[&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 13 · Tasca 7&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a124&quot;,&quot;task&quot;:7,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Proposar i aplicar una segona optimització de les VM.&quot;,&quot;links&quot;:[&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 13 · Tasca 7&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a125&quot;,&quot;task&quot;:7,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Comparar les mesures de rendiment abans i després.&quot;,&quot;links&quot;:[&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 13 · Tasca 7&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a126&quot;,&quot;task&quot;:8,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Respondre el bloc del qüestionari teòric/pràctic corresponent a ISO RA6, justificant les respostes. El bloc ha d’estar identificat per RA; complementa les evidències pràctiques.&quot;,&quot;links&quot;:[&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 15–17 · Tasca 8&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a127&quot;,&quot;task&quot;:0,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Documentar l’entorn propi en Markdown i Git: esquema de VM, recursos i problemes resolts.&quot;,&quot;links&quot;:[&quot;FDM-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 5 · Tasca 0&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a128&quot;,&quot;task&quot;:4,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Dibuixar l’esquema de xarxa individual, el muntatge virtual i les adreces previstes.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 8–9 · Tasca 4&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a129&quot;,&quot;task&quot;:4,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Implementar la xarxa individual i comprovar la connectivitat amb ping, traceroute i taules d’encaminament.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 8–9 · Tasca 4&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a148&quot;,&quot;task&quot;:4,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Indicar la configuració de cada interfície i la LAN 192.168.XX.0/24 segons el lloc a l’aula; la WAN pot obtindre la IP per DHCP (adaptador pont o millor NAT).&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 8–9 · Tasca 4&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a149&quot;,&quot;task&quot;:4,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte+&quot;,&quot;text&quot;:&quot;Aportar evidències de ping, traceroute, taula d’encaminament i configuració de les interfícies entre les VM i cap a l’exterior.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 8–9 · Tasca 4&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a203&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;MikroTik: instal·lar el sistema previst i comprovar-ne la versió i el funcionament.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comunicacions · MikroTik&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a204&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;MikroTik: configurar l’usuari o usuaris d’administració.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comunicacions · MikroTik&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a205&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;MikroTik: configurar els paràmetres de xarxa de les interfícies WAN i LAN.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comunicacions · MikroTik&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a206&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;MikroTik: permetre l’accés a Internet des dels equips de la LAN.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comunicacions · MikroTik&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a207&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;MikroTik: provar una connexió permesa i una bloquejada i interpretar el registre.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;,&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comunicacions · MikroTik&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a208&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;MikroTik: guardar la còpia de configuració o sistema al servidor de còpies.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comunicacions · MikroTik&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a209&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;MikroTik: provocar una errada controlada i comprovar la recuperació de l’equip o la part afectada.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comunicacions · MikroTik&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a210&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;OPNsense: instal·lar el sistema previst i comprovar-ne la versió i el funcionament.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comunicacions · OPNsense&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a211&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;OPNsense: configurar l’usuari o usuaris d’administració.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comunicacions · OPNsense&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a212&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;OPNsense: configurar els paràmetres de xarxa de les interfícies WAN i LAN.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comunicacions · OPNsense&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a213&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;OPNsense: permetre l’accés a Internet des dels equips de la LAN.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comunicacions · OPNsense&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a214&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;OPNsense: provar una connexió permesa i una bloquejada i interpretar el registre.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;,&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comunicacions · OPNsense&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a215&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;OPNsense: guardar la còpia de configuració o sistema al servidor de còpies.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comunicacions · OPNsense&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a216&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;OPNsense: provocar una errada controlada i comprovar la recuperació de l’equip o la part afectada.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comunicacions · OPNsense&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a217&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;GNU/Linux amb nftables: instal·lar el sistema previst i comprovar-ne la versió i el funcionament.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comunicacions · GNU/Linux amb nftables&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a218&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;GNU/Linux amb nftables: configurar l’usuari o usuaris d’administració.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comunicacions · GNU/Linux amb nftables&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a219&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;GNU/Linux amb nftables: configurar els paràmetres de xarxa de les interfícies WAN i LAN.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comunicacions · GNU/Linux amb nftables&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a220&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;GNU/Linux amb nftables: permetre l’accés a Internet des dels equips de la LAN.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comunicacions · GNU/Linux amb nftables&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a221&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;GNU/Linux amb nftables: provar una connexió permesa i una bloquejada i interpretar el registre.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;,&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Comunicacions · GNU/Linux amb nftables&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a222&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;GNU/Linux amb nftables: guardar la còpia de configuració o sistema al servidor de còpies.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comunicacions · GNU/Linux amb nftables&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a223&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;GNU/Linux amb nftables: provocar una errada controlada i comprovar la recuperació de l’equip o la part afectada.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Comunicacions · GNU/Linux amb nftables&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a224&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;TrueNAS: instal·lar el sistema previst i comprovar-ne la versió i el funcionament.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;NAS/SAN · TrueNAS&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a225&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;TrueNAS: configurar l’usuari o usuaris d’administració.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;NAS/SAN · TrueNAS&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a226&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;TrueNAS: configurar els paràmetres de xarxa de les interfícies.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;NAS/SAN · TrueNAS&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a227&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;TrueNAS: preparar un disc addicional o, si no és possible, una partició addicional per a les còpies dels equips crítics.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;NAS/SAN · TrueNAS&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a228&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Proxmox: instal·lar el sistema previst i comprovar-ne la versió i el funcionament.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Virtualització · Proxmox&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a229&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Proxmox: configurar l’usuari o usuaris d’administració.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Virtualització · Proxmox&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a230&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Proxmox: configurar els paràmetres de xarxa de les interfícies.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Virtualització · Proxmox&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a231&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Proxmox: copiar les configuracions o imatges necessàries al servidor corresponent i justificar què es copia i què no.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Virtualització · Proxmox&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a232&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Proxmox: configurar el clúster amb els nodes disponibles; si no hi ha nodes suficients, registrar el disseny o la simulació autoritzada.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Virtualització · Proxmox&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a235&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Proxmox: executar la migració d’un contenidor i una VM entre nodes disponibles. La migració de una VM haurà de ser d'un sistema ubuntu server o debian sense entorn gràfic per a que siga més ràpid.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;,&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Virtualització · Proxmox&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a236&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Proxmox individual: mesurar temps i espai de la migració de VM i contenidor, interpretar-los i valorar millores.&quot;,&quot;links&quot;:[&quot;ISO-RA6&quot;],&quot;section&quot;:&quot;Virtualització · Proxmox&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a237&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Windows Server 2025: instal·lar el sistema previst i comprovar-ne la versió i el funcionament.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Centralització · Windows Server 2025&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a238&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Windows Server 2025: configurar l’usuari o usuaris d’administració.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Centralització · Windows Server 2025&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a239&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Windows Server 2025: configurar els paràmetres de xarxa de les interfícies.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Centralització · Windows Server 2025&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a240&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Windows Server 2025: copiar les configuracions o imatges necessàries al servidor corresponent i justificar què es copia i què no.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Centralització · Windows Server 2025&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a241&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Windows Server 2025: explicar què és un domini i què aporta la gestió centralitzada a l’empresa.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Centralització · Windows Server 2025&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a242&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Servidors GNU/Linux d’infraestructura: instal·lar el sistema previst i comprovar-ne la versió i el funcionament.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Infraestructura · Servidors GNU/Linux d’infraestructura&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a243&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Servidors GNU/Linux d’infraestructura: configurar l’usuari o usuaris d’administració.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Infraestructura · Servidors GNU/Linux d’infraestructura&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a244&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Servidors GNU/Linux d’infraestructura: configurar els paràmetres de xarxa de les interfícies.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Infraestructura · Servidors GNU/Linux d’infraestructura&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a245&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Servidors GNU/Linux d’infraestructura: copiar les configuracions o imatges necessàries al servidor corresponent i justificar què es copia i què no.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Infraestructura · Servidors GNU/Linux d’infraestructura&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a246&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;En cada servidor GNU/Linux d’infraestructura: instal·lar i configurar el programari necessari per a la seua funcionalitat. De moment cap programari addicional, es veurà en tasques posteriors.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Infraestructura · Servidors GNU/Linux d’infraestructura&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a247&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Windows 11: instal·lar el sistema previst i comprovar-ne la versió i el funcionament.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Clients · Windows 11&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a248&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Windows 11: configurar l’usuari o usuaris d’administració.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Clients · Windows 11&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a249&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Windows 11: configurar els paràmetres de xarxa de les interfícies.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Clients · Windows 11&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a250&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Windows 11: copiar les configuracions o imatges necessàries al servidor corresponent i justificar què es copia i què no.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Clients · Windows 11&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a251&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Windows 11: integrar el client en el domini només si s’ha decidit fer-ho en el disseny.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Clients · Windows 11&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:false},{&quot;id&quot;:&quot;a252&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;GNU/Linux client: instal·lar el sistema previst i comprovar-ne la versió i el funcionament.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Clients · GNU/Linux client&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a253&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;GNU/Linux client: configurar l’usuari o usuaris d’administració.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Clients · GNU/Linux client&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a254&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;GNU/Linux client: configurar els paràmetres de xarxa de les interfícies.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Clients · GNU/Linux client&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a255&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;GNU/Linux client: copiar les configuracions o imatges necessàries al servidor corresponent i justificar què es copia i què no.&quot;,&quot;links&quot;:[&quot;ISO-RA3&quot;],&quot;section&quot;:&quot;Clients · GNU/Linux client&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a256&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;GNU/Linux client: integrar el client en el domini només si s’ha decidit fer-ho en el disseny.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Clients · GNU/Linux client&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:false},{&quot;id&quot;:&quot;a258&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Identificar possibles problemes dels diferents sistemes, detectar configuracions crítiques, temps de resposta davant una incidència d’instal·lació o arrencada.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true},{&quot;id&quot;:&quot;a259&quot;,&quot;task&quot;:5,&quot;mode&quot;:&quot;Individual&quot;,&quot;level&quot;:&quot;Apte&quot;,&quot;text&quot;:&quot;Preparar l’espai de còpies de seguretat en TrueNAS. Justificar què és còpia, com i on.&quot;,&quot;links&quot;:[&quot;ISO-RA1&quot;],&quot;section&quot;:&quot;Comprovacions generals&quot;,&quot;source&quot;:&quot;Enunciat 2.0 · p. 10–12 · Tasca 5&quot;,&quot;enabled&quot;:true}],&quot;seed&quot;:{&quot;marks&quot;:{&quot;a17&quot;:0,&quot;a18&quot;:0,&quot;a19&quot;:0,&quot;a20&quot;:0,&quot;a21&quot;:0,&quot;a22&quot;:0,&quot;a23&quot;:0,&quot;a24&quot;:0,&quot;a25&quot;:0,&quot;a26&quot;:0,&quot;a27&quot;:0,&quot;a28&quot;:0,&quot;a29&quot;:0,&quot;a30&quot;:0,&quot;a50&quot;:0,&quot;a51&quot;:0,&quot;a52&quot;:0,&quot;a53&quot;:0,&quot;a54&quot;:0,&quot;a55&quot;:0,&quot;a56&quot;:0,&quot;a57&quot;:0,&quot;a78&quot;:0,&quot;a79&quot;:0,&quot;a80&quot;:0,&quot;a81&quot;:0,&quot;a82&quot;:0,&quot;a83&quot;:0,&quot;a84&quot;:0,&quot;a102&quot;:0,&quot;a103&quot;:0,&quot;a104&quot;:0,&quot;a105&quot;:0,&quot;a106&quot;:0,&quot;a107&quot;:0,&quot;a108&quot;:0,&quot;a109&quot;:0,&quot;a110&quot;:0,&quot;a119&quot;:0,&quot;a120&quot;:0,&quot;a121&quot;:0,&quot;a122&quot;:0,&quot;a123&quot;:0,&quot;a124&quot;:0,&quot;a125&quot;:0,&quot;a126&quot;:0,&quot;a127&quot;:0,&quot;a128&quot;:0,&quot;a129&quot;:0,&quot;a148&quot;:0,&quot;a149&quot;:0,&quot;a203&quot;:0,&quot;a204&quot;:0,&quot;a205&quot;:0,&quot;a206&quot;:0,&quot;a207&quot;:0,&quot;a208&quot;:0,&quot;a209&quot;:0,&quot;a210&quot;:0,&quot;a211&quot;:0,&quot;a212&quot;:0,&quot;a213&quot;:0,&quot;a214&quot;:0,&quot;a215&quot;:0,&quot;a216&quot;:0,&quot;a217&quot;:0,&quot;a218&quot;:0,&quot;a219&quot;:0,&quot;a220&quot;:0,&quot;a221&quot;:0,&quot;a222&quot;:0,&quot;a223&quot;:0,&quot;a224&quot;:0,&quot;a225&quot;:0,&quot;a226&quot;:0,&quot;a227&quot;:0,&quot;a228&quot;:0,&quot;a229&quot;:0,&quot;a230&quot;:0,&quot;a231&quot;:0,&quot;a232&quot;:0,&quot;a235&quot;:0,&quot;a236&quot;:0,&quot;a237&quot;:0,&quot;a238&quot;:0,&quot;a239&quot;:0,&quot;a240&quot;:0,&quot;a241&quot;:0,&quot;a242&quot;:0,&quot;a243&quot;:0,&quot;a244&quot;:0,&quot;a245&quot;:0,&quot;a246&quot;:0,&quot;a247&quot;:0,&quot;a248&quot;:0,&quot;a249&quot;:0,&quot;a250&quot;:0,&quot;a251&quot;:0,&quot;a252&quot;:0,&quot;a253&quot;:0,&quot;a254&quot;:0,&quot;a255&quot;:0,&quot;a256&quot;:0,&quot;a258&quot;:0,&quot;a259&quot;:0},&quot;reviewed&quot;:{},&quot;reviewResult&quot;:{},&quot;delivery&quot;:{},&quot;groupGrades&quot;:{&quot;FDM-RA1&quot;:&quot;&quot;,&quot;FDM-RA4&quot;:&quot;&quot;,&quot;ISO-RA1&quot;:&quot;&quot;,&quot;ISO-RA3&quot;:&quot;&quot;,&quot;ISO-RA6&quot;:&quot;&quot;},&quot;names&quot;:{&quot;Grupal&quot;:&quot;&quot;,&quot;Individual&quot;:&quot;Nom de l’alumne&quot;}}}&lt;/script&gt;
+&lt;script&gt;
+(()=&gt;{
+'use strict';
+const root=document.getElementById('thinklab-guide'),q=s=&gt;root.querySelector(s);
+let config=JSON.parse(document.getElementById('thinklab-config').textContent);
+const teacher=config.role==='teacher';
+const keys=['FDM-RA1','FDM-RA4','ISO-RA1','ISO-RA3','ISO-RA6'];
+const titles=['Muntatge de l’entorn de proves','Necessitats i sistemes','Equips i perifèrics','Rack i interconnexió','Disseny físic i lògic','Instal·lació i comunicacions','Emmagatzematge i recuperació','Rendiment i diagnòstic','Prova final'];
+const pictures=['🖥️','🧭','🧩','🗄️','🌐','⚙️','💾','📈','🛠️'];
+const statuses=['Pendent','Feta correctament','No feta correctament'];
+const fresh=()=&gt;({task:0,mode:config.mode||'Grupal',names:config.seed?.names?JSON.parse(JSON.stringify(config.seed.names)):{Grupal:'',Individual:''},marks:JSON.parse(JSON.stringify(config.seed?.marks||{})),reviewed:JSON.parse(JSON.stringify(config.seed?.reviewed||{})),reviewResult:JSON.parse(JSON.stringify(config.seed?.reviewResult||{})),notes:{},descriptions:{},removed:{},custom:[],enabled:{},delivery:JSON.parse(JSON.stringify(config.seed?.delivery||{})),groupGrades:JSON.parse(JSON.stringify(config.seed?.groupGrades||{}))});
+let state=fresh(),editMode=false,editing=null,formNew=false;
+const esc=s=&gt;String(s).replace(/[&amp;&lt;&gt;&quot;']/g,c=&gt;({'&amp;':'&amp;amp;','&lt;':'&amp;lt;','&gt;':'&amp;gt;','&quot;':'&amp;quot;',&quot;'&quot;:'&amp;#39;'}[c]));
+const clone=v=&gt;JSON.parse(JSON.stringify(v));
+function catalog(){return config.actions.concat(teacher?state.custom:[]).map(a=&gt;({...a,text:teacher?(state.descriptions[a.id]||a.text):a.text}));}
+function active(a){if(state.removed[a.id])return false;if(!teacher)return a.enabled!==false;return Object.hasOwn(state.enabled,a.id)?state.enabled[a.id]:a.enabled!==false;}
+function coverage(){const all=catalog().filter(active),missing=[];for(const mode of ['Grupal','Individual'])for(const key of keys)for(const level of ['Apte','Apte+'])if(!all.some(a=&gt;a.mode===mode&amp;&amp;a.level===level&amp;&amp;a.links.includes(key)))missing.push({mode,key,level});return missing;}
+function own(a){return state.marks[a.id]||0;}
+function effective(a){if(!teacher&amp;&amp;state.reviewed[a.id])return state.reviewResult[a.id]==='ok'?1:state.reviewResult[a.id]==='redo'?2:0;return own(a);}
+function grade(key){const rows=catalog().filter(a=&gt;active(a)&amp;&amp;a.mode===state.mode&amp;&amp;a.links.includes(key)),req=rows.filter(a=&gt;a.level==='Apte'),plus=rows.filter(a=&gt;a.level==='Apte+');const correct=req.filter(a=&gt;effective(a)===1).length,bad=req.filter(a=&gt;effective(a)===2).length,pending=req.length-correct-bad,plusCorrect=plus.filter(a=&gt;effective(a)===1).length;let note=null;if(state.delivery[state.mode+':'+key]==='No lliurat')note=0;else if(req.length){if(bad)note=4;else if(!pending)note=plus.length&amp;&amp;plusCorrect===plus.length?10:7.5;}return{note,correct,bad,pending,total:req.length,plusCorrect,plusTotal:plus.length,redo:rows.filter(a=&gt;!teacher&amp;&amp;state.reviewed[a.id]&amp;&amp;state.reviewResult[a.id]==='redo').length};}
+const fmt=n=&gt;n===null?'Pendent':Number(n).toLocaleString('ca-ES',{maximumFractionDigits:2});
+function finalNote(g,i){return i===null?null:i&lt;7.5?i:g===null?null:(g+i)/2;}
+function notify(text){q('[data-message]').textContent=text;}
+function persist(message){
+ const payload={modelContent:{view:'editor-guies',mode:state.mode,task:state.task,role:config.role,coverageMissing:teacher?coverage().length:null},privateContent:{design:'thinklab-editor-guide-v1',state}};
+ if(window.parent!==window)parent.postMessage({type:'tg-state',state:clone(state),config:clone(config),dirty:true},'*');
+ if(JSON.stringify(payload).length&lt;15500)window.openai?.setWidgetState(payload).catch(()=&gt;{});
+ notify(message||'Canvis oberts · desa el fitxer per conservar-los.');
+}
+function restoreWidget(v){if(v?.privateContent?.design==='thinklab-editor-guide-v1'){try{state=validateState(v.privateContent.state);if(!teacher)state.mode=config.mode;}catch{}}}
+function validateActions(rows){if(!Array.isArray(rows)||rows.length&gt;1500)throw Error('Plantilla invàlida');const ids=new Set();for(const a of rows){if(!a||typeof a.id!=='string'||!/^[-a-zA-Z0-9_]+$/.test(a.id)||ids.has(a.id)||!Number.isInteger(a.task)||a.task&lt;0||a.task&gt;8||!['Individual','Grupal'].includes(a.mode)||!['Apte','Apte+'].includes(a.level)||typeof a.text!=='string'||!a.text.trim()||a.text.length&gt;2000||!Array.isArray(a.links)||a.links.some(k=&gt;!keys.includes(k)))throw Error('Activitat invàlida');ids.add(a.id);}return rows;}
+function validateState(input){if(!input||typeof input!=='object')throw Error('Dades invàlides');let next={...fresh(),...clone(input)};if(!teacher){for(const field of ['descriptions','removed','custom','enabled'])next[field]=fresh()[field];next.mode=config.mode;}if(!Number.isInteger(next.task)||next.task&lt;0||next.task&gt;8||!['Grupal','Individual'].includes(next.mode))throw Error('Vista invàlida');validateActions(next.custom);const ids=new Set(config.actions.concat(next.custom).map(a=&gt;a.id));for(const field of ['marks','reviewed','reviewResult','descriptions','removed','enabled']){if(!next[field]||typeof next[field]!=='object'||Array.isArray(next[field]))throw Error('Dades invàlides');for(const [id,v] of Object.entries(next[field])){if(!ids.has(id))throw Error('Activitat desconeguda');if(field==='marks'&amp;&amp;![0,1,2].includes(v))throw Error('Estat invàlid');if(['reviewed','removed','enabled'].includes(field)&amp;&amp;typeof v!=='boolean')throw Error('Marca invàlida');if(field==='reviewResult'&amp;&amp;!['','ok','redo'].includes(v))throw Error('Correcció invàlida');if(field==='descriptions'&amp;&amp;(typeof v!=='string'||v.length&gt;2000))throw Error('Text invàlid');}}for(const field of ['names','notes','delivery','groupGrades'])if(!next[field]||typeof next[field]!=='object'||Array.isArray(next[field]))throw Error('Dades incompletes');for(const [k,v] of Object.entries(next.names))if(!['Individual','Grupal'].includes(k)||typeof v!=='string'||v.length&gt;80)throw Error('Nom invàlid');for(const v of Object.values(next.notes))if(typeof v!=='string'||v.length&gt;5000)throw Error('Observacions invàlides');for(const v of Object.values(next.delivery))if(!['Lliurat','No lliurat'].includes(v))throw Error('Lliurament invàlid');for(const v of Object.values(next.groupGrades))if(!['',0,4,7.5,10].includes(v))throw Error('Nota de grup invàlida');return next;}
+function exportConfig(mode){const rows=catalog().filter(a=&gt;!state.removed[a.id]&amp;&amp;a.mode===mode).map(a=&gt;({...a,enabled:active(a)}));return{role:'student',standalone:true,mode,templateId:'tpl-'+hash(JSON.stringify(rows)),actions:rows};}
+function hash(s){let n=2166136261;for(let i=0;i&lt;s.length;i++){n^=s.charCodeAt(i);n=Math.imul(n,16777619);}return(n&gt;&gt;&gt;0).toString(16);}
+function form(){q('[data-form]').hidden=!editing&amp;&amp;!formNew;if(!editing&amp;&amp;!formNew)return;const a=editing?catalog().find(a=&gt;a.id===editing):null;q('[data-form-title]').textContent=a?'Edita la descripció':'Nova activitat · Tasca '+state.task;q('[data-description]').value=a?a.text:'';q('[data-new-mode]').value=a?a.mode:state.mode;q('[data-new-level]').value=a?a.level:'Apte';q('[data-new-mode]').disabled=!!a;q('[data-new-level]').disabled=!!a;q('[data-ra-fields]').innerHTML='&lt;legend&gt;Mòduls i RAs vinculats&lt;/legend&gt;&lt;div class=&quot;tg-ra-fields&quot;&gt;'+keys.map(k=&gt;'&lt;label class=&quot;tg-check&quot;&gt;&lt;input type=&quot;checkbox&quot; data-new-ra=&quot;'+k+'&quot; '+(a?.links.includes(k)?'checked':'')+' '+(a?'disabled':'')+'&gt;'+k+'&lt;/label&gt;').join('')+'&lt;/div&gt;';q('[data-form-error]').textContent='';}
+function activity(a){const applied=active(a),s=effective(a);const review=!teacher?'&lt;div class=&quot;tg-review&quot;&gt;&lt;label class=&quot;tg-check&quot;&gt;&lt;input type=&quot;checkbox&quot; data-reviewed=&quot;'+a.id+'&quot; '+(state.reviewed[a.id]?'checked':'')+'&gt;El professor l’ha revisada&lt;/label&gt;'+(state.reviewed[a.id]?'&lt;label&gt;Resultat de la revisió&lt;select data-result=&quot;'+a.id+'&quot;&gt;&lt;option value=&quot;&quot;&gt;Selecciona el resultat&lt;/option&gt;&lt;option value=&quot;ok&quot; '+(state.reviewResult[a.id]==='ok'?'selected':'')+'&gt;Satisfactòria&lt;/option&gt;&lt;option value=&quot;redo&quot; '+(state.reviewResult[a.id]==='redo'?'selected':'')+'&gt;Cal refer o completar&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;'+(state.reviewResult[a.id]==='redo'?'&lt;span class=&quot;tg-redo&quot;&gt;↻ Pendent de refer o completar&lt;/span&gt;':''):'')+'&lt;/div&gt;':'';return '&lt;article class=&quot;tg-activity&quot;&gt;&lt;div class=&quot;tg-activitytext&quot;&gt;'+esc(a.text)+'&lt;details&gt;&lt;summary&gt;Detalls de l’activitat&lt;/summary&gt;'+(a.source?'&lt;p&gt;'+esc(a.source)+'&lt;/p&gt;':'')+'&lt;p&gt;RAs vinculats: '+esc(a.links.join(' · ')||'Activitat de suport')+'&lt;/p&gt;&lt;/details&gt;'+(teacher&amp;&amp;editMode?'&lt;div class=&quot;tg-buttons&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;cursor-interaction&quot; data-edit=&quot;'+a.id+'&quot;&gt;Edita text&lt;/button&gt;&lt;button type=&quot;button&quot; class=&quot;cursor-interaction&quot; data-remove=&quot;'+a.id+'&quot;&gt;Elimina&lt;/button&gt;&lt;/div&gt;&lt;label class=&quot;tg-check&quot;&gt;&lt;input type=&quot;checkbox&quot; data-enable=&quot;'+a.id+'&quot; '+(applied?'checked':'')+'&gt;Cal fer esta activitat&lt;/label&gt;':'')+'&lt;/div&gt;&lt;div class=&quot;tg-status&quot; data-status=&quot;'+(s===1?'correct':s===2?'incorrect':'pending')+'&quot;&gt;'+(applied?'&lt;label&gt;'+(teacher?'Estat de l’activitat':'La meua autoavaluació')+'&lt;select data-mark=&quot;'+a.id+'&quot; aria-label=&quot;Estat: '+esc(a.text)+'&quot;&gt;'+statuses.map((label,i)=&gt;'&lt;option value=&quot;'+i+'&quot; '+(own(a)===i?'selected':'')+'&gt;'+label+'&lt;/option&gt;').join('')+'&lt;/select&gt;&lt;/label&gt;'+review:'&lt;span class=&quot;tg-notrequired&quot;&gt;No cal en el teu cas&lt;br&gt;Configuració del professorat&lt;/span&gt;')+'&lt;/div&gt;&lt;/article&gt;';}
+function render(){
+ q('[data-grade-help]').textContent=teacher?'Estimació calculada a partir dels estats marcats en les activitats.':'Estimació del seguiment. La correcció del professorat que anotes preval sobre l’autoavaluació. No és una nota oficial.';
+ q('[data-heading]').textContent=teacher?'Editor de rúbriques i guies':'La meua guia · '+(config.mode==='Grupal'?'Grup':'Individual');q('[data-role]').textContent=teacher?'Professorat':'Seguiment de l’alumnat';q('[data-teacher-tools]').hidden=!teacher;q('[data-mode-label]').hidden=!teacher;q('[data-mode]').value=state.mode;q('[data-name-caption]').textContent=state.mode==='Grupal'?'Nom del grup i/o membres':'Nom i cognoms';q('[data-name]').value=state.names[state.mode]||'';q('[data-toggle-edit]').textContent=editMode?'Acaba l’edició':'Edita activitats';q('[data-task-tools]').hidden=!teacher||!editMode;
+ const missing=teacher?coverage():[];q('[data-coverage]').hidden=!teacher;q('[data-coverage]').className='tg-coverage'+(missing.length?' warn':'');q('[data-coverage]').innerHTML=missing.length?'&lt;strong&gt;⚠ Cal revisar la cobertura dels RAs&lt;/strong&gt;&lt;ul&gt;'+missing.map(m=&gt;'&lt;li&gt;'+m.key+' · '+m.mode+': sense activitats '+(m.level==='Apte'?'obligatòries':'d’ampliació')+'&lt;/li&gt;').join('')+'&lt;/ul&gt;':'✓ Els cinc RAs tenen activitats obligatòries i ampliacions en grup i individualment.';
+ q('[data-nav]').innerHTML=titles.map((t,i)=&gt;'&lt;button type=&quot;button&quot; class=&quot;cursor-interaction&quot; data-task=&quot;'+i+'&quot; '+(state.task===i?'aria-current=&quot;step&quot;':'')+'&gt;&lt;span&gt;'+pictures[i]+'&lt;/span&gt;&lt;span&gt;'+i+' · '+esc(t)+'&lt;/span&gt;&lt;/button&gt;').join('');
+ q('[data-number]').textContent='TASCA '+state.task;q('[data-title]').textContent=titles[state.task];q('[data-picture]').textContent=pictures[state.task];q('.tg-hero').className='tg-hero '+(['','tg-tone-mint','tg-tone-sand'][state.task%3]);
+ const rows=catalog().filter(a=&gt;!state.removed[a.id]&amp;&amp;a.task===state.task&amp;&amp;a.mode===state.mode),applied=rows.filter(active),done=applied.filter(a=&gt;effective(a)===1).length,redo=applied.filter(a=&gt;!teacher&amp;&amp;state.reviewed[a.id]&amp;&amp;state.reviewResult[a.id]==='redo').length;q('[data-progress-text]').textContent=done+' de '+applied.length+' correctes'+(redo?' · '+redo+' per refer':'');q('[data-progress]').style.width=(applied.length?100*done/applied.length:0)+'%';
+ q('[data-activities]').innerHTML=rows.length?['Apte','Apte+'].map(level=&gt;{const list=rows.filter(a=&gt;a.level===level);if(!list.length)return '';const sections=[...new Set(list.map(a=&gt;a.section||'Activitats'))];return '&lt;div class=&quot;tg-level '+(level==='Apte+'?'plus':'')+'&quot;&gt;&lt;h4&gt;'+(level==='Apte'?'Obligatòries':'Ampliacions')+'&lt;/h4&gt;&lt;span&gt;'+level+'&lt;/span&gt;&lt;/div&gt;'+sections.map(section=&gt;{const content=list.filter(a=&gt;(a.section||'Activitats')===section).map(activity).join('');return sections.length===1?content:'&lt;details class=&quot;tg-section&quot; open&gt;&lt;summary&gt;'+esc(section)+'&lt;/summary&gt;'+content+'&lt;/details&gt;';}).join('');}).join(''):'&lt;p class=&quot;tg-empty&quot;&gt;No hi ha activitats actives d’esta modalitat en esta tasca.&lt;/p&gt;';
+ const removed=catalog().filter(a=&gt;state.removed[a.id]&amp;&amp;a.task===state.task&amp;&amp;a.mode===state.mode);q('[data-removed-panel]').hidden=!teacher||!editMode||!removed.length;q('[data-removed-title]').textContent='Activitats eliminades ('+removed.length+')';q('[data-removed]').innerHTML=removed.map(a=&gt;'&lt;div class=&quot;tg-removed-row&quot;&gt;&lt;span&gt;'+esc(a.text)+'&lt;/span&gt;&lt;button type=&quot;button&quot; data-recover=&quot;'+a.id+'&quot; class=&quot;cursor-interaction&quot;&gt;Recupera&lt;/button&gt;&lt;/div&gt;').join('');q('[data-notes]').value=state.notes[state.mode+':'+state.task]||'';
+ q('[data-grades]').innerHTML=keys.map(key=&gt;{const d=grade(key),g=Object.hasOwn(state.groupGrades,key)&amp;&amp;state.groupGrades[key]!==''?Number(state.groupGrades[key]):null,f=finalNote(g,d.note);return '&lt;div class=&quot;tg-grade&quot;&gt;&lt;strong&gt;'+key+'&lt;/strong&gt;&lt;div class=&quot;tg-grade-number '+(d.note!==null&amp;&amp;d.note&lt;7.5?'bad':'')+'&quot;&gt;'+(d.total?fmt(d.note):'Sense cobertura')+'&lt;/div&gt;&lt;div class=&quot;tg-small&quot;&gt;Obligatòries: '+d.correct+'/'+d.total+' · Ampliacions: '+d.plusCorrect+'/'+d.plusTotal+'&lt;/div&gt;'+(d.redo?'&lt;div class=&quot;tg-redo&quot;&gt;'+d.redo+' activitats per refer&lt;/div&gt;':'')+'&lt;label&gt;Lliurament&lt;select data-delivery=&quot;'+key+'&quot;&gt;&lt;option&gt;Lliurat&lt;/option&gt;&lt;option '+(state.delivery[state.mode+':'+key]==='No lliurat'?'selected':'')+'&gt;No lliurat&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;'+(state.mode==='Individual'?'&lt;label&gt;Nota del grup en este RA&lt;select data-group-grade=&quot;'+key+'&quot;&gt;&lt;option value=&quot;&quot;&gt;Encara no la sé&lt;/option&gt;'+[0,4,7.5,10].map(n=&gt;'&lt;option value=&quot;'+n+'&quot; '+(g===n?'selected':'')+'&gt;'+fmt(n)+'&lt;/option&gt;').join('')+'&lt;/select&gt;&lt;/label&gt;&lt;div class=&quot;tg-final '+(d.note!==null&amp;&amp;d.note&lt;7.5?'blocked':'')+'&quot;&gt;Final estimada: '+fmt(f)+'&lt;br&gt;'+(d.note===null?'Falta completar la part individual':d.note&lt;7.5?'No es fa mitjana: individual sense Apte':g===null?'Falta indicar la nota de grup':'Mitjana de grup i individual')+'&lt;/div&gt;':'')+'&lt;/div&gt;';}).join('');form();
+}
+root.addEventListener('click',e=&gt;{const target=s=&gt;e.target.closest(s);if(teacher){if(target('[data-form-save]')){saveForm();return;}const generate=target('[data-generate]');if(generate){if(config.standalone){parent.postMessage({type:'tg-exported',config:exportConfig(generate.dataset.generate),missing:coverage()},'*');notify('Generant la guia amb la plantilla actual…');}else notify('En la versió descarregable, este botó descarrega la guia amb la plantilla actual.');return;}if(target('[data-toggle-edit]')){editMode=!editMode;editing=null;formNew=false;render();return;}if(target('[data-add]')){formNew=true;editing=null;render();q('[data-description]').focus();return;}const edit=target('[data-edit]');if(edit){editing=edit.dataset.edit;formNew=false;render();q('[data-description]').focus();return;}const remove=target('[data-remove]');if(remove){state.removed[remove.dataset.remove]=true;render();persist('Activitat eliminada. La cobertura dels RAs s’ha recalculat.');return;}const recover=target('[data-recover]');if(recover){delete state.removed[recover.dataset.recover];render();persist('Activitat recuperada.');return;}}if(target('[data-cancel]')){editing=null;formNew=false;render();return;}const task=target('[data-task]');if(task){state.task=Number(task.dataset.task);editing=null;formNew=false;render();persist();}});
+function saveForm(){if(!teacher||(!formNew&amp;&amp;!editing))return;const text=q('[data-description]').value.trim();if(!text){q('[data-form-error]').textContent='Escriu què cal fer.';return;}if(editing){state.descriptions[editing]=text;}else{const links=keys.filter(k=&gt;q('[data-new-ra=&quot;'+k+'&quot;]').checked);if(!links.length){q('[data-form-error]').textContent='Selecciona almenys un mòdul-RA.';return;}const id='custom-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7);state.custom.push({id,task:state.task,mode:q('[data-new-mode]').value,level:q('[data-new-level]').value,text,links,section:'Activitats',source:'',enabled:true});state.mode=q('[data-new-mode]').value;}editing=null;formNew=false;render();persist('Activitat desada. La cobertura dels RAs s’ha actualitzat.');}
+root.addEventListener('submit',e=&gt;{e.preventDefault();saveForm();});
+root.addEventListener('change',e=&gt;{const t=e.target;if(t.matches('[data-mode]')&amp;&amp;teacher){state.mode=t.value;editing=null;formNew=false;}else if(t.matches('[data-name]'))state.names[state.mode]=t.value.slice(0,80);else if(t.matches('[data-mark]'))state.marks[t.dataset.mark]=Number(t.value);else if(t.matches('[data-reviewed]')&amp;&amp;!teacher)state.reviewed[t.dataset.reviewed]=t.checked;else if(t.matches('[data-result]')&amp;&amp;!teacher)state.reviewResult[t.dataset.result]=t.value;else if(t.matches('[data-notes]'))state.notes[state.mode+':'+state.task]=t.value.slice(0,5000);else if(t.matches('[data-enable]')&amp;&amp;teacher)state.enabled[t.dataset.enable]=t.checked;else if(t.matches('[data-delivery]'))state.delivery[state.mode+':'+t.dataset.delivery]=t.value;else if(t.matches('[data-group-grade]'))state.groupGrades[t.dataset.groupGrade]=t.value===''?'':Number(t.value);else return;render();persist();});
+window.addEventListener('message',e=&gt;{if(e.source!==parent)return;try{if(e.data?.type==='tg-request')parent.postMessage({type:'tg-state',state:clone(state),config:clone(config),dirty:false},'*');if(e.data?.type==='tg-export'&amp;&amp;teacher){const mode=e.data.mode;if(!['Grupal','Individual'].includes(mode))throw Error('Modalitat invàlida');parent.postMessage({type:'tg-exported',config:exportConfig(mode),missing:coverage()},'*');}if(e.data?.type==='tg-load'){const doc=e.data.document;if(doc.format!=='thinklab-editor-guide'||doc.version!==1||doc.role!==config.role)throw Error('El fitxer no correspon a esta versió de la guia');if(!teacher&amp;&amp;doc.templateId!==config.templateId)throw Error('El seguiment correspon a una altra plantilla; obri la guia amb què el vas crear');const previous=config;if(teacher){if(!doc.config||doc.config.role!=='teacher')throw Error('Plantilla invàlida');validateActions(doc.config.actions);config=clone(doc.config);}try{state=validateState(doc.state);}catch(err){config=previous;throw err;}render();parent.postMessage({type:'tg-loaded'},'*');}}catch(err){parent.postMessage({type:'tg-error',message:err.message},'*');}});
+window.addEventListener('openai:set_globals',e=&gt;{if(e.detail?.globals?.widgetState){restoreWidget(e.detail.globals.widgetState);render();}});
+restoreWidget(window.openai?.widgetState);render();
+})();
+&lt;/script&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+  let lastPointerWasTouch = false;
+  let pinnedByTouch = false;
+
+  const getTrigger = (event) =&gt; {
+    for (const target of event.composedPath()) {
+      if (target?.nodeType === Node.ELEMENT_NODE) {
+        const trigger = target.closest(&quot;[data-tooltip]&quot;);
+        if (trigger) return trigger;
+      }
+    }
+    return null;
+  };
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    pinnedByTouch = false;
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handlePointer = (event) =&gt; {
+    lastPointerWasTouch =
+      event.type === &quot;pointerdown&quot; &amp;&amp; event.pointerType === &quot;touch&quot;;
+  };
+  const handleTouchClick = (event) =&gt; {
+    const isTouch = event.pointerType === &quot;touch&quot; || lastPointerWasTouch;
+    lastPointerWasTouch = false;
+    if (!isTouch || event.detail === 0) {
+      return;
+    }
+    const trigger = getTrigger(event);
+    if (
+      trigger == null ||
+      !trigger.isConnected ||
+      getContent(trigger).length === 0 ||
+      (pinnedByTouch &amp;&amp; activeTrigger === trigger)
+    ) {
+      if (pinnedByTouch) {
+        closeTooltip();
+      }
+      return;
+    }
+    openTooltip(trigger);
+    pinnedByTouch = activeTrigger === trigger;
+    window.setTimeout(() =&gt; {
+      if (activeTrigger === trigger &amp;&amp; !trigger.isConnected) {
+        closeTooltip(false);
+      }
+    }, 0);
+  };
+  const handleLeave = (event) =&gt; {
+    if (pinnedByTouch) {
+      return;
+    }
+    const trigger = getTrigger(event);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    lastPointerWasTouch = false;
+    const trigger = getTrigger(event);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handlers = {
+    pointerover: handlePointerOpen,
+    pointerdown: handlePointer,
+    pointercancel: handlePointer,
+    click: handleTouchClick,
+    pointerout: handleLeave,
+    focusin: handleFocusIn,
+    focusout: handleLeave,
+    keydown: handleKeyDown,
+    contextmenu: handleContextMenu,
+  };
+  const roots = new Map();
+  const handledEvents = new WeakSet();
+  const handleEvent = (event) =&gt; {
+    if (handledEvents.has(event)) return;
+    handledEvents.add(event);
+    handlers[event.type](event);
+  };
+  const discoverRoots = (node) =&gt; {
+    if (node.shadowRoot) listen(node.shadowRoot);
+    for (const element of node.querySelectorAll(&quot;*&quot;)) {
+      if (element.shadowRoot) listen(element.shadowRoot);
+    }
+  };
+  const listen = (root) =&gt; {
+    if (roots.has(root)) return;
+    for (const type of Object.keys(handlers)) root.addEventListener(type, handleEvent);
+    const observer = new window.MutationObserver((records) =&gt; {
+      for (const { addedNodes } of records) {
+        for (const node of addedNodes) {
+          if (node.nodeType === Node.ELEMENT_NODE) discoverRoots(node);
+        }
+      }
+      for (const [root, cleanup] of roots) {
+        if (root.host &amp;&amp; !root.host.isConnected) {
+          cleanup();
+          roots.delete(root);
+        }
+      }
+      if (activeTrigger &amp;&amp; !activeTrigger.isConnected) closeTooltip(false);
+    });
+    observer.observe(root, { childList: true, subtree: true });
+    roots.set(root, () =&gt; {
+      observer.disconnect();
+      for (const type of Object.keys(handlers)) root.removeEventListener(type, handleEvent);
+    });
+    discoverRoots(root);
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    lastPointerWasTouch = false;
+    for (const cleanup of roots.values()) cleanup();
+    roots.clear();
+    tooltip = null;
+  };
+
+  // Events between children of one shadow root never reach the document.
+  listen(document);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-tabs&quot;&gt;
+(() =&gt; {
+  const selector = '.nav[role=&quot;tablist&quot;] [role=&quot;tab&quot;]';
+  const disabled = ':disabled,[aria-disabled=&quot;true&quot;]';
+  const selectTab = (selected) =&gt; {
+    const panelId = selected.getAttribute(&quot;aria-controls&quot;);
+    for (const tab of selected.closest('[role=&quot;tablist&quot;]').querySelectorAll('[role=&quot;tab&quot;]')) {
+      const active = tab === selected;
+      tab.classList.toggle(&quot;active&quot;, active);
+      tab.setAttribute(&quot;aria-selected&quot;, String(active));
+      const id = tab.getAttribute(&quot;aria-controls&quot;);
+      const panel = id &amp;&amp; document.getElementById(id);
+      if (panel != null) {
+        panel.hidden = id !== panelId;
+        if (!panel.hidden &amp;&amp; selected.id) {
+          panel.setAttribute(&quot;aria-labelledby&quot;, selected.id);
+        }
+      }
+    }
+  };
+  const interact = (event) =&gt; {
+    const tab = event.target?.closest?.(selector);
+    if (event.defaultPrevented || tab == null || tab.matches(disabled)) {
+      return;
+    }
+    if (event.type === &quot;click&quot;) {
+      selectTab(tab);
+      return;
+    }
+    const tabs = Array.from(
+      tab.closest('[role=&quot;tablist&quot;]').querySelectorAll('[role=&quot;tab&quot;]'),
+    ).filter((candidate) =&gt; !candidate.matches(disabled));
+    const current = tabs.indexOf(tab);
+    let next;
+    if (event.key === &quot;ArrowRight&quot; || event.key === &quot;ArrowDown&quot;) {
+      next = (current + 1) % tabs.length;
+    } else if (event.key === &quot;ArrowLeft&quot; || event.key === &quot;ArrowUp&quot;) {
+      next = (current + tabs.length - 1) % tabs.length;
+    } else if (event.key === &quot;Home&quot;) {
+      next = 0;
+    } else if (event.key === &quot;End&quot;) {
+      next = tabs.length - 1;
+    } else {
+      return;
+    }
+    event.preventDefault();
+    tabs[next].focus();
+    selectTab(tabs[next]);
+  };
+
+  for (const list of document.querySelectorAll('.nav[role=&quot;tablist&quot;]')) {
+    const selected =
+      list.querySelector('[role=&quot;tab&quot;][aria-selected=&quot;true&quot;]') ??
+      list.querySelector('[role=&quot;tab&quot;].active') ??
+      list.querySelector('[role=&quot;tab&quot;]');
+    if (selected != null) {
+      selectTab(selected);
+    }
+  }
+  document.addEventListener(&quot;click&quot;, interact);
+  document.addEventListener(&quot;keydown&quot;, interact);
+  window.addEventListener(&quot;pagehide&quot;, () =&gt; {
+    document.removeEventListener(&quot;click&quot;, interact);
+    document.removeEventListener(&quot;keydown&quot;, interact);
+  }, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-carousel&quot;&gt;
+  (() =&gt; {
+    for (const root of document.querySelectorAll(&quot;.viz-carousel&quot;)) {
+      const panels = Array.from(
+        root.querySelectorAll(&quot;:scope &gt; [data-variant]&quot;),
+      );
+      if (panels.length === 0) {
+        continue;
+      }
+      root.setAttribute(&quot;role&quot;, &quot;group&quot;);
+      panels.forEach((panel, index) =&gt; {
+        panel.hidden = index !== 0;
+        panel.setAttribute(&quot;role&quot;, &quot;group&quot;);
+        if (!panel.hasAttribute(&quot;aria-label&quot;)) {
+          panel.setAttribute(&quot;aria-label&quot;, panel.dataset.variant);
+        }
+      });
+      root.dataset.activeVariant = panels[0].dataset.variant;
+      if (panels.length === 1) {
+        continue;
+      }
+
+      const controls = document.createElement(&quot;div&quot;);
+      controls.className = &quot;viz-carousel-controls&quot;;
+      // Portable copy of the settings dropdown's legacy glyph; no 14px icon-package preset matches it.
+      // https://github.com/openai/openai/blob/master/codex/codex-apps/webview/src/icons/chevron.svg
+      controls.innerHTML = `
+      &lt;button type=&quot;button&quot; class=&quot;viz-carousel-previous cursor-interaction&quot;&gt;&lt;i data-lucide=&quot;chevron-left&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+      &lt;details class=&quot;viz-carousel-picker&quot;&gt;
+        &lt;summary class=&quot;cursor-interaction&quot;&gt;
+          &lt;span class=&quot;viz-carousel-count tabular-nums&quot;&gt;&lt;/span&gt;
+          &lt;span class=&quot;viz-carousel-name&quot;&gt;&lt;/span&gt;
+          &lt;svg class=&quot;viz-carousel-caret&quot; width=&quot;14&quot; height=&quot;14&quot; viewBox=&quot;0 0 20 21&quot; fill=&quot;none&quot; aria-hidden=&quot;true&quot; focusable=&quot;false&quot;&gt;
+            &lt;path d=&quot;M15.2793 7.71101C15.539 7.45131 15.961 7.45131 16.2207 7.71101C16.4804 7.97071 16.4804 8.39272 16.2207 8.65242L10.4707 14.4024C10.211 14.6621 9.78902 14.6621 9.52932 14.4024L3.77932 8.65242L3.69436 8.54792C3.52385 8.28979 3.55205 7.93828 3.77932 7.71101C4.00659 7.48374 4.3581 7.45554 4.61623 7.62605L4.72073 7.71101L10 12.9903L15.2793 7.71101Z&quot; fill=&quot;currentColor&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;0.6&quot; /&gt;
+          &lt;/svg&gt;
+        &lt;/summary&gt;
+        &lt;div class=&quot;viz-carousel-options&quot;&gt;&lt;/div&gt;
+      &lt;/details&gt;
+      &lt;button type=&quot;button&quot; class=&quot;viz-carousel-next cursor-interaction&quot;&gt;&lt;i data-lucide=&quot;chevron-right&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;/button&gt;`;
+      const previous = controls.querySelector(&quot;.viz-carousel-previous&quot;);
+      const next = controls.querySelector(&quot;.viz-carousel-next&quot;);
+      const picker = controls.querySelector(&quot;.viz-carousel-picker&quot;);
+      const summary = picker.querySelector(&quot;summary&quot;);
+      const count = controls.querySelector(&quot;.viz-carousel-count&quot;);
+      const name = controls.querySelector(&quot;.viz-carousel-name&quot;);
+      const options = controls.querySelector(&quot;.viz-carousel-options&quot;);
+      const status = document.createElement(&quot;span&quot;);
+      status.className = &quot;sr-only&quot;;
+      status.setAttribute(&quot;role&quot;, &quot;status&quot;);
+      status.setAttribute(&quot;aria-live&quot;, &quot;polite&quot;);
+      status.setAttribute(&quot;aria-atomic&quot;, &quot;true&quot;);
+      previous.setAttribute(
+        &quot;aria-label&quot;,
+        root.dataset.previousLabel ?? &quot;Previous variant&quot;,
+      );
+      next.setAttribute(&quot;aria-label&quot;, root.dataset.nextLabel ?? &quot;Next variant&quot;);
+
+      let active = 0;
+      let mousePointerId = null;
+      let summaryPointerHandled = false;
+      summary.addEventListener(&quot;pointerdown&quot;, (event) =&gt; {
+        summaryPointerHandled =
+          event.pointerType === &quot;mouse&quot; &amp;&amp; event.button === 0 &amp;&amp; !event.ctrlKey;
+        if (!summaryPointerHandled) {
+          return;
+        }
+        event.preventDefault();
+        summary.focus({ preventScroll: true });
+        picker.open = !picker.open;
+        mousePointerId = picker.open ? event.pointerId : null;
+      });
+      summary.addEventListener(&quot;click&quot;, (event) =&gt; {
+        if (summaryPointerHandled &amp;&amp; event.detail &gt; 0) {
+          event.preventDefault();
+        }
+      });
+      const choices = panels.map((panel, index) =&gt; {
+        const choice = document.createElement(&quot;button&quot;);
+        choice.type = &quot;button&quot;;
+        choice.className = &quot;cursor-interaction&quot;;
+        choice.textContent = panel.dataset.variant;
+        choice.addEventListener(&quot;click&quot;, () =&gt; {
+          select(index);
+          summary.focus();
+        });
+        choice.addEventListener(&quot;pointerup&quot;, (event) =&gt; {
+          if (
+            picker.open &amp;&amp;
+            event.pointerType === &quot;mouse&quot; &amp;&amp;
+            event.button === 0 &amp;&amp;
+            event.pointerId === mousePointerId
+          ) {
+            choice.click();
+          }
+        });
+        options.appendChild(choice);
+        return choice;
+      });
+      const select = (index) =&gt; {
+        const changed = active !== index;
+        active = index;
+        panels.forEach((panel, position) =&gt; {
+          panel.hidden = position !== active;
+          choices[position].setAttribute(
+            &quot;aria-current&quot;,
+            String(position === active),
+          );
+        });
+        root.dataset.activeVariant = panels[active].dataset.variant;
+        count.textContent = `${active + 1} / ${panels.length}`;
+        name.textContent = panels[active].dataset.variant;
+        picker.open = false;
+        mousePointerId = null;
+        if (changed) {
+          status.textContent = `${count.textContent}: ${name.textContent}`;
+        }
+      };
+      previous.addEventListener(&quot;click&quot;, () =&gt;
+        select((active + panels.length - 1) % panels.length),
+      );
+      next.addEventListener(&quot;click&quot;, () =&gt;
+        select((active + 1) % panels.length),
+      );
+      picker.addEventListener(&quot;keydown&quot;, (event) =&gt; {
+        if (event.key === &quot;Escape&quot; &amp;&amp; picker.open) {
+          event.preventDefault();
+          picker.open = false;
+          mousePointerId = null;
+          summary.focus();
+          return;
+        }
+        if (event.altKey || event.ctrlKey || event.metaKey) {
+          return;
+        }
+        const index = choices.indexOf(document.activeElement);
+        let nextIndex;
+        if (event.key === &quot;ArrowDown&quot;) {
+          nextIndex = index &lt; 0 ? active : (index + 1) % choices.length;
+        } else if (event.key === &quot;ArrowUp&quot;) {
+          nextIndex = index &lt; 0 ? active : (index + choices.length - 1) % choices.length;
+        } else if (picker.open &amp;&amp; event.key === &quot;Home&quot;) {
+          nextIndex = 0;
+        } else if (picker.open &amp;&amp; event.key === &quot;End&quot;) {
+          nextIndex = choices.length - 1;
+        } else {
+          return;
+        }
+        event.preventDefault();
+        picker.open = true;
+        choices[nextIndex].focus();
+      });
+      picker.addEventListener(&quot;focusout&quot;, (event) =&gt; {
+        if (!picker.contains(event.relatedTarget)) {
+          picker.open = false;
+          mousePointerId = null;
+        }
+      });
+      const dismiss = (event) =&gt; {
+        if (!summary.contains(event.target)) {
+          mousePointerId = null;
+        }
+        if (!picker.contains(event.target)) {
+          picker.open = false;
+        }
+      };
+      const endPointerSelection = () =&gt; {
+        mousePointerId = null;
+      };
+      const sizePicker = () =&gt; {
+        root.style.setProperty(
+          &quot;--viz-carousel-picker-height&quot;,
+          `${picker.open ? options.offsetHeight : 0}px`,
+        );
+      };
+      picker.addEventListener(&quot;toggle&quot;, sizePicker);
+      window.addEventListener(&quot;resize&quot;, sizePicker);
+      document.addEventListener(&quot;pointerdown&quot;, dismiss);
+      document.addEventListener(&quot;pointerup&quot;, endPointerSelection);
+      document.addEventListener(&quot;pointercancel&quot;, endPointerSelection);
+      window.addEventListener(&quot;blur&quot;, endPointerSelection);
+      window.addEventListener(
+        &quot;pagehide&quot;,
+        () =&gt; {
+          document.removeEventListener(&quot;pointerdown&quot;, dismiss);
+          document.removeEventListener(&quot;pointerup&quot;, endPointerSelection);
+          document.removeEventListener(&quot;pointercancel&quot;, endPointerSelection);
+          window.removeEventListener(&quot;blur&quot;, endPointerSelection);
+          window.removeEventListener(&quot;resize&quot;, sizePicker);
+        },
+        { once: true },
+      );
+      root.append(controls, status);
+      select(0);
+    }
+  })();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+
+<script>(() => {
+  const frame = document.getElementById("codex-visualization");
+  if (!(frame instanceof HTMLIFrameElement)) {
+    return;
+  }
+  const isShare = document.documentElement.classList.contains(
+    "visualization-share-root",
+  );
+  let viewportHeight = globalThis.innerHeight;
+  let sizeFingerprint = null;
+  let sizeWriteTimeout;
+  let lastSize = null;
+  let pendingSize = null;
+  const storageKey = `codex:visualization-widget-state-v2:${JSON.stringify([
+    globalThis.location.pathname,
+    globalThis.location.search,
+  ])}`;
+  const sizeStorageKey = `${storageKey}:share-size-v1`;
+  const parseState = (serializedState) => {
+    if (
+      typeof serializedState !== "string" ||
+      new TextEncoder().encode(serializedState).length > 16 * 1024
+    ) {
+      throw new TypeError(
+        "Widget state must be a JSON object of at most 16 KiB",
+      );
+    }
+    /** @type {unknown} */
+    const state = JSON.parse(serializedState);
+    if (
+      state == null ||
+      typeof state !== "object" ||
+      Array.isArray(state) ||
+      ("imageIds" in state &&
+        (!Array.isArray(state.imageIds) || state.imageIds.length > 0))
+    ) {
+      throw new TypeError("Widget state must be a JSON object");
+    }
+    const storedState = { modelContent: null, privateContent: null, ...state };
+    const canonicalState = JSON.stringify(
+      storedState,
+      (_key, /** @type {unknown} */ value) => {
+        if (typeof value === "number" && !Number.isFinite(value)) {
+          throw new TypeError("Widget state must contain finite numbers");
+        }
+        return value;
+      },
+    );
+    if (new TextEncoder().encode(canonicalState).length > 16 * 1024) {
+      throw new TypeError(
+        "Widget state must be a JSON object of at most 16 KiB",
+      );
+    }
+    return storedState;
+  };
+  let storage = null;
+  let state = null;
+  try {
+    const localStorage = globalThis.localStorage;
+    const probeKey = `${storageKey}:probe`;
+    localStorage.setItem(probeKey, "1");
+    localStorage.removeItem(probeKey);
+    storage = localStorage;
+    const savedState = storage.getItem(storageKey);
+    if (savedState != null) {
+      try {
+        state = parseState(savedState);
+      } catch {
+        // Invalid saved state does not disable future writes.
+      }
+    }
+  } catch {
+    storage = null;
+  }
+  const persistSize = () => {
+    globalThis.clearTimeout(sizeWriteTimeout);
+    if (pendingSize == null) {
+      return;
+    }
+    try {
+      storage?.setItem(sizeStorageKey, pendingSize);
+    } catch {
+      // A denied or full cache must not affect the visualization.
+    }
+    pendingSize = null;
+  };
+  if (isShare) {
+    globalThis.addEventListener("pagehide", persistSize);
+  }
+  const initialGlobals = {
+    widgetState: state,
+    statePersistence: storage == null ? "none" : "local",
+  };
+
+  const channel = new MessageChannel();
+  channel.port1.addEventListener("message", (event) => {
+    const data = event.data;
+    if (typeof data !== "object" || data == null) {
+      return;
+    }
+    if (data.type === "widget-state-write") {
+      if (!Number.isSafeInteger(data.id) || data.id <= 0) {
+        return;
+      }
+      let ok = false;
+      try {
+        if (storage != null) {
+          const state = parseState(data.state);
+          storage.setItem(storageKey, JSON.stringify(state));
+          ok = true;
+        }
+      } catch {
+        // Storage denial, quota limits, and invalid state return a failed receipt.
+      }
+      channel.port1.postMessage({
+        type: "widget-state-result",
+        id: data.id,
+        ok,
+      });
+      return;
+    }
+    if (data.type === "height") {
+      const height = data.height;
+      if (
+        typeof height !== "number" ||
+        !Number.isFinite(height) ||
+        height < 0
+      ) {
+        return;
+      }
+      if (height <= 10_000) {
+        const width = isShare && storage != null ? frame.clientWidth : null;
+        frame.style.height = Math.ceil(height) + "px";
+        if (isShare && storage != null) {
+          const size = JSON.stringify({
+            fingerprint: sizeFingerprint,
+            width,
+            viewportHeight: globalThis.innerHeight,
+            dark: globalThis.matchMedia("(prefers-color-scheme: dark)").matches,
+            scale: globalThis.devicePixelRatio,
+            height: Math.ceil(height),
+          });
+          if (size !== lastSize) {
+            lastSize = size;
+            pendingSize = size;
+            globalThis.clearTimeout(sizeWriteTimeout);
+            sizeWriteTimeout = globalThis.setTimeout(persistSize, 100);
+          }
+        }
+      }
+      if (isShare) {
+        // Keep unusually tall content accessible without accepting an unbounded height.
+        if (height > 10_000 && Number.parseFloat(frame.style.height) === 0) {
+          frame.style.removeProperty("height");
+        }
+        frame.scrolling = height > 10_000 ? "auto" : "no";
+        document.documentElement.classList.add("visualization-share-ready");
+      }
+      return;
+    }
+    if (data.type === "scroll-to") {
+      const top = data.top;
+      if (
+        typeof top === "number" &&
+        Number.isFinite(top) &&
+        top >= 0 &&
+        globalThis.navigator.userActivation?.isActive === true
+      ) {
+        globalThis.scrollTo({
+          top: Math.ceil(
+            globalThis.scrollY + frame.getBoundingClientRect().top + top,
+          ),
+        });
+      }
+      return;
+    }
+    if (data.type === "open-external") {
+      const rawHref = data.href;
+      if (typeof rawHref !== "string") {
+        return;
+      }
+      let href;
+      try {
+        const url = new URL(rawHref, document.baseURI);
+        if (url.protocol !== "https:") {
+          return;
+        }
+        href = url.href;
+      } catch {
+        return;
+      }
+      if (globalThis.navigator.userActivation?.isActive === true) {
+        const anchor = document.createElement("a");
+        anchor.href = href;
+        anchor.rel = "noopener noreferrer";
+        anchor.target = "_blank";
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+      }
+      return;
+    }
+    if (data.type === "follow-up") {
+      const prompt = data.prompt;
+      if (
+        typeof prompt !== "string" ||
+        globalThis.navigator.userActivation?.isActive !== true
+      ) {
+        return;
+      }
+      const title = data.title;
+      globalThis.prompt(typeof title === "string" ? title : prompt, prompt);
+    }
+  });
+  channel.port1.start();
+  const srcdoc = frame.dataset.srcdoc;
+  if (srcdoc == null) {
+    return;
+  }
+  globalThis.addEventListener("resize", () => {
+    const height = Number.parseFloat(frame.style.height);
+    if (!isShare && (!Number.isFinite(height) || height <= viewportHeight)) {
+      frame.style.removeProperty("height");
+    }
+    viewportHeight = globalThis.innerHeight;
+    channel.port1.postMessage({ type: "measure" });
+  });
+  frame.addEventListener(
+    "load",
+    () => {
+      frame.contentWindow?.postMessage(
+        { type: "codex-visualization-initialize" },
+        "*",
+        [channel.port2],
+      );
+    },
+    { once: true },
+  );
+  // Match the trusted bootstrap element, not the same text in an authored title.
+  const frameHtml = srcdoc.replace(
+    '<script type="application/json" id="codex-visualization-widget-state">__CODEX_VISUALIZATION_WIDGET_STATE__<\/script>',
+    () =>
+      '<script type="application/json" id="codex-visualization-widget-state">' +
+      JSON.stringify(initialGlobals).replaceAll("<", "\\u003c") +
+      "<\/script>",
+  );
+  if (isShare && storage != null) {
+    // Fingerprint the rendered document, including restored widget state, without
+    // storing its content. This is a layout cache, not a security identity.
+    let hash = 5381;
+    for (let index = 0; index < frameHtml.length; index += 1) {
+      hash = (hash * 33 + frameHtml.charCodeAt(index)) % 4_294_967_296;
+    }
+    sizeFingerprint = hash.toString(36);
+    try {
+      const size = JSON.parse(storage.getItem(sizeStorageKey) ?? "null");
+      if (
+        size?.fingerprint === sizeFingerprint &&
+        size.width === frame.clientWidth &&
+        size.viewportHeight === globalThis.innerHeight &&
+        size.dark ===
+          globalThis.matchMedia("(prefers-color-scheme: dark)").matches &&
+        size.scale === globalThis.devicePixelRatio &&
+        typeof size.height === "number" &&
+        Number.isFinite(size.height) &&
+        size.height >= 0 &&
+        size.height <= 10_000
+      ) {
+        frame.style.height = size.height + "px";
+      }
+    } catch {
+      // Ignore missing or invalid cache entries and measure the live frame.
+    }
+  }
+  frame.srcdoc = frameHtml;
+  delete frame.dataset.srcdoc;
+})();
+</script>
+<script>
+(()=>{
+const frame=document.getElementById('codex-visualization'),message=document.getElementById('tg-file-message');
+const embedded=frame.getAttribute('data-srcdoc')||frame.getAttribute('srcdoc')||frame.srcdoc;
+const rx=/<script type="application\/json" id="thinklab-config">([\s\S]*?)<\/script>/;
+const startup=JSON.parse(embedded.match(rx)[1]);
+document.getElementById('tg-generation').hidden=startup.role!=='teacher';
+let dirty=false,handle=null,resolver=null,latest=null;
+const say=t=>message.textContent=t;
+const send=(type,extra={})=>frame.contentWindow.postMessage({type,...extra},'*');
+const snapshot=()=>new Promise((resolve,reject)=>{if(resolver){reject(Error('Espera que acabe el desament anterior'));return;}const timeout=setTimeout(()=>{resolver=null;reject(Error('No s’ha pogut llegir el seguiment. Torna-ho a intentar.'));},5000);resolver=v=>{clearTimeout(timeout);resolver=null;resolve(v);};send('tg-request');});
+const documentData=v=>({format:'thinklab-editor-guide',version:1,role:v.config.role,templateId:v.config.templateId,savedAt:new Date().toISOString(),...(v.config.role==='teacher'?{config:v.config}:{}),state:v.state});
+function download(text,name,type='text/plain;charset=utf-8'){const a=document.createElement('a'),url=URL.createObjectURL(new Blob([text],{type}));a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function load(text){const d=JSON.parse(text);if(d.format!=='thinklab-editor-guide'||d.version!==1)throw Error('Este fitxer no és una plantilla o seguiment d’este editor');send('tg-load',{document:d});}
+function makeGuide(config){
+ const copy=document.documentElement.cloneNode(true),f=copy.querySelector('#codex-visualization');
+ const json=JSON.stringify(config).replace(/</g,'\\u003c');
+ const safeEmbedded=embedded.replace(/<script type="application\/json" id="codex-visualization-widget-state">[\s\S]*?<\/script>/,()=>'<script type="application/json" id="codex-visualization-widget-state">__CODEX_VISUALIZATION_WIDGET_STATE__<\/script>');
+ const content=safeEmbedded.replace(rx,()=>'<script type="application/json" id="thinklab-config">'+json+'<\/script>');
+ f.setAttribute('data-srcdoc',content);f.removeAttribute('srcdoc');
+ const title=copy.querySelector('title');if(title)title.textContent=config.mode==='Individual'?'Guia individual · ThinkLab':'Guia de grup · ThinkLab';
+ const gen=copy.querySelector('#tg-generation');if(gen)gen.hidden=true;
+ const msg=copy.querySelector('#tg-file-message');if(msg)msg.textContent='Sense fitxer obert';
+ return '<!doctype html>\n'+copy.outerHTML;
+}
+window.addEventListener('message',e=>{
+ if(e.source!==frame.contentWindow)return;
+ if(e.data?.type==='tg-state'){latest=e.data;if(e.data.dirty){dirty=true;say('Canvis sense desar');}if(resolver)resolver(latest);}
+ if(e.data?.type==='tg-loaded'){dirty=false;say('Fitxer carregat'+(handle?' · '+handle.name:''));}
+ if(e.data?.type==='tg-error'){handle=null;say('No s’ha carregat: '+e.data.message);}
+ if(e.data?.type==='tg-exported'&&startup.role==='teacher'){
+  const name=e.data.config.mode==='Individual'?'guia-individual.html':'guia-grup.html';
+  download(makeGuide(e.data.config),name,'text/html;charset=utf-8');
+  say('Guia generada amb la plantilla actual'+(e.data.missing.length?' · Atenció: hi ha buits de cobertura dels RAs':''));
+ }
+});
+document.getElementById('tg-open').onclick=async()=>{if(dirty&&!confirm('Hi ha canvis sense desar. Vols carregar un altre fitxer?'))return;try{if(window.showOpenFilePicker){const [h]=await showOpenFilePicker({types:[{description:'Plantilla o seguiment ThinkLab',accept:{'text/plain':['.txt'],'application/json':['.json']}}]});const text=await(await h.getFile()).text();handle=h;load(text);}else document.getElementById('tg-input').click();}catch(e){if(e.name!=='AbortError')say(e.message);}};
+document.getElementById('tg-input').onchange=async e=>{try{const file=e.target.files[0];if(file){handle=null;load(await file.text());}}catch(err){say('No s’ha carregat: '+err.message);}e.target.value='';};
+const filename=()=>startup.role==='teacher'?'plantilla-rubriques.txt':startup.mode==='Individual'?'seguiment-individual.txt':'seguiment-grup.txt';
+document.getElementById('tg-save').onclick=async()=>{try{if(!handle&&window.showSaveFilePicker)handle=await showSaveFilePicker({suggestedName:filename(),types:[{description:'Dades ThinkLab',accept:{'text/plain':['.txt']}}]});const value=await snapshot(),text=JSON.stringify(documentData(value),null,2);if(!handle){download(text,filename());say('Còpia descarregada · guarda-la per a continuar en una altra sessió');return;}const writer=await handle.createWritable();await writer.write(text);await writer.close();dirty=false;say('Fitxer desat · '+handle.name);}catch(e){if(e.name!=='AbortError')say('No s’ha pogut desar: '+e.message+' · Pots descarregar una còpia.');}};
+document.getElementById('tg-backup').onclick=async()=>{try{const value=await snapshot();download(JSON.stringify(documentData(value),null,2),filename());say('Còpia descarregada');}catch(e){say(e.message);}};
+document.getElementById('tg-export-individual').onclick=()=>send('tg-export',{mode:'Individual'});
+document.getElementById('tg-export-group').onclick=()=>send('tg-export',{mode:'Grupal'});
+window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
+})();
+</script>
+
+
+</body></html>

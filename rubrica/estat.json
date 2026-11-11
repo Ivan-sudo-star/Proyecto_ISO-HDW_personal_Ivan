@@ -1,0 +1,22 @@
+{
+ "nom": "Ivan",
+ "actualitzat": "2026-11-11",
+ "marks": {
+  "a18": 1,
+  "a19": 1,
+  "a20": 1,
+  "a21": 1,
+  "a127": 1,
+  "a128": 1,
+  "a148": 1
+ },
+ "notes": {
+  "0": "FET (11/11): a18 recursos físics i limitacions justificades amb càlculs (24 GB per a VM, ≤10 vCPU a casa, escenaris E1–E4) → docs/01-entorn.md §2–§4. a127 documentat en Markdown i publicat a GitHub (esquema de VM, recursos, 6 problemes amb solució, inclòs el Secure Boot de casa resolt amb la clau MOK) → docs/01-entorn.md §5.\nPENDENT: a17 — les VM estan creades al grup /ISO_HWD amb les ISO adjuntes, però encara no hi ha cap sistema nou instal·lat. Es marcarà quan l'entorn arranque i funcione.",
+  "2": "FET (11/11): a19 inventari de casa complet (amb sudo: RAM 2×16 GB DDR5-6000, 2 ranures lliures, SMART PASSED) i de classe (falta el tipus de RAM i el SMART, que necessiten sudo) → evidencias/t2-inventari/. a20 comparativa i colls de botella, a21 solucions → docs/02-inventari.md §1 i §3.\nPENDENT Apte+ (a27–a29): casa FETA → memtester 2 GB OK; fio seqüencial 439/406 MB/s, 4K QD32 23 088/18 332 IOPS, 4K + fsync 422 IOPS (coll de botella confirmat: escriptura síncrona del SSD USB); xarxa 100 Mb/s confirmada → evidencias/t2-tests/tests-casa-20261111-1545.txt. Falta repetir-ho a CLASSE (bash scripts/host/tests-diagnostic.sh classe) per poder marcar a27–a29.",
+  "4": "FET (11/11): a128 esquema draw.io de la xarxa individual i del muntatge virtual → diagrames/. a148 configuració de cada interfície (IP, màscara, GW, DNS, mètode, tipus de xarxa VirtualBox), LAN 192.168.13.0/24 i WAN per NAT → docs/03-xarxa.md §2.\nPENDENT Apte+ (a129, a149): implementar-la i capturar ping, traceroute, taules de rutes i ifaces (taula de proves a docs/03-xarxa.md §4).",
+  "5": "PREPARAT, NO FET: VM creades (R1-MikroTik, R2-OPNsense, Debian_NFtables, NAS-TrueNAS, PVE1–3) i configuracions llestes a configs/. a78 parcial: integritat SHA-256 verificada per a Debian, Proxmox i TrueNAS (evidencias/t5-isos/); OPNsense, MikroTik i W11 N/C; falta la ISO de Windows Server 2025. Cal instal·lar cada sistema i fer les captures de cada acció (docs/04-installacio.md).",
+  "6": "PREPARAT, NO FET: script de RAID 0/1/5/10 (scripts/raid/raid-proves.sh) per a la VM SRV-DADES dins de PVE3, i configuració DRBD per a l'espill entre dos nodes (configs/drbd/). Investigació i justificació de l'espill ja escrita a docs/05-raid.md (a107 encara sense marcar fins que estiga implementat).",
+  "7": "INICIAT: línia base de l'equip de casa sense VM (evidencias/t7-rendiment/). Falten les mesures amb les VM arrancades, l'anàlisi de saturació i el nombre màxim de VM (docs/06-rendiment.md).",
+  "8": "PREPARAT: mètode d'incidències, full de comandes, estudi de FDM RA4 i de cada RA per al qüestionari → docs/07-cas-final.md. La prova és el dimecres 25/11."
+ }
+}

@@ -25,7 +25,7 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 | 5 | Hashes de les ISO | **Contrastat:** `sha256sum -c` contra els fitxers oficials. Debian, Proxmox i TrueNAS coincideixen ([evidència](../evidencias/t5-isos/verificacio.txt)) | Mantinguda (prova feta) |
 | 6 | Coll de botella principal = E/S síncrona del SSD USB | **Contrastat amb una mesura:** `dd` amb `dsync` a casa dona 1,7 MB/s, davant dels 359 MB/s en seqüencial | Mantinguda (falta repetir-ho a classe) |
 | 7 | Causa de la xarxa de casa a 100 Mb/s: l'altre extrem | **Contrastat:** `ethtool` mostra que el *link partner* només anuncia 10/100 | Mantinguda. Pendent provar un altre port o cable |
-| 8 | Causa del problema de VirtualBox a casa: el Secure Boot | **Contrastat:** `mokutil --sb-state` diu *enabled* a casa i *disabled* a classe, i VirtualBox avisa que `vboxdrv` no està carregat | **Canviada:** en lloc de desactivar el Secure Boot, es registra la clau MOK del disc (`modinfo` mostra que els mòduls ja estan signats). Pendent d'aplicar |
+| 8 | Causa del problema de VirtualBox a casa: el Secure Boot | **Contrastat:** `mokutil --sb-state` diu *enabled* a casa i *disabled* a classe, i VirtualBox avisa que `vboxdrv` no està carregat | **Canviada:** en lloc de desactivar el Secure Boot, es registra la clau MOK del disc (`modinfo` mostra que els mòduls ja estan signats). Aplicada i comprovada (`lsmod` amb Secure Boot activat) |
 
 **Errors de l'IA detectats durant el treball:**
 - En repetir el test de disc, va etiquetar com a «classe» un test que s'havia fet a casa. Ho va detectar en veure una altra interfície de xarxa i una altra placa, i ho va corregir.

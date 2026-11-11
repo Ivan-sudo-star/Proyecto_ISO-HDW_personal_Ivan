@@ -1,4 +1,4 @@
-# Inventari equip de CASA - 2026-11-11T15:06:41+01:00
+# Inventari equip de CASA - 2026-11-11T15:43:49+01:00
 
 ## Equip (DMI)
 Micro-Star International Co., Ltd.
@@ -21,14 +21,17 @@ Orden de los bytes:                       Little Endian
 CPU(s):                                   12
 Lista de la(s) CPU(s) en línea:           0-11
 ID de fabricante:                         GenuineIntel
+ID de fabricante de BIOS:                 Intel(R) Corporation
 Nombre del modelo:                        12th Gen Intel(R) Core(TM) i5-12400F
+Nombre del modelo de BIOS:                12th Gen Intel(R) Core(TM) i5-12400F To Be Filled By O.E.M. CPU @ 2.4GHz
+Familia de CPU BIOS:                      205
 Familia de CPU:                           6
 Modelo:                                   151
 Hilo(s) de procesamiento por núcleo:      2
 Núcleo(s) por «socket»:                   6
 «Socket(s)»:                              1
 Revisión:                                 5
-CPU(s) factor de escala MHz:              67%
+CPU(s) factor de escala MHz:              32%
 CPU MHz máx.:                             4400,0000
 CPU MHz mín.:                             800,0000
 BogoMIPS:                                 4992,00
@@ -45,12 +48,42 @@ kvm                  1404928  1 kvm_intel
 
 ## Memòria
                total       usado       libre  compartido   búf/caché  disponible
-Mem:            31Gi       5,6Gi        19Gi       137Mi       7,0Gi        25Gi
+Mem:            31Gi       4,5Gi        24Gi       104Mi       2,7Gi        26Gi
 Inter:          15Gi          0B        15Gi
 NAME       TYPE      SIZE USED PRIO
 /swapfile  file        8G   0B   -2
 /dev/zram0 partition 7,8G   0B  100
-(tipus/velocitat/ranures: executar amb sudo)
+	Error Correction Type: None
+	Size: No Module Installed
+	Locator: Controller0-DIMMA1
+	Type: Unknown
+	Size: 16 GB
+	Locator: Controller0-DIMMA2
+	Type: DDR5
+	Speed: 6000 MT/s
+	Manufacturer: Corsair
+	Part Number: CMK32GX5M2B6000Z30  
+	Configured Memory Speed: 6000 MT/s
+	Memory Subsystem Controller Manufacturer ID: Unknown
+	Non-Volatile Size: None
+	Volatile Size: 16 GB
+	Cache Size: None
+	Logical Size: None
+	Size: No Module Installed
+	Locator: Controller1-DIMMB1
+	Type: Unknown
+	Size: 16 GB
+	Locator: Controller1-DIMMB2
+	Type: DDR5
+	Speed: 6000 MT/s
+	Manufacturer: Corsair
+	Part Number: CMK32GX5M2B6000Z30  
+	Configured Memory Speed: 6000 MT/s
+	Memory Subsystem Controller Manufacturer ID: Unknown
+	Non-Volatile Size: None
+	Volatile Size: 16 GB
+	Cache Size: None
+	Logical Size: None
 
 ## Discos
 NAME          SIZE ROTA TYPE TRAN   MODEL               FSTYPE MOUNTPOINTS
@@ -68,11 +101,32 @@ nvme0n1     931,5G    0 disk nvme   KINGSTON SNV2S1000G
 ├─nvme0n1p3 930,5G    0 part nvme                       ntfs   
 └─nvme0n1p4   927M    0 part nvme                       ntfs   
 S.ficheros     Tipo     Tamaño Usados  Disp Uso% Montado en
-efivarfs       efivarfs   256K   135K  117K  54% /sys/firmware/efi/efivars
+efivarfs       efivarfs   256K   136K  116K  54% /sys/firmware/efi/efivars
 /dev/sda2      ext4        58G    25G   30G  46% /
-/dev/sda3      ext4       880G   173G  663G  21% /home
+/dev/sda3      ext4       880G   174G  662G  21% /home
 /dev/sda1      vfat       508M    51M  458M  10% /boot/efi
-(SMART: sudo + smartmontools)
+--- SMART /dev/sda
+SMART overall-health self-assessment test result: PASSED
+  5 Reallocated_Sector_Ct   0x0032   100   100   050    Old_age   Always       -       0
+  9 Power_On_Hours          0x0032   100   100   050    Old_age   Always       -       500
+177 Wear_Leveling_Count     0x0032   100   100   050    Old_age   Always       -       0
+194 Temperature_Celsius     0x0022   100   100   050    Old_age   Always       -       35
+196 Reallocated_Event_Count 0x0032   100   100   050    Old_age   Always       -       0
+--- SMART /dev/nvme1n1
+SMART overall-health self-assessment test result: PASSED
+Temperature:                        47 Celsius
+Percentage Used:                    1%
+Warning  Comp. Temperature Time:    0
+Critical Comp. Temperature Time:    0
+Temperature Sensor 2:               61 Celsius
+--- SMART /dev/nvme0n1
+SMART overall-health self-assessment test result: PASSED
+Temperature:                        38 Celsius
+Percentage Used:                    8%
+Warning  Comp. Temperature Time:    0
+Critical Comp. Temperature Time:    0
+Temperature Sensor 1:               38 Celsius
+Temperature Sensor 2:               60 Celsius
 
 ## Firmware i arrencada
 UEFI
@@ -84,9 +138,11 @@ TPM present
 ## Xarxa
 lo               UNKNOWN        xx:xx:xx:xx:xx:xx <LOOPBACK,UP,LOWER_UP> 
 enp7s0           UP             xx:xx:xx:xx:xx:xx <BROADCAST,MULTICAST,UP,LOWER_UP> 
+wlo1             DOWN           xx:xx:xx:xx:xx:xx <NO-CARRIER,BROADCAST,MULTICAST,UP> 
 docker0          DOWN           xx:xx:xx:xx:xx:xx <NO-CARRIER,BROADCAST,MULTICAST,UP> 
 lo               UNKNOWN        127.0.0.1/8 ::1/128 
 enp7s0           UP             192.168.1.86/24 fe80::4b9f:b28:e48c:dae/64 
+wlo1             DOWN           
 docker0          DOWN           172.17.0.1/16 
 enp7s0: driver=r8169 speed=100Mb/s
 default via 192.168.1.1 dev enp7s0 proto dhcp src 192.168.1.86 metric 100 
@@ -134,96 +190,76 @@ Bus 002 Device 003: ID 2109:0716 VIA Labs, Inc. TX100
 ## Resum inxi
 System:
   Kernel: 6.8.0-142-generic arch: x86_64 bits: 64 compiler: gcc v: 13.3.0
-  Desktop: Cinnamon v: 6.6.9 Distro: Linux Mint 22.3 Zena base: Ubuntu 24.04 noble
+  Desktop: Cinnamon v: 6.6.9 Distro: Linux Mint 22.3 Zena
+    base: Ubuntu 24.04 noble
 Machine:
-  Type: Desktop Mobo: Micro-Star model: B760M GAMING PLUS WIFI (MS-7D99) v: 3.0
-    serial: <superuser required> UEFI: American Megatrends LLC. v: H.31 date: 02/23/2024
+  Type: Desktop Mobo: Micro-Star model: B760M GAMING PLUS WIFI (MS-7D99)
+    v: 3.0 serial: <filter> UEFI: American Megatrends LLC. v: H.31
+    date: 02/23/2024
 CPU:
-  Info: 6-core model: 12th Gen Intel Core i5-12400F bits: 64 type: MT MCP arch: Alder Lake rev: 5
-    cache: L1: 480 KiB L2: 7.5 MiB L3: 18 MiB
-  Speed (MHz): avg: 1831 high: 4000 min/max: 800/4400 cores: 1: 800 2: 799 3: 2344 4: 800 5: 1425
-    6: 3999 7: 3892 8: 800 9: 4000 10: 884 11: 800 12: 1433 bogomips: 59904
+  Info: 6-core model: 12th Gen Intel Core i5-12400F bits: 64 type: MT MCP
+    arch: Alder Lake rev: 5 cache: L1: 480 KiB L2: 7.5 MiB L3: 18 MiB
+  Speed (MHz): avg: 800 min/max: 800/4400 cores: 1: 800 2: 800 3: 800 4: 800
+    5: 800 6: 800 7: 800 8: 800 9: 800 10: 800 11: 800 12: 800 bogomips: 59904
   Flags: avx avx2 ht lm nx pae sse sse2 sse3 sse4_1 sse4_2 ssse3 vmx
 Graphics:
-  Device-1: AMD Navi 33 [Radeon RX 7700S/7600/7600S/7600M XT/PRO W7600] vendor: Tul / PowerColor
-    driver: amdgpu v: kernel arch: RDNA-3 bus-ID: 03:00.0
-  Display: x11 server: X.Org v: 21.1.11 with: Xwayland v: 23.2.6 driver: X: loaded: amdgpu
-    unloaded: fbdev,modesetting,radeon,vesa dri: radeonsi gpu: amdgpu resolution: 1: 2560x1440~165Hz
-    2: 2560x1440~180Hz
-  API: EGL v: 1.5 drivers: kms_swrast,radeonsi,swrast platforms:
+  Device-1: AMD Navi 33 [Radeon RX 7700S/7600/7600S/7600M XT/PRO W7600]
+    vendor: Tul / PowerColor driver: amdgpu v: kernel arch: RDNA-3
+    bus-ID: 03:00.0
+  Display: x11 server: X.Org v: 21.1.11 with: Xwayland v: 23.2.6 driver: X:
+    loaded: amdgpu unloaded: fbdev,modesetting,radeon,vesa dri: radeonsi
+    gpu: amdgpu resolution: 1: 2560x1440~165Hz 2: 2560x1440~180Hz
+  API: EGL v: 1.5 drivers: radeonsi,swrast platforms:
     active: gbm,x11,surfaceless,device inactive: wayland
-  API: OpenGL v: 4.6 compat-v: 4.5 vendor: amd mesa v: 25.2.8-0ubuntu0.24.04.2 glx-v: 1.4
-    direct-render: yes renderer: AMD Radeon RX 7600 XT (radeonsi navi33 LLVM 20.1.2 DRM 3.57
+  API: OpenGL v: 4.6 compat-v: 4.5 vendor: amd mesa
+    v: 25.2.8-0ubuntu0.24.04.2 glx-v: 1.4 direct-render: yes renderer: AMD
+    Radeon RX 7600 XT (radeonsi navi33 LLVM 20.1.2 DRM 3.57
     6.8.0-142-generic)
   API: Vulkan v: 1.3.275 drivers: N/A surfaces: xcb,xlib devices: 2
 Audio:
-  Device-1: Intel Raptor Lake High Definition Audio vendor: Micro-Star MSI driver: snd_hda_intel
-    v: kernel bus-ID: 00:1f.3
-  Device-2: AMD Navi 31 HDMI/DP Audio driver: snd_hda_intel v: kernel bus-ID: 03:00.1
+  Device-1: Intel Raptor Lake High Definition Audio vendor: Micro-Star MSI
+    driver: snd_hda_intel v: kernel bus-ID: 00:1f.3
+  Device-2: AMD Navi 31 HDMI/DP Audio driver: snd_hda_intel v: kernel
+    bus-ID: 03:00.1
   API: ALSA v: k6.8.0-142-generic status: kernel-api
   Server-1: PipeWire v: 1.0.5 status: active
 Network:
-  Device-1: Intel Raptor Lake-S PCH CNVi WiFi driver: N/A bus-ID: 00:14.3
-  Device-2: Realtek RTL8125 2.5GbE vendor: Micro-Star MSI driver: r8169 v: kernel port: 3000
-    bus-ID: 07:00.0
+  Device-1: Intel Raptor Lake-S PCH CNVi WiFi driver: iwlwifi v: kernel
+    bus-ID: 00:14.3
+  IF: wlo1 state: down mac: <filter>
+  Device-2: Realtek RTL8125 2.5GbE vendor: Micro-Star MSI driver: r8169
+    v: kernel port: 3000 bus-ID: 07:00.0
   IF: enp7s0 state: up speed: 100 Mbps duplex: full mac: <filter>
   IF-ID-1: docker0 state: down mac: <filter>
 Bluetooth:
-  Device-1: Intel AX211 Bluetooth driver: btusb v: 0.8 type: USB bus-ID: 1-14:7
-  Report: hciconfig ID: hci0 rfk-id: 0 state: up address: <filter> bt-v: 5.3 lmp-v: 12
+  Device-1: Intel AX211 Bluetooth driver: btusb v: 0.8 type: USB
+    bus-ID: 1-14:7
+  Report: hciconfig ID: hci0 rfk-id: 0 state: up address: <filter> bt-v: 5.3
+    lmp-v: 12
 Drives:
-  Local Storage: total: 2.3 TiB used: 197.71 GiB (8.4%)
-  ID-1: /dev/nvme0n1 vendor: Kingston model: SNV2S1000G size: 931.51 GiB temp: 32.9 C
-  ID-2: /dev/nvme1n1 vendor: Kingston model: SNV2S500G size: 465.76 GiB temp: 49.9 C
+  Local Storage: total: 2.3 TiB used: 198.01 GiB (8.4%)
+  ID-1: /dev/nvme0n1 vendor: Kingston model: SNV2S1000G size: 931.51 GiB
+    temp: 37.9 C
+  ID-2: /dev/nvme1n1 vendor: Kingston model: SNV2S500G size: 465.76 GiB
+    temp: 46.9 C
   ID-3: /dev/sda vendor: Intenso model: SSD size: 953.87 GiB type: USB
 Partition:
-  ID-1: / size: 57.36 GiB used: 24.9 GiB (43.4%) fs: ext4 dev: /dev/sda2
+  ID-1: / size: 57.36 GiB used: 24.89 GiB (43.4%) fs: ext4 dev: /dev/sda2
   ID-2: /boot/efi size: 508 MiB used: 50 MiB (9.9%) fs: vfat dev: /dev/sda1
-  ID-3: /home size: 879.67 GiB used: 172.76 GiB (19.6%) fs: ext4 dev: /dev/sda3
+  ID-3: /home size: 879.67 GiB used: 173.07 GiB (19.7%) fs: ext4
+    dev: /dev/sda3
 Swap:
   ID-1: swap-1 type: file size: 8 GiB used: 0 KiB (0.0%) file: /swapfile
   ID-2: swap-2 type: zram size: 7.8 GiB used: 0 KiB (0.0%) dev: /dev/zram0
 Sensors:
-  System Temperatures: cpu: 39.0 C mobo: N/A gpu: amdgpu temp: 49.0 C
-  Fan Speeds (rpm): N/A gpu: amdgpu fan: 79
+  System Temperatures: cpu: 41.0 C mobo: N/A gpu: amdgpu temp: 51.0 C
+  Fan Speeds (rpm): N/A gpu: amdgpu fan: 181
 Info:
-  Memory: total: 32 GiB available: 31.19 GiB used: 5.65 GiB (18.1%)
-  Processes: 415 Uptime: 7m Init: systemd target: graphical (5)
-  Packages: 2597 Compilers: gcc: 13.3.0 Client: shell wrapper v: 5.2.21-release inxi: 3.3.34
+  Memory: total: 32 GiB available: 31.19 GiB used: 4.59 GiB (14.7%)
+  Processes: 431 Uptime: 1m Init: systemd target: graphical (5)
+  Packages: 2609 Compilers: gcc: 13.3.0 Shell: Bash v: 5.2.21 inxi: 3.3.34
 
 ## Alimentació
 
 ## VirtualBox
-WARNING: The vboxdrv kernel module is not loaded. Either there is no module
-         available for the current kernel (6.8.0-142-generic) or it failed to
-         load. Please recompile the kernel module and install it by
-
-           sudo /sbin/vboxconfig
-
-         You will not be able to start VMs until this problem is fixed.
 7.2.18r175117
-WARNING: The vboxdrv kernel module is not loaded. Either there is no module
-         available for the current kernel (6.8.0-142-generic) or it failed to
-         load. Please recompile the kernel module and install it by
-
-           sudo /sbin/vboxconfig
-
-         You will not be able to start VMs until this problem is fixed.
-"Debian" {294505db-ff99-47be-86c9-23d3b1450e9b}
-"Windows11" {a004318d-c05a-4b66-a1c5-b14c7c193b0f}
-"debianobserver" {fb2941b2-5f48-44fe-a528-6411c778e1e0}
-"Debiannet" {5f8d075b-b953-4178-88eb-cd64f123e506}
-"Windows11Net" {ca5fc4b6-ad26-4b54-9f84-ec0b190702ae}
-"DualBoot" {fb291eea-527b-4faa-bdb1-b3ea509c2502}
-"Proxmox_proves" {3ff983ad-b9c3-44e9-851a-1003b6711f5d}
-"Debian_NFtables" {25fe3e48-11b8-44a2-9036-7586f7ad5457}
-"Cliente_windows_1" {8295a796-9ae0-4311-85e3-4cd6c4b23e3f}
-"R1-MikroTik" {019bd192-44a3-4597-ab03-bc0bd17984f1}
-"R2-OPNsense" {6fa5d45a-41d7-4cd4-ae46-8eb786ce61bb}
-"NAS-TrueNAS" {c3b00ad7-bc52-482b-8e93-d1341cd220be}
-"PVE1-Proxmox" {b2875d15-8bde-420b-adb4-80e9f7e5f436}
-"PVE2-Proxmox" {9c27d4f1-454a-4268-b3c9-812f0bf064b2}
-"SRV-WS2025" {4b51e613-ad25-4a55-9790-66392f756e14}
-"SRV-INFRA-Debian" {6728cccc-79a9-4648-906e-d8634c46da8c}
-"SRV-RAID-Debian" {8290ea4d-9238-4855-8507-65f1c6d11a09}
-"CLI-Debian" {a5a36a01-1a3b-4dfc-93b9-84d551e27008}

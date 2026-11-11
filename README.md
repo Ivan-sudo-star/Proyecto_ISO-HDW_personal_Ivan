@@ -43,9 +43,9 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 |---|---|---|---|
 | T0 Entorn (Apte) | a17, a18 | 🟡 VM creades al grup `/ISO_HWD`; falta instal·lar-les | [01](docs/01-entorn.md) |
 | T0 Entorn (Apte+) | a127 | 🟡 documentat + Git; falta completar problemes a mesura que apareguen | [01](docs/01-entorn.md) |
-| T2 Inventari (Apte) | a19, a20, a21 | 🟡 casa ✅ i classe ✅ (sense sudo); falta tipus de RAM i SMART | [02](docs/02-inventari.md) |
-| T2 Tests (Apte+) | a27, a28, a29 | 🟡 disc i xarxa de casa ✅; classe parcial; memòria pendent | [02](docs/02-inventari.md) |
-| T4 Xarxa (Apte) | a128, a148 | ✅ esquema i taula d'interfícies | [03](docs/03-xarxa.md) |
+| T2 Inventari (Apte) | a19, a20, a21 | ✅ casa complet (amb sudo) · classe sense RAM/SMART | [02](docs/02-inventari.md) |
+| T2 Tests (Apte+) | a27, a28, a29 | 🟡 casa ✅ (memtester, dd, fio, xarxa); falta classe | [02](docs/02-inventari.md) |
+| T4 Xarxa (Apte) | a128, a148 | ✅ esquema i taula d'interfícies (alineats amb el grup) | [03](docs/03-xarxa.md) |
 | T4 Xarxa (Apte+) | a129, a149 | ⬜ implementar i capturar ping/traceroute/rutes | [03](docs/03-xarxa.md) |
 | T5 General | a78, a79, a258, a259 | 🟡 integritat ISO verificada (3 de 6); resta pendent | [04](docs/04-installacio.md) |
 | T5 MikroTik | a203–a209 | 🟡 configuració preparada | [04 §2](docs/04-installacio.md#2-r1--mikrotik-routeros-a203a209) |
@@ -64,6 +64,13 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | T8 Final (Apte) | a25, a26, a50–a53, a80, a104, a122 | ⬜ el dia 25/11 | [07](docs/07-cas-final.md) |
 | T8 Qüestionari (Apte+) | a30, a57, a84, a110, a126 | ⬜ estudi preparat | [07](docs/07-cas-final.md) |
 | No exigides | a54–a56, a81–a83, a106, a251, a256 | ➖ | — |
+
+## Rúbrica d'autoavaluació
+
+- [`rubrica/Rubrica-autoavaluacio-Individual-Ivan.html`](rubrica/Rubrica-autoavaluacio-Individual-Ivan.html): la rúbrica del professorat amb les marques actuals (s'obri al navegador).
+- [`rubrica/seguiment-individual-Ivan.txt`](rubrica/seguiment-individual-Ivan.txt): fitxer de seguiment. Des de la rúbrica, **Obri fitxer** carrega les marques i les observacions de cada tasca.
+- Es regeneren totes dues a partir de [`rubrica/estat.json`](rubrica/estat.json) amb `python3 scripts/rubrica/actualitza-rubrica.py`.
+- Només es marca com a «Feta correctament» el que té evidència al repositori.
 
 ## Regles del repositori
 - **Cap credencial** al repositori: les contrasenyes reals es guarden fora (gestor de contrasenyes). Als fitxers apareixen com `<...>`.
