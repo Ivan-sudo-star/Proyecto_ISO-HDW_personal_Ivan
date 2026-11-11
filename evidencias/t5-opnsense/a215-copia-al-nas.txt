@@ -1,0 +1,9 @@
+# a215 — Còpia de R2 al NAS — 2026-11-11 17:38:05
+Què es copia: /conf/config.xml (tota la configuració d'OPNsense en un sol fitxer XML, descarregat per l'API /api/core/backup/download/this).
+Què NO: el sistema (es reinstal·la des de la ISO en 10 min i es restaura el config.xml).
+Atenció: el config.xml conté els hash de les contrasenyes → només al NAS, mai al Git.
+
+total 1
+-rw-r--r-- 1 copies copies 41380 Nov 11 17:37 config-2026-11-11_1738.xml
+7
+<version>v9

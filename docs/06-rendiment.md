@@ -80,7 +80,7 @@ Per a cada optimització es repeteix **la mateixa mesura en les mateixes condici
 
 | # | Optimització | VM | Mesura | Abans | Després | Millora? |
 |---|---|---|---|---|---|---|
-| 1 | Reduir la RAM de 4 GB a **1 GB** i les vCPU de 2 a **1** (Debian sense GUI: `free -m` dins de la VM mostra que en fa servir < 300 MB) | Debian_NFtables (R3) | RAM disponible a l'amfitrió amb l'escenari E2 encés | | | |
+| 1 | Arrencada sense entorn gràfic (`multi-user.target`) + RAM 4 → **1 GB** + vCPU 2 → **1** (un router no necessita GNOME) | Debian_NFtables (R3) | RAM usada dins la VM · processos · temps d'arrencada (`systemd-analyze`) | 806 MB de 3 921 · 200 processos · 11,45 s | **284 MB** de 967 · **120** processos · **5,56 s** | ✅ −65 % de RAM usada, arrencada 2 vegades més ràpida, 3 GB alliberats a l'amfitrió; el router continua funcionant (`opt1-r3-*.txt`) |
 | 2 | Activar *Use Host I/O Cache* al controlador SATA i passar el disc a **VDI de mida fixa** | Cliente_windows_1 | Temps d'arrencada fins a l'escriptori (cronòmetre) i `wa` de l'amfitrió durant l'arrencada | | | |
 | 3 | Llevar el `log` de la regla `NFT-FWD-OK` (registra cada connexió nova) | R3 | Línies/min a `journalctl -k` i CPU del router amb `iperf3` | | | |
 | 4 | Desactivar els serveis i les aplicacions d'inici que no calen (Indexació, OneDrive, Xbox...) | Cliente_windows_1 | RAM en repòs i temps d'arrencada | | | |

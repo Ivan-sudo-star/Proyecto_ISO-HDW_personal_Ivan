@@ -32,4 +32,16 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - En copiar el hash de Proxmox, en va agafar el final del de la versió arm64. Es va corregir en comparar-lo amb `sha256sum -c`.
 - El primer resum de `vmstat` incloïa línies que no eren de `vmstat`: es va corregir el filtre.
 
+**Instal·lació feta per l'IA el 11/11/2026** (amb permís de l'alumne), amb captures i ordres de VirtualBox:
+- **Què ha fet:** R1, R2 i R3 configurats igual, NAS, els 3 nodes Proxmox i el clúster, CLI-Debian, les proves i les evidències.
+- **Abans del 25/11 l'alumne ha de repetir-ne i entendre'n els passos.** Cada document explica què s'ha fet i per què.
+
+**Errors de l'IA durant la instal·lació:**
+- **PVE1:** va traure la ISO abans de prémer «Reboot now». L'instal·lador, que llegia del CD, va avortar (la instal·lació al disc ja estava acabada). Va caldre un reinici en fred, i es va comprovar amb `dpkg --audit` i `systemctl --failed`.
+- **R1:** va escriure `/export show-sensitive=no`, que és sintaxi de RouterOS 6. A la versió 7 és un indicador sense valor.
+- **R3:** va fer `echo 1234 | sudo -S bash -s < script`: l'entrada de l'`echo` substitueix l'script, i no s'executava res.
+- **TRIM:** va crear tots els discos amb `--discard on`. FreeBSD (OPNsense) donava timeouts de TRIM i es penjava. Ara R2 té `--discard off` i l'script està corregit.
+- **Clúster:** va unir pve2 massa aviat («no quorum»). Es va reintentar.
+- **Proves:** a l'evidència de R3 va aparéixer «curl codi: 0», que era el codi de `|| true` i no el de `curl`. Corregit a l'evidència.
+
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*

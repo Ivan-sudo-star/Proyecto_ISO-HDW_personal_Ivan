@@ -29,3 +29,5 @@ auto enp0s8
 iface enp0s8 inet static
     address 192.168.13.3/24
 net.ipv4.ip_forward = 1
+uid=1001(admin-ivan) gid=1001(admin-ivan) grupos=1001(admin-ivan),27(sudo)
+uid=1002(suport) gid=1002(suport) grupos=1002(suport)

@@ -1,0 +1,28 @@
+# a216 — Fallada controlada de R2 i recuperació des del NAS — 2026-11-11 17:38:31
+abans: HTTP/2 200 
+
+## 1. Fallada: s'esborren les regles de LAN (PROVA) — T0 17:38:33
+{"result":"deleted"}
+{"result":"deleted"}
+{"status":"OK\n\n"}
+## 2. Símptoma al client
+curl debian.org: SENSE RESPOSTA (timeout)
+## 3. Diagnòstic: regles actives a la LAN
+regles IPv4 de pas a la LAN: CAP → el «default deny» bloqueja tota l eixida
+## 4. Recuperació: es baixa config-2026-11-11_1738.xml del NAS i es restaura (System → Configuration → Backups)
+fitxer baixat del NAS: 41380 bytes
+restore HTTP 200
+restored. It is recommended to keep this set to the default unless you know what you are
+restored. The system is rebooting now. This may take one minute.
+(OPNsense reinicia per aplicar la configuració restaurada)
+## 5. Prova funcional final
+client → debian.org: HTTP/2 200 
+Temps d'inactivitat: 48 s fins que el client torna a navegar (la configuració restaurada s'aplica abans del reinici; el reinici automàtic posterior provoca un segon tall breu, no mesurat) (T1 17:39:21)
+
+## 6. Comprovació després del reinici (17:41:06), sessió iniciada amb admin-ivan
+API: 200
+1 off pass - Default allow LAN to any rule
+10 ON block 22 PROVA: SSH a Internet bloquejat (R2-BLOQ-SSH)
+11 ON pass - Default allow LAN IPv6 to any rule
+20 ON pass - PROVA: eixida permesa (R2-FWD-OK)
+client via .2 → HTTP/2 200 

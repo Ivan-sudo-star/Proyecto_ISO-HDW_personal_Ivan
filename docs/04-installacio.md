@@ -156,12 +156,17 @@ Evidències a `evidencias/t5-opnsense/`.
    - Restaurar `config.xml` (Backups → *Restore*) i reiniciar. Comprovar el client. **Temps.**
 
 
-### 🟡 Estat R2 (11/11/2026) — configuració en curs
+### ✅ Resultat R2 (11/11/2026)
 
-- ✅ **a210** OPNsense **26.7** instal·lat en UFS (ZFS consumeix massa RAM amb 2 GB). L'instal·lador recomana 3 GB des de la imatge *live*, però amb 2 GB ha funcionat.
-- ✅ **a211 (parcial)** contrasenya de root posada. Falta crear `admin-ivan` com a R1.
-- ✅ **a212** WAN `em0` 10.0.2.15 per DHCP · LAN `em1` **192.168.13.2/24**, sense DHCP propi (el dona R1).
-- ⬜ a213–a216: NAT, regles iguals que R1 i R3 (bloqueig de tcp/22 amb registre), còpia de `config.xml` al NAS i fallada amb recuperació.
+| Acció | Estat | Evidència |
+|---|---|---|
+| a210 instal·lació i versió | ✅ OPNsense **26.7** amd64 en UFS (ZFS consumeix massa RAM amb 2 GB). L'instal·lador recomana 3 GB des de la imatge *live*, però amb 2 GB ha funcionat | `t5-opnsense/a210-a214-opnsense.txt` |
+| a211 usuaris | ✅ `root` · **`admin-ivan`** (grup admins; s'ha comprovat que pot iniciar sessió a la web) · `suport` (sense privilegis d'administrador). Els mateixos que R1 i R3 | ídem |
+| a212 xarxa | ✅ WAN `em0` 10.0.2.15 per DHCP · LAN `em1` **192.168.13.2/24** · sense DHCP propi (el dona el router actiu) | ídem |
+| a213 Internet per a la LAN | ✅ Outbound NAT automàtic. `traceroute` del client → 192.168.13.2 → 10.0.2.2 → router de casa · `curl` → `HTTP/2 200` | ídem |
+| a214 permesa/bloquejada | ✅ Regles **iguals que a R1 i R3**: seq. 10 *block* tcp/22 amb registre i seq. 20 *pass* amb registre. La regla de fàbrica «Default allow LAN to any» queda desactivada. Registre: `pass em1 ... ->130.89.148.77:443` i `block em1 ... ->20.250.119.67:22` (SYN + retransmissions) | ídem |
+| a215 còpia al NAS | ✅ `config.xml` (41 KB, tota la configuració) descarregat per l'API i desat a `/mnt/copies/routers/r2/`. Conté els hash de les contrasenyes: només al NAS | `a215-copia-al-nas.txt` |
+| a216 fallada i recuperació | ✅ s'esborren les regles de la LAN → el *default deny* talla tota l'eixida. Es restaura el `config.xml` del NAS (System → Configuration → Backups) → **48 s** fins que el client torna a navegar; després del reinici les regles hi són | `a216-fallada-recuperacio.txt` |
 
 **Problemes trobats:**
 1. A l'arrencada *live* va assignar les interfícies al revés (LAN = em0, WAN = em1). Corregit amb l'opció 1 de la consola.
@@ -213,6 +218,26 @@ Evidències a `evidencias/t5-opnsense/`.
 1. La WAN (enp0s3) no tenia IP: NetworkManager només tenia perfil per a enp0s8. Resolt passant les dues interfícies a `/etc/network/interfaces`.
 2. Des de la consola de VirtualBox, el teclat espanyol de la VM converteix la `/` en `-` i la `|` en `Ç`. Es van escriure les ordres tenint-ho en compte només fins que SSH va funcionar.
 3. El DHCP de R3 (`dnsmasq`) queda **instal·lat però desactivat**, perquè el DHCP de la LAN el dona R1. S'activa (`systemctl start dnsmasq`) només en provar R3 amb R1 apagat.
+
+
+## Comparativa: els 3 servidors de comunicacions configurats igual
+
+| Element | R1 MikroTik | R2 OPNsense | R3 Debian + nftables |
+|---|---|---|---|
+| Versió | RouterOS 7.24.5 | OPNsense 26.7 | Debian 13.7 + nftables |
+| Administrador / consulta | `admin-ivan` / `suport` (`admin` desactivat) | `admin-ivan` / `suport` (+ `root`) | `admin-ivan` (sudo) / `suport` (+ `ivancambra`) |
+| WAN | ether1 · DHCP 10.0.2.15 | em0 · DHCP 10.0.2.15 | enp0s3 · DHCP 10.0.2.15 |
+| LAN | ether2 · **192.168.13.1/24** | em1 · **192.168.13.2/24** | enp0s8 · **192.168.13.3/24** |
+| NAT | masquerade srcnat | Outbound NAT automàtic | `masquerade` (taula ip nat) |
+| DHCP LAN .100–.200 | ✅ actiu (router principal) | preparat, desactivat | `dnsmasq` preparat, desactivat |
+| DNS per a la LAN | `allow-remote-requests` | Unbound | `dnsmasq` |
+| Regla de bloqueig | tcp/22 cap a Internet → drop + log | tcp/22 → block + log | tcp/22 → drop + log + counter |
+| Eixida permesa | accept + log | pass + log | accept + log + counter |
+| Còpia al NAS | `export` + `backup` → `routers/r1` | `config.xml` → `routers/r2` | `etc-*.tgz` + ruleset → `routers/r3` |
+| Fallada provocada | s'esborren la IP de LAN, el NAT i la còpia local | s'esborren les regles de LAN | `nft flush` + `ip_forward=0` + s'esborra la config |
+| Recuperació (temps) | `backup load` des del NAS (**42 s**) | restauració de `config.xml` (**48 s**) | `tar` des del NAS + `nft -f` (**22 s**) |
+
+Diferències que el disseny accepta: la IP de LAN (.1/.2/.3, com al grup) i que el DHCP només està actiu al router principal.
 
 ## 5. NAS · TrueNAS SCALE (a224–a227, a259)
 
@@ -405,7 +430,7 @@ comprovar al NAS que el fitxer porta la data i l'hora correctes.
 | Escenari | Funció afectada | Recurs de recuperació | RTO objectiu | RTO observat | Dades perdudes |
 |---|---|---|---|---|---|
 | R1 sense NAT ni IP LAN | Internet de la LAN | `r1-backup.backup` del NAS | 15 min | **42 s** | cap (la còpia era de pocs minuts abans) |
-| R2 restablert de fàbrica | Internet + DHCP | `config.xml` | 15 min | | |
+| R2 sense regles de LAN | Internet | `config.xml` del NAS | 15 min | **48 s** | cap |
 | R3 sense regles | Internet + filtre | `etc-*.tgz` del NAS | 10 min | **22 s** | cap |
 | Disc RAID fallit | Volum de dades | RAID 1/5 + reconstrucció | 0 (servei continu) | | |
 | Node DRBD A caigut | Carpeta replicada | Node B → primari | 5 min | | |

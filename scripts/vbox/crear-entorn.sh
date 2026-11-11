@@ -31,13 +31,14 @@ crear_vm() {
   VBoxManage storagectl "$name" --name SATA --add sata --controller IntelAhci --portcount 8
 }
 
-# disc NOM PORT MIDA_MB [nom_fitxer]
+# disc NOM PORT MIDA_MB [nom_fitxer] [discard on|off]
+# Nota: FreeBSD (OPNsense) dona timeouts amb TRIM al controlador AHCI de VirtualBox → discard off
 disc() {
-  local name=$1 port=$2 size=$3 file=${4:-disk$2}
+  local name=$1 port=$2 size=$3 file=${4:-disk$2} discard=${5:-on}
   local path="$BASE/$name/$file.vdi"
   [ -f "$path" ] || VBoxManage createmedium disk --filename "$path" --size "$size" --format VDI
   VBoxManage storageattach "$name" --storagectl SATA --port "$port" --device 0 \
-    --type hdd --medium "$path" --nonrotational on --discard on
+    --type hdd --medium "$path" --nonrotational on --discard "$discard"
 }
 
 iso() {  # iso NOM FITXER
@@ -70,7 +71,7 @@ fi
 
 if nova R2-OPNsense; then
   crear_vm R2-OPNsense FreeBSD_64 2048 2 bios
-  disc R2-OPNsense 0 20480; iso R2-OPNsense "$ISO_OPNSENSE"
+  disc R2-OPNsense 0 20480 disk0 off; iso R2-OPNsense "$ISO_OPNSENSE"
   nic_nat R2-OPNsense 1; nic_lan R2-OPNsense 2
 fi
 

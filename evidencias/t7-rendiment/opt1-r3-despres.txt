@@ -1,0 +1,22 @@
+# Optimització 1 (R3) — DESPRÉS — 2026-11-11 17:42:26
+VM: Debian_NFtables · memory=1024 cpus=1 
+target: multi-user.target
+               total       usado       libre  compartido   búf/caché  disponible
+Mem:             967         284         673           0         146         683
+Inter:          1245           0        1245
+
+COMMAND           RSS
+NetworkManager  19736
+cups-browsed    15984
+systemd         14704
+systemd         13112
+systemd-journal 12952
+ModemManager    12420
+sshd-session    11552
+
+processos: 120
+Startup finished in 2.044s (kernel) + 3.519s (userspace) = 5.564s 
+
+router funcional?
+4
+net.ipv4.ip_forward = 1

@@ -46,13 +46,13 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | T2 Inventari (Apte) | a19, a20, a21 | ✅ casa complet (amb sudo) · classe sense RAM/SMART | [02](docs/02-inventari.md) |
 | T2 Tests (Apte+) | a27, a28, a29 | 🟡 casa ✅ (memtester, dd, fio, xarxa); falta classe | [02](docs/02-inventari.md) |
 | T4 Xarxa (Apte) | a128, a148 | ✅ esquema i taula d'interfícies (alineats amb el grup) | [03](docs/03-xarxa.md) |
-| T4 Xarxa (Apte+) | a129, a149 | ⬜ implementar i capturar ping/traceroute/rutes | [03](docs/03-xarxa.md) |
+| T4 Xarxa (Apte+) | a129, a149 | ✅ ping, traceroute, rutes, interfícies i aïllament | [03](docs/03-xarxa.md) |
 | T5 General | a78, a79, a258, a259 | 🟡 integritat ISO verificada (3 de 6); resta pendent | [04](docs/04-installacio.md) |
-| T5 MikroTik | a203–a209 | 🟡 configuració preparada | [04 §2](docs/04-installacio.md#2-r1--mikrotik-routeros-a203a209) |
-| T5 OPNsense | a210–a216 | 🟡 procediment preparat | [04 §3](docs/04-installacio.md#3-r2--opnsense-a210a216) |
-| T5 nftables | a217–a223 | 🟡 configuració preparada | [04 §4](docs/04-installacio.md#4-r3--debian-13--nftables-a217a223) |
-| T5 TrueNAS | a224–a227 | 🟡 VM amb disc de còpies creada | [04 §5](docs/04-installacio.md#5-nas--truenas-scale-a224a227-a259) |
-| T5 Proxmox | a228–a232, a235, a236 | 🟡 3 nodes creats (virtualització niuada), igual que el grup | [04 §6](docs/04-installacio.md#6-proxmox-ve-a228a232-a235-a236) |
+| T5 MikroTik | a203–a209 | ✅ complet (recuperació en 42 s) | [04 §2](docs/04-installacio.md#2-r1--mikrotik-routeros-a203a209) |
+| T5 OPNsense | a210–a216 | ✅ complet (recuperació en 48 s) | [04 §3](docs/04-installacio.md#3-r2--opnsense-a210a216) |
+| T5 nftables | a217–a223 | ✅ complet (recuperació en 22 s) · els 3 routers configurats igual | [04 §4](docs/04-installacio.md#4-r3--debian-13--nftables-a217a223) |
+| T5 TrueNAS | a224–a227 | ✅ complet (pool `copies`, SSH/NFS/SMB) | [04 §5](docs/04-installacio.md#5-nas--truenas-scale-a224a227-a259) |
+| T5 Proxmox | a228–a232, a235, a236 | 🟡 3 nodes instal·lats i actualitzats + clúster `cluster13` ✅ · falten VM/CT, migració i còpies | [04 §6](docs/04-installacio.md#6-proxmox-ve-a228a232-a235-a236) |
 | T5 Windows Server 2025 | a237–a241 | ⬜ **falta la ISO** · anirà com a VM 210 dins de PVE1 | [04 §7](docs/04-installacio.md#7-windows-server-2025-a237a241) |
 | T5 Linux infra | a242–a246 | 🟡 VM 220 (PVE2) i 230 (PVE3) dins del clúster | [04 §8](docs/04-installacio.md#8-servidors-gnulinux-dinfraestructura-a242a246) |
 | T5 Clients | a247–a250, a252–a255 | 🟡 W11 ja instal·lat (reutilitzat) | [04 §9](docs/04-installacio.md#9-clients-a247a250-a252a255) |
@@ -60,7 +60,7 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | T6 RAID (Apte) | a102, a103 | 🟡 script de proves llest | [05](docs/05-raid.md) |
 | T6 Espill entre equips (Apte+) | a107, a108, a109 | 🟡 investigació + config DRBD | [05](docs/05-raid.md#tasca-63--espill-entre-dos-equips-a107a109) |
 | T7 Rendiment (Apte) | a22, a23, a24, a119, a120, a121 | 🟡 línia base de casa ✅; falten les càrregues | [06](docs/06-rendiment.md) |
-| T7 Optimitzacions (Apte+) | a123, a124, a125 | ⬜ | [06](docs/06-rendiment.md#optimitzacions-apte-a123a125) |
+| T7 Optimitzacions (Apte+) | a123, a124, a125 | 🟡 optimització 1 ✅ (R3: −65 % de RAM) | [06](docs/06-rendiment.md#optimitzacions-apte-a123a125) |
 | T8 Final (Apte) | a25, a26, a50–a53, a80, a104, a122 | ⬜ el dia 25/11 | [07](docs/07-cas-final.md) |
 | T8 Qüestionari (Apte+) | a30, a57, a84, a110, a126 | ⬜ estudi preparat | [07](docs/07-cas-final.md) |
 | No exigides | a54–a56, a81–a83, a106, a251, a256 | ➖ | — |
