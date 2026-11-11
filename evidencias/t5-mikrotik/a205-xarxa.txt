@@ -1,0 +1,52 @@
+# R1-MikroTik — 2026-11-11 16:08:06 — /interface print; /ip address print; /ip dhcp-client print detail; /ip route print; /ip dns print
+Flags: R - RUNNING
+Columns: NAME, TYPE, ACTUAL-MTU, MAC-ADDRESS
+#   NAME    TYPE      ACTUAL-MTU  MAC-ADDRESS      
+;;; WAN
+0 R ether1  ether           1500  xx:xx:xx:xx:xx:xx
+;;; LAN13
+1 R ether2  ether           1500  xx:xx:xx:xx:xx:xx
+2 R lo      loopback       65536  xx:xx:xx:xx:xx:xx
+
+Flags: D - DYNAMIC
+Columns: ADDRESS, NETWORK, INTERFACE, VRF
+#   ADDRESS          NETWORK       INTERFACE  VRF 
+0 D 10.0.2.15/24     10.0.2.0      ether1     main
+;;; LAN13
+1   192.168.13.1/24  192.168.13.0  ether2     main
+
+0  name="client1" interface=ether1 add-default-route=yes
+   default-route-distance=1 default-route-tables=default check-gateway=none
+   use-peer-dns=yes use-peer-ntp=yes allow-reconfigure=no use-broadcast=both
+   dhcp-options=hostname,clientid status=bound address=10.0.2.15/24
+   gateway=10.0.2.2 dhcp-server=10.0.2.2 primary-dns=10.0.2.3
+   expires-after=23h58m31s
+
+Flags: D - DYNAMIC; A - ACTIVE; c - CONNECT, d - DHCP
+Columns: DST-ADDRESS, GATEWAY, ROUTING-TABLE, DISTANCE
+    DST-ADDRESS      GATEWAY   ROUTING-TABLE  DISTANCE
+DAd 0.0.0.0/0        10.0.2.2  main                  1
+DAc 10.0.2.0/24      ether1    main                  0
+DAc 192.168.13.0/24  ether2    main                  0
+
+                      servers: 1.1.1.1 
+                               9.9.9.9 
+              dynamic-servers: 10.0.2.3
+               use-doh-server:         
+              verify-doh-cert: no      
+   doh-max-server-connections: 5       
+   doh-max-concurrent-queries: 50      
+                  doh-timeout: 5s      
+        allow-remote-requests: yes     
+          max-udp-packet-size: 4096    
+         query-server-timeout: 2s      
+          query-total-timeout: 10s     
+       max-concurrent-queries: 100     
+  max-concurrent-tcp-sessions: 20      
+                   cache-size: 2048KiB 
+                cache-max-ttl: 1w      
+      address-list-extra-time: 0s      
+                          vrf: main    
+           mdns-repeat-ifaces:         
+                   cache-used: 45KiB   
+

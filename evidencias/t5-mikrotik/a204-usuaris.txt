@@ -1,0 +1,30 @@
+# R1-MikroTik — 2026-11-11 16:08:05 — /user print detail without-paging; /user group print
+Flags: X - DISABLED
+0 X ;;; system default user
+    name="admin" group=full inactivity-timeout=10m inactivity-policy=none
+    address="" last-logged-in=2026-11-11 15:07:49
+ 
+1   ;;; Administrador principal
+    name="admin-ivan" group=full inactivity-timeout=10m inactivity-policy=none
+    address="" last-logged-in=2026-11-11 16:08:05
+ 
+2   ;;; Consulta / diagnostic
+    name="suport" group=lectura inactivity-timeout=10m inactivity-policy=none
+    address=""
+
+0  name="read"
+   policy=local,telnet,ssh,reboot,read,test,winbox,password,web,sniff,
+      sensitive,api,romon,rest-api,!ftp,!write,!policy skin=default
+ 
+1  name="write"
+   policy=local,telnet,ssh,reboot,read,write,test,winbox,password,web,sniff,
+      sensitive,api,romon,rest-api,!ftp,!policy skin=default
+ 
+2  name="full"
+   policy=local,telnet,ssh,ftp,reboot,read,write,policy,test,winbox,password,
+      web,sniff,sensitive,api,romon,rest-api skin=default
+ 
+3  name="lectura"
+   policy=ssh,read,test,winbox,web,!local,!telnet,!ftp,!reboot,!write,!policy,
+      !password,!sniff,!sensitive,!api,!romon,!rest-api skin=default
+

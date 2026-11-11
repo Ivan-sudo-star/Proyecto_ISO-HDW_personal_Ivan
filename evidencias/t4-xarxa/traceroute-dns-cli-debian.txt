@@ -1,0 +1,24 @@
+# traceroute — 2026-11-11 16:47:15
+$ traceroute -n -m 8 1.1.1.1
+traceroute to 1.1.1.1 (1.1.1.1), 8 hops max, 60 byte packets
+ 1  192.168.13.1  0.235 ms  0.206 ms  0.412 ms
+ 2  10.0.2.2  0.734 ms  0.681 ms  0.599 ms
+ 3  192.168.1.1  29.727 ms  29.639 ms  29.616 ms
+ 4  <xarxa del proveïdor>  41.405 ms  41.385 ms  41.317 ms
+ 5  <xarxa del proveïdor>  32.806 ms  32.688 ms  32.674 ms
+ 6  <xarxa del proveïdor>  41.177 ms  40.823 ms  40.716 ms
+ 7  * * *
+ 8  <xarxa del proveïdor>  39.880 ms  40.966 ms <xarxa del proveïdor>  40.897 ms
+
+$ dig +short debian.org @192.168.13.1
+151.101.194.132
+151.101.2.132
+151.101.66.132
+151.101.130.132
+
+## Interpretació
+- Salt 1 = 192.168.13.1: el client surt per R1, la seua porta d'enllaç (rebuda per DHCP).
+- Salt 2 = 10.0.2.2: la porta d'enllaç del NAT de VirtualBox, que és la WAN de R1. Hi ha doble NAT (R1 + VirtualBox).
+- Salt 3 = 192.168.1.1: el router de casa. L'amfitrió és a la xarxa 192.168.1.0/24. A classe aquest salt serà 172.16.222.1.
+- Salts 4–8: la xarxa del proveïdor (IP públiques ocultades a l'evidència).
+- DNS: R1 (192.168.13.1) resol debian.org (allow-remote-requests=yes, reenviat a 1.1.1.1 / 9.9.9.9).

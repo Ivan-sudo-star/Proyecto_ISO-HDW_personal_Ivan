@@ -7,8 +7,9 @@
 
 # --- Usuaris d'administració (a204) ---
 /user group add name=lectura policy=read,test,winbox,web,ssh,!write,!policy,!sensitive
+# Les contrasenyes (password=<lab>) s'afigen en el moment d'aplicar el fitxer, no es guarden al repositori
 /user add name=admin-ivan group=full comment="Administrador principal"
-/user add name=suport group=lectura comment="Consulta / diagnòstic"
+/user add name=suport group=lectura comment="Consulta / diagnostic"
 # Després de comprovar l'accés amb admin-ivan: /user disable admin
 
 # --- Interfícies (a205) ---
@@ -32,6 +33,7 @@ add chain=input connection-state=established,related action=accept comment="inpu
 add chain=input connection-state=invalid action=drop
 add chain=input in-interface=ether2 action=accept comment="input: gestió des de la LAN"
 add chain=input protocol=icmp action=accept
+add chain=input in-interface=ether1 src-address=10.0.2.2 protocol=tcp dst-port=22 action=accept comment="input: gestio SSH des de l'amfitrio (port-forward NAT VirtualBox 127.0.0.1:2201)"
 add chain=input in-interface=ether1 action=drop log=yes log-prefix="R1-IN-DROP" comment="input: resta de la WAN"
 add chain=forward connection-state=established,related action=accept
 add chain=forward connection-state=invalid action=drop
@@ -41,7 +43,7 @@ add chain=forward action=drop log=yes log-prefix="R1-FWD-DROP"
 
 # --- Serveis: només els necessaris ---
 /ip service disable telnet,ftp,api,api-ssl
-/ip service set ssh address=192.168.13.0/24
+/ip service set ssh address=192.168.13.0/24,10.0.2.2/32
 /ip service set winbox address=192.168.13.0/24
 /ip service set www address=192.168.13.0/24
 
@@ -51,5 +53,5 @@ add chain=forward action=drop log=yes log-prefix="R1-FWD-DROP"
 
 # --- Còpia (a208): fitxers locals + pujada al NAS per SFTP ---
 # /system backup save name=r1-backup dont-encrypt=no password=<xifrat>
-# /export show-sensitive=no file=r1-export
+# /export file=r1-export
 # /tool fetch upload=yes mode=sftp address=192.168.13.20 user=copies password=<...> src-path=r1-export.rsc dst-path=/mnt/copies/routers/r1/r1-export.rsc

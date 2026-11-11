@@ -107,7 +107,7 @@ fora del disc (disc intern de casa o un altre pendrive), sense pujar-ho a GitHub
    - `curl` (permesa) i `nc -zv github.com 22` (bloquejada).
    - `/log print where message~"R1-"` → interpretar una línia de cada tipus: cadena, interfície d'entrada i d'eixida, origen, destí, protocol, port i acció.
 6. **Còpia al NAS (a208):**
-   - `/export show-sensitive=no file=r1-export` (text, regenera la configuració) i `/system backup save` (binari, inclou usuaris; es xifra i **no es puja al Git**).
+   - `/export file=r1-export` (text, regenera la configuració) i `/system backup save` (binari, inclou usuaris; es xifra i **no es puja al Git**).
    - Pujada per SFTP al NAS (§10).
    - **Què NO:** el sistema sencer. Reinstal·lar la ISO tarda menys de 5 min.
 7. **Fallada i recuperació (a209):**
@@ -115,6 +115,21 @@ fora del disc (disc intern de casa o un altre pendrive), sense pujar-ho a GitHub
    - Diagnòstic: `/ip address print`, `/ip firewall nat print`.
    - Recuperació: entrar per la consola de VirtualBox i fer `/import r1-export.rsc` (o `/system backup load`).
    - Prova final: el client torna a navegar. **Anotar el temps.**
+
+
+### ✅ Resultat R1 (11/11/2026, equip de casa)
+
+| Acció | Estat | Evidència |
+|---|---|---|
+| a203 instal·lació i versió | ✅ RouterOS **7.24.5 (stable)** x86_64, paquet `system`. **Llicència: sense clau, 24 h de funcionament** (el comptador només avança amb la VM encesa: s'apaga quan no s'usa) | `t5-mikrotik/01-installador-paquets.png`, `02-installacio-completada.png`, `03-llicencia-x86-24h.png`, `a203-versio.txt` |
+| a204 usuaris | ✅ `admin-ivan` (grup full) i `suport` (grup `lectura`, només lectura). `admin` **deshabilitat** després de comprovar l'accés amb `admin-ivan` | `a204-usuaris.txt` |
+| a205 xarxa | ✅ ether1 WAN 10.0.2.15/24 per DHCP (GW 10.0.2.2), ether2 LAN 192.168.13.1/24 | `a205-xarxa.txt` |
+| a206 Internet per a la LAN | ✅ masquerade + DHCP .100–.200. CLI-Debian i TrueNAS s'han instal·lat descarregant paquets a través de R1 (leases .199 i .200). El NAS fa ping a 1.1.1.1 | `a206-nat-dhcp.txt` |
+| a207 permesa/bloquejada | ✅ des de CLI-Debian: `curl https://www.debian.org` → `HTTP/2 200` (registre `R1-FWD-OK ... ->130.89.148.77:443`). `nc github.com 22` → timeout (registre `R1-BLOQ-SSH`: 5 SYN, el primer i 4 retransmissions; comptador de la regla = 5 paquets). Interpretació a l'evidència | `a207-filtre.txt`, `a207-prova-permesa-bloquejada.txt` |
+| a208 còpia al NAS | ✅ `/export` (text, sense dades sensibles) + `/system backup save` (binari xifrat) pujats per SFTP a `/mnt/copies/routers/r1/` | `a208-copia-al-nas.txt` |
+| a209 fallada i recuperació | ✅ s'esborren la IP de la LAN, el NAT i la còpia local → els clients perden la porta d'enllaç. Recuperació: es torna a posar la IP de la LAN, es baixa `r1-backup.backup` del NAS per SFTP i es fa `/system backup load`. Prova final: CLI-Debian torna a obtindre `HTTP/2 200`. **Temps d'inactivitat: 42 s** | `a209-fallada-recuperacio.txt` |
+
+**Accés de gestió afegit:** redirecció de port NAT de VirtualBox `127.0.0.1:2201 → R1:22`, i regla `input` que només accepta SSH per la WAN des de 10.0.2.2 (l'amfitrió). Amb `/ip ssh set forwarding-enabled=local`, R1 fa de **bastió**: des de l'amfitrió s'entra a la resta de la LAN13 amb `ssh -J admin-ivan@127.0.0.1:2201 usuari@192.168.13.x`.
 
 ## 3. R2 · OPNsense (a210–a216)
 
@@ -176,6 +191,19 @@ Evidències a `evidencias/t5-truenas/`.
    - Serveis: SSH (amb SFTP), NFS i SMB.
 5. **Equips crítics** que es copien: els 3 routers (sense ells no hi ha xarxa), els nodes Proxmox, el WS2025 (identitats) i el mateix NAS.
 6. **Còpia del propi NAS:** System → General → *Manage configuration* → *Download file*, amb el secret seed. Es guarda **fora** del NAS i **fora** del Git.
+
+
+### ✅ Resultat NAS (11/11/2026)
+
+| Acció | Estat | Evidència |
+|---|---|---|
+| a224 instal·lació i versió | ✅ TrueNAS SCALE **25.10.7**, instal·lat **només** al disc de 20 GiB | `t5-truenas/01-disc-installacio-sda.png`, `02-installacio-completada.png` |
+| a225 usuaris | ✅ `truenas_admin` (administrador, creat a l'instal·lador; el login de root amb contrasenya queda desactivat) i `copies` (uid 3000, **sense** privilegis d'administrador, home `/mnt/copies/usuaris/copies`) | — |
+| a226 xarxa | ✅ enp0s3 **192.168.13.20/24** estàtica (sense DHCP), GW i DNS 192.168.13.1, nom `nas13.lan13.local`. Canvi aplicat amb *commit* i *checkin* (si no es confirma en 120 s, TrueNAS torna sol a la configuració anterior) | — |
+| a227 disc addicional | ✅ pool **`copies`** (stripe, 48 GB útils) sobre el disc de 50 GiB · datasets `routers` (r1, r2, r3), `linux`, `proxmox` (NFS per a 192.168.13.0/24), `windows` i `clients` (SMB) · propietari `copies`, permisos 770 · serveis SSH/SFTP, NFS i SMB actius | — |
+
+**Problema trobat i evitat:** després de reiniciar, el disc d'arrencada (20 GiB) va passar a anomenar-se **`sdb`** i el de 50 GiB **`sda`**. La primera ordre de creació del pool (amb `sdb`) va fallar amb *«disks are already in use: sdb»*: TrueNAS va impedir esborrar el disc del sistema.
+**Lliçó:** no s'han d'identificar els discos pel nom `sdX`, que pot canviar en cada arrencada, sinó per la mida o el número de sèrie (`/api/v2.0/disk`).
 
 ## 6. Proxmox VE (a228–a232, a235, a236)
 
@@ -317,7 +345,7 @@ comprovar al NAS que el fitxer porta la data i l'hora correctes.
 
 | Escenari | Funció afectada | Recurs de recuperació | RTO objectiu | RTO observat | Dades perdudes |
 |---|---|---|---|---|---|
-| R1 sense NAT ni IP LAN | Internet de la LAN | `r1-export.rsc` | 15 min | | |
+| R1 sense NAT ni IP LAN | Internet de la LAN | `r1-backup.backup` del NAS | 15 min | **42 s** | cap (la còpia era de pocs minuts abans) |
 | R2 restablert de fàbrica | Internet + DHCP | `config.xml` | 15 min | | |
 | R3 sense regles | Internet + filtre | `/etc/nftables.conf` / NAS | 10 min | | |
 | Disc RAID fallit | Volum de dades | RAID 1/5 + reconstrucció | 0 (servei continu) | | |

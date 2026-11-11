@@ -1,0 +1,26 @@
+# R1-MikroTik — 2026-11-11 16:08:05 — /system resource print; /system package print; /system license print
+                   uptime: 3m6s                       
+                  version: 7.24.5 (stable)            
+               build-time: 2026-09-29 14:21:27        
+          minimum-version: 7.1                        
+              free-memory: 299.2MiB                   
+             total-memory: 512.0MiB                   
+                      cpu: 12th                       
+                cpu-count: 1                          
+            cpu-frequency: 2495MHz                    
+                 cpu-load: 1%                         
+           free-hdd-space: 946.0MiB                   
+          total-hdd-space: 966.1MiB                   
+  write-sect-since-reboot: 1736                       
+         write-sect-total: 1736                       
+        architecture-name: x86_64                     
+               board-name: x86 innotek GmbH VirtualBox
+                 platform: MikroTik                   
+
+Columns: NAME, VERSION, BUILD-TIME, SIZE
+# NAME      VERSION  BUILD-TIME           SIZE   
+0 routeros  7.24.5   2026-09-29 14:21:27  19.9MiB
+
+  software-id: XQY7-R2TK
+   expires-in: 23h46m54s
+

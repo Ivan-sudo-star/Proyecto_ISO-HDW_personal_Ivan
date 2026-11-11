@@ -121,6 +121,10 @@ escenaris curts és una optimització possible (N/C, s'ha de mesurar).
 | 6 | El primer disseny tenia 2 nodes Proxmox i el WS2025 i els Debian com a VM soltes de VirtualBox | No l'havia contrastat amb el repositori del grup, que té 3 nodes amb els servidors dins | 3 nodes (PVE1 amb 6 GB per al WS2025) i els servidors com a VM de Proxmox. Les 3 VM soltes, buides, es van esborrar | ✅ |
 | 5 | Falta la ISO de Windows Server 2025 | No era a `~/Escritorio/ISOS/` | Descarregar l'avaluació de 180 dies del Microsoft Evaluation Center i pujar-la a l'emmagatzematge ISO de PVE1 (o al NFS del NAS) | ⬜ |
 
+| 7 | Proxmox exigeix una contrasenya de root de **8 caràcters com a mínim**, i la de laboratori és més curta | Política de l'instal·lador | S'instal·la amb una de 8 caràcters i després es canvia amb `passwd`: el sistema base ho permet, perquè `root@pam` és un usuari de Linux | ✅ |
+| 8 | L'instal·lador de Proxmox posava el teclat **espanyol**, i el teclat virtual de VirtualBox (`keyboardputstring`) envia les tecles com un teclat US: la `/` de les IP eixia malament | Distribució de teclat diferent | Teclat «U.S. English» a l'instal·lador; la gestió posterior es fa per SSH i web | ✅ |
+| 9 | TrueNAS: el disc d'arrencada va canviar de nom (`sda` → `sdb`) després del reinici | Linux assigna `sdX` per ordre de detecció | Identificar els discos per mida o número de sèrie, no pel nom | ✅ |
+
 *(Afegir ací cada problema nou que aparega durant la instal·lació, amb símptoma, causa, solució i com ho he comprovat.)*
 
 ## 6. Evidències

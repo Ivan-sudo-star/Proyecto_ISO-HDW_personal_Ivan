@@ -1,0 +1,43 @@
+# Prova permesa / bloquejada a través de R1 (a206, a207) — 2026-11-11 16:40:46
+## Des de CLI-Debian (192.168.13.200)
+$ ip route
+default via 192.168.13.1 dev enp0s3 proto dhcp src 192.168.13.200 metric 100 
+192.168.13.0/24 dev enp0s3 proto kernel scope link src 192.168.13.200 metric 100 
+
+$ curl -sI https://www.debian.org | head -1   (PERMESA: web)
+HTTP/2 200 
+
+$ ping -c3 1.1.1.1   (PERMESA: ICMP)
+3 packets transmitted, 3 received, 0% packet loss, time 2280ms
+rtt min/avg/max/mdev = 11.436/14.151/17.754/2.654 ms
+
+$ nc -zv -w5 github.com 22   (BLOQUEJADA: SSH cap a Internet)
+nc: connect to github.com (20.250.119.67) port 22 (tcp) timed out: Operation now in progress
+codi de retorn: 1
+
+## Registre de R1 (/log print where message~"R1-")
+ 2026-11-11 16:40:48 firewall,info R1-FWD-OK forward: in:ether2 out:ether1, connection-state:new src-mac xx:xx:xx:xx:xx:xx, proto TCP (SYN), 192.168.13.200:33636->130.89.148.77:443, len 60
+ 2026-11-11 16:40:50 firewall,info R1-BLOQ-SSH forward: in:ether2 out:ether1, connection-state:new src-mac xx:xx:xx:xx:xx:xx, proto TCP (SYN), 192.168.13.200:40772->20.250.119.67:22, len 60
+ 2026-11-11 16:40:52 firewall,info R1-BLOQ-SSH forward: in:ether2 out:ether1, connection-state:new src-mac xx:xx:xx:xx:xx:xx, proto TCP (SYN), 192.168.13.200:40772->20.250.119.67:22, len 60
+ 2026-11-11 16:40:53 firewall,info R1-BLOQ-SSH forward: in:ether2 out:ether1, connection-state:new src-mac xx:xx:xx:xx:xx:xx, proto TCP (SYN), 192.168.13.200:40772->20.250.119.67:22, len 60
+ 2026-11-11 16:40:54 firewall,info R1-BLOQ-SSH forward: in:ether2 out:ether1, connection-state:new src-mac xx:xx:xx:xx:xx:xx, proto TCP (SYN), 192.168.13.200:40772->20.250.119.67:22, len 60
+ 2026-11-11 16:40:55 firewall,info R1-BLOQ-SSH forward: in:ether2 out:ether1, connection-state:new src-mac xx:xx:xx:xx:xx:xx, proto TCP (SYN), 192.168.13.200:40772->20.250.119.67:22, len 60
+
+## Comptadors de les regles de prova
+Columns: CHAIN, ACTION, BYTES, PACKETS
+# CHAIN    ACTION   BYTES  PACKETS
+;;; PROVA: SSH a Internet bloquejat
+8 forward  drop       300        5
+;;; PROVA: eixida permesa
+9 forward  accept  21 520      296
+
+
+## Interpretació
+- PERMESA: la línia `R1-FWD-OK forward: in:ether2 out:ether1 ... 192.168.13.200:33636->130.89.148.77:443` és la regla
+  «PROVA: eixida permesa» (cadena forward, connexió nova, de la LAN cap a la WAN). Origen: CLI-Debian; destí: el servidor
+  web de debian.org, port 443 (HTTPS). Acció: accept → el client rep `HTTP/2 200`.
+- BLOQUEJADA: les línies `R1-BLOQ-SSH ... 192.168.13.200:40772->20.250.119.67:22 proto TCP (SYN)` són la regla
+  «PROVA: SSH a Internet bloquejat». Origen: el mateix client; destí: github.com, port 22. Acció: drop.
+  Apareixen 5 vegades amb el mateix port d'origen (40772): el primer SYN i 4 retransmissions del client, que no rep
+  resposta. Per això `nc` acaba amb timeout, i no amb «connection refused», i el comptador de la regla marca 5 paquets.
+- El NAT (masquerade) no apareix al registre: la traducció d'origen a 10.0.2.15 es fa a la cadena srcnat, després del filtre.

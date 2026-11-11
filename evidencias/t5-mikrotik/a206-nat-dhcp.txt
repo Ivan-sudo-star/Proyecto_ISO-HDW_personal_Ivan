@@ -1,0 +1,17 @@
+# R1-MikroTik — 2026-11-11 16:08:07 — /ip firewall nat print detail; /ip pool print; /ip dhcp-server print; /ip dhcp-server network print
+0  ;;; LAN13 -> Internet
+   chain=srcnat action=masquerade src-address=192.168.13.0/24
+   out-interface=ether1
+
+Columns: NAME, RANGES, TOTAL, USED, AVAILABLE
+#  NAME        RANGES                         TOTAL  USED  AVAILABLE
+0  pool-lan13  192.168.13.100-192.168.13.200    101     0        101
+
+Columns: NAME, INTERFACE, ADDRESS-POOL, LEASE-TIME
+# NAME        INTERFACE  ADDRESS-POOL  LEASE-TIME
+0 dhcp-lan13  ether2     pool-lan13    12h       
+
+Columns: ADDRESS, GATEWAY, DNS-SERVER, DOMAIN
+# ADDRESS          GATEWAY       DNS-SERVER    DOMAIN     
+0 192.168.13.0/24  192.168.13.1  192.168.13.1  lan13.local
+

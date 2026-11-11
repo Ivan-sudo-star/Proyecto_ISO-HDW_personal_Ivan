@@ -1,0 +1,21 @@
+# CLI-Debian — 2026-11-11 16:47:01
+$ ip -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp0s3           UP             192.168.13.200/24 fe80::a00:27ff:fef0:2c97/64 
+
+$ ip a show enp0s3
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether xx:xx:xx:xx:xx:xx brd xx:xx:xx:xx:xx:xx
+    altname enx080027f02c97
+    inet 192.168.13.200/24 brd 192.168.13.255 scope global dynamic noprefixroute enp0s3
+       valid_lft 42387sec preferred_lft 42387sec
+    inet6 fe80::a00:27ff:fef0:2c97/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+
+$ ip route
+default via 192.168.13.1 dev enp0s3 proto dhcp src 192.168.13.200 metric 100 
+192.168.13.0/24 dev enp0s3 proto kernel scope link src 192.168.13.200 metric 100 
+
+$ cat /etc/resolv.conf
+search lan13.local
+nameserver 192.168.13.1

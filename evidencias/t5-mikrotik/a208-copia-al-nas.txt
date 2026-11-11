@@ -1,0 +1,40 @@
+# R1 → NAS: còpia de configuració (a208) — 2026-11-11 16:20:28
+## A R1: export de text (sense dades sensibles) + backup binari xifrat, i pujada per SFTP
+Configuration backup saved
+Columns: NAME, TYPE, SIZE, LAST-MODIFIED
+# NAME              TYPE    SIZE     LAST-MODIFIED      
+0 r1-aplicar.rsc    script  2380     2026-11-11 16:07:39
+2 r1-export.rsc     script  2692     2026-11-11 16:20:29
+3 r1-backup.backup  backup  25.4KiB  2026-11-11 16:20:29
+
+    status: uploading
+  uploaded: 0KiB     
+     total: 2KiB     
+  duration: 0s       
+
+    status: finished
+  uploaded: 2KiB    
+     total: 2KiB    
+  duration: 1s      
+
+    status: uploading
+  uploaded: 25KiB    
+     total: 25KiB    
+  duration: 0s       
+
+    status: finished
+  uploaded: 25KiB   
+     total: 25KiB   
+  duration: 1s      
+
+
+## Comprovació al NAS
+total 1
+-rw-r--r-- 1 copies copies 26039 Nov 11 16:20 r1-backup.backup
+-rw-r--r-- 1 copies copies  2692 Nov 11 16:20 r1-export.rsc
+
+# 2026-11-11 16:20:29 by RouterOS 7.24.5
+# software id = XQY7-R2TK
+#
+/interface ethernet
+65

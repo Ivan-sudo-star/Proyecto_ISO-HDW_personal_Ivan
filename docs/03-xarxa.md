@@ -40,9 +40,9 @@ Màscara a tota la LAN: **255.255.255.0 (/24)**. La xarxa NAT de VirtualBox és 
 | R3 Debian_NFtables | VirtualBox | 1 | NAT | enp0s3 (WAN) | 10.0.2.15/24 | 10.0.2.2 | 10.0.2.3 | DHCP |
 | | | 2 | Interna LAN13 | enp0s8 (LAN) | **192.168.13.3/24** | — | — | estàtica |
 | NAS-TrueNAS | VirtualBox | 1 | Interna LAN13 | enp0s3 | 192.168.13.20/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
-| PVE1-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre enp0s3) | 192.168.13.32/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
-| PVE2-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre enp0s3) | 192.168.13.33/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
-| PVE3-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre enp0s3) | 192.168.13.34/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
+| PVE1-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre nic0) | 192.168.13.32/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
+| PVE2-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre nic0) | 192.168.13.33/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
+| PVE3-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre nic0) | 192.168.13.34/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
 | ↳ 210 SRV-WS2025 | Proxmox (PVE1) | net0 | vmbr0 | Ethernet | 192.168.13.21/24 | 192.168.13.1 | 192.168.13.1 (ell mateix si es promou a DC) | estàtica |
 | ↳ 220 SRV-SERVEIS | Proxmox (PVE2) | net0 | vmbr0 | ens18 | 192.168.13.22/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
 | ↳ 230 SRV-DADES | Proxmox (PVE3) | net0 | vmbr0 | ens18 | 192.168.13.23/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
@@ -61,16 +61,16 @@ iface ens18 inet static
     dns-nameservers 192.168.13.1
 ```
 
-Exemple de node Proxmox (`/etc/network/interfaces` de PVE2):
+Configuració real del node PVE2 (`/etc/network/interfaces`). Proxmox 9 «fixa» el nom de la targeta com a `nic0`, igual que al grup ([evidència](../evidencias/t4-xarxa/ifaces-rutes-pve2.txt)):
 ```
 auto lo
 iface lo inet loopback
-iface enp0s3 inet manual
+iface nic0 inet manual
 auto vmbr0
 iface vmbr0 inet static
     address 192.168.13.33/24
     gateway 192.168.13.1
-    bridge-ports enp0s3
+    bridge-ports nic0
     bridge-stp off
     bridge-fd 0
 ```

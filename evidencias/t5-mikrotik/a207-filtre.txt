@@ -1,0 +1,33 @@
+# R1-MikroTik — 2026-11-11 16:08:08 — /ip firewall filter print detail without-paging
+ 0  ;;; input: establertes
+    chain=input action=accept connection-state=established,related
+ 
+ 1  chain=input action=drop connection-state=invalid
+ 
+ 2  ;;; input: gestio des de la LAN
+    chain=input action=accept in-interface=ether2
+ 
+ 3  chain=input action=accept protocol=icmp
+ 
+ 4  ;;; input: gestio SSH des de l'amfitrio (port-forward NAT VirtualBox 127.0.
+        0.1:2201)
+    chain=input action=accept protocol=tcp src-address=10.0.2.2
+    in-interface=ether1 dst-port=22
+ 
+ 5  ;;; input: resta de la WAN
+    chain=input action=drop in-interface=ether1 log=yes log-prefix="R1-IN-DROP"
+ 
+ 6  chain=forward action=accept connection-state=established,related
+ 
+ 7  chain=forward action=drop connection-state=invalid
+ 
+ 8  ;;; PROVA: SSH a Internet bloquejat
+    chain=forward action=drop protocol=tcp in-interface=ether2
+    out-interface=ether1 dst-port=22 log=yes log-prefix="R1-BLOQ-SSH"
+ 
+ 9  ;;; PROVA: eixida permesa
+    chain=forward action=accept connection-state=new in-interface=ether2
+    out-interface=ether1 log=yes log-prefix="R1-FWD-OK"
+ 
+10  chain=forward action=drop log=yes log-prefix="R1-FWD-DROP"
+

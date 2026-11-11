@@ -5,7 +5,7 @@
 /system script add name=copia-nas policy=read,write,test,sensitive,ftp source={
   :global nasPass
   :local data [/system clock get date]
-  /export show-sensitive=no file=r1-export
+  /export file=r1-export
   /system backup save name=r1-backup
   :delay 3s
   /tool fetch upload=yes mode=sftp address=192.168.13.20 user=copies password=$nasPass \

@@ -1,0 +1,9 @@
+# NAS-TrueNAS — 2026-11-11 16:47:51
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+enp0s3           UP             192.168.13.20/24 fe80::a00:27ff:fe22:4818/64 
+
+default via 192.168.13.1 dev enp0s3 proto static 
+192.168.13.0/24 dev enp0s3 proto kernel scope link src 192.168.13.20 
+
+domain lan13.local
+nameserver 192.168.13.1

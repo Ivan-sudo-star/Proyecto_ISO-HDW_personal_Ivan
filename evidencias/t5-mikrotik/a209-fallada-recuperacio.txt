@@ -1,0 +1,49 @@
+# a209 — Fallada controlada i recuperació de R1 des de la còpia del NAS — 2026-11-11 16:41:22
+Punt de retorn previ: instantània VirtualBox R1-instal-ok + còpia r1-backup.backup al NAS (a208)
+
+## 1. Fallada provocada: s'esborren la IP de la LAN i la regla de NAT (i el fitxer de còpia local)
+T0 = 16:41:22
+Flags: D - DYNAMIC
+Columns: ADDRESS, NETWORK, INTERFACE, VRF
+#   ADDRESS       NETWORK   INTERFACE  VRF 
+0 D 10.0.2.15/24  10.0.2.0  ether1     main
+
+
+
+## 2. Símptoma des de CLI-Debian
+Connection timed out during banner exchange
+Connection to UNKNOWN port 65535 timed out
+(el client ja no arriba ni a la porta d'enllaç: SSH a CLI-Debian també passa per la LAN de R1)
+
+## 3. Diagnòstic a R1: /ip address print sense ether2, /ip firewall nat print buit → hipòtesi: configuració perduda
+
+## 4. Recuperació des del NAS. Problema: el NAS és a la LAN i ara R1 no hi té IP, de manera que no s'hi pot arribar.
+   Pas mínim: tornar a posar la IP de LAN, baixar r1-backup.backup del NAS per SFTP i carregar-lo
+  status: connecting
+
+      status: finished
+  downloaded: 25KiB   
+       total: 25KiB   
+    duration: 0s      
+
+Columns: NAME, TYPE, SIZE, LAST-MODIFIED
+# NAME              TYPE    SIZE     LAST-MODIFIED      
+3 r1-backup.backup  backup  25.4KiB  2026-11-11 16:41:35
+
+   /system backup load name=r1-backup.backup password=<lab>  (reinicia el router)
+System configuration restored, rebooting now
+
+## 5. Prova funcional final
+Flags: D - DYNAMIC
+Columns: ADDRESS, NETWORK, INTERFACE, VRF
+#   ADDRESS          NETWORK       INTERFACE  VRF 
+;;; LAN13
+0   192.168.13.1/24  192.168.13.0  ether2     main
+1 D 10.0.2.15/24     10.0.2.0      ether1     main
+
+0  ;;; LAN13 -> Internet
+   chain=srcnat action=masquerade src-address=192.168.13.0/24
+   out-interface=ether1
+
+CLI-Debian → https://www.debian.org: HTTP/2 200 
+T1 = 16:42:04  →  temps d'inactivitat: 42 s

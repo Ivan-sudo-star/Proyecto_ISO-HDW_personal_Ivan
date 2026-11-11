@@ -1,0 +1,25 @@
+# pve1 — 2026-11-11 16:47:52
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+nic0             UP             
+vmbr0            UP             192.168.13.32/24 fe80::a00:27ff:fe33:34cb/64 
+
+default via 192.168.13.1 dev vmbr0 proto kernel onlink 
+192.168.13.0/24 dev vmbr0 proto kernel scope link src 192.168.13.32 
+
+auto lo
+iface lo inet loopback
+
+iface nic0 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+	address 192.168.13.32/24
+	gateway 192.168.13.1
+	bridge-ports nic0
+	bridge-stp off
+	bridge-fd 0
+
+
+source /etc/network/interfaces.d/*
+
+192.168.13.32 pve1.lan13.local pve1

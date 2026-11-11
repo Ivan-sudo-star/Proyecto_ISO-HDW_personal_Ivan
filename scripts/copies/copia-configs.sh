@@ -39,7 +39,7 @@ for ROUTER in $ROUTERS; do
       > "$WORK/routers/r3/etc-$DATA.tgz" && fet "R3 nftables" || err "R3 nftables"
   elif $SSH admin-ivan@$ROUTER '/system identity print' >/dev/null 2>&1; then   # R1 MikroTik
     mkdir -p "$WORK/routers/r1"
-    $SSH admin-ivan@$ROUTER '/export show-sensitive=no' > "$WORK/routers/r1/export-$DATA.rsc" \
+    $SSH admin-ivan@$ROUTER '/export' > "$WORK/routers/r1/export-$DATA.rsc" \
       && fet "R1 MikroTik export" || err "R1 MikroTik"
   else
     err "$ROUTER respon al ping però no per SSH"
