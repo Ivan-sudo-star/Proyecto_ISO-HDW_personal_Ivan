@@ -56,7 +56,7 @@ Registre de casa: [`tests-casa-20261111-1504.txt`](../evidencias/t2-tests/tests-
 | 2 | **RAM**: 30 GB per a totes les VM i en tinc 24 | tots dos | Càlcul a [01 §4](01-entorn.md#4-càlculs-i-limitacions-a18) | ✅ per càlcul; mesura a T7 | Treballar per escenaris. Reduir RAM de les VM sense GUI (R3 4 → 1 GB). Si cal, provar TrueNAS amb menys RAM |
 | 3 | **Fils de CPU a casa**: 12 en lloc de 18 | casa | `lscpu` | ✅ | Suma de vCPU ≤ 10 a casa. 1 vCPU als servidors Linux lleugers |
 | 4 | **Xarxa de casa a 100 Mb/s**: descàrregues d'ISO i actualitzacions lentes | casa | `ethtool`: l'altre extrem només anuncia 10/100. Descàrrega ≈ 48 Mb/s | ✅ | Provar un altre port del router o un cable Cat5e/Cat6 nou. Si el router és Fast Ethernet, no té solució sense canviar-lo. **No afecta la LAN13**, que és interna de VirtualBox i va per memòria |
-| 5 | **Secure Boot a casa** impedeix carregar `vboxdrv` | casa | Avís de `VBoxManage` | ✅ | Desactivar-lo a la BIOS (vegeu [01 §5](01-entorn.md#5-problemes-trobats-i-solució-a127)) |
+| 5 | **Secure Boot a casa** impedeix carregar `vboxdrv` | casa | Avís de `VBoxManage`; `modinfo vboxdrv` mostra que el mòdul està signat amb una clau que la placa no té registrada | ✅ | Registrar la clau MOK del disc al firmware de casa (una sola vegada), sense desactivar el Secure Boot (vegeu [01 §5](01-entorn.md#5-problemes-trobats-i-solució-a127)) |
 | 6 | **Límit tèrmic / bateria** del portàtil | classe | ⬜ mesurar la freqüència de la CPU amb càrrega (T7) | N/C | Treballar sempre amb el carregador. Perfil d'energia de rendiment |
 | 7 | Disc NVMe de casa sense DRAM | casa | No l'usa l'entorn | ❌ descartat | — |
 
