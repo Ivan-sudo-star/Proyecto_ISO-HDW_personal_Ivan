@@ -262,10 +262,10 @@ Evidències a `evidencias/t5-truenas/`.
 
 | Acció | Estat | Evidència |
 |---|---|---|
-| a224 instal·lació i versió | ✅ TrueNAS SCALE **25.10.7**, instal·lat **només** al disc de 20 GiB | `t5-truenas/01-disc-installacio-sda.png`, `02-installacio-completada.png` |
-| a225 usuaris | ✅ `truenas_admin` (administrador, creat a l'instal·lador; el login de root amb contrasenya queda desactivat) i `copies` (uid 3000, **sense** privilegis d'administrador, home `/mnt/copies/usuaris/copies`) | ⚠️ falta exportar-la (`/api/v2.0/user`) |
-| a226 xarxa | ✅ enp0s3 **192.168.13.20/24** estàtica (sense DHCP), GW i DNS 192.168.13.1, nom `nas13.lan13.local`. Canvi aplicat amb *commit* i *checkin* (si no es confirma en 120 s, TrueNAS torna sol a la configuració anterior) | ⚠️ falta exportar-la (`/api/v2.0/interface`) |
-| a227 disc addicional | ✅ pool **`copies`** (stripe, 48 GB útils) sobre el disc de 50 GiB · datasets `routers` (r1, r2, r3), `linux`, `proxmox` (NFS per a 192.168.13.0/24), `windows` i `clients` (SMB) · propietari `copies`, permisos 770 · serveis SSH/SFTP, NFS i SMB actius | ⚠️ falta exportar-la (`/api/v2.0/pool`, `/sharing/smb`, `/sharing/nfs`). Indirecta: les còpies de R1–R3, Proxmox i W11 hi són |
+| a224 instal·lació i versió | ✅ TrueNAS SCALE **25.10.7**, instal·lat **només** al disc de 20 GiB (`boot-pool` a `sda`) | `t5-truenas/01-disc-installacio-sda.png`, `02-installacio-completada.png`, `a224-a227-truenas.txt` |
+| a225 usuaris | ✅ `truenas_admin` (administrador, creat a l'instal·lador; el login de root amb contrasenya queda desactivat) i `copies` (uid 3000, **sense** privilegis d'administrador, home `/mnt/copies/usuaris/copies`) | `t5-truenas/a224-a227-truenas.txt` |
+| a226 xarxa | ✅ enp0s3 **192.168.13.20/24** estàtica (sense DHCP), GW i DNS 192.168.13.1, nom `nas13.lan13.local`. Canvi aplicat amb *commit* i *checkin* (si no es confirma en 120 s, TrueNAS torna sol a la configuració anterior) | ídem |
+| a227 disc addicional | ✅ pool **`copies`** (stripe, 48 GB útils) sobre el disc de 50 GiB · datasets `routers` (r1, r2, r3), `linux`, `proxmox` (NFS per a 192.168.13.0/24), `windows` i `clients` (SMB) · propietari `copies`, permisos 770 · serveis SSH/SFTP, NFS i SMB actius | ídem (exportat per l'API el 12/11) |
 
 **Problema trobat i evitat:** després de reiniciar, el disc d'arrencada (20 GiB) va passar a anomenar-se **`sdb`** i el de 50 GiB **`sda`**. La primera ordre de creació del pool (amb `sdb`) va fallar amb *«disks are already in use: sdb»*: TrueNAS va impedir esborrar el disc del sistema.
 **Lliçó:** no s'han d'identificar els discos pel nom `sdX`, que pot canviar en cada arrencada, sinó per la mida o el número de sèrie (`/api/v2.0/disk`).
@@ -337,7 +337,7 @@ Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node:
 | Acció | Estat | Evidència |
 |---|---|---|
 | a228 instal·lació i versió | ✅ 3 nodes amb l'instal·lador en mode text: ext4/LVM-thin, Europe/Madrid, teclat US. `pve-manager` 9.2.2 → **9.2.26** després d'actualitzar | `t5-proxmox/01..03-*-resum-installacio.png`, `a79-actualitzacio-nodes.txt` |
-| a229 usuaris | ✅ `root@pam` · **`ivan@pam`** (rol Administrator a `/`) · `consulta@pve` (rol PVEAuditor). El *realm* `pve` exigeix 8 caràcters com a mínim, per això l'administrador és un usuari PAM (Linux) | ⚠️ falta exportar-la (`pveum user list`, `pveum acl list`) |
+| a229 usuaris | ✅ `root@pam` · **`ivan@pam`** (rol Administrator a `/`) · `consulta@pve` (rol PVEAuditor). El *realm* `pve` exigeix 8 caràcters com a mínim, per això l'administrador és un usuari PAM (Linux) | `t5-proxmox/a229-usuaris.txt` |
 | a230 xarxa | ✅ `vmbr0` amb IP fixa sobre **`nic0`** (Proxmox 9 «fixa» els noms de les targetes), GW i DNS .1, `/etc/hosts` correcte als 3 nodes | `t4-xarxa/ifaces-rutes-pve{1,2,3}.txt` |
 | a232 clúster | ✅ **`cluster13`**: 3 nodes, 3 vots, quòrum 2, `Quorate: Yes` | `a232-cluster.txt` |
 | a79 actualització | ✅ repositori *enterprise* desactivat i *no-subscription* activat; 211 paquets actualitzats; nucli 7.0.2-6 → **7.0.14-28**; 0 serveis fallits després de reiniciar | `a79-actualitzacio-nodes.txt` |

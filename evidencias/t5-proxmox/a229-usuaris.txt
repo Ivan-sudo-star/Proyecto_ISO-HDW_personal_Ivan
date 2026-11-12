@@ -1,0 +1,39 @@
+# Proxmox — usuaris i permisos del clúster (a229) — 2026-11-12 13:03:11
+# Des de pve2 (192.168.13.33). Els usuaris i les ACL són comuns a tot el clúster (/etc/pve).
+
+$ pveum user list
+┌──────────────┬───────────────────────────┬───────────────────┬────────┬────────┬───────────┬────────┬──────┬──────────┬────────────┬──────────────────┬────────┬─────────────┐
+│ userid       │ comment                   │ email             │ enable │ expire │ firstname │ groups │ keys │ lastname │ realm-type │ tfa-locked-until │ tokens │ totp-locked │
+╞══════════════╪═══════════════════════════╪═══════════════════╪════════╪════════╪═══════════╪════════╪══════╪══════════╪════════════╪══════════════════╪════════╪═════════════╡
+│ consulta@pve │ Consulta (nomes lectura)  │                   │ 1      │      0 │           │        │      │          │ pve        │                  │        │             │
+├──────────────┼───────────────────────────┼───────────────────┼────────┼────────┼───────────┼────────┼──────┼──────────┼────────────┼──────────────────┼────────┼─────────────┤
+│ ivan@pam     │ Administrador del cluster │                   │ 1      │      0 │           │        │      │          │ pam        │                  │        │             │
+├──────────────┼───────────────────────────┼───────────────────┼────────┼────────┼───────────┼────────┼──────┼──────────┼────────────┼──────────────────┼────────┼─────────────┤
+│ root@pam     │                           │ admin@lan13.local │ 1      │      0 │           │        │      │          │ pam        │                  │        │             │
+└──────────────┴───────────────────────────┴───────────────────┴────────┴────────┴───────────┴────────┴──────┴──────────┴────────────┴──────────────────┴────────┴─────────────┘
+
+$ pveum acl list
+┌──────┬───────────────┬──────┬──────────────┬───────────┐
+│ path │ roleid        │ type │ ugid         │ propagate │
+╞══════╪═══════════════╪══════╪══════════════╪═══════════╡
+│ /    │ Administrator │ user │ ivan@pam     │ 1         │
+├──────┼───────────────┼──────┼──────────────┼───────────┤
+│ /    │ PVEAuditor    │ user │ consulta@pve │ 1         │
+└──────┴───────────────┴──────┴──────────────┴───────────┘
+
+$ id ivan
+uid=1000(ivan) gid=1000(ivan) groups=1000(ivan)
+
+$ pveversion
+pve-manager/9.2.26/41a0e2e09b9e6f9d (running kernel: 7.0.14-28-pve)
+
+$ pvecm status | grep -E "Quorate|Expected|Total"
+Quorate:          No
+Expected votes:   3
+Total votes:      1
+
+## Interpretació
+- root@pam: superusuari del sistema (correu admin@lan13.local de l'instal·lador).
+- ivan@pam: administrador del clúster (rol Administrator a «/», heretat a tot). És un usuari Linux del node (`id ivan`) perquè el realm «pve» exigeix 8 caràcters de contrasenya.
+- consulta@pve: només lectura (rol PVEAuditor a «/»).
+- «Quorate: No» és esperat en aquesta captura: només hi ha encés PVE2 (1 vot de 3) per estalviar RAM a casa. Amb 2 o 3 nodes el clúster té quòrum (a232-cluster.txt, a232-quorum-amb-un-node-apagat.txt). Les ordres de lectura funcionen igualment.

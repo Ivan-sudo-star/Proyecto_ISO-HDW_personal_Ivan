@@ -1,0 +1,52 @@
+# NAS-TrueNAS (192.168.13.20) — 2026-11-12 13:02:49
+# Exportat per l'API REST (/api/v2.0, només lectura) a través d'un túnel SSH per R1. Sense claus ni hash de contrasenyes.
+
+## a224 versió
+versió: 25.10.7 · nom: nas13 · RAM: 7.7 GiB · nuclis: 2 · en marxa: 0:01:17.108388
+discos:
+  sda   20 GiB  VBOX_HARDDISK
+  sdb   50 GiB  VBOX_HARDDISK
+disc del sistema (boot-pool, ONLINE): sda (20 GiB)
+
+## a225 usuaris (no integrats)
+  root           uid=0     grup=wheel          home=/root                        admin=sí  sudo=no  contrasenya_desactivada=True bloquejat=False clau_ssh=no
+  truenas_admin  uid=950   grup=truenas_admin  home=/home/truenas_admin          admin=sí  sudo=sí  contrasenya_desactivada=False bloquejat=False clau_ssh=no
+  copies         uid=3000  grup=copies         home=/mnt/copies/usuaris/copies   admin=no  sudo=no  contrasenya_desactivada=False bloquejat=False clau_ssh=no
+
+## a226 xarxa
+  enp0s3: 192.168.13.20/24 · DHCP=False · estat=LINK_STATE_UP
+  porta d'enllaç: 192.168.13.1 · DNS: 192.168.13.1 · nom: nas13.lan13.local
+
+## a227 pool i datasets
+  pool copies: estat=ONLINE sa=True · topologia: DISK(1 disc)
+  copies                       usat=2.21 GiB disponible=45.28 GiB
+  copies/windows               usat=  96 KiB disponible=45.28 GiB
+  copies/proxmox               usat= 2.2 GiB disponible=45.28 GiB
+  copies/linux                 usat=  96 KiB disponible=45.28 GiB
+  copies/usuaris               usat= 108 KiB disponible=45.28 GiB
+  copies/routers               usat= 168 KiB disponible=45.28 GiB
+  copies/clients               usat= 132 KiB disponible=45.28 GiB
+
+recursos SMB:
+  \\192.168.13.20\windows -> /mnt/copies/windows (activat=True)
+  \\192.168.13.20\clients -> /mnt/copies/clients (activat=True)
+recursos NFS:
+  /mnt/copies/proxmox -> xarxes ['192.168.13.0/24'] (activat=True)
+serveis:
+  cifs   RUNNING  a l'arrencada=True
+  nfs    RUNNING  a l'arrencada=True
+  ssh    RUNNING  a l'arrencada=True
+
+$ ls -ld /mnt/copies/*   (des de ssh copies@192.168.13.20)
+drwxrwx--- 3 copies copies 3 Nov 12 11:20 /mnt/copies/clients
+drwxrwx--- 2 copies copies 2 Nov 11 16:17 /mnt/copies/linux
+drwxrwx--- 8 copies copies 8 Nov 12 09:49 /mnt/copies/proxmox
+drwxrwx--- 5 copies copies 5 Nov 11 16:20 /mnt/copies/routers
+drwxr-xr-x 3 root   root   3 Nov 11 16:17 /mnt/copies/usuaris
+drwxrwx--- 2 copies copies 2 Nov 11 16:17 /mnt/copies/windows
+
+## Interpretació
+- a224: TrueNAS SCALE instal·lat al disc de 20 GiB; el de 50 GiB queda lliure per al pool.
+- a225: l'administrador és truenas_admin; copies és un usuari normal (sense admin ni sudo), propietari dels datasets de còpies.
+- a226: IP fixa 192.168.13.20/24 sense DHCP, amb porta d'enllaç i DNS a R1.
+- a227: pool «copies» sa sobre el disc addicional, amb un dataset per a cada tipus de còpia, compartits per SMB (Windows) i NFS (Proxmox), i els serveis SSH/NFS/SMB actius.
