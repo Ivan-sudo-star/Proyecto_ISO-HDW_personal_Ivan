@@ -241,7 +241,7 @@ Evidències a `evidencias/t5-opnsense/`.
 | Administrador / consulta | `admin-ivan` / `suport` (`admin` desactivat) | `admin-ivan` / `suport` (+ `root`) | `admin-ivan` (sudo) / `suport` (+ `ivancambra`) |
 | WAN | ether1 · DHCP 10.0.2.15 | em0 · DHCP 10.0.2.15 | enp0s3 · DHCP 10.0.2.15 |
 | LAN | **bridge-lan13** (port ether2) · **192.168.13.1/24** | em1 · **192.168.13.2/24** | enp0s8 · **192.168.13.3/24** |
-| Bridge a la LAN | ✅ `bridge-lan13` + llistes LAN/WAN | ⬜ pendent de decidir | ➖ no (decisió de l'alumne: en Debian la LAN es queda directament a `enp0s8`) |
+| Bridge a la LAN | ✅ `bridge-lan13` + llistes LAN/WAN | ➖ no (decisió de l'alumne): la LAN es queda a `em1` | ➖ no (decisió de l'alumne): la LAN es queda a `enp0s8` |
 | NAT | masquerade srcnat | Outbound NAT automàtic | `masquerade` (taula ip nat) |
 | DHCP LAN .100–.200 | ✅ actiu (router principal) | preparat, desactivat | `dnsmasq` preparat, desactivat |
 | DNS per a la LAN | `allow-remote-requests` | Unbound | `dnsmasq` |
