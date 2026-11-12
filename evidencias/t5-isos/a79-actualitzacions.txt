@@ -96,3 +96,17 @@ després del reinici: nucli 6.12.116+deb13-amd64 · vboxadd activating · servei
 RAM usada: 337 MB de 967
 vboxadd failed · vboxadd-service active · serveis fallits: 1 · ip_forward=1
 després de compilar i reiniciar: vboxadd active · serveis fallits: 0 · mòdul vboxguest 7.2.18 r175117 · nftables active · ip_forward=1
+
+# a79 — CLI-Debian (12/11, vespre)
+abans: Debian 13.7 · nucli 6.12.116+deb13-amd64
+paquets pendents:
+apache2-bin/stable-security 2.4.71-1~deb13u1 amd64 [actualizable desde: 2.4.69-1~deb13u1]
+firefox-esr-l10n-es-ar/stable-security 153.7.0esr-1~deb13u1 all [actualizable desde: 153.6.0esr-1~deb13u1]
+firefox-esr-l10n-es-cl/stable-security 153.7.0esr-1~deb13u1 all [actualizable desde: 153.6.0esr-1~deb13u1]
+firefox-esr-l10n-es-es/stable-security 153.7.0esr-1~deb13u1 all [actualizable desde: 153.6.0esr-1~deb13u1]
+firefox-esr-l10n-es-mx/stable-security 153.7.0esr-1~deb13u1 all [actualizable desde: 153.6.0esr-1~deb13u1]
+firefox-esr/stable-security 153.7.0esr-1~deb13u1 amd64 [actualizable desde: 153.6.0esr-1~deb13u1]
+6 actualizados, 0 nuevos se instalarán, 0 para eliminar y 0 no actualizados.
+pendents després: 0
+cal reiniciar: no
+Interpretació: 6 actualitzacions de seguretat (stable-security): Firefox ESR 153.6 -> 153.7 (navegador de les webs de gestió) i apache2-bin. Sense canvi de nucli: no cal reiniciar. CLI-Debian queda al dia.
