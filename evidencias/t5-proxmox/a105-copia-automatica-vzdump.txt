@@ -1,0 +1,65 @@
+# a105 — Còpia automàtica de les VM i el CT (tasca programada de Proxmox) — 2026-11-12 16:21:07
+
+## 1. Tasca programada (Datacenter → Backup), definida una sola vegada per a tot el clúster
+[
+   {
+      "comment" : "a105: còpia setmanal de les VM i el CT al NAS",
+      "compress" : "zstd",
+      "enabled" : 1,
+      "id" : "copia-setmanal",
+      "mode" : "snapshot",
+      "next-run" : 1794708000,
+      "prune-backups" : {
+         "keep-last" : "3"
+      },
+      "schedule" : "sun 03:00",
+      "storage" : "nas-proxmox",
+      "tmpdir" : "/var/tmp",
+      "type" : "vzdump",
+      "vmid" : "100,220,230"
+   }
+]
+
+VM/CT sense cap tasca de còpia: cap
+
+## 2. Prova: l'horari es va avançar temporalment a les 16:19 i el planificador (pvescheduler) la va executar SOL als dos nodes
+### pve2 · UPID:pve2:00002001:00031B95:6AF5D8E5:vzdump::root@pam:
+INFO: starting new backup job: vzdump 100 220 230 --compress zstd --storage nas-proxmox --mode snapshot --tmpdir /var/tmp --quiet 1 --prune-backups 'keep-last=3'
+INFO: Starting Backup of VM 100 (lxc)
+INFO: archive file size: 203MB
+INFO: prune older backups with retention: keep-last=3
+INFO: pruned 0 backup(s)
+INFO: Finished Backup of VM 100 (00:00:22)
+INFO: Starting Backup of VM 220 (qemu)
+INFO: archive file size: 490MB
+INFO: prune older backups with retention: keep-last=3
+INFO: pruned 0 backup(s)
+INFO: Finished Backup of VM 220 (00:00:12)
+INFO: Backup job finished successfully
+### pve3 · UPID:pve3:00001ED5:00031B96:6AF5D8E5:vzdump:230:root@pam:
+INFO: starting new backup job: vzdump 100 220 230 --tmpdir /var/tmp --prune-backups 'keep-last=3' --quiet 1 --compress zstd --storage nas-proxmox --mode snapshot
+INFO: Starting Backup of VM 230 (qemu)
+INFO: archive file size: 536MB
+INFO: prune older backups with retention: keep-last=3
+INFO: pruned 0 backup(s)
+INFO: Finished Backup of VM 230 (00:00:14)
+INFO: Backup job finished successfully
+
+Després de la prova, l'horari es va tornar a posar a «sun 03:00».
+
+## 3. Còpies al NAS (/mnt/copies/proxmox/dump)
+213795868 vzdump-lxc-100-2026_11_12-09_50_13.tar.zst
+213811282 vzdump-lxc-100-2026_11_12-16_12_26.tar.zst
+213894058 vzdump-lxc-100-2026_11_12-16_19_01.tar.zst
+465138589 vzdump-qemu-220-2026_11_12-09_49_24.vma.zst
+516671401 vzdump-qemu-220-2026_11_12-16_12_52.vma.zst
+514804115 vzdump-qemu-220-2026_11_12-16_19_23.vma.zst
+458603759 vzdump-qemu-230-2026_11_12-09_49_39.vma.zst
+563570479 vzdump-qemu-230-2026_11_12-16_12_26.vma.zst
+563078883 vzdump-qemu-230-2026_11_12-16_19_01.vma.zst
+
+## Interpretació
+- La còpia de les imatges és automàtica: una tasca de Proxmox per a tot el clúster copia cada diumenge a les 03:00 la VM 220, la VM 230 i el CT 100 a l'NFS del NAS, en mode snapshot (sense aturar-les; el qemu-guest-agent congela el disc), comprimides amb zstd.
+- Retenció: es guarden les 3 últimes de cada VM/CT (prune-backups keep-last=3); les més antigues s'esborren soles.
+- La prova demostra que no cal fer res a mà: amb l'horari avançat, el planificador va arrancar la tasca a l'hora prevista als dos nodes i va acabar «Backup job finished successfully».
+- El CT sense privilegis necessita --tmpdir /var/tmp perquè l'NFS no admet el directori temporal per defecte (lliçó d'a231).

@@ -8,5 +8,8 @@
 # OPNsense — https://pkg.opnsense.org/releases/26.7/OPNsense-26.7-checksums-amd64.sha256
 # (el fabricant publica el hash de la imatge COMPRIMIDA .bz2, no del .iso descomprimit)
 95cafedda6d5b22ce832e249dc2309110fbee19f813ad78cf28bb3d387186bfb  OPNsense-26.7-dvd-amd64.iso.bz2
-# MikroTik — N/C (https://download.mikrotik.com/routeros/7.24.5/SHA256SUMS no va respondre; consultar mikrotik.com/download)
-# Windows 11 — N/C (consultar la taula de hashes de microsoft.com/software-download/windows11)
+# MikroTik — (12/11) https://download.mikrotik.com/routeros/7.24.5/mikrotik-7.24.5.iso.sha256
+4bff16b8ee455eb00a0a5f183936fb0ecfd8f2bf3f5ba1ba64773d8375aaec02  mikrotik-7.24.5.iso
+# (abans: N/C; SHA256SUMS no existeix, el fitxer és <iso>.sha256)nload)
+# Windows 11 — no disponible: Microsoft només publica els hashes de la versió que distribueix ara (la pàgina retorna 403 a les descàrregues automàtiques);
+#   la ISO és la 23H2 (compilació base 22621, desembre de 2023) i el hash no apareix en cap font pública (cerca del 12/11/2026)

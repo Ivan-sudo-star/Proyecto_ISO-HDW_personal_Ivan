@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 # copia-configs.sh — Orquestrador de còpies de configuració (Tasca 5 Apte+ · a105)
-# S'executa a SRV-SERVEIS (192.168.13.22) com a usuari "copies", amb claus SSH
-# (sense contrasenyes al script). Arreplega les configuracions dels equips crítics i
-# les puja al NAS TrueNAS (192.168.13.20:/mnt/copies) amb rsync.
+# S'executa a SRV-SERVEIS (192.168.13.22) com a usuari local "copies", amb claus SSH (cap contrasenya a l'script).
+# Arreplega la configuració dels equips crítics que estiguen encesos i la puja al NAS (192.168.13.20:/mnt/copies) amb rsync.
 #
-# Instal·lació:
+#   R1 MikroTik      -> /export (usuari "copies" de només lectura al router)   -> routers/r1/
+#   R2 OPNsense      -> /conf/config.xml (només si root té la clau instal·lada) -> routers/r2/
+#   R3 Debian nft    -> nft list ruleset + tar de /etc/nftables.conf, xarxa...  -> routers/r3/
+#   Nodes Proxmox    -> tar de /etc/pve, xarxa, hosts, corosync                 -> linux/<node>/
+#   Servidors Linux  -> tar de /etc + llista de paquets                         -> linux/<servidor>/
+#
+# Instal·lació (vegeu docs/04-installacio.md §10):
 #   sudo install -m 755 copia-configs.sh /usr/local/bin/
 #   sudo cp copia-configs.service copia-configs.timer /etc/systemd/system/
 #   sudo systemctl daemon-reload && sudo systemctl enable --now copia-configs.timer
@@ -13,62 +18,68 @@ set -uo pipefail
 
 NAS="copies@192.168.13.20"
 NAS_DIR="/mnt/copies"
-ROUTERS="192.168.13.1 192.168.13.2 192.168.13.3"   # R1, R2, R3: es copien els que estiguen encesos
+R1=192.168.13.1; R2=192.168.13.2; R3=192.168.13.3
 PVE_NODES="192.168.13.32 192.168.13.33 192.168.13.34"
 LINUX_SRV="192.168.13.22 192.168.13.23"
 LINUX_USR="ivancambra"   # usuari de cloud-init (sudo sense contrasenya); les VM cloud no accepten root per SSH
+KEEP_DAYS=14             # rotació: només s'esborren fitxers *-auto-* creats per aquest script
 WORK=$(mktemp -d); DATA=$(date +%F_%H%M)
-SSH="ssh -o BatchMode=yes -o ConnectTimeout=5"
-OK=0; KO=0
-log() { echo "[$(date +%T)] $*"; }
-fet() { OK=$((OK+1)); log "OK  $1"; }
-err() { KO=$((KO+1)); log "ERR $1"; }
+SSH="ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new"
+OK=0; KO=0; OMES=0
+log()  { echo "[$(date +%T)] $*"; }
+fet()  { OK=$((OK+1));     log "OK  $1"; }
+err()  { KO=$((KO+1));     log "ERR $1"; }
+omes() { OMES=$((OMES+1)); log "--  $1"; }
+viu()  { timeout 3 bash -c "</dev/tcp/$1/22" 2>/dev/null; }    # l'equip respon per SSH?
+ple()  { [ -s "$1" ] || { rm -f "$1"; return 1; }; }            # el fitxer no ha d'estar buit
+trap 'rm -rf "$WORK"' EXIT
 
-# --- Routers encesos: cadascun s'identifica pel sistema que respon ---
-for ROUTER in $ROUTERS; do
-  ping -c1 -W1 "$ROUTER" >/dev/null 2>&1 || { log "--  $ROUTER apagat, s'omet"; continue; }
-  SO=$($SSH root@$ROUTER 'uname -s' 2>/dev/null || true)
-  if [ "$SO" = "FreeBSD" ]; then                 # R2 OPNsense
-    mkdir -p "$WORK/routers/r2"
-    scp -q -o BatchMode=yes root@$ROUTER:/conf/config.xml "$WORK/routers/r2/config-$DATA.xml" \
-      && fet "R2 OPNsense config.xml" || err "R2 OPNsense"
-  elif [ "$SO" = "Linux" ]; then                 # R3 Debian nftables
-    mkdir -p "$WORK/routers/r3"
-    $SSH root@$ROUTER 'nft list ruleset; echo "#---"; cat /etc/network/interfaces' \
-      > "$WORK/routers/r3/ruleset-$DATA.txt" && \
-    $SSH root@$ROUTER 'tar czf - /etc/nftables.conf /etc/network /etc/sysctl.d /etc/dnsmasq.d 2>/dev/null' \
-      > "$WORK/routers/r3/etc-$DATA.tgz" && fet "R3 nftables" || err "R3 nftables"
-  elif $SSH admin-ivan@$ROUTER '/system identity print' >/dev/null 2>&1; then   # R1 MikroTik
-    mkdir -p "$WORK/routers/r1"
-    $SSH admin-ivan@$ROUTER '/export' > "$WORK/routers/r1/export-$DATA.rsc" \
-      && fet "R1 MikroTik export" || err "R1 MikroTik"
-  else
-    err "$ROUTER respon al ping però no per SSH"
-  fi
-done
+# --- R1 MikroTik (router principal) ---
+if viu $R1; then
+  mkdir -p "$WORK/routers/r1"; f="$WORK/routers/r1/r1-export-auto-$DATA.rsc"
+  $SSH copies@$R1 '/export' > "$f" 2>/dev/null && ple "$f" && fet "R1 MikroTik /export" || err "R1 MikroTik"
+else omes "R1 $R1 no respon"; fi
 
-# --- Nodes Proxmox: configuració del clúster (no les imatges de VM: van per vzdump) ---
+# --- R2 OPNsense (alternatiu: normalment apagat) ---
+if viu $R2; then
+  mkdir -p "$WORK/routers/r2"; f="$WORK/routers/r2/r2-config-auto-$DATA.xml"
+  scp -q -o BatchMode=yes -o ConnectTimeout=5 root@$R2:/conf/config.xml "$f" 2>/dev/null && ple "$f" \
+    && fet "R2 OPNsense config.xml" || err "R2 OPNsense (cal la clau de copies a root)"
+else omes "R2 $R2 apagat"; fi
+
+# --- R3 Debian + nftables (alternatiu: normalment apagat) ---
+if viu $R3; then
+  mkdir -p "$WORK/routers/r3"; f="$WORK/routers/r3/r3-etc-auto-$DATA.tgz"
+  $SSH root@$R3 'nft list ruleset' > "$WORK/routers/r3/r3-ruleset-auto-$DATA.txt" 2>/dev/null
+  $SSH root@$R3 'tar czf - /etc/nftables.conf /etc/network /etc/sysctl.d /etc/dnsmasq.d 2>/dev/null' > "$f" && ple "$f" \
+    && fet "R3 nftables" || err "R3 nftables"
+else omes "R3 $R3 apagat"; fi
+
+# --- Nodes Proxmox: configuració del clúster (les imatges de VM van per vzdump) ---
 for n in $PVE_NODES; do
-  mkdir -p "$WORK/proxmox/$n"
-  $SSH root@$n 'tar czf - /etc/pve /etc/network/interfaces /etc/hosts /etc/corosync 2>/dev/null' \
-    > "$WORK/proxmox/$n/pve-$DATA.tgz" && fet "Proxmox $n" || err "Proxmox $n"
+  viu "$n" || { omes "node $n apagat"; continue; }
+  h=$($SSH root@$n hostname 2>/dev/null) || { err "node $n sense accés"; continue; }
+  mkdir -p "$WORK/linux/$h"; f="$WORK/linux/$h/$h-pve-auto-$DATA.tgz"
+  $SSH root@$n 'tar czf - /etc/pve /etc/network/interfaces /etc/hosts /etc/corosync 2>/dev/null' > "$f" && ple "$f" \
+    && fet "Proxmox $h" || err "Proxmox $h"
 done
 
 # --- Servidors GNU/Linux: /etc i llista de paquets (permet reinstal·lar i restaurar) ---
 for s in $LINUX_SRV; do
-  mkdir -p "$WORK/linux/$s"
-  $SSH $LINUX_USR@$s 'sudo -n tar czf - /etc 2>/dev/null' > "$WORK/linux/$s/etc-$DATA.tgz" && \
-  $SSH $LINUX_USR@$s 'dpkg --get-selections' > "$WORK/linux/$s/paquets-$DATA.txt" \
-    && fet "Linux $s" || err "Linux $s"
+  viu "$s" || { omes "servidor $s apagat"; continue; }
+  h=$($SSH $LINUX_USR@$s hostname 2>/dev/null) || { err "servidor $s sense accés"; continue; }
+  mkdir -p "$WORK/linux/$h"; f="$WORK/linux/$h/$h-etc-auto-$DATA.tgz"
+  $SSH $LINUX_USR@$s 'sudo -n tar czf - --one-file-system /etc 2>/dev/null' > "$f" && ple "$f" && \
+  $SSH $LINUX_USR@$s 'dpkg --get-selections' > "$WORK/linux/$h/$h-paquets-auto-$DATA.txt" \
+    && fet "Linux $h" || err "Linux $h"
 done
 
-# --- Pujada al NAS i rotació (es conserven 14 dies) ---
-if rsync -a "$WORK/" "$NAS:$NAS_DIR/"; then
-  fet "rsync al NAS"
-  $SSH $NAS "find $NAS_DIR/routers $NAS_DIR/proxmox $NAS_DIR/linux -type f -mtime +14 -delete" || true
+# --- Pujada al NAS i rotació (només els fitxers d'aquest script) ---
+if [ "$OK" -gt 0 ] && rsync -a "$WORK/" "$NAS:$NAS_DIR/"; then
+  fet "rsync al NAS ($(du -sh "$WORK" | cut -f1))"
+  $SSH $NAS "find $NAS_DIR/routers $NAS_DIR/linux -type f -name '*-auto-*' -mtime +$KEEP_DAYS -delete" || true
 else
   err "rsync al NAS"
 fi
-rm -rf "$WORK"
-log "Resum: $OK correctes, $KO errors"
+log "Resum: $OK correctes, $KO errors, $OMES omesos (apagats)"
 [ "$KO" -eq 0 ]

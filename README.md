@@ -47,7 +47,7 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | T2 Tests (Apte+) | a27, a28, a29 | ✅ classe i casa (memtester, dd, fio, xarxa) | [02](docs/02-inventari.md) |
 | T4 Xarxa (Apte) | a128, a148 | ✅ esquema i taula d'interfícies (alineats amb el grup) | [03](docs/03-xarxa.md) |
 | T4 Xarxa (Apte+) | a129, a149 | ✅ ping, traceroute, rutes, interfícies i aïllament | [03](docs/03-xarxa.md) |
-| T5 General | a78, a79, a258, a259 | 🟡 a259 ✅ · ISO verificades 3 de 6 · actualitzats Proxmox i CLI-Debian · a258 pendent | [04](docs/04-installacio.md) |
+| T5 General | a78, a79, a258, a259 | 🟡 a78 ✅ (5 de 6 ISO verificades, W11 justificada) · a258 ✅ (incidència de GRUB) · a259 ✅ · a79: falten R1, R2, R3 i W11 | [04](docs/04-installacio.md) |
 | T5 MikroTik | a203–a209 | ✅ complet (recuperació en 42 s) | [04 §2](docs/04-installacio.md#2-r1--mikrotik-routeros-a203a209) |
 | T5 OPNsense | a210–a216 | ✅ complet (recuperació en 48 s) | [04 §3](docs/04-installacio.md#3-r2--opnsense-a210a216) |
 | T5 nftables | a217–a223 | ✅ complet (recuperació en 22 s) · els 3 routers configurats igual | [04 §4](docs/04-installacio.md#4-r3--debian-13--nftables-a217a223) |
@@ -56,7 +56,7 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | T5 Windows Server 2025 | a237–a241 | ⬜ **falta la ISO** · anirà com a VM 210 dins de PVE1 | [04 §7](docs/04-installacio.md#7-windows-server-2025-a237a241) |
 | T5 Linux infra | a242–a246 | ✅ VM 220 (PVE2) i 230 (PVE3): actualitzades, usuaris, SSH només amb clau, còpia al NAS amb prova de restauració | [04 §8](docs/04-installacio.md#8-servidors-gnulinux-dinfraestructura-a242a246) |
 | T5 Clients | a247–a250, a252–a255 | 🟡 W11 Pro ✅ (a247–a250) · CLI-Debian ✅ (a252–a255) · Guest Additions als dos | [04 §9](docs/04-installacio.md#9-clients-a247a250-a252a255) |
-| T5 Apte+ còpies automàtiques | a105 | 🟡 script + timer systemd + scheduler MikroTik | [04 §10](docs/04-installacio.md#10-apte-còpies-automatitzades-a105) |
+| T5 Apte+ còpies automàtiques | a105 | ✅ imatges: tasca setmanal de Proxmox provada · 🟡 configuracions: orquestrador instal·lat, falta repartir la clau | [04 §10](docs/04-installacio.md#10-apte-còpies-automatitzades-a105) |
 | T6 RAID (Apte) | a102, a103 | ✅ RAID 0, 1, 5 (amb spare) i 10 a la VM 230: fallada, integritat i reconstrucció | [05](docs/05-raid.md) |
 | T6 Espill entre equips (Apte+) | a107, a108, a109 | ✅ DRBD entre VM 220 (PVE2) i 230 (PVE3): failover en 7,3 s sense perdre dades | [05](docs/05-raid.md#tasca-63--espill-entre-dos-equips-a107a109) |
 | T7 Rendiment (Apte) | a22, a23, a24, a119, a120, a121 | 🟡 línia base de casa ✅; falten les càrregues | [06](docs/06-rendiment.md) |

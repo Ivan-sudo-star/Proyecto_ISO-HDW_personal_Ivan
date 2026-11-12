@@ -2,3 +2,25 @@
   debian-13.1.0-amd64-netinst.iso: La suma coincide
   proxmox-ve_9.2-1.iso: La suma coincide
   TrueNAS-SCALE-25.10.7.iso: La suma coincide
+
+# 12/11/2026 (casa): les que faltaven
+## MikroTik RouterOS 7.24.5
+$ curl https://download.mikrotik.com/routeros/7.24.5/mikrotik-7.24.5.iso.sha256
+4bff16b8ee455eb00a0a5f183936fb0ecfd8f2bf3f5ba1ba64773d8375aaec02  mikrotik-7.24.5.iso
+$ sha256sum mikrotik-7.24.5.iso
+4bff16b8ee455eb00a0a5f183936fb0ecfd8f2bf3f5ba1ba64773d8375aaec02  mikrotik-7.24.5.iso   -> COINCIDEIX
+
+## OPNsense 26.7 (el fabricant publica el hash del .bz2)
+$ curl -O https://pkg.opnsense.org/releases/26.7/OPNsense-26.7-dvd-amd64.iso.bz2   (494 298 945 B en 85 s)
+$ sha256sum OPNsense-26.7-dvd-amd64.iso.bz2
+95cafedda6d5b22ce832e249dc2309110fbee19f813ad78cf28bb3d387186bfb   -> COINCIDEIX amb OPNsense-26.7-checksums-amd64.sha256
+$ bunzip2 -c OPNsense-26.7-dvd-amd64.iso.bz2 | sha256sum
+1efd5dc9fa12a1f93571183fe5e3823e22e332872de8417fafb5e4e4d48d5dcd   -> IGUAL que la ISO instal·lada (sha256-local.txt)
+
+## Windows 11 (w11.iso, multiedició es-ES, 23H2)
+No verificable: Microsoft només publica els hashes de la versió actual a la pàgina de descàrrega, i aquesta ISO és antiga.
+Comprovacions alternatives: l'XML de sources/install.wim és coherent (11 edicions, es-ES, compilació 22621) i el sistema instal·lat
+s'identifica com a Windows 11 23H2 (22631). Per a una instal·lació nova caldria descarregar la ISO actual i verificar-ne el hash.
+
+Resum: 5 de 6 ISO verificades contra el fabricant (Debian, Proxmox, TrueNAS, MikroTik, OPNsense). Windows 11: justificat.
+Windows Server 2025: es verificarà quan es descarregue la ISO.

@@ -30,12 +30,12 @@ Hash oficial descarregat de la font del fabricant el mateix dia.
 | Debian 13.1.0 netinst | `debian-13.1.0-amd64-netinst.iso` | amd64 | cdimage.debian.org/cdimage/archive/13.1.0/amd64/iso-cd/SHA256SUMS | `658b28e2…c65568b3` | ✅ **Sí** |
 | Proxmox VE 9.2-1 | `proxmox-ve_9.2-1.iso` | amd64 | enterprise.proxmox.com/iso/SHA256SUMS | `4e88fe41…73ef2c6c` | ✅ **Sí** |
 | TrueNAS SCALE 25.10.7 | `TrueNAS-SCALE-25.10.7.iso` | amd64 | download.sys.truenas.net/…/TrueNAS-SCALE-25.10.7.iso.sha256 | `54ce9441…7a007c8e` | ✅ **Sí** |
-| OPNsense 26.7 | `OPNsense-26.7-dvd-amd64.iso` | amd64 | pkg.opnsense.org/releases/26.7/OPNsense-26.7-checksums-amd64.sha256 | `1efd5dc9…48d5dcd` | ⚠️ **N/C**: el fabricant publica el hash del `.iso.bz2` comprimit (`95cafedd…bfb`). Prova: tornar a descarregar el `.bz2`, comprovar-ne el hash i descomprimir-lo |
-| MikroTik RouterOS 7.24.5 | `mikrotik-7.24.5.iso` | x86 | mikrotik.com/download (secció *Checksums*) | `4bff16b8…75aaec02` | ⬜ **N/C**: comparar amb el valor de la web de descàrregues |
-| Windows 11 | `w11.iso` | x64 | microsoft.com/software-download/windows11 (hashes per idioma) | `5210deed…89119dc8` | ⬜ **N/C**. Identificada el 12/11 llegint l'XML de `sources/install.wim`: ISO **multiedició en espanyol (es-ES)**, compilació base 22621 (23H2), 11 edicions (Home, Pro, Education, Pro for Workstations…). Falta comparar el hash amb el valor oficial de Microsoft per a l'idioma espanyol |
+| OPNsense 26.7 | `OPNsense-26.7-dvd-amd64.iso` | amd64 | pkg.opnsense.org/releases/26.7/OPNsense-26.7-checksums-amd64.sha256 | `1efd5dc9…48d5dcd` | ✅ **Sí** (12/11): el fabricant publica el hash del `.iso.bz2`. Es va tornar a baixar el `.bz2` (hash oficial correcte) i, descomprimit, dona el mateix hash que la ISO instal·lada |
+| MikroTik RouterOS 7.24.5 | `mikrotik-7.24.5.iso` | x86 | download.mikrotik.com/routeros/7.24.5/mikrotik-7.24.5.iso.sha256 | `4bff16b8…75aaec02` | ✅ **Sí** (12/11) |
+| Windows 11 | `w11.iso` | x64 | microsoft.com/software-download/windows11 | `5210deed…89119dc8` | ➖ **No verificable**: ISO multiedició es-ES de la 23H2 (compilació base 22621). Microsoft només publica els hashes de la versió actual, i aquest no apareix en cap font pública. Alternativa: l'XML d'`install.wim` és coherent i el sistema instal·lat és 23H2 (22631). Per a una instal·lació nova: baixar la ISO actual i verificar-la |
 | Windows Server 2025 | *(falta)* | x64 | Microsoft Evaluation Center | — | ⬜ falta la ISO |
 
-Hashes complets a les evidències.
+Hashes complets a les evidències ([`verificacio.txt`](../evidencias/t5-isos/verificacio.txt)). **Resum: 5 de 6 ISO verificades contra el fabricant**; la de Windows 11 està justificada i la de Windows Server 2025 es verificarà quan es descarregue.
 
 **Requisits mínims oficials i recursos assignats:**
 
@@ -74,7 +74,7 @@ Hashes complets a les evidències.
 **Incidència d'arrencada provocada (ISO RA1 h):** en una instantània descartable de `CLI-Debian`, renomenar
 `/boot/grub/grub.cfg` → símptoma (prompt `grub>`) → hipòtesi (falta la configuració de GRUB) → comprovació
 (`ls (hd0,msdos1)/boot/grub`) → solució (`configfile` manual i després `update-grub`) → retorn (restaurar la instantània).
-Evidència a `evidencias/t5-linux-infra/incidencia-grub.md` (⬜ pendent).
+✅ **Feta el 12/11:** del prompt `grub>` a sistema funcionant en ≈ **1,5 min** amb `configfile`; després `update-grub` i reinici normal en 35 s. Evidència amb captures: [`incidencia-grub.md`](../evidencias/t5-linux-infra/incidencia-grub.md).
 
 ### 1.4 Espai de còpies: què és còpia, com i on (a259)
 
@@ -465,6 +465,15 @@ Punt de retorn: instantània de VirtualBox `W11-Home-a250-ok`.
 
 **Prova d'automatització:** deixar que el timer s'execute sol (o avançar `OnCalendar` a 2 minuts després) i
 comprovar al NAS que el fitxer porta la data i l'hora correctes.
+
+### ✅ Resultat a105 (12/11/2026)
+
+| Part | Estat | Evidència |
+|---|---|---|
+| **Imatges de les VM i el CT** | ✅ **Automàtica.** Tasca de clúster `copia-setmanal` (Datacenter → Backup): diumenge 03:00, VM 220, VM 230 i CT 100 → `nas-proxmox`, mode snapshot, zstd, **es guarden les 3 últimes** (`keep-last=3`). Prova: horari avançat a les 16:19 → el planificador la va llançar sol als dos nodes i va acabar bé (CT 203 MB, VM 220 492 MB, VM 230 537 MB). Després es va tornar a posar el diumenge | [`a105-copia-automatica-vzdump.txt`](../evidencias/t5-proxmox/a105-copia-automatica-vzdump.txt) |
+| **Configuracions (orquestrador)** | 🟡 **Instal·lat però sense activar.** `copia-configs.sh` + `copia-configs.service/.timer` instal·lats a SRV-SERVEIS amb l'usuari de servei `copies` (clau SSH pròpia). **Falta repartir la clau pública** als equips (nodes, servidors, R1 i NAS): el repartiment de claus amb accés permanent s'ha de fer amb l'autorització de l'alumne | — |
+
+**Correcció de seguretat a l'script (12/11):** la rotació antiga feia `find /mnt/copies/proxmox -mtime +14 -delete`. En aquest directori hi ha **els discos de les VM** (`images/220`) i els `vzdump`, així que podia esborrar el disc d'una VM aturada. Ara només esborra fitxers `*-auto-*` creats pel mateix script, i només a `routers/` i `linux/`; la configuració dels nodes Proxmox va a `linux/<node>/`. A R1 l'script entra amb un usuari `copies` de **només lectura** (grup `lectura`, limitat a la IP de SRV-SERVEIS) en lloc d'`admin-ivan`.
 
 ---
 
