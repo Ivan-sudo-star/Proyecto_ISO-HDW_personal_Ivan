@@ -119,9 +119,11 @@ fora del disc (disc intern de casa o un altre pendrive), sense pujar-ho a GitHub
 
 ### ✅ Resultat R1 (11/11/2026, equip de casa)
 
+Captures (WebFig: bridge, llistes LAN/WAN i tallafocs): [índex de captures](../evidencias/CAPTURES.md#t5--r1-mikrotik-evidències).
+
 | Acció | Estat | Evidència |
 |---|---|---|
-| a203 instal·lació i versió | ✅ RouterOS **7.24.5 (stable)** x86_64, paquet `system`. **Llicència: sense clau, 24 h de funcionament** (el comptador només avança amb la VM encesa: s'apaga quan no s'usa) | `t5-mikrotik/01-installador-paquets.png`, `02-installacio-completada.png`, `03-llicencia-x86-24h.png`, `a203-versio.txt` |
+| a203 instal·lació i versió | ✅ RouterOS **7.24.5 (stable)** x86_64, paquet `system`. **Llicència: sense clau, 24 h de funcionament** (el comptador només avança amb la VM encesa: s'apaga quan no s'usa) | `t5-mikrotik/captures/01-installador-paquets.png`, `02-installacio-completada.png`, `03-llicencia-x86-24h.png`, `a203-versio.txt` |
 | a204 usuaris | ✅ `admin-ivan` (grup full) i `suport` (grup `lectura`, només lectura). `admin` **deshabilitat** després de comprovar l'accés amb `admin-ivan` | `a204-usuaris.txt` |
 | a205 xarxa | ✅ ether1 WAN 10.0.2.15/24 per DHCP (GW 10.0.2.2), LAN 192.168.13.1/24 (des del 12/11, al **bridge-lan13**, vegeu sota) | `a205-xarxa.txt`, `bridge-r1.txt` |
 | a206 Internet per a la LAN | ✅ masquerade + DHCP .100–.200. CLI-Debian i TrueNAS s'han instal·lat descarregant paquets a través de R1 (leases .199 i .200). El NAS fa ping a 1.1.1.1 | `a206-nat-dhcp.txt` |
@@ -170,6 +172,8 @@ Evidències a `evidencias/t5-opnsense/`.
 
 
 ### ✅ Resultat R2 (11/11/2026)
+
+Captures (panell, regles de la LAN i registre en viu): [índex de captures](../evidencias/CAPTURES.md#t5--r2-opnsense-evidències).
 
 | Acció | Estat | Evidència |
 |---|---|---|
@@ -274,9 +278,11 @@ Evidències a `evidencias/t5-truenas/`.
 
 ### ✅ Resultat NAS (11/11/2026)
 
+Captures (panell, pool, datasets, recursos SMB/NFS i usuaris): [índex de captures](../evidencias/CAPTURES.md#t5--nas-truenas-evidències).
+
 | Acció | Estat | Evidència |
 |---|---|---|
-| a224 instal·lació i versió | ✅ TrueNAS SCALE **25.10.7**, instal·lat **només** al disc de 20 GiB (`boot-pool` a `sda`) | `t5-truenas/01-disc-installacio-sda.png`, `02-installacio-completada.png`, `a224-a227-truenas.txt` |
+| a224 instal·lació i versió | ✅ TrueNAS SCALE **25.10.7**, instal·lat **només** al disc de 20 GiB (`boot-pool` a `sda`) | `t5-truenas/captures/01-disc-installacio-sda.png`, `02-installacio-completada.png`, `a224-a227-truenas.txt` |
 | a225 usuaris | ✅ `truenas_admin` (administrador, creat a l'instal·lador; el login de root amb contrasenya queda desactivat) i `copies` (uid 3000, **sense** privilegis d'administrador, home `/mnt/copies/usuaris/copies`) | `t5-truenas/a224-a227-truenas.txt` |
 | a226 xarxa | ✅ enp0s3 **192.168.13.20/24** estàtica (sense DHCP), GW i DNS 192.168.13.1, nom `nas13.lan13.local`. Canvi aplicat amb *commit* i *checkin* (si no es confirma en 120 s, TrueNAS torna sol a la configuració anterior) | ídem |
 | a227 disc addicional | ✅ pool **`copies`** (stripe, 48 GB útils) sobre el disc de 50 GiB · datasets `routers` (r1, r2, r3), `linux`, `proxmox` (NFS per a 192.168.13.0/24), `windows` i `clients` (SMB) · propietari `copies`, permisos 770 · serveis SSH/SFTP, NFS i SMB actius | ídem (exportat per l'API el 12/11) |
@@ -348,9 +354,11 @@ Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node:
 
 ### ✅ Resultat Proxmox (11/11/2026)
 
+Captures (clúster amb 3 nodes, VM i CT, còpia programada, NFS i còpies `vzdump`): [índex de captures](../evidencias/CAPTURES.md#t5--proxmox-evidències).
+
 | Acció | Estat | Evidència |
 |---|---|---|
-| a228 instal·lació i versió | ✅ 3 nodes amb l'instal·lador en mode text: ext4/LVM-thin, Europe/Madrid, teclat US. `pve-manager` 9.2.2 → **9.2.26** després d'actualitzar | `t5-proxmox/01..03-*-resum-installacio.png`, `a79-actualitzacio-nodes.txt` |
+| a228 instal·lació i versió | ✅ 3 nodes amb l'instal·lador en mode text: ext4/LVM-thin, Europe/Madrid, teclat US. `pve-manager` 9.2.2 → **9.2.26** després d'actualitzar | `t5-proxmox/captures/01..03-*-resum-installacio.png`, `a79-actualitzacio-nodes.txt` |
 | a229 usuaris | ✅ `root@pam` · **`ivan@pam`** (rol Administrator a `/`) · `consulta@pve` (rol PVEAuditor). El *realm* `pve` exigeix 8 caràcters com a mínim, per això l'administrador és un usuari PAM (Linux) | `t5-proxmox/a229-usuaris.txt` |
 | a230 xarxa | ✅ `vmbr0` amb IP fixa sobre **`nic0`** (Proxmox 9 «fixa» els noms de les targetes), GW i DNS .1, `/etc/hosts` correcte als 3 nodes | `t4-xarxa/ifaces-rutes-pve{1,2,3}.txt` |
 | a232 clúster | ✅ **`cluster13`**: 3 nodes, 3 vots, quòrum 2, `Quorate: Yes` | `a232-cluster.txt` |
@@ -434,7 +442,7 @@ Configuració aplicada amb [`scripts/proxmox/infra-config.sh`](../scripts/proxmo
 
 ## 9. Clients (a247–a250, a252–a255)
 
-Evidències a `evidencias/t5-clients/`.
+Evidències a `evidencias/t5-clients/`. Captures: [índex de captures](../evidencias/CAPTURES.md#t5--clients-evidències).
 
 | | Windows 11 (`Cliente_windows_1`, existent) | GNU/Linux (`CLI-Debian`) |
 |---|---|---|

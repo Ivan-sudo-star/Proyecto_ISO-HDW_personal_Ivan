@@ -23,13 +23,14 @@
 | [06-rendiment](docs/06-rendiment.md) | T7 | Línia base, càrregues de VM, saturació, capacitat i optimitzacions | FDM RA1 / ISO RA6 |
 | [07-cas-final](docs/07-cas-final.md) | T8 | Mètode d'incidències, full de comandes i estudi per RA (inclou FDM RA4) | totes |
 | [ia-log](docs/ia-log.md) | — | Registre d'ús d'IA: proposta, contrast i decisió | — |
+| [CAPTURES](evidencias/CAPTURES.md) | — | **Índex de totes les captures de pantalla**, per tasca, amb què demostra cadascuna | — |
 
 ## Estructura del repositori
 
 ```
 docs/          documentació en Markdown (un fitxer per tasca)
 diagrames/     esquema de xarxa (.drawio editable + .png)
-evidencias/    captures i registres comentats, una carpeta per tasca i sistema
+evidencias/    registres comentats, una carpeta per tasca i sistema; les imatges, a <tasca>/captures/ (índex: evidencias/CAPTURES.md)
 configs/       configuracions dels sistemes (nftables, MikroTik, DRBD...) sense credencials
 scripts/       host/ (inventari, tests, mesures) · vbox/ (entorn i diagrama) · proxmox/ · clients/ (W11) · copies/ · raid/ · rubrica/
 rubrica/       rúbrica original, rúbrica amb les marques, estat.json i fitxer de seguiment
