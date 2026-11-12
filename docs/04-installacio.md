@@ -32,7 +32,7 @@ Hash oficial descarregat de la font del fabricant el mateix dia.
 | TrueNAS SCALE 25.10.7 | `TrueNAS-SCALE-25.10.7.iso` | amd64 | download.sys.truenas.net/…/TrueNAS-SCALE-25.10.7.iso.sha256 | `54ce9441…7a007c8e` | ✅ **Sí** |
 | OPNsense 26.7 | `OPNsense-26.7-dvd-amd64.iso` | amd64 | pkg.opnsense.org/releases/26.7/OPNsense-26.7-checksums-amd64.sha256 | `1efd5dc9…48d5dcd` | ⚠️ **N/C**: el fabricant publica el hash del `.iso.bz2` comprimit (`95cafedd…bfb`). Prova: tornar a descarregar el `.bz2`, comprovar-ne el hash i descomprimir-lo |
 | MikroTik RouterOS 7.24.5 | `mikrotik-7.24.5.iso` | x86 | mikrotik.com/download (secció *Checksums*) | `4bff16b8…75aaec02` | ⬜ **N/C**: comparar amb el valor de la web de descàrregues |
-| Windows 11 | `w11.iso` | x64 | microsoft.com/software-download/windows11 (hashes per idioma) | `5210deed…89119dc8` | ⬜ **N/C**: identificar l'idioma i l'edició i comparar |
+| Windows 11 | `w11.iso` | x64 | microsoft.com/software-download/windows11 (hashes per idioma) | `5210deed…89119dc8` | ⬜ **N/C**. Identificada el 12/11 llegint l'XML de `sources/install.wim`: ISO **multiedició en espanyol (es-ES)**, compilació base 22621 (23H2), 11 edicions (Home, Pro, Education, Pro for Workstations…). Falta comparar el hash amb el valor oficial de Microsoft per a l'idioma espanyol |
 | Windows Server 2025 | *(falta)* | x64 | Microsoft Evaluation Center | — | ⬜ falta la ISO |
 
 Hashes complets a les evidències.
@@ -55,9 +55,9 @@ Hashes complets a les evidències.
 |---|---|---|---|---|
 | MikroTik | `/system resource print` | `/system package update check-for-updates` → `install` | | ping 1.1.1.1 des de la LAN |
 | OPNsense | Panell | `opnsense-update` o System → Firmware → Updates | | web de gestió + eixida LAN |
-| Debian (R3, INFRA, RAID, CLI) | `cat /etc/debian_version; uname -r` | `apt update && apt full-upgrade` | | `systemctl --failed` buit + servei |
+| Debian (R3, INFRA, RAID, CLI) | `cat /etc/debian_version; uname -r` | `apt update && apt full-upgrade` | CLI-Debian: nucli 6.12.43 → **6.12.116** ✅ ([abans](../evidencias/t5-clients/a252-a253-cli-debian.txt), [després](../evidencias/t5-clients/guest-additions.txt)) · la resta, pendent | `systemctl --failed` buit + servei |
 | TrueNAS | Dashboard | System → Update | | pool ONLINE, recurs accessible |
-| Proxmox | `pveversion -v` | repositori *no-subscription* + `apt update && apt full-upgrade` | | `pvecm status`, CT arrenca |
+| Proxmox | `pveversion -v` | repositori *no-subscription* + `apt update && apt full-upgrade` | `pve-manager` 9.2.2 → **9.2.26**, nucli → 7.0.14-28 ✅ ([evidència](../evidencias/t5-proxmox/a79-actualitzacio-nodes.txt)) | `pvecm status`, CT arrenca |
 | Windows (WS / W11) | `winver` | Windows Update | | `Test-NetConnection 192.168.13.1` |
 
 ### 1.3 Problemes possibles, configuracions crítiques i temps de resposta (a258)
@@ -74,7 +74,7 @@ Hashes complets a les evidències.
 **Incidència d'arrencada provocada (ISO RA1 h):** en una instantània descartable de `CLI-Debian`, renomenar
 `/boot/grub/grub.cfg` → símptoma (prompt `grub>`) → hipòtesi (falta la configuració de GRUB) → comprovació
 (`ls (hd0,msdos1)/boot/grub`) → solució (`configfile` manual i després `update-grub`) → retorn (restaurar la instantània).
-Evidència a `evidencias/t5-linux-infra/incidencia-grub.md`.
+Evidència a `evidencias/t5-linux-infra/incidencia-grub.md` (⬜ pendent).
 
 ### 1.4 Espai de còpies: què és còpia, com i on (a259)
 
@@ -187,7 +187,7 @@ Evidències a `evidencias/t5-opnsense/`.
 **Configuració:** [`configs/nftables/`](../configs/nftables/) (vegeu-ne el README) · evidències a `evidencias/t5-nftables/`
 
 1. **Instal·lació i versió (a217):** VM `Debian_NFtables` existent. `cat /etc/debian_version`, `uname -r`, `nft --version`, `apt update && apt full-upgrade`.
-2. **Usuaris (a218):** usuari `ivan` al grup `sudo`. A `/etc/ssh/sshd_config`: `PermitRootLogin no`. Accés per clau des de SRV-SERVEIS (usuari `copies`, només per a les còpies).
+2. **Usuaris (a218):** `admin-ivan` (sudo) i `suport` (sense privilegis), com a R1 i R2. A `/etc/ssh/sshd_config`: `PermitRootLogin no`. Accés per clau des de SRV-SERVEIS (usuari `copies`, només per a les còpies).
 3. **Xarxa (a219):** fitxer `interfaces`: `enp0s3` per DHCP (WAN) i `enp0s8` **192.168.13.3/24** (LAN). Activar `ip_forward`. El `dnsmasq` dona DHCP amb porta d'enllaç .3 i només s'activa quan R1 està apagat.
 4. **Internet (a220):** `masquerade` a la taula `ip nat`, més `dnsmasq` per al DHCP i el DNS de la LAN. Prova des del client.
 5. **Permesa / bloquejada (a221):**
@@ -252,7 +252,7 @@ Evidències a `evidencias/t5-truenas/`.
 3. **Xarxa (a226):** consola → *Configure network interfaces*: 192.168.13.20/24, GW 192.168.13.1, DNS 192.168.13.1. Desactivar el DHCP.
 4. **Disc addicional per a còpies (a227):**
    - Storage → *Create pool* `copies` sobre el disc de 50 GB (stripe). Sense redundància, perquè a l'entorn individual és un únic disc. Ho justifique a §1.4.
-   - Datasets: `routers`, `linux`, `proxmox` (NFS cap a .21 i .22), `windows` i `clients` (SMB).
+   - Datasets: `routers`, `linux`, `proxmox` (NFS per a 192.168.13.0/24, el munten els nodes Proxmox), `windows` i `clients` (SMB).
    - Serveis: SSH (amb SFTP), NFS i SMB.
 5. **Equips crítics** que es copien: els 3 routers (sense ells no hi ha xarxa), els nodes Proxmox, el WS2025 (identitats) i el mateix NAS.
 6. **Còpia del propi NAS:** System → General → *Manage configuration* → *Download file*, amb el secret seed. Es guarda **fora** del NAS i **fora** del Git.
@@ -263,9 +263,9 @@ Evidències a `evidencias/t5-truenas/`.
 | Acció | Estat | Evidència |
 |---|---|---|
 | a224 instal·lació i versió | ✅ TrueNAS SCALE **25.10.7**, instal·lat **només** al disc de 20 GiB | `t5-truenas/01-disc-installacio-sda.png`, `02-installacio-completada.png` |
-| a225 usuaris | ✅ `truenas_admin` (administrador, creat a l'instal·lador; el login de root amb contrasenya queda desactivat) i `copies` (uid 3000, **sense** privilegis d'administrador, home `/mnt/copies/usuaris/copies`) | — |
-| a226 xarxa | ✅ enp0s3 **192.168.13.20/24** estàtica (sense DHCP), GW i DNS 192.168.13.1, nom `nas13.lan13.local`. Canvi aplicat amb *commit* i *checkin* (si no es confirma en 120 s, TrueNAS torna sol a la configuració anterior) | — |
-| a227 disc addicional | ✅ pool **`copies`** (stripe, 48 GB útils) sobre el disc de 50 GiB · datasets `routers` (r1, r2, r3), `linux`, `proxmox` (NFS per a 192.168.13.0/24), `windows` i `clients` (SMB) · propietari `copies`, permisos 770 · serveis SSH/SFTP, NFS i SMB actius | — |
+| a225 usuaris | ✅ `truenas_admin` (administrador, creat a l'instal·lador; el login de root amb contrasenya queda desactivat) i `copies` (uid 3000, **sense** privilegis d'administrador, home `/mnt/copies/usuaris/copies`) | ⚠️ falta exportar-la (`/api/v2.0/user`) |
+| a226 xarxa | ✅ enp0s3 **192.168.13.20/24** estàtica (sense DHCP), GW i DNS 192.168.13.1, nom `nas13.lan13.local`. Canvi aplicat amb *commit* i *checkin* (si no es confirma en 120 s, TrueNAS torna sol a la configuració anterior) | ⚠️ falta exportar-la (`/api/v2.0/interface`) |
+| a227 disc addicional | ✅ pool **`copies`** (stripe, 48 GB útils) sobre el disc de 50 GiB · datasets `routers` (r1, r2, r3), `linux`, `proxmox` (NFS per a 192.168.13.0/24), `windows` i `clients` (SMB) · propietari `copies`, permisos 770 · serveis SSH/SFTP, NFS i SMB actius | ⚠️ falta exportar-la (`/api/v2.0/pool`, `/sharing/smb`, `/sharing/nfs`). Indirecta: les còpies de R1–R3, Proxmox i W11 hi són |
 
 **Problema trobat i evitat:** després de reiniciar, el disc d'arrencada (20 GiB) va passar a anomenar-se **`sdb`** i el de 50 GiB **`sda`**. La primera ordre de creació del pool (amb `sdb`) va fallar amb *«disks are already in use: sdb»*: TrueNAS va impedir esborrar el disc del sistema.
 **Lliçó:** no s'han d'identificar els discos pel nom `sdX`, que pot canviar en cada arrencada, sinó per la mida o el número de sèrie (`/api/v2.0/disk`).
@@ -284,9 +284,9 @@ Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node:
    - Comprovar que `/etc/hosts` té el nom de cada node amb la seua IP. El grup va tindre problemes amb això (si Proxmox no troba el seu nom, no arrenca la web).
 2. **Usuaris (a229):**
    - `root@pam` (sistema).
-   - `pveum user add ivan@pve`, `pveum passwd ivan@pve` i `pveum acl modify / -user ivan@pve -role Administrator`.
+   - `ivan@pam` (usuari Linux del node, perquè el *realm* `pve` exigeix 8 caràcters): `pveum user add ivan@pam` i `pveum acl modify / -user ivan@pam -role Administrator`.
    - Usuari de consulta: rol `PVEAuditor`.
-3. **Xarxa (a230):** `/etc/network/interfaces` amb `vmbr0` sobre `enp0s3` (exemple a [03 §2](03-xarxa.md#2-configuració-de-cada-interfície-a148)). Comprovar `ip a` i `bridge link`.
+3. **Xarxa (a230):** `/etc/network/interfaces` amb `vmbr0` sobre `nic0` (exemple a [03 §2](03-xarxa.md#2-configuració-de-cada-interfície-a148)). Comprovar `ip a` i `bridge link`.
 4. **Clúster (a232):**
    - PVE1: `pvecm create cluster13`. PVE2 i PVE3 s'uneixen per l'API, sense haver d'escriure la contrasenya de manera interactiva:
      `pvesh create /cluster/config/join --hostname 192.168.13.32 --fingerprint <empremta de pve-ssl.pem> --password <...>`
@@ -308,15 +308,15 @@ Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node:
    | 230 | SRV-DADES | PVE3 | 1 vCPU · 1 GB · Debian sense GUI | 10 GB + 5×1 GB (RAID) + 2 GB (DRBD) |
    | CT 100 | ct-prova | PVE2 | 1 vCPU · 512 MB | 4 GB |
 
-   - Debian més ràpid: importar `debian-13-genericcloud-amd64.qcow2` amb `qm importdisk` en lloc de la netinst.
+   - Debian més ràpid: importar `debian-13-generic-amd64.qcow2` amb `qm importdisk` en lloc de la netinst (la variant `genericcloud` ja no existeix: 404).
    - CT: `pveam download local debian-13-standard_*.tar.zst` i després `pct create 100 local:vztmpl/... --memory 512 --rootfs local-lvm:4 --net0 name=eth0,bridge=vmbr0,ip=192.168.13.41/24,gw=192.168.13.1`.
 7. **Migració (a235) i mesures (a236)** — la VM migrada és **SRV-SERVEIS**, una Debian sense entorn gràfic, com demana la rúbrica:
 
    | Migració | Ordre | Temps | Espai ocupat | Observacions |
    |---|---|---|---|---|
-   | CT 100 PVE2→PVE3 | `time pct migrate 100 pve3 --restart` | | `pct df 100` / `du` | Els CT no es poden migrar en calent: es reinicien |
-   | VM 220 PVE2→PVE3 (disc local) | `time qm migrate 220 pve3 --online --with-local-disks` | | `qm config 220`, `lvs` | Es copia el disc sencer per la LAN |
-   | VM 220 amb el disc al NFS | `time qm migrate 220 pve2 --online` | | | Només es copia la RAM: hauria de ser molt més ràpid |
+   | CT 100 PVE2⇄PVE3 | `time pct migrate 100 pve3 --restart` | **87,6 s** i 113,6 s | `pct df 100` / `du` | Els CT no es poden migrar en calent: es reinicien |
+   | VM 220 PVE2→PVE3 (disc local) | `time qm migrate 220 pve3 --online --with-local-disks` | ❌ falla als 5 min 47 s | `qm config 220`, `lvs` | Es copia el disc sencer i omple el thin pool de destí |
+   | VM 220 amb el disc al NFS | `time qm migrate 220 pve3 --online` | **8,5 s**, 50 ms de tall | 581 MiB de RAM | Només es copia la RAM |
 
    **Interpretació i millores:**
    - Amb disc local, el temps depén sobretot de la mida del disc i de l'E/S del SSD USB.
@@ -337,7 +337,7 @@ Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node:
 | Acció | Estat | Evidència |
 |---|---|---|
 | a228 instal·lació i versió | ✅ 3 nodes amb l'instal·lador en mode text: ext4/LVM-thin, Europe/Madrid, teclat US. `pve-manager` 9.2.2 → **9.2.26** després d'actualitzar | `t5-proxmox/01..03-*-resum-installacio.png`, `a79-actualitzacio-nodes.txt` |
-| a229 usuaris | ✅ `root@pam` · **`ivan@pam`** (rol Administrator a `/`) · `consulta@pve` (rol PVEAuditor). El *realm* `pve` exigeix 8 caràcters com a mínim, per això l'administrador és un usuari PAM (Linux) | — |
+| a229 usuaris | ✅ `root@pam` · **`ivan@pam`** (rol Administrator a `/`) · `consulta@pve` (rol PVEAuditor). El *realm* `pve` exigeix 8 caràcters com a mínim, per això l'administrador és un usuari PAM (Linux) | ⚠️ falta exportar-la (`pveum user list`, `pveum acl list`) |
 | a230 xarxa | ✅ `vmbr0` amb IP fixa sobre **`nic0`** (Proxmox 9 «fixa» els noms de les targetes), GW i DNS .1, `/etc/hosts` correcte als 3 nodes | `t4-xarxa/ifaces-rutes-pve{1,2,3}.txt` |
 | a232 clúster | ✅ **`cluster13`**: 3 nodes, 3 vots, quòrum 2, `Quorate: Yes` | `a232-cluster.txt` |
 | a79 actualització | ✅ repositori *enterprise* desactivat i *no-subscription* activat; 211 paquets actualitzats; nucli 7.0.2-6 → **7.0.14-28**; 0 serveis fallits després de reiniciar | `a79-actualitzacio-nodes.txt` |
@@ -396,8 +396,8 @@ juntament amb la ISO `virtio-win` (controladors de disc i xarxa VirtIO).
 Evidències a `evidencias/t5-linux-infra/`.
 
 1. **Instal·lació (a242):** Debian 13 **sense entorn gràfic**, des de la netinst (*SSH server* + *standard system utilities*) o des de la cloud image. Comprovar amb `cat /etc/os-release` i fer `apt full-upgrade`.
-2. **Usuaris (a243):** `ivan` (sudo) i root sense login SSH. A SRV-SERVEIS, a més, l'usuari de servei `copies` (sense sudo, amb clau SSH).
-3. **Xarxa (a244):** estàtica, `ens18` (exemple a [03 §2](03-xarxa.md#2-configuració-de-cada-interfície-a148)). Comprovar amb `ip a`, `ip route` i `cat /etc/resolv.conf`.
+2. **Usuaris (a243):** `ivancambra` (creat per cloud-init, sudo, només amb clau SSH) i, com a la resta d'equips, `admin-ivan` (sudo) i `suport`. Root sense login SSH. A SRV-SERVEIS, a més, l'usuari de servei `copies` (sense sudo, amb clau SSH).
+3. **Xarxa (a244):** estàtica, `eth0` amb la imatge cloud, configurada per cloud-init (exemple a [03 §2](03-xarxa.md#2-configuració-de-cada-interfície-a148)). Comprovar amb `ip a`, `ip route` i `cat /etc/resolv.conf`.
 4. **Funció i programari (a246):** l'enunciat diu que, de moment, no s'ha d'instal·lar programari addicional. Només el que necessiten les còpies i les proves:
    - SRV-SERVEIS: `rsync` i `openssh`, per orquestrar les còpies.
    - SRV-DADES: `mdadm`, per al RAID.
@@ -412,11 +412,16 @@ Evidències a `evidencias/t5-clients/`.
 
 | | Windows 11 (`Cliente_windows_1`, existent) | GNU/Linux (`CLI-Debian`) |
 |---|---|---|
-| Instal·lació i versió (a247/a252) | ✅ **Windows 11 Home 23H2**, compilació 22631, 64 bits. UEFI, **Secure Boot actiu** i **TPM 2.0 preparat** (llegits des d'un PowerShell elevat). Serveis automàtics aturats: només `edgeupdate`, `MapsBroker` i `sppsvc` (és normal que estiguen parats). Internet: HTTPS 200 | Debian 13 + **XFCE**: és lleuger i serveix de navegador per a les webs de gestió. `cat /etc/os-release` |
-| Usuaris (a248/a253) | ✅ `admin-ivan` (Administradors, el mateix nom que als routers) i `usuari` (Usuaris, estàndard: és el compte de treball diari). `Ivan` és el compte de la instal·lació i també és administrador. L'`Administrador` integrat i `Invitado` estan desactivats. UAC actiu (`EnableLUA=1`). Script: `scripts/clients/w11-usuaris.ps1` | `ivan` (sudo) i `usuari` (sense sudo) |
-| Xarxa (a249/a254) | ✅ Per DHCP de R1: **192.168.13.199/24**, GW .1, DNS .1, sufix `lan13.local`. Ping a la GW correcte, el DNS resol, port 445 del NAS obert | DHCP: `ip a`, `ip route`, `nmcli dev show` |
+| Instal·lació i versió (a247/a252) | ✅ **Windows 11 Home 23H2** (pas a **Pro** preparat, vegeu sota), compilació 22631, 64 bits. UEFI, **Secure Boot actiu** i **TPM 2.0 preparat** (llegits des d'un PowerShell elevat). Serveis automàtics aturats: només `edgeupdate`, `MapsBroker` i `sppsvc` (és normal que estiguen parats). Internet: HTTPS 200 | ✅ Debian 13 (trixie) + **GNOME** 48: fa d'equip de gestió amb Firefox per a les webs de la LAN13 ([03 §5](03-xarxa.md#5-accés-de-gestió-a-les-webs-de-la-lan13)). 0 serveis fallits, Internet HTTP/2 200 |
+| Usuaris (a248/a253) | ✅ `admin-ivan` (Administradors, el mateix nom que als routers) i `usuari` (Usuaris, estàndard: és el compte de treball diari). `Ivan` és el compte de la instal·lació i també és administrador. L'`Administrador` integrat i `Invitado` estan desactivats. UAC actiu (`EnableLUA=1`). Script: `scripts/clients/w11-usuaris.ps1` | ✅ `ivancambra` (grup `sudo`) · `root` amb contrasenya (només `su`). ⬜ Per igualar-ho amb la resta: `admin-ivan` i un usuari sense sudo |
+| Xarxa (a249/a254) | ✅ Per DHCP de R1: **192.168.13.199/24**, GW .1, DNS .1, sufix `lan13.local`. Ping a la GW correcte, el DNS resol, port 445 del NAS obert | ✅ DHCP de R1 ([evidència](../evidencias/t4-xarxa/ifaces-rutes-cli-debian.txt)) |
 | Còpia (a250/a255) | ✅ `scripts/copies/copia-w11.ps1`: `robocopy /MIR` cap a `\\192.168.13.20\clients\w11` amb l'usuari `copies`. **Es copien:** `config\` (ipconfig, configuració IP, usuaris, aplicacions instal·lades i versió, per poder reconstruir el client) i `dades\<usuari>\Documents` i `Desktop` (el que és únic de cada usuari). **No es copien:** la imatge sencera, `C:\Windows`, `Program Files` ni `AppData\Local` (memòria cau). Un client es reinstal·la des d'una imatge estàndard i les aplicacions es tornen a instal·lar a partir de la llista. **Prova de restauració:** s'esborra `prova-copia-w11.txt`, es recupera del NAS i el SHA-256 coincideix. També s'ha comprovat amb `ls -lR` al NAS | `rsync -a /home/ copies@192.168.13.20:/mnt/copies/clients/cli-debian/` i `/etc`. **No** les aplicacions |
-| Domini | ➖ no exigit (a251) | ➖ no exigit (a256) |
+| Domini | ➖ a251 desactivada a la rúbrica. L'enunciat deixa la implantació del domini per a RA4/RA5 d'ISO; el disseny del grup preveu unir els clients al domini amb **Windows 11 Pro**. Home no es pot unir a un domini: per això es prepara el pas a Pro | ➖ a256 desactivada; al disseny, unió a AD amb SSSD/realmd en fases posteriors |
+
+**Windows 11 Home → Pro (preparat, no aplicat).** La ISO és multiedició i inclou Pro, així que no cal reinstal·lar.
+Es fa el canvi d'edició *in situ* amb la clau genèrica de Microsoft per a Pro (`changepk.exe /ProductKey <clau genèrica>`):
+només canvia l'edició, no activa el sistema (per activar-lo caldria una llicència, p. ex. la del centre). Es conserven els usuaris, la xarxa i les dades.
+Punt de retorn: instantània de VirtualBox `W11-Home-a250-ok`. Després es repeteix `scripts/clients/w11-info.ps1` per actualitzar l'evidència d'a247.
 
 **Evidències W11 (12/11):** `a247-a249-w11.txt` i `a250-w11-copia.txt`. `guestcontrol` s'executa sense elevar (UAC), de manera que les accions d'administrador (usuaris, Secure Boot, TPM) es van fer obrint un PowerShell elevat a la consola i acceptant l'UAC.
 

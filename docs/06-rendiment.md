@@ -45,7 +45,7 @@ Si es trenca qualsevol d'aquests cinc punts, l'escenari no és viable.
 | 7-stress-cpu | | CLI amb `stress-ng --cpu 2` | | | | | | | | |
 | 8-fio-disc | | SRV-DADES amb `fio` randwrite | | | | | | | | |
 
-Registre de la línia base de casa: [`evidencias/t7-rendiment/`](../evidencias/t7-rendiment/).
+Registres de les línies base de casa i de classe: [`evidencias/t7-rendiment/`](../evidencias/t7-rendiment/).
 
 ## 3. Quina VM satura quin recurs (a23)
 
@@ -91,6 +91,7 @@ VBoxManage modifyvm Debian_NFtables --memory 1024 --cpus 1
 VBoxManage storagectl Cliente_windows_1 --name SATA --hostiocache on
 VBoxManage clonemedium disk Windows11_1.vdi Windows11_1-fix.vdi --variant Fixed   # amb la VM apagada
 ```
+**Compte:** des del 12/11 `Cliente_windows_1` té la instantània `W11-Home-a250-ok`. El `.vdi` base ja no conté l'estat actual: abans de clonar-lo cal esborrar la instantània (que fusiona els canvis) o clonar la VM sencera amb `VBoxManage clonevm`.
 
 Si una optimització **no** millora o empitjora alguna cosa, també es documenta. Per exemple, la memòria cau d'E/S de
 l'amfitrió accelera, però si s'apaga de cop es pot perdre la darrera escriptura.

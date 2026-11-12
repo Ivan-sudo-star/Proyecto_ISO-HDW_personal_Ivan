@@ -31,7 +31,8 @@ docs/          documentació en Markdown (un fitxer per tasca)
 diagrames/     esquema de xarxa (.drawio editable + .png)
 evidencias/    captures i registres comentats, una carpeta per tasca i sistema
 configs/       configuracions dels sistemes (nftables, MikroTik, DRBD...) sense credencials
-scripts/       host/ (inventari, tests, mesures) · vbox/ (creació de l'entorn) · copies/ · raid/
+scripts/       host/ (inventari, tests, mesures) · vbox/ (entorn i diagrama) · proxmox/ · clients/ (W11) · copies/ · raid/ · rubrica/
+rubrica/       rúbrica original, rúbrica amb les marques, estat.json i fitxer de seguiment
 ```
 
 ## Estat respecte a la rúbrica individual
@@ -40,21 +41,21 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 
 | Tasca | Accions | Estat | On |
 |---|---|---|---|
-| T0 Entorn (Apte) | a17, a18 | ✅ entorn muntat i funcionant | [01](docs/01-entorn.md) |
-| T0 Entorn (Apte+) | a127 | 🟡 documentat + Git; falta completar problemes a mesura que apareguen | [01](docs/01-entorn.md) |
+| T0 Entorn (Apte) | a17, a18 | ✅ entorn muntat i funcionant ([VM del grup](evidencias/t0-entorn/vms.txt)) | [01](docs/01-entorn.md) |
+| T0 Entorn (Apte+) | a127 | ✅ 11 problemes documentats amb causa i solució (s'hi afegeixen els nous) | [01 §5](docs/01-entorn.md#5-problemes-trobats-i-solució-a127) |
 | T2 Inventari (Apte) | a19, a20, a21 | ✅ classe i casa complets (amb sudo) | [02](docs/02-inventari.md) |
 | T2 Tests (Apte+) | a27, a28, a29 | ✅ classe i casa (memtester, dd, fio, xarxa) | [02](docs/02-inventari.md) |
 | T4 Xarxa (Apte) | a128, a148 | ✅ esquema i taula d'interfícies (alineats amb el grup) | [03](docs/03-xarxa.md) |
 | T4 Xarxa (Apte+) | a129, a149 | ✅ ping, traceroute, rutes, interfícies i aïllament | [03](docs/03-xarxa.md) |
-| T5 General | a78, a79, a258, a259 | 🟡 integritat ISO verificada (3 de 6); resta pendent | [04](docs/04-installacio.md) |
+| T5 General | a78, a79, a258, a259 | 🟡 a259 ✅ · ISO verificades 3 de 6 · actualitzats Proxmox i CLI-Debian · a258 pendent | [04](docs/04-installacio.md) |
 | T5 MikroTik | a203–a209 | ✅ complet (recuperació en 42 s) | [04 §2](docs/04-installacio.md#2-r1--mikrotik-routeros-a203a209) |
 | T5 OPNsense | a210–a216 | ✅ complet (recuperació en 48 s) | [04 §3](docs/04-installacio.md#3-r2--opnsense-a210a216) |
 | T5 nftables | a217–a223 | ✅ complet (recuperació en 22 s) · els 3 routers configurats igual | [04 §4](docs/04-installacio.md#4-r3--debian-13--nftables-a217a223) |
-| T5 TrueNAS | a224–a227 | ✅ complet (pool `copies`, SSH/NFS/SMB) | [04 §5](docs/04-installacio.md#5-nas--truenas-scale-a224a227-a259) |
+| T5 TrueNAS | a224–a227 | ✅ complet (pool `copies`, SSH/NFS/SMB) · ⚠️ falta exportar l'evidència d'a225–a227 | [04 §5](docs/04-installacio.md#5-nas--truenas-scale-a224a227-a259) |
 | T5 Proxmox | a228–a232, a235, a236 | ✅ 3 nodes, clúster, NFS compartit, VM 220/230, CT 100, migració (8,5 s en calent) i còpies | [04 §6](docs/04-installacio.md#6-proxmox-ve-a228a232-a235-a236) |
 | T5 Windows Server 2025 | a237–a241 | ⬜ **falta la ISO** · anirà com a VM 210 dins de PVE1 | [04 §7](docs/04-installacio.md#7-windows-server-2025-a237a241) |
 | T5 Linux infra | a242–a246 | 🟡 VM 220 (PVE2) i 230 (PVE3) dins del clúster | [04 §8](docs/04-installacio.md#8-servidors-gnulinux-dinfraestructura-a242a246) |
-| T5 Clients | a247–a250, a252–a255 | 🟡 W11 ✅ (a247–a250) · CLI-Debian ✅ (a252–a254), a255 pendent · Guest Additions als dos | [04 §9](docs/04-installacio.md#9-clients-a247a250-a252a255) |
+| T5 Clients | a247–a250, a252–a255 | 🟡 W11 ✅ (a247–a250; pas a **Pro** preparat) · CLI-Debian ✅ (a252–a254), a255 pendent · Guest Additions als dos | [04 §9](docs/04-installacio.md#9-clients-a247a250-a252a255) |
 | T5 Apte+ còpies automàtiques | a105 | 🟡 script + timer systemd + scheduler MikroTik | [04 §10](docs/04-installacio.md#10-apte-còpies-automatitzades-a105) |
 | T6 RAID (Apte) | a102, a103 | 🟡 script de proves llest | [05](docs/05-raid.md) |
 | T6 Espill entre equips (Apte+) | a107, a108, a109 | 🟡 a107 ✅ investigació · falta implementar DRBD | [05](docs/05-raid.md#tasca-63--espill-entre-dos-equips-a107a109) |

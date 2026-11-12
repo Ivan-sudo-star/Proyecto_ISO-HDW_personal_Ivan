@@ -4,8 +4,8 @@
 `lshw`, `lspci`, `lsusb`, `inxi` i llig el DMI del firmware. Com que el sistema està al disc USB, s'executa
 igual als dos equips. Les dades que necessiten `sudo` (tipus de RAM, ranures i SMART) s'obtenen amb `sudo -E bash scripts/host/inventari.sh <equip>`. Fet als dos equips (casa: 11/11; classe: 12/11).
 
-- Classe: [`inventari-classe-raw.txt`](../evidencias/t2-inventari/inventari-classe-raw.txt) — 11/11/2026 13:29
-- Casa: [`inventari-casa-raw.txt`](../evidencias/t2-inventari/inventari-casa-raw.txt) — 11/11/2026 15:05
+- Classe: [`inventari-classe-raw.txt`](../evidencias/t2-inventari/inventari-classe-raw.txt) — 12/11/2026 08:03
+- Casa: [`inventari-casa-raw.txt`](../evidencias/t2-inventari/inventari-casa-raw.txt) — 11/11/2026 15:43
 
 ## 1. Inventari i comparativa (a19, a20)
 
@@ -46,8 +46,6 @@ Script: [`scripts/host/tests-diagnostic.sh`](../scripts/host/tests-diagnostic.sh
 | Xarxa: descàrrega | `curl` 100 MB (OVH) | — | **8,5 Mb/s** (límit de 60 s; sortida del centre compartida) | ≈ 48 Mb/s |
 | Xarxa: LAN equip↔equip | `iperf3` 3.16, 10 s per sentit | servidor al PC d'un company (172.16.222.47) | **934 Mb/s pujada i baixada, 0 retransmissions** ([evidència](../evidencias/t2-tests/iperf3-classe-20261112-0816.txt)) | ⬜ no hi ha segon equip |
 
-¹ Primera execució a classe (11/11 13:39), substituïda per la completa del 12/11.
-
 Registres: classe [`tests-classe-20261112-0800.txt`](../evidencias/t2-tests/tests-classe-20261112-0800.txt) · casa: [`tests-casa-20261111-1504.txt`](../evidencias/t2-tests/tests-casa-20261111-1504.txt) (dd + xarxa) i [`tests-casa-20261111-1545.txt`](../evidencias/t2-tests/tests-casa-20261111-1545.txt) (memtester + dd + fio + xarxa).
 
 ## 3. Colls de botella
@@ -59,9 +57,9 @@ Registres: classe [`tests-classe-20261112-0800.txt`](../evidencias/t2-tests/test
 | 3 | **Fils de CPU a casa**: 12 en lloc de 18 | casa | `lscpu` | ✅ | Suma de vCPU ≤ 10 a casa. 1 vCPU als servidors Linux lleugers |
 | 4 | **Xarxa de casa a 100 Mb/s**: descàrregues d'ISO i actualitzacions lentes | casa | `ethtool`: l'altre extrem (**l'adaptador PLC**) només anuncia 10/100. Descàrrega real ≈ 48 Mb/s: el PLC depén de la instal·lació elèctrica (distància, soroll, regletes) | ✅ | Endollar el PLC directament a la paret (sense regleta) i lluny de fonts de soroll. Usar un PLC amb port Gigabit. O cable directe al router o Wi-Fi 6 (la placa té AX211). **No afecta la LAN13**, que és interna de VirtualBox i va per memòria |
 | 5 | **Secure Boot a casa** impedeix carregar `vboxdrv` | casa | Avís de `VBoxManage`; `modinfo vboxdrv` mostra que el mòdul està signat amb una clau que la placa no té registrada | ✅ **resolt** | Registrar la clau MOK del disc al firmware de casa (una sola vegada), sense desactivar el Secure Boot. Comprovat: `mokutil --sb-state` → *enabled* i `lsmod` mostra `vboxdrv`, `vboxnetflt` i `vboxnetadp` (vegeu [01 §5](01-entorn.md#5-problemes-trobats-i-solució-a127)) |
-| 6 | **Límit tèrmic / bateria** del portàtil | classe | ⬜ mesurar la freqüència de la CPU amb càrrega (T7) | N/C |
-| 8 | **Sortida a Internet de l'aula** (compartida i filtrada) | classe | 8,5 Mb/s de descàrrega amb enllaç d'1 Gb/s; ICMP bloquejat | ✅ | No depén del portàtil. Descarregar ISO i actualitzacions a casa o fora d'hores. Les proves de connectivitat de les VM, amb TCP (`curl`, `nc`) i no amb `ping` cap a fora | Treballar sempre amb el carregador. Perfil d'energia de rendiment |
+| 6 | **Límit tèrmic / bateria** del portàtil | classe | ⬜ mesurar la freqüència de la CPU amb càrrega (T7) | N/C | Treballar sempre amb el carregador. Perfil d'energia de rendiment |
 | 7 | Disc NVMe de casa sense DRAM | casa | No l'usa l'entorn | ❌ descartat | — |
+| 8 | **Sortida a Internet de l'aula** (compartida i filtrada) | classe | 8,5 Mb/s de descàrrega amb enllaç d'1 Gb/s; ICMP bloquejat | ✅ | No depén del portàtil. Descarregar ISO i actualitzacions a casa o fora d'hores. Les proves de connectivitat de les VM, amb TCP (`curl`, `nc`) i no amb `ping` cap a fora |
 
 **Conclusió:** el que més limita no és cap dels dos PC, sinó **el disc USB que comparteixen**.
 La RAM obliga a treballar per escenaris, però una vegada fet això no és el que frena més.

@@ -16,6 +16,7 @@ NAS_DIR="/mnt/copies"
 ROUTERS="192.168.13.1 192.168.13.2 192.168.13.3"   # R1, R2, R3: es copien els que estiguen encesos
 PVE_NODES="192.168.13.32 192.168.13.33 192.168.13.34"
 LINUX_SRV="192.168.13.22 192.168.13.23"
+LINUX_USR="ivancambra"   # usuari de cloud-init (sudo sense contrasenya); les VM cloud no accepten root per SSH
 WORK=$(mktemp -d); DATA=$(date +%F_%H%M)
 SSH="ssh -o BatchMode=yes -o ConnectTimeout=5"
 OK=0; KO=0
@@ -56,8 +57,8 @@ done
 # --- Servidors GNU/Linux: /etc i llista de paquets (permet reinstal·lar i restaurar) ---
 for s in $LINUX_SRV; do
   mkdir -p "$WORK/linux/$s"
-  $SSH root@$s 'tar czf - /etc 2>/dev/null' > "$WORK/linux/$s/etc-$DATA.tgz" && \
-  $SSH root@$s 'dpkg --get-selections' > "$WORK/linux/$s/paquets-$DATA.txt" \
+  $SSH $LINUX_USR@$s 'sudo -n tar czf - /etc 2>/dev/null' > "$WORK/linux/$s/etc-$DATA.tgz" && \
+  $SSH $LINUX_USR@$s 'dpkg --get-selections' > "$WORK/linux/$s/paquets-$DATA.txt" \
     && fet "Linux $s" || err "Linux $s"
 done
 

@@ -1,6 +1,12 @@
 # DRBD · espill entre dos equips
 
-Comprova abans el nom dels discos amb `lsblk`: el disc de 2 GB de cada VM (a `srv-serveis` és `sdb`; a `srv-dades` és `sdg` perquè hi ha els 5 discos del RAID davant).
+**Abans de res, identifica el disc de 2 GB de cada VM per mida, no pel nom.** A la VM 230 els noms `sdX` no segueixen l'ordre `scsiN`, i un `sdX` equivocat esborraria un disc del RAID o el del sistema:
+
+```bash
+lsblk -dbnpo NAME,SIZE | awk '$2==2147483648'     # el disc de 2 GiB
+ls -l /dev/disk/by-path/ | grep -w "$(basename <disc>)"   # el seu camí estable
+```
+Posa aquest camí `/dev/disk/by-path/...` a la línia `disk` de cada node a `r0.res`.
 
 ```bash
 # A LES DUES VM (root)

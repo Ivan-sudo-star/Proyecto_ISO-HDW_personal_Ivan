@@ -89,20 +89,18 @@ CLI-Debian (192.168.13.10x) ─────────────────�
 
 ## 4. Implementació i comprovació (Apte+ · a129, a149)
 
-Evidències a `evidencias/t4-xarxa/`, un fitxer per prova i una línia que explique què demostra:
+Evidències a `evidencias/t4-xarxa/`. Cada fitxer acaba amb una interpretació del que demostra.
 
-| Prova | Ordre | Des de → cap a | Resultat esperat | Fitxer |
+| Prova | Ordre | Des de → cap a | Resultat esperat | Estat i fitxer |
 |---|---|---|---|---|
-| Configuració d'interfícies | `ip a` · `ipconfig /all` · `/ip address print` | cada equip | IP, màscara, MAC i estat UP | `ifaces-<equip>.txt` |
-| Taula d'encaminament | `ip route` · `route print` · `/ip route print` | cada equip | `default via 192.168.13.1` (routers: `via 10.0.2.2`) | `rutes-<equip>.txt` |
-| Ping dins la LAN | `ping -c4 192.168.13.20` | CLI-Debian → NAS | 0 % pèrdua, < 1 ms | `ping-lan.txt` |
-| Ping a una VM niuada | `ping -c4 192.168.13.21` | CLI-Debian → WS2025 (dins de PVE1) | resposta: el bridge funciona | `ping-niuada.txt` |
-| Ping a la porta d'enllaç | `ping -c4 192.168.13.1` | W11 → R1 | 0 % pèrdua | `ping-gw-w11.txt` |
-| Eixida a Internet | `ping -c4 1.1.1.1` · `curl -I https://debian.org` | CLI-Debian | resposta | `ping-inet.txt` |
-| Resolució DNS | `nslookup debian.org 192.168.13.1` | CLI-Debian | IP resolta pel router | `dns.txt` |
-| Traceroute | `traceroute -n 1.1.1.1` · `tracert -d 1.1.1.1` | CLI-Debian / W11 | salt 1 = 192.168.13.1, salt 2 = 10.0.2.2... | `traceroute-*.txt` |
-| **Prova que falla a propòsit** | `nc -zv -w5 github.com 22` | CLI-Debian | timeout + línia `BLOQ-SSH` al registre del router | `bloquejada.txt` |
-| Aïllament | `ping -c3 192.168.13.20` i `ip route get 192.168.13.20` | amfitrió → NAS | **falla**: l'amfitrió (i, per tant, l'aula) no té cap ruta cap a LAN13; només s'hi entra a través del router | `aillament.txt` |
+| Configuració d'interfícies i taula d'encaminament | `ip a` + `ip route` · `/ip address print` + `/ip route print` · `ipconfig /all` | cada equip | IP, màscara i estat UP; `default via 192.168.13.1` (routers: `via 10.0.2.2`) | ✅ [R1](../evidencias/t4-xarxa/ifaces-rutes-r1.txt) · [NAS](../evidencias/t4-xarxa/ifaces-rutes-nas.txt) · [PVE1](../evidencias/t4-xarxa/ifaces-rutes-pve1.txt) · [PVE2](../evidencias/t4-xarxa/ifaces-rutes-pve2.txt) · [PVE3](../evidencias/t4-xarxa/ifaces-rutes-pve3.txt) · [CLI-Debian](../evidencias/t4-xarxa/ifaces-rutes-cli-debian.txt) · [W11](../evidencias/t5-clients/a247-a249-w11.txt) |
+| Ping dins la LAN | `ping -c3` a .1, .20, .32, .33, .34 | CLI-Debian → R1, NAS, nodes | 0 % pèrdua, < 1 ms | ✅ [`ping-lan-i-internet.txt`](../evidencias/t4-xarxa/ping-lan-i-internet.txt) |
+| Ping a una VM niuada | `ping -c4 192.168.13.22` (i .23, .21) | CLI-Debian → VM dins dels nodes | resposta: el bridge funciona | ⬜ pendent (es farà amb a244; el WS2025 quan existisca) |
+| Ping a la porta d'enllaç des de Windows | `Test-Connection 192.168.13.1` | W11 → R1 | resposta | ✅ [`a247-a249-w11.txt`](../evidencias/t5-clients/a247-a249-w11.txt) |
+| Eixida a Internet | `ping -c3 1.1.1.1` · `curl -I https://debian.org` | CLI-Debian | resposta | ✅ [`ping-lan-i-internet.txt`](../evidencias/t4-xarxa/ping-lan-i-internet.txt) |
+| Resolució DNS i traceroute | `dig +short debian.org @192.168.13.1` · `traceroute -n 1.1.1.1` | CLI-Debian | IP resolta pel router · salt 1 = 192.168.13.1, salt 2 = 10.0.2.2 | ✅ [`traceroute-dns-cli-debian.txt`](../evidencias/t4-xarxa/traceroute-dns-cli-debian.txt) |
+| **Prova que falla a propòsit** | `nc -zv -w5 github.com 22` | CLI-Debian | timeout + línia `BLOQ-SSH` al registre del router | ✅ [`a207-prova-permesa-bloquejada.txt`](../evidencias/t5-mikrotik/a207-prova-permesa-bloquejada.txt) (també R2 i R3 a 04) |
+| Aïllament | `ping -c3 192.168.13.20` i `ip route get 192.168.13.20` | amfitrió → NAS | **falla**: l'amfitrió (i, per tant, l'aula) no té cap ruta cap a LAN13; només s'hi entra a través del router | ✅ [`aillament-amfitrio.txt`](../evidencias/t4-xarxa/aillament-amfitrio.txt) |
 
 ## 5. Accés de gestió a les webs de la LAN13
 

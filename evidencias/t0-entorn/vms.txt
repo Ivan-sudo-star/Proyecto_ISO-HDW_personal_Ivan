@@ -1,0 +1,19 @@
+# VM del grup /ISO_HWD — 2026-11-12 11:41:17 (VBoxManage, des de l'amfitrió)
+
+VM                   RAM       vCPU   FW    Estat
+Debian_NFtables      1024MB    1      BIOS  powered off
+Cliente_windows_1    4096MB    2      EFI   powered off
+R1-MikroTik          512MB     1      BIOS  powered off
+R2-OPNsense          2048MB    2      BIOS  powered off
+NAS-TrueNAS          8192MB    2      EFI   powered off
+PVE1-Proxmox         6144MB    4      BIOS  powered off
+PVE2-Proxmox         3072MB    2      BIOS  powered off
+CLI-Debian           2048MB    2      BIOS  powered off
+PVE3-Proxmox         3072MB    2      BIOS  powered off
+
+$ VBoxManage snapshot Cliente_windows_1 list
+   Name: W11-Home-a250-ok (UUID: 405044ba-f49c-4a36-9cdd-f6ff87830092) *
+   Description: Windows 11 Home 23H2 amb a247-a250 fets (12/11/2026), abans de passar a Pro
+
+## Interpretació
+Les 9 VM de l'entorn són al grup /ISO_HWD amb la RAM i les vCPU de docs/01-entorn.md §3.1 (les altres VM de l'amfitrió són d'altres mòduls i no formen part del projecte). Totes apagades: es treballa per escenaris (01 §4).

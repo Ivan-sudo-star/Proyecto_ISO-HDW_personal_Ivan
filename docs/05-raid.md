@@ -3,7 +3,9 @@
 ## Tasca 6.2 — Tres tipus de RAID o més (Apte · a102, a103)
 
 **On:** VM 230 `SRV-DADES` (Debian 13 sense GUI) **dins del node PVE3**, com la «VM Debian · dades» del grup. Té el disc del sistema `sda` i
-**5 discos d'1 GB** (`sdb`–`sdf`) creats des de Proxmox (`for i in 1 2 3 4 5; do qm set 230 --scsi$i local-lvm:1; done`). Totes les dades són fictícies.
+**5 discos d'1 GB** creats des de Proxmox (`for i in 1 2 3 4 5; do qm set 230 --scsi$i local-lvm:1; done`). Totes les dades són fictícies.
+
+**Compte:** dins de la VM, els noms `sdX` **no segueixen l'ordre** `scsiN`. L'script no usa noms fixos: detecta els discos de **exactament 1 GiB**, s'atura si no en troba 5 i no toca mai el disc del sistema ni un disc amb particions. També se li poden passar a mà: `DISCOS_RAID="/dev/disk/by-path/... (x5)" bash raid-proves.sh 1`.
 
 **Script:** [`scripts/raid/raid-proves.sh`](../scripts/raid/raid-proves.sh). Per a cada nivell:
 1. Crea el RAID amb `mdadm`, formata en ext4 i el munta.
@@ -15,7 +17,8 @@
 apt install -y mdadm
 bash raid-proves.sh 0      # i després 1, 5 i 10 (cada nivell neteja els discos abans de començar)
 bash raid-proves.sh neteja
-# Copiar els registres a l'amfitrió: scp ivan@192.168.13.23:/root/evidencies-raid/* evidencias/t6-raid/
+# Copiar els registres a l'amfitrió (amb la clau lab13_ed25519, saltant per R1): scp ivancambra@192.168.13.23:~/evidencies-raid/* evidencias/t6-raid/
+# (abans, dins la VM: sudo cp -r /root/evidencies-raid ~ && sudo chown -R ivancambra ~/evidencies-raid)
 ```
 
 Abans de començar: instantània `qm snapshot 230 raid-net` a PVE3. Si alguna cosa va malament, `qm rollback 230 raid-net`.
@@ -24,10 +27,10 @@ Abans de començar: instantània `qm snapshot 230 raid-net` a PVE3. Si alguna co
 
 | Nivell | Discos | Capacitat útil (teòrica / `df -h`) | Fallada provocada | Dades després de la fallada | Reconstrucció | Escriptura `dd` |
 |---|---|---|---|---|---|---|
-| RAID 0 | sdb + sdc | 2 GB / | sdc perdut | ❌ esperat: no es pot assemblar | — | |
-| RAID 1 | sdb + sdc (+ sdd de substitució) | 1 GB / | `--fail sdc` | ✅ esperat: íntegres, `[U_]` | s | |
-| RAID 5 | sdb + sdc + sdd + **spare sde** | 2 GB / | `--fail sdc` | ✅ esperat: el spare entra sol | s | |
-| RAID 10 | sdb + sdc + sdd + sde (+ sdf) | 2 GB / | `--fail sdb` | ✅ esperat | s | |
+| RAID 0 | D1 + D2 | 2 GB / | D2 perdut | ❌ esperat: no es pot assemblar | — | |
+| RAID 1 | D1 + D2 (+ D3 de substitució) | 1 GB / | `--fail D2` | ✅ esperat: íntegres, `[U_]` | s | |
+| RAID 5 | D1 + D2 + D3 + **spare D4** | 2 GB / | `--fail D2` | ✅ esperat: el spare entra sol | s | |
+| RAID 10 | D1 + D2 + D3 + D4 (+ D5) | 2 GB / | `--fail D1` | ✅ esperat | s | |
 
 ### Què aporta cada nivell (a103) — *conclusions pròpies a partir dels resultats*
 
@@ -59,8 +62,9 @@ demostrar a mà. Ceph i Gluster tindrien sentit amb el clúster de 3 nodes de l'
 ### Implementació (a108)
 
 Nodes, en **dos nodes Proxmox diferents**, de manera que l'espill sobreviu a la caiguda d'un node sencer:
-- `srv-serveis` (VM 220 a PVE2): 192.168.13.22, disc `/dev/sdb` de 2 GB.
-- `srv-dades` (VM 230 a PVE3): 192.168.13.23, disc `/dev/sdg` de 2 GB.
+- `srv-serveis` (VM 220 a PVE2): 192.168.13.22, el disc de 2 GB.
+- `srv-dades` (VM 230 a PVE3): 192.168.13.23, el disc de 2 GB.
+- El disc s'identifica per mida (`lsblk -dbnpo NAME,SIZE | awk '$2==2147483648'`) i al `r0.res` es posa el seu camí estable de `/dev/disk/by-path/`, no `sdX`.
 
 Configuració: [`configs/drbd/r0.res`](../configs/drbd/r0.res), amb els passos al [README](../configs/drbd/README.md).
 

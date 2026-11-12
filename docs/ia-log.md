@@ -3,7 +3,7 @@
 L'enunciat permet usar IA si es registra quina proposta s'ha fet, com s'ha contrastat i quina decisió s'ha mantingut, canviat o descartat.
 **No s'hi han introduït credencials ni dades personals.**
 
-**Eina:** Claude (Anthropic), en un assistent de terminal sobre el disc de l'entorn. **Data:** 11/11/2026.
+**Eina:** Claude (Anthropic), en un assistent de terminal sobre el disc de l'entorn. **Dates:** 11/11/2026 i 12/11/2026.
 
 **Què ha fet l'IA:**
 - l'estructura del repositori i l'esborrany dels documents;
@@ -17,13 +17,13 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 
 | # | Proposta de l'IA | Com l'he contrastada | Decisió |
 |---|---|---|---|
-| 1 | WAN dels routers per NAT de VirtualBox en lloc d'adaptador pont | L'enunciat diu: «No llanceu un DHCP de proves sobre la xarxa compartida». Amb NAT, a més, funciona igual a casa i a classe | Mantinguda / canviada / descartada: ___ |
+| 1 | WAN dels routers per NAT de VirtualBox en lloc d'adaptador pont | L'enunciat diu: «No llanceu un DHCP de proves sobre la xarxa compartida». Amb NAT, a més, funciona igual a casa i a classe | **Mantinguda** i aplicada als 3 routers (WAN 10.0.2.15 per NAT) |
 | 2 | Els tres routers amb la mateixa IP LAN (.1), arrancats d'un en un | Contrastat amb el [repo del grup](https://github.com/varo010/asix-aula-grup-03-ISO), que usa .1, .2 i .3 | **Canviada:** una IP per router, com al grup |
 | 2b | 2 nodes Proxmox i el WS2025 com a VM soltes de VirtualBox | Contrastat amb el repo del grup: hi ha 3 nodes, i el WS2025 i els Debian són VM dins dels nodes | **Canviada:** 3 nodes, servidors dins del clúster |
-| 3 | TrueNAS amb 8 GB de RAM | Requisit mínim de la documentació de TrueNAS: N/C, cal consultar-lo i provar-ho | ___ |
-| 4 | DRBD per a l'espill entre equips, en lloc de Gluster o Ceph | Comparativa a [05](05-raid.md#investigació-i-justificació-a107). Ceph necessita 3 nodes | ___ |
+| 3 | TrueNAS amb 8 GB de RAM | Requisit mínim de la documentació de TrueNAS: 8 GB ([04 §1.1](04-installacio.md#11-requisits-origen-i-integritat-de-les-imatges-a78)) | **Mantinguda**: 8 GB. Provar-lo amb menys RAM queda com a optimització possible (T7) |
+| 4 | DRBD per a l'espill entre equips, en lloc de Gluster o Ceph | Comparativa a [05](05-raid.md#investigació-i-justificació-a107). Ceph necessita 3 nodes | **Mantinguda** (a107); falta implementar-la (a108, a109) |
 | 5 | Hashes de les ISO | **Contrastat:** `sha256sum -c` contra els fitxers oficials. Debian, Proxmox i TrueNAS coincideixen ([evidència](../evidencias/t5-isos/verificacio.txt)) | Mantinguda (prova feta) |
-| 6 | Coll de botella principal = E/S síncrona del SSD USB | **Contrastat amb una mesura:** `dd` amb `dsync` a casa dona 1,7 MB/s, davant dels 359 MB/s en seqüencial | Mantinguda (falta repetir-ho a classe) |
+| 6 | Coll de botella principal = E/S síncrona del SSD USB | **Contrastat amb una mesura:** `dd` amb `dsync` a casa dona 1,7 MB/s, davant dels 359 MB/s en seqüencial | Mantinguda i **repetida a classe**: amb fsync, 422 IOPS a casa i 179 a classe |
 | 7 | Causa de la xarxa de casa a 100 Mb/s: l'altre extrem (router o cable) | `ethtool`: el *link partner* només anuncia 10/100. **L'alumne aporta la dada que faltava: a casa està connectat per PLC** | **Canviada:** la causa és l'adaptador PLC (port Fast Ethernet + qualitat de la xarxa elèctrica), no el router |
 | 8 | Causa del problema de VirtualBox a casa: el Secure Boot | **Contrastat:** `mokutil --sb-state` diu *enabled* a casa i *disabled* a classe, i VirtualBox avisa que `vboxdrv` no està carregat | **Canviada:** en lloc de desactivar el Secure Boot, es registra la clau MOK del disc (`modinfo` mostra que els mòduls ja estan signats). Aplicada i comprovada (`lsmod` amb Secure Boot activat) |
 
@@ -50,5 +50,11 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - Un apòstrof dins de `${VAR:?missatge}` trencava l'script de creació de VM.
 - Va demanar les capçaleres del nucli que s'estava executant, que ja no existien després d'actualitzar. Calia reiniciar primer amb el nucli nou.
 - Va reprendre la descàrrega de la plantilla amb `curl -C -` en un servidor que no ho admet, i el fitxer va quedar corrupte (161 MB). El SHA-512 ho va detectar. Es va tornar a descarregar sencer.
+
+**12/11/2026 (2a sessió): Windows 11 (a247–a250)**, fet per l'IA amb permís de l'alumne:
+- Usuaris `admin-ivan` i `usuari`, evidències de versió i xarxa, i còpia a SMB amb prova de restauració.
+- **L'IA va acceptar l'UAC** des del teclat virtual de la VM, perquè `guestcontrol` no s'executa elevat.
+- Errors: va guardar primer l'evidència amb una codificació equivocada (la consola de Windows usa CP850) i va deixar mig visible el DUID de DHCPv6, que conté la MAC. Tots dos es van corregir abans de pujar-ho.
+- Revisió del repositori: va detectar que `raid-proves.sh` usava noms `sdX` fixos, que a la VM 230 podien apuntar al disc del sistema o al de DRBD. Corregit: ara detecta els discos per mida.
 
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*
