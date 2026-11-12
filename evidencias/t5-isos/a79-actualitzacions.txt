@@ -24,3 +24,14 @@ pve2: 0 paquets per actualitzar · pve-manager/9.2.26/41a0e2e09b9e6f9d (running 
 pve3: 0 paquets per actualitzar · pve-manager/9.2.26/41a0e2e09b9e6f9d (running kernel: 7.0.14-28-pve)
 
 # a79 — Servidors Linux i CLI-Debian: vegeu t5-linux-infra/a242-a246-*.txt (0 pendents) i t5-clients (CLI-Debian 6.12.43 -> 6.12.116)
+
+# a79 — R2 OPNsense (12/11, 18:00)
+Abans: OPNsense 26.7 (Checked on: N/A) · Instantània VirtualBox: R2-abans-26.7.9
+System → Firmware → Check for updates: 26.7.9 (11/11/2026), 96 paquets, 298,8 MiB, cal reiniciar (base i kernel 26.7 -> 26.7.9)
+Update -> reinici automàtic -> la web torna a respondre al cap de 68 s
+Després: Version 26.7.9 · FreeBSD 15.1-RELEASE-p6 · OpenSSL 3.5.9 · nova comprovació: «There are no updates available»
+Prova de funcionament a través de R2 (ruta temporal des de CLI-Debian):
+  ruta: 130.89.148.77 via 192.168.13.2 dev enp0s3 src 192.168.13.200 uid 1000 
+  HTTPS per R2: HTTP/2 200 
+  SSH per R2: nc: connect to github.com (20.250.119.67) port 22 (tcp) timed out: Operation now in progress
+  registre: R2-BLOQ-SSH per a 192.168.13.200 -> 20.250.119.67:22 (captura 03)

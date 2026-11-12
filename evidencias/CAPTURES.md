@@ -20,9 +20,13 @@ Cada imatge és a la carpeta `captures/` de la seua tasca, al costat de l'evidè
 ## T5 · R2 OPNsense ([evidències](t5-opnsense/))
 | Captura | Què demostra |
 |---|---|
-| ![](t5-opnsense/captures/01-panell-opnsense-26.7.png) | a210/a212: OPNsense 26.7, WAN 10.0.2.15 i LAN 192.168.13.2 (el panell anuncia la 26.7.9: pendent d'a79) |
+| ![](t5-opnsense/captures/01-panell-opnsense-26.7.9.png) | a210/a212: OPNsense **26.7.9** (després d'actualitzar), WAN 10.0.2.15 i LAN 192.168.13.2 |
 | ![](t5-opnsense/captures/02-regles-lan.png) | a214: regles de la LAN: «Default allow» desactivada, bloqueig de tcp/22 (R2-BLOQ-SSH) i eixida permesa |
-| ![](t5-opnsense/captures/03-registre-en-viu-bloquejat-i-permes.png) | a214: registre en viu filtrat pel client .200: connexions SSH **bloquejades** (vermell, 12/11) i eixides **permeses** R2-FWD-OK (verd, de la prova de l'11/11) |
+| ![](t5-opnsense/captures/03-registre-en-viu-bloquejat-i-permes.png) | a214: registre en viu filtrat pel client .200, ja amb la 26.7.9: connexions SSH **bloquejades** per R2-BLOQ-SSH (vermell). L'HTTPS permés per R2 funciona (HTTP 200) però no apareix amb l'etiqueta R2-FWD-OK: pendent d'investigar |
+| ![](t5-opnsense/captures/04-firmware-abans-26.7.png) | a79: firmware **abans**: 26.7, mai comprovat |
+| ![](t5-opnsense/captures/05-actualitzacions-pendents-26.7.9.png) | a79: 96 actualitzacions (`base` i `kernel` 26.7 → 26.7.9, amb 4 avisos de seguretat) |
+| ![](t5-opnsense/captures/06-firmware-despres-26.7.9.png) | a79: firmware **després**: 26.7.9 |
+| ![](t5-opnsense/captures/07-firmware-sense-actualitzacions.png) | a79: nova comprovació: «no hi ha actualitzacions disponibles» |
 
 ## T5 · NAS TrueNAS ([evidències](t5-truenas/))
 | Captura | Què demostra |
@@ -34,6 +38,7 @@ Cada imatge és a la carpeta `captures/` de la seua tasca, al costat de l'evidè
 | ![](t5-truenas/captures/05-datasets-smb-nfs.png) | a227: datasets `clients`, `linux`, `proxmox`, `routers`, `usuaris` i `windows` |
 | ![](t5-truenas/captures/06-recursos-smb-nfs.png) | a227: recursos SMB (`clients`, `windows`) i NFS (`/mnt/copies/proxmox`) actius |
 | ![](t5-truenas/captures/07-usuaris.png) | a225: usuaris `root` (sense contrasenya), `truenas_admin` (administrador) i `copies` (només SMB i SSH) |
+| ![](t5-truenas/captures/08-gui-https-redireccio.png) | Seguretat: la web de gestió redirigeix HTTP → **HTTPS** (TLS 1.2/1.3). Des del 12/11 totes les captures de TrueNAS són per HTTPS |
 
 ## T5 · Proxmox ([evidències](t5-proxmox/))
 | Captura | Què demostra |

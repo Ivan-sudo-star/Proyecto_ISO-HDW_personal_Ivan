@@ -82,4 +82,10 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - **Afirmació corregida:** l'IA havia escrit «cap avís al registre» sense poder-lo llegir (cal `sudo`). En comprovar-ho amb `dmesg` va trobar un bloqueig de 26 s de l'escriptori (controlador `amdgpu`), que ara està documentat.
 - **Per revisar:** l'informe de T7 (06 §5) i les conclusions les ha redactat l'IA; l'alumne les ha de revisar i saber explicar.
 
+**12/11/2026 (casa): captures de pantalla i dues millores que van sortir en fer-les**:
+- Per poder fer clic a Firefox des de fora, l'IA va canviar temporalment CLI-Debian a una sessió GNOME sobre Xorg, hi va instal·lar `xdotool` i va posar el teclat en US. S'ha de desfer en acabar.
+- **TrueNAS per HTTP:** el panell s'usava sense xifrar. S'ha activat la redirecció HTTP → HTTPS.
+- **OPNsense 26.7 → 26.7.9:** actualització del firmware (96 paquets, inclou 4 avisos de seguretat) amb instantània prèvia `R2-abans-26.7.9`.
+- L'IA va mostrar per error a la sessió la clau privada del certificat del NAS (consulta sencera de `/system/general`). No es va guardar enlloc ni es va pujar.
+
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*
