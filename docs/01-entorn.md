@@ -118,12 +118,10 @@ escenaris curts és una optimització possible (N/C, s'ha de mesurar).
 | 2 | En repetir el test de disc, el fitxer de proves acabava a l'equip equivocat | Sense adonar-me'n havia arrancat el disc USB a l'altre PC | Els scripts demanen l'etiqueta `classe` o `casa`, i l'inventari mostra el model de placa per comprovar-ho | ✅ |
 | 3 | L'escriptura síncrona de 4 KiB al SSD USB és molt lenta (1,7 MB/s ≈ 415 IOPS a casa; a classe, el test de 20 000 blocs no acabava) | Disc USB amb controlador UAS, a través d'un hub | Test reduït amb límit de temps. Mesures de mitigació a [02 §3](02-inventari.md#3-colls-de-botella) | 🟡 |
 | 4 | Les VM niuades de Proxmox no tenen xarxa si la NIC de VirtualBox no és promíscua | El bridge `vmbr0` necessita MAC alienes | `--nicpromisc1 allow-all` als 3 nodes PVE (ja aplicat per l'script) | 🟡 a verificar |
-| 6 | El primer disseny tenia 2 nodes Proxmox i el WS2025 i els Debian com a VM soltes de VirtualBox | No l'havia contrastat amb el repositori del grup, que té 3 nodes amb els servidors dins | 3 nodes (PVE1 amb 6 GB per al WS2025) i els servidors com a VM de Proxmox. Les 3 VM soltes, buides, es van esborrar | ✅ |
 | 5 | Falta la ISO de Windows Server 2025 | No era a `~/Escritorio/ISOS/` | Descarregar l'avaluació de 180 dies del Microsoft Evaluation Center i pujar-la a l'emmagatzematge ISO de PVE1 (o al NFS del NAS) | ⬜ |
-
-| 7 | Proxmox exigeix una contrasenya de root de **8 caràcters com a mínim**, i la de laboratori és més curta | Política de l'instal·lador | S'instal·la amb una de 8 caràcters i després es canvia amb `passwd`: el sistema base ho permet, perquè `root@pam` és un usuari de Linux | ✅ |
-| 8 | L'instal·lador de Proxmox posava el teclat **espanyol**, i el teclat virtual de VirtualBox (`keyboardputstring`) envia les tecles com un teclat US: la `/` de les IP eixia malament | Distribució de teclat diferent | Teclat «U.S. English» a l'instal·lador; la gestió posterior es fa per SSH i web | ✅ |
-| 9 | TrueNAS: el disc d'arrencada va canviar de nom (`sda` → `sdb`) després del reinici | Linux assigna `sdX` per ordre de detecció | Identificar els discos per mida o número de sèrie, no pel nom | ✅ |
+| 6 | Proxmox exigeix una contrasenya de root de **8 caràcters com a mínim**, i la de laboratori és més curta | Política de l'instal·lador | S'instal·la amb una de 8 caràcters i després es canvia amb `passwd`: el sistema base ho permet, perquè `root@pam` és un usuari de Linux | ✅ |
+| 7 | L'instal·lador de Proxmox posava el teclat **espanyol**, i el teclat virtual de VirtualBox (`keyboardputstring`) envia les tecles com un teclat US: la `/` de les IP eixia malament | Distribució de teclat diferent | Teclat «U.S. English» a l'instal·lador; la gestió posterior es fa per SSH i web | ✅ |
+| 8 | TrueNAS: el disc d'arrencada va canviar de nom (`sda` → `sdb`) després del reinici | Linux assigna `sdX` per ordre de detecció | Identificar els discos per mida o número de sèrie, no pel nom | ✅ |
 
 *(Afegir ací cada problema nou que aparega durant la instal·lació, amb símptoma, causa, solució i com ho he comprovat.)*
 
