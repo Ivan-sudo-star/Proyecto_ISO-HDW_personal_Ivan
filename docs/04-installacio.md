@@ -412,11 +412,13 @@ Evidències a `evidencias/t5-clients/`.
 
 | | Windows 11 (`Cliente_windows_1`, existent) | GNU/Linux (`CLI-Debian`) |
 |---|---|---|
-| Instal·lació i versió (a247/a252) | `winver`, `Get-ComputerInfo`. Requisits: TPM 2.0, UEFI i Secure Boot a la VM ✅. Windows Update | Debian 13 + **XFCE**: és lleuger i serveix de navegador per a les webs de gestió. `cat /etc/os-release` |
-| Usuaris (a248/a253) | `admin-ivan` (administrador) i `usuari` (estàndard). Es treballa amb l'estàndard | `ivan` (sudo) i `usuari` (sense sudo) |
-| Xarxa (a249/a254) | DHCP del router: `ipconfig /all` ha de mostrar .10x, GW .1 i DNS .1 | DHCP: `ip a`, `ip route`, `nmcli dev show` |
-| Còpia (a250/a255) | `robocopy C:\Users\usuari\Documents \\192.168.13.20\clients\w11 /MIR /R:1 /W:1`, més `ipconfig /all` exportat. **No** la imatge sencera: un client es reinstal·la des d'una imatge estàndard. El que és únic són les dades i el perfil de l'usuari | `rsync -a /home/ copies@192.168.13.20:/mnt/copies/clients/cli-debian/` i `/etc`. **No** les aplicacions |
+| Instal·lació i versió (a247/a252) | ✅ **Windows 11 Home 23H2**, compilació 22631, 64 bits. UEFI, **Secure Boot actiu** i **TPM 2.0 preparat** (llegits des d'un PowerShell elevat). Serveis automàtics aturats: només `edgeupdate`, `MapsBroker` i `sppsvc` (és normal que estiguen parats). Internet: HTTPS 200 | Debian 13 + **XFCE**: és lleuger i serveix de navegador per a les webs de gestió. `cat /etc/os-release` |
+| Usuaris (a248/a253) | ✅ `admin-ivan` (Administradors, el mateix nom que als routers) i `usuari` (Usuaris, estàndard: és el compte de treball diari). `Ivan` és el compte de la instal·lació i també és administrador. L'`Administrador` integrat i `Invitado` estan desactivats. UAC actiu (`EnableLUA=1`). Script: `scripts/clients/w11-usuaris.ps1` | `ivan` (sudo) i `usuari` (sense sudo) |
+| Xarxa (a249/a254) | ✅ Per DHCP de R1: **192.168.13.199/24**, GW .1, DNS .1, sufix `lan13.local`. Ping a la GW correcte, el DNS resol, port 445 del NAS obert | DHCP: `ip a`, `ip route`, `nmcli dev show` |
+| Còpia (a250/a255) | ✅ `scripts/copies/copia-w11.ps1`: `robocopy /MIR` cap a `\\192.168.13.20\clients\w11` amb l'usuari `copies`. **Es copien:** `config\` (ipconfig, configuració IP, usuaris, aplicacions instal·lades i versió, per poder reconstruir el client) i `dades\<usuari>\Documents` i `Desktop` (el que és únic de cada usuari). **No es copien:** la imatge sencera, `C:\Windows`, `Program Files` ni `AppData\Local` (memòria cau). Un client es reinstal·la des d'una imatge estàndard i les aplicacions es tornen a instal·lar a partir de la llista. **Prova de restauració:** s'esborra `prova-copia-w11.txt`, es recupera del NAS i el SHA-256 coincideix. També s'ha comprovat amb `ls -lR` al NAS | `rsync -a /home/ copies@192.168.13.20:/mnt/copies/clients/cli-debian/` i `/etc`. **No** les aplicacions |
 | Domini | ➖ no exigit (a251) | ➖ no exigit (a256) |
+
+**Evidències W11 (12/11):** `a247-a249-w11.txt` i `a250-w11-copia.txt`. `guestcontrol` s'executa sense elevar (UAC), de manera que les accions d'administrador (usuaris, Secure Boot, TPM) es van fer obrint un PowerShell elevat a la consola i acceptant l'UAC.
 
 **Guest Additions als clients (12/11):** CLI-Debian amb les 7.2.18 compilades per al nucli nou (cal reiniciar amb el nucli nou abans d'instal·lar les capçaleres). Windows 11 ja les tenia (7.2.18). Totes dues VM tenen el porta-retalls i l'arrossegar i deixar anar bidireccionals → `evidencias/t5-clients/guest-additions.txt`.
 

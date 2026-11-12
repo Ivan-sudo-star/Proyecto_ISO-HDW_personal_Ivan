@@ -52,7 +52,11 @@
   "a235": 1,
   "a236": 1,
   "a252": 1,
-  "a253": 1
+  "a253": 1,
+  "a247": 1,
+  "a248": 1,
+  "a249": 1,
+  "a250": 1
  },
  "notes": {
   "0": "FET: a17 entorn propi muntat i funcionant al grup /ISO_HWD (R1, R2, R3, NAS, PVE1–3 en clúster, CLI-Debian). a18 recursos i limitacions (escenaris E1–E4, ≤10 vCPU a casa). a127 documentat a GitHub amb 8 problemes resolts: Secure Boot amb clau MOK, TRIM a FreeBSD, discos que canvien de nom... → docs/01-entorn.md.",

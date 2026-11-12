@@ -1,0 +1,76 @@
+# a250 copia del client Windows 11 - 2026-11-12 11:20:10
+Se ha completado el comando correctamente.
+
+## robocopy
+
+   ROBOCOPY     ::     Herramienta para copia eficaz de archivos         
+    Archivos: *.*
+ Archivos:         5         5         0         0         0         0
+    Bytes:     8.3 k     8.3 k         0         0         0         0
+Velocidad:             568.000 Bytes/s
+Velocidad:              32,501 Megabytes/min
+robocopy C:\Users\Ivan\AppData\Local\Temp\w11-config -> \\192.168.13.20\clients\w11\config codi=1 (0-7 = correcte)
+   ROBOCOPY     ::     Herramienta para copia eficaz de archivos         
+    Archivos: *.*
+ Archivos:         2         2         0         0         0         0
+    Bytes:       468       468         0         0         0         0
+Velocidad:              33.428 Bytes/s
+Velocidad:               1,913 Megabytes/min
+robocopy C:\Users\Ivan\Documents -> \\192.168.13.20\clients\w11\dades\Ivan\Documents codi=1 (0-7 = correcte)
+   ROBOCOPY     ::     Herramienta para copia eficaz de archivos         
+    Archivos: *.*
+ Archivos:         1         1         0         0         0         0
+    Bytes:       282       282         0         0         0         0
+robocopy C:\Users\Ivan\Desktop -> \\192.168.13.20\clients\w11\dades\Ivan\Desktop codi=1 (0-7 = correcte)
+## contingut al NAS
+
+Fitxer                                    Length
+------                                    ------
+\config\aplicacions.txt                      816
+\config\ipconfig.txt                        2872
+\config\netipconfig.txt                     2210
+\config\usuaris.txt                         2196
+\config\versio.txt                           426
+\dades\Ivan\Documents\prova-copia-w11.txt     66
+
+
+
+## prova de restauracio
+esborrat local: True
+SHA256 abans:  3C5F0B34AB6C16D17BBFC3E46F65EB5ED228593CD6F84C4A293EA1D904E77A43
+SHA256 despres: 3C5F0B34AB6C16D17BBFC3E46F65EB5ED228593CD6F84C4A293EA1D904E77A43
+Restauracio correcta: True
+
+
+
+## comprovació des del NAS (ssh copies@192.168.13.20, ls -lR /mnt/copies/clients/w11)
+/mnt/copies/clients/w11:
+total 9
+drwxrwxr-x 2 copies copies 7 Nov 12 11:20 config
+drwxrwxr-x 3 copies copies 3 Nov 12 11:20 dades
+
+/mnt/copies/clients/w11/config:
+total 23
+-rw-rw-r-- 1 copies copies  816 Nov 12 11:20 aplicacions.txt
+-rw-rw-r-- 1 copies copies 2872 Nov 12 11:20 ipconfig.txt
+-rw-rw-r-- 1 copies copies 2210 Nov 12 11:20 netipconfig.txt
+-rw-rw-r-- 1 copies copies 2196 Nov 12 11:20 usuaris.txt
+-rw-rw-r-- 1 copies copies  426 Nov 12 11:20 versio.txt
+
+/mnt/copies/clients/w11/dades:
+total 1
+drwxrwxr-x 4 copies copies 4 Nov 12 11:20 Ivan
+
+/mnt/copies/clients/w11/dades/Ivan:
+total 1
+drwxrwxr-x 2 copies copies 3 Sep 22 13:31 Desktop
+drwxrwxr-x 2 copies copies 4 Nov 12 11:20 Documents
+
+/mnt/copies/clients/w11/dades/Ivan/Desktop:
+total 5
+-rw-rw-r-- 1 copies copies 282 Sep 22 13:31 desktop.ini
+
+/mnt/copies/clients/w11/dades/Ivan/Documents:
+total 5
+-rw-rw-r-- 1 copies copies 402 Sep 22 13:31 desktop.ini
+-rw-rw-r-- 1 copies copies  66 Nov 12 11:20 prova-copia-w11.txt

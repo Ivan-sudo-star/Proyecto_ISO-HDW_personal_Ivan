@@ -1,0 +1,163 @@
+# Cliente_windows_1 (client Windows 11) - 2026-11-12 11:17:17
+## a247 versio i funcionament
+
+
+CsName                : WINDOWS11
+OsName                : Microsoft Windows 11 Home
+OSDisplayVersion      : 23H2
+OsVersion             : 10.0.22631
+OsBuildNumber         : 22631
+OsArchitecture        : 64 bits
+BiosFirmwareType      : Uefi
+CsTotalPhysicalMemory : 4274917376
+
+
+
+
+Secure Boot: no es pot llegir: No se pudieron establecer privilegios adecuados. Acceso denegado.
+TPM:
+
+
+TpmPresent          : 
+TpmReady            : 
+ManufacturerVersion : 
+
+
+
+
+Serveis automatics aturats:
+
+Name       State  
+----       -----  
+edgeupdate Stopped
+MapsBroker Stopped
+sppsvc     Stopped
+
+
+
+## a248 usuaris (estat actual)
+windows11\ivan
+
+BUILTIN\Administradores                                          Alias          S-1-5-32-544 Grupo usado solo para 
+denegar                                           
+Etiqueta obligatoria\Nivel obligatorio medio                     Etiqueta       S-1-16-8192                            
+                                              
+
+Name               Enabled PasswordRequired LastLogon          
+----               ------- ---------------- ---------          
+Administrador        False             True                    
+DefaultAccount       False            False                    
+Invitado             False            False                    
+Ivan                  True             True 12/11/2026 11:17:15
+WDAGUtilityAccount   False             True                    
+
+
+
+Membres del grup d'administradors (S-1-5-32-544):
+
+Name                    PrincipalSource
+----                    ---------------
+WINDOWS11\Administrador           Local
+WINDOWS11\Ivan                    Local
+
+
+
+## a249 xarxa
+
+Configuración IP de Windows
+
+   Nombre de host. . . . . . . . . : Windows11
+   Sufijo DNS principal  . . . . . : 
+   Tipo de nodo. . . . . . . . . . : híbrido
+   Enrutamiento IP habilitado. . . : no
+   Proxy WINS habilitado . . . . . : no
+   Lista de búsqueda de sufijos DNS: lan13.local
+
+Adaptador de Ethernet Ethernet:
+
+   Sufijo DNS específico para la conexión. . : lan13.local
+   Descripción . . . . . . . . . . . . . . . : Intel(R) PRO/1000 MT Desktop Adapter
+   Dirección física. . . . . . . . . . . . . : xx-xx-xx-xx-xx-xx
+   DHCP habilitado . . . . . . . . . . . . . : sí
+   Configuración automática habilitada . . . : sí
+   Vínculo: dirección IPv6 local. . . : fe80::6a71:fde9:cc52:4aff%13(Preferido) 
+   Dirección IPv4. . . . . . . . . . . . . . : 192.168.13.199(Preferido) 
+   Máscara de subred . . . . . . . . . . . . : 255.255.255.0
+   Concesión obtenida. . . . . . . . . . . . : jueves, 12 de noviembre de 2026 11:11:54
+   La concesión expira . . . . . . . . . . . : jueves, 12 de noviembre de 2026 23:11:55
+   Puerta de enlace predeterminada . . . . . : 192.168.13.1
+   Servidor DHCP . . . . . . . . . . . . . . : 192.168.13.1
+   IAID DHCPv6 . . . . . . . . . . . . . . . : 101187623
+   DUID de cliente DHCPv6. . . . . . . . . . : (amagat: conté la MAC)
+   Servidores DNS. . . . . . . . . . . . . . : 192.168.13.1
+   NetBIOS sobre TCP/IP. . . . . . . . . . . : habilitado
+
+
+InterfaceAlias       : Ethernet
+InterfaceIndex       : 13
+InterfaceDescription : Intel(R) PRO/1000 MT Desktop Adapter
+NetProfile.Name      : Red 2
+IPv4Address          : 192.168.13.199
+IPv6DefaultGateway   : 
+IPv4DefaultGateway   : 192.168.13.1
+DNSServer            : 192.168.13.1
+
+
+
+
+Ping GW .1: True
+DNS: 
+
+Name                     IPAddress     
+----                     ---------     
+deb.debian.org                         
+debian.map.fastlydns.net 199.232.34.132
+
+
+
+SMB NAS 445: True
+Internet HTTPS: 200
+
+
+
+## a247/a248 (PowerShell elevat, acceptant l'UAC a la consola)
+# Accions amb privilegis - 2026-11-12 11:18:43
+Elevat: True
+## a247 requisits
+Secure Boot actiu: True
+
+
+TpmPresent          : True
+TpmReady            : True
+TpmEnabled          : True
+ManufacturerVersion : 8217.4131.22.13878
+
+
+
+## a248 usuaris
+creat: admin-ivan
+creat: usuari
+
+Name       Description                        PasswordExpires
+----       -----------                        ---------------
+admin-ivan Administrador del client (lloc 13)
+Ivan                                          23/12/2026 16:00:56
+usuari     Usuari estandard de treball
+
+
+Administradors:
+
+WINDOWS11\Administrador
+WINDOWS11\admin-ivan
+WINDOWS11\Ivan
+
+
+Usuaris:
+
+NT AUTHORITY\INTERACTIVE
+NT AUTHORITY\Usuarios autentificados
+WINDOWS11\Ivan
+WINDOWS11\usuari
+
+
+UAC (EnableLUA): 1
