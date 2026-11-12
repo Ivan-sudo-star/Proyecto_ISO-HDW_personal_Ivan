@@ -47,13 +47,18 @@
   "a17": 1,
   "a259": 1,
   "a254": 1,
-  "a107": 1
+  "a107": 1,
+  "a231": 1,
+  "a235": 1,
+  "a236": 1,
+  "a252": 1,
+  "a253": 1
  },
  "notes": {
   "0": "FET: a17 entorn propi muntat i funcionant al grup /ISO_HWD (R1, R2, R3, NAS, PVE1–3 en clúster, CLI-Debian). a18 recursos i limitacions (escenaris E1–E4, ≤10 vCPU a casa). a127 documentat a GitHub amb 9 problemes resolts: Secure Boot amb clau MOK, TRIM a FreeBSD, discos que canvien de nom... → docs/01-entorn.md.",
   "2": "FET: a19–a21 inventari complet als dos equips amb sudo (classe: 2×16 GB DDR5-5600 sense ranures lliures; casa: 2×16 GB DDR5-6000 amb 2 lliures; SMART PASSED), comparativa, colls de botella i solucions → docs/02-inventari.md. a27–a29 FET als dos equips: memtester 2 GB OK, dd + fio, xarxa. Confirmat: el coll de botella és l'escriptura síncrona del SSD USB (fsync 422 IOPS a casa, 179 a classe); xarxa de casa a 100 Mb/s; sortida d'Internet de l'aula de 8,5 Mb/s amb l'ICMP bloquejat, mentre que la LAN de l'aula dona 934 Mb/s amb iperf3 (pujada i baixada, 0 retransmissions) → evidencias/t2-tests/.",
   "4": "FET: a128 esquema draw.io (diagrames/) i a148 configuració de cada interfície (docs/03-xarxa.md §2). a129 i a149 implementats i comprovats (11/11): ping de CLI-Debian a R1, NAS, PVE1–3 i Internet (0 % de pèrdua), traceroute (.1 → 10.0.2.2 → router de casa), DNS per R1, interfícies i rutes de CLI-Debian, R1, NAS i els 3 nodes, i prova d'aïllament des de l'amfitrió (100 % de pèrdua) → evidencias/t4-xarxa/.",
-  "5": "FET (11/11): els 3 routers configurats IGUAL (taula comparativa a docs/04-installacio.md): R1 MikroTik a203–a209, R2 OPNsense a210–a216, R3 nftables a217–a223. Mateixos usuaris, NAT, bloqueig de tcp/22 amb registre, eixida permesa amb registre i còpia al NAS. Fallades recuperades en 42 s, 48 s i 22 s. NAS TrueNAS a224–a227. Proxmox: 3 nodes actualitzats (9.2.26), usuaris, xarxa i clúster cluster13 amb quòrum (a228–a230, a232). a79 fet als nodes. a259 espai de còpies a TrueNAS preparat i justificat (docs/04 §1.4). a254 xarxa del client GNU/Linux (DHCP .200, GW .1) → evidencias/t4-xarxa/ifaces-rutes-cli-debian.txt. PENDENT: a252/a253 (falta guardar la versió i els usuaris de CLI-Debian), VM i CT dins del clúster, migració i còpies (a231, a235, a236), WS2025 (falta la ISO), servidors Linux, clients, a258, a259. a78: 3 de 6 ISO verificades.",
+  "5": "FET (11/11): els 3 routers configurats IGUAL (taula comparativa a docs/04-installacio.md): R1 MikroTik a203–a209, R2 OPNsense a210–a216, R3 nftables a217–a223. Mateixos usuaris, NAT, bloqueig de tcp/22 amb registre, eixida permesa amb registre i còpia al NAS. Fallades recuperades en 42 s, 48 s i 22 s. NAS TrueNAS a224–a227. Proxmox: 3 nodes actualitzats (9.2.26), usuaris, xarxa i clúster cluster13 amb quòrum (a228–a230, a232). a79 fet als nodes. a259 espai de còpies a TrueNAS preparat i justificat (docs/04 §1.4). a254 xarxa del client GNU/Linux (DHCP .200, GW .1) → evidencias/t4-xarxa/ifaces-rutes-cli-debian.txt. PENDENT:  VM i CT dins del clúster, migració i còpies (a231, a235, a236), WS2025 (falta la ISO), servidors Linux, clients, a258, a259. a78: 3 de 6 ISO verificades.",
   "6": "FET: a107 investigació i justificació de l'espill entre equips (DRBD vs mdadm+iSCSI, GlusterFS i Ceph) → docs/05-raid.md. PENDENT: a102/a103 RAID 0/1/5/10 a SRV-DADES (script llest: scripts/raid/raid-proves.sh), a108/a109 implementar DRBD entre SRV-SERVEIS (PVE2) i SRV-DADES (PVE3).",
   "7": "INICIAT: línies base sense VM a casa i a classe (classe: CPU 2 %, 19,4 GB lliures, wa 2 %). Optimització 1 FETA (a123): R3 sense GUI i amb 1 GB → RAM usada 806 → 284 MB, processos 200 → 120, arrencada 11,45 → 5,56 s (evidencias/t7-rendiment/opt1-r3-*.txt). Falten: mesures amb escenaris de VM, saturació, nombre màxim de VM i la segona optimització.",
   "8": "PREPARAT: mètode d'incidències, full de comandes, estudi de FDM RA4 i de cada RA per al qüestionari → docs/07-cas-final.md. La prova és el dimecres 25/11."

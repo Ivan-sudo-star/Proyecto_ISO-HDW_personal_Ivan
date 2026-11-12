@@ -1,0 +1,10 @@
+# Guest Additions als clients — 2026-11-12 09:36:33
+## CLI-Debian
+The VirtualBox Additions are currently running.
+6.12.116+deb13-amd64
+VirtualBox (amfitrió): clipboard="bidirectional" draganddrop="bidirectional" 
+
+## Cliente_windows_1
+/VirtualBox/GuestAdd/Revision                    = '175117'                       @ 2026-1
+/VirtualBox/GuestAdd/Version                     = '7.2.18'                       @ 2026-1
+VirtualBox (amfitrió): clipboard="bidirectional" draganddrop="bidirectional" 

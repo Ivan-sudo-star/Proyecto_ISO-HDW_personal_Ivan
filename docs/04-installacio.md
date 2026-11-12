@@ -343,7 +343,10 @@ Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node:
 | a79 actualització | ✅ repositori *enterprise* desactivat i *no-subscription* activat; 211 paquets actualitzats; nucli 7.0.2-6 → **7.0.14-28**; 0 serveis fallits després de reiniciar | `a79-actualitzacio-nodes.txt` |
 | Emmagatzematge compartit | ✅ `nas-proxmox` (NFS del NAS, `/mnt/copies/proxmox`, 47 GB) visible als 3 nodes. Contingut: imatges, plantilles, còpies i *import* | — |
 | VM 220 i 230 | ✅ creades amb [`scripts/proxmox/crea-vm-debian.sh`](../scripts/proxmox/crea-vm-debian.sh) a partir de la imatge oficial `debian-13-generic-amd64.qcow2` (**SHA-512 verificat** amb `SHA512SUMS`) + cloud-init (usuari `ivancambra`, IP fixa, clau SSH, actualització al primer arrencada). SRV-SERVEIS a PVE2 (.22, 10 + 2 GB) i SRV-DADES a PVE3 (.23, 10 + 5×1 + 2 GB) | `a232-quorum-amb-un-node-apagat.txt` |
-| a231, a235, a236 | ⬜ en curs (CT 100, migració, còpies) | — |
+| CT 100 | ✅ `ct-prova` (Debian 13.6, sense privilegis, 512 MB, 4 GB) a PVE2, IP .41. Plantilla oficial verificada amb SHA-512 | — |
+| a235 migració | ✅ **CT 100** PVE2⇄PVE3 (mode restart: 87,6 s i 113,6 s) · **VM 220** (Debian sense GUI) PVE2⇄PVE3 **en calent** | `a235-a236-migracio.txt` |
+| a236 temps i espai | ✅ amb discs locals la migració de la VM **falla**: el mirror escriu els 10 GB sencers i omple el thin pool de destí (11,4 GB). Amb el disc a l'**NFS compartit**: **8,5 s i 50 ms de tall**, i només es copien 581 MiB de RAM. El disc ocupa 631 MB reals de 10 GB. Millores documentades | ídem |
+| a231 còpies | ✅ `vzdump` de CT 100 (204 MB), VM 220 (444 MB) i VM 230 (437 MB) al NAS, més la configuració dels nodes (`/etc/pve`, xarxa, hosts, corosync). Justificació de què es copia i què no. El CT sense privilegis necessita `--tmpdir` local en NFS | `a231-copies-proxmox.txt` |
 
 **Problemes trobats:**
 0. **12/11, a l'aula:** les descàrregues es quedaven penjades (connexió HTTP establerta sense dades) i la imatge `genericcloud` ja no existeix (404): s'usa `generic`. Solució: `wget -c` i `apt` amb `Acquire::http::Timeout=30` i reintents.
@@ -414,6 +417,8 @@ Evidències a `evidencias/t5-clients/`.
 | Xarxa (a249/a254) | DHCP del router: `ipconfig /all` ha de mostrar .10x, GW .1 i DNS .1 | DHCP: `ip a`, `ip route`, `nmcli dev show` |
 | Còpia (a250/a255) | `robocopy C:\Users\usuari\Documents \\192.168.13.20\clients\w11 /MIR /R:1 /W:1`, més `ipconfig /all` exportat. **No** la imatge sencera: un client es reinstal·la des d'una imatge estàndard. El que és únic són les dades i el perfil de l'usuari | `rsync -a /home/ copies@192.168.13.20:/mnt/copies/clients/cli-debian/` i `/etc`. **No** les aplicacions |
 | Domini | ➖ no exigit (a251) | ➖ no exigit (a256) |
+
+**Guest Additions als clients (12/11):** CLI-Debian amb les 7.2.18 compilades per al nucli nou (cal reiniciar amb el nucli nou abans d'instal·lar les capçaleres). Windows 11 ja les tenia (7.2.18). Totes dues VM tenen el porta-retalls i l'arrossegar i deixar anar bidireccionals → `evidencias/t5-clients/guest-additions.txt`.
 
 ## 10. Apte+: còpies automatitzades (a105)
 

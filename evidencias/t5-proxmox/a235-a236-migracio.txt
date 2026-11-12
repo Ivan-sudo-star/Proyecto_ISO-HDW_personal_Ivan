@@ -1,0 +1,96 @@
+# a235/a236 — Migració d'un contenidor i d'una VM entre nodes del clúster cluster13 — 2026-11-12 09:37:05
+Condicions: equip de classe, nodes PVE2 i PVE3 (VirtualBox, 3 GB, 2 vCPU, virtualització niuada), xarxa LAN13 interna de VirtualBox, discos al SSD USB
+
+## 1. CT 100 (ct-prova) PVE2 → PVE3 (mode restart: els contenidors no es poden migrar en calent)
+espai: 697.6M usats de 3.9G · LV: 4.00g 21.83
+2026-11-12 09:38:33 migration finished successfully (duration 00:01:27)
+TEMPS: 87.638101305 s
+status: running
+ct-prova
+node actual: pve3
+
+## 2. CT 100 PVE3 → PVE2 (tornada)
+2026-11-12 09:40:29 migration finished successfully (duration 00:01:53)
+TEMPS: 113.648200164 s
+
+## 3. VM 220 (srv-serveis, Debian sense GUI) PVE2 → PVE3, EN CALENT i amb DISCS LOCALS
+Limitació: PVE3 té 3 GB i només 741 MB disponibles amb la VM 230 en marxa → s'atura la VM 230 durant la prova
+QEMU Guest Agent is not running - VM 230 qga command 'guest-ping' failed - got timeout
+VM 230 aturada
+Mem:            2971        1721        1160          50         296        1249
+discs: vm-220-disk-0 10.00g 14.10 vm-220-disk-1 2.00g 0.00
+mirror-scsi0: transferred 8.0 GiB of 10.0 GiB (80.10%) in 5m 30s
+mirror-scsi0: transferred 8.0 GiB of 10.0 GiB (80.10%) in 5m 31s
+mirror-scsi0: transferred 8.0 GiB of 10.0 GiB (80.10%) in 5m 32s
+mirror-scsi0: transferred 8.0 GiB of 10.0 GiB (80.10%) in 5m 33s
+2026-11-12 09:46:35 ERROR: online migrate failure - block job (mirror) error: mirror-scsi0: No space left on device (io-status: ok)
+2026-11-12 09:46:40 ERROR: migration finished with problems (duration 00:05:47)
+TEMPS: 347.377407494 s
+Configuration file 'nodes/pve3/qemu-server/220.conf' does not exist
+node actual: pve3
+la VM respon després de migrar: srv-serveis, uptime up 53 minutes
+
+### Diagnòstic de l'error
+El mirror en calent escriu el disc sencer (10 GiB) al thin pool de destí, no només els 1,4 GiB usats. El thin pool de PVE3 (local-lvm, 11,4 GiB, compartit amb la VM 230) s'omple al 80 %.
+Proxmox avorta la migració, la VM continua a PVE2 sense interrupció (uptime intacte) i esborra els volums parcials del destí (comprovat amb lvs: thin pool al 12 %).
+
+## 4. Millora: disc a l'emmagatzematge compartit (NFS del NAS) i migració només de la RAM
+### 4a. Moure els discos de la VM 220 de local-lvm a nas-proxmox (en calent)
+mirror-scsi0: Completed successfully.
+  Logical volume "vm-220-disk-0" successfully removed.
+  Logical volume "vm-220-disk-1" successfully removed.
+TEMPS moure discs: 54.619463157 s
+scsi0: nas-proxmox:220/vm-220-disk-0.qcow2,discard=on,size=10G,ssd=1
+scsi1: nas-proxmox:220/vm-220-disk-1.qcow2,discard=on,size=2G,ssd=1
+11G	/mnt/pve/nas-proxmox/images/220/vm-220-disk-0.qcow2
+2.1G	/mnt/pve/nas-proxmox/images/220/vm-220-disk-1.qcow2
+ocupació real al NAS:
+631M	/mnt/pve/nas-proxmox/images/220/vm-220-disk-0.qcow2
+205K	/mnt/pve/nas-proxmox/images/220/vm-220-disk-1.qcow2
+
+### 4b. Migració en calent PVE2 → PVE3 amb el disc compartit
+2026-11-12 09:48:24 migration active, transferred 338.9 MiB of 1.0 GiB VM-state, 366.6 MiB/s
+2026-11-12 09:48:25 average migration speed: 512.4 MiB/s - downtime 50 ms
+2026-11-12 09:48:25 migration completed, transferred 581.2 MiB VM-state
+2026-11-12 09:48:27 migration finished successfully (duration 00:00:08)
+TEMPS: 8.480774624 s
+status: running
+node actual: pve3
+la VM respon: srv-serveis, uptime up 54 minutes (no s ha reiniciat)
+
+### 4c. Tornada en calent PVE3 → PVE2 (disc compartit)
+2026-11-12 09:48:56 migration completed, transferred 582.3 MiB VM-state
+2026-11-12 09:48:56 migration status: completed
+2026-11-12 09:48:59 migration finished successfully (duration 00:00:08)
+TEMPS: 8.725171371 s
+generating cloud-init ISO
+VM 230 tornada a arrencar a PVE3
+status: running
+node: pve2
+status: running
+
+## Resum de mesures (a236)
+
+| Migració | Mode | Temps | Espai copiat | Interrupció del servei |
+|---|---|---|---|---|
+| CT 100 PVE2 → PVE3 | restart (aturar, copiar el disc, arrencar) | 87,6 s | rootfs 4 GB (698 MB usats) | tot el temps de la migració |
+| CT 100 PVE3 → PVE2 | restart | 113,6 s | ídem | tot el temps de la migració |
+| VM 220 PVE2 → PVE3, discs locals | en calent + mirror dels discs | ❌ falla als 347 s | escriu els 10 GB sencers → omple el thin pool de destí (11,4 GB) | cap (la VM continua a l'origen) |
+| VM 220: moure discs a NFS | en calent | 54,6 s | 631 MB reals (qcow2) de 10 GB nominals | cap |
+| VM 220 PVE2 → PVE3, disc compartit | en calent | **8,5 s** | només la RAM: 581 MiB | **50 ms** |
+| VM 220 PVE3 → PVE2, disc compartit | en calent | **8,7 s** | només la RAM: 582 MiB | ídem |
+
+## Interpretació i millores
+- **CT vs VM:** el contenidor no es pot migrar en calent (no té un estat de màquina que es puga copiar). Es para, es copia el disc i s'arranca:
+  el servei cau tot el temps. Té l'avantatge que ocupa poc (698 MB) i no necessita el nucli propi.
+- **Disc local:** el temps depén de la mida **nominal** del disc i de l'E/S del SSD USB: el mirror no conserva els blocs buits del thin.
+  Amb nodes de 40 GB (thin pool de 11,4 GB) i una VM de 10 GB no hi cap si el destí ja allotja una altra VM. Lliçó de dimensionament.
+- **Emmagatzematge compartit (NFS del NAS):** el disc no es mou; la migració només copia la RAM. Passa de fallar (o de minuts) a **8,5 s amb 50 ms de tall**.
+  És el requisit per a l'alta disponibilitat (HA).
+- **Millores possibles:**
+  1. Discos de les VM a l'emmagatzematge compartit des del principi.
+  2. Una xarxa de migració dedicada.
+  3. Imatges més xicotetes (cloud image en lloc d'ISO, contenidors quan es puga).
+  4. Discos thin amb `discard` perquè l'espai lliure torne al pool.
+  5. Més disc als nodes.
+- **Inconvenient del compartit:** el NAS es converteix en un punt únic de fallada, i la seua xarxa i el seu disc limiten el rendiment de totes les VM.

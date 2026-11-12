@@ -24,7 +24,7 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 | 4 | DRBD per a l'espill entre equips, en lloc de Gluster o Ceph | Comparativa a [05](05-raid.md#investigació-i-justificació-a107). Ceph necessita 3 nodes | ___ |
 | 5 | Hashes de les ISO | **Contrastat:** `sha256sum -c` contra els fitxers oficials. Debian, Proxmox i TrueNAS coincideixen ([evidència](../evidencias/t5-isos/verificacio.txt)) | Mantinguda (prova feta) |
 | 6 | Coll de botella principal = E/S síncrona del SSD USB | **Contrastat amb una mesura:** `dd` amb `dsync` a casa dona 1,7 MB/s, davant dels 359 MB/s en seqüencial | Mantinguda (falta repetir-ho a classe) |
-| 7 | Causa de la xarxa de casa a 100 Mb/s: l'altre extrem | **Contrastat:** `ethtool` mostra que el *link partner* només anuncia 10/100 | Mantinguda. Pendent provar un altre port o cable |
+| 7 | Causa de la xarxa de casa a 100 Mb/s: l'altre extrem (router o cable) | `ethtool`: el *link partner* només anuncia 10/100. **L'alumne aporta la dada que faltava: a casa està connectat per PLC** | **Canviada:** la causa és l'adaptador PLC (port Fast Ethernet + qualitat de la xarxa elèctrica), no el router |
 | 8 | Causa del problema de VirtualBox a casa: el Secure Boot | **Contrastat:** `mokutil --sb-state` diu *enabled* a casa i *disabled* a classe, i VirtualBox avisa que `vboxdrv` no està carregat | **Canviada:** en lloc de desactivar el Secure Boot, es registra la clau MOK del disc (`modinfo` mostra que els mòduls ja estan signats). Aplicada i comprovada (`lsmod` amb Secure Boot activat) |
 
 **Errors de l'IA detectats durant el treball:**
@@ -43,5 +43,12 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - **TRIM:** va crear tots els discos amb `--discard on`. FreeBSD (OPNsense) donava timeouts de TRIM i es penjava. Ara R2 té `--discard off` i l'script està corregit.
 - **Clúster:** va unir pve2 massa aviat («no quorum»). Es va reintentar.
 - **Proves:** a l'evidència de R3 va aparéixer «curl codi: 0», que era el codi de `|| true` i no el de `curl`. Corregit a l'evidència.
+
+**Errors de l'IA el 12/11 (aula):**
+- Va triar la plantilla de contenidor **arm64** en lloc d'amd64 (filtre massa ampli). Es va detectar i corregir.
+- Dues vegades `pkill`/`pgrep -f` va coincidir amb la mateixa ordre SSH i va tallar la sessió. Solució: passar els scripts per l'entrada estàndard.
+- Un apòstrof dins de `${VAR:?missatge}` trencava l'script de creació de VM.
+- Va demanar les capçaleres del nucli que s'estava executant, que ja no existien després d'actualitzar. Calia reiniciar primer amb el nucli nou.
+- Va reprendre la descàrrega de la plantilla amb `curl -C -` en un servidor que no ho admet, i el fitxer va quedar corrupte (161 MB). El SHA-512 ho va detectar. Es va tornar a descarregar sencer.
 
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*

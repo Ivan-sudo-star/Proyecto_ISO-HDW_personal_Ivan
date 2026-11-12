@@ -1,0 +1,45 @@
+# a231 — Còpies de Proxmox al NAS — 2026-11-12 09:49:25
+## 1. Imatges de les VM i del CT (vzdump, mode snapshot, zstd) → emmagatzematge nas-proxmox (NFS de TrueNAS)
+INFO: Starting Backup of VM 100 (lxc)
+ERROR: Backup of VM 100 failed - command 'set -o pipefail && lxc-usernsexec -m u:0:100000:65536 -m g:0:100000:65536 -- tar cpf - --totals --one-file-system -p --sparse --numeric-owner --acls --xattrs '--xattrs-include=user.*' '--xattrs-include=security.capability' '--warning=no-file-ignored' '--warning=no-xattr-write' --one-file-system '--warning=no-file-ignored' '--directory=/mnt/pve/nas-proxmox/dump/vzdump-lxc-100-2026_11_12-09_49_24.tmp' ./etc/vzdump/pct.conf ./etc/vzdump/pct.fw '--directory=/mnt/vzsnap0' --no-anchored '--exclude=lost+found' --anchored '--exclude=./tmp/?*' '--exclude=./var/tmp/?*' '--exclude=./var/run/?*.pid' -- ./ | zstd '--threads=1' >/mnt/pve/nas-proxmox/dump/vzdump-lxc-100-2026_11_12-09_49_24.tar.dat' failed: exit code 2
+INFO: Starting Backup of VM 220 (qemu)
+INFO: transferred 12.00 GiB in 10 seconds (1.2 GiB/s)
+INFO: archive file size: 443MB
+INFO: Finished Backup of VM 220 (00:00:14)
+TEMPS pve2 (CT 100 + VM 220): 15 s
+INFO: Starting Backup of VM 230 (qemu)
+INFO: archive file size: 437MB
+INFO: Finished Backup of VM 230 (00:00:14)
+TEMPS pve3 (VM 230): 14 s
+
+### Reintent del CT 100 amb directori temporal local
+Causa de l'error: el CT és «unprivileged»; tar s'executa amb l'uid mapejat 100000, que no té permís d'escriptura al directori temporal del NFS.
+INFO: Starting Backup of VM 100 (lxc)
+INFO: archive file size: 203MB
+INFO: Finished Backup of VM 100 (00:00:15)
+TEMPS CT 100: 16 s
+
+## Còpies al NAS (mida real)
+    204 MB  /mnt/pve/nas-proxmox/dump/vzdump-lxc-100-2026_11_12-09_50_13.tar.zst
+    444 MB  /mnt/pve/nas-proxmox/dump/vzdump-qemu-220-2026_11_12-09_49_24.vma.zst
+    437 MB  /mnt/pve/nas-proxmox/dump/vzdump-qemu-230-2026_11_12-09_49_39.vma.zst
+
+## 2. Configuració dels nodes i del clúster (tar → NAS /mnt/copies/proxmox/config)
+24693 bytes  /mnt/pve/nas-proxmox/config/pve2-config-2026-11-12_0949.tgz
+24721 bytes  /mnt/pve/nas-proxmox/config/pve3-config-2026-11-12_0949.tgz
+(PVE1 apagat durant la prova: /etc/pve és el mateix a tots els nodes, perquè el replica el clúster. De PVE1 només faltaria /etc/network i /etc/hosts.)
+
+## Què es copia i què no (justificació)
+| Es copia | Per què |
+|---|---|
+| Imatges `vzdump` de CT 100, VM 220 i VM 230 | Recuperació completa d'un servei en un altre node (`qmrestore` / `pct restore`) |
+| `/etc/pve` (configuració del clúster, de les VM i dels usuaris), `/etc/network/interfaces`, `/etc/hosts`, `/etc/corosync`, repositoris | Per tornar a muntar un node: reinstal·lar Proxmox, restaurar aquests fitxers i tornar a unir-lo |
+
+| No es copia | Per què |
+|---|---|
+| El sistema Proxmox | Es reinstal·la des de la ISO en uns 10 min |
+| ISO i plantilles | Es poden tornar a descarregar (estan verificades amb SHA-512) |
+| `local-lvm` sencer | Les dades útils ja són als vzdump |
+| Els discos de prova del RAID (VM 230, scsi1–5) | Dades fictícies |
+
+**Limitació:** les còpies són al mateix NAS que fa d'emmagatzematge compartit, i tot és al mateix SSD USB. Una còpia fora del disc USB (regla 3-2-1) queda pendent.

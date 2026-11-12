@@ -51,10 +51,10 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | T5 OPNsense | a210–a216 | ✅ complet (recuperació en 48 s) | [04 §3](docs/04-installacio.md#3-r2--opnsense-a210a216) |
 | T5 nftables | a217–a223 | ✅ complet (recuperació en 22 s) · els 3 routers configurats igual | [04 §4](docs/04-installacio.md#4-r3--debian-13--nftables-a217a223) |
 | T5 TrueNAS | a224–a227 | ✅ complet (pool `copies`, SSH/NFS/SMB) | [04 §5](docs/04-installacio.md#5-nas--truenas-scale-a224a227-a259) |
-| T5 Proxmox | a228–a232, a235, a236 | 🟡 3 nodes instal·lats i actualitzats + clúster `cluster13` ✅ · falten VM/CT, migració i còpies | [04 §6](docs/04-installacio.md#6-proxmox-ve-a228a232-a235-a236) |
+| T5 Proxmox | a228–a232, a235, a236 | ✅ 3 nodes, clúster, NFS compartit, VM 220/230, CT 100, migració (8,5 s en calent) i còpies | [04 §6](docs/04-installacio.md#6-proxmox-ve-a228a232-a235-a236) |
 | T5 Windows Server 2025 | a237–a241 | ⬜ **falta la ISO** · anirà com a VM 210 dins de PVE1 | [04 §7](docs/04-installacio.md#7-windows-server-2025-a237a241) |
 | T5 Linux infra | a242–a246 | 🟡 VM 220 (PVE2) i 230 (PVE3) dins del clúster | [04 §8](docs/04-installacio.md#8-servidors-gnulinux-dinfraestructura-a242a246) |
-| T5 Clients | a247–a250, a252–a255 | 🟡 W11 ja instal·lat (reutilitzat) | [04 §9](docs/04-installacio.md#9-clients-a247a250-a252a255) |
+| T5 Clients | a247–a250, a252–a255 | 🟡 CLI-Debian ✅ (a252–a254) · W11 pendent · Guest Additions als dos | [04 §9](docs/04-installacio.md#9-clients-a247a250-a252a255) |
 | T5 Apte+ còpies automàtiques | a105 | 🟡 script + timer systemd + scheduler MikroTik | [04 §10](docs/04-installacio.md#10-apte-còpies-automatitzades-a105) |
 | T6 RAID (Apte) | a102, a103 | 🟡 script de proves llest | [05](docs/05-raid.md) |
 | T6 Espill entre equips (Apte+) | a107, a108, a109 | 🟡 a107 ✅ investigació · falta implementar DRBD | [05](docs/05-raid.md#tasca-63--espill-entre-dos-equips-a107a109) |
