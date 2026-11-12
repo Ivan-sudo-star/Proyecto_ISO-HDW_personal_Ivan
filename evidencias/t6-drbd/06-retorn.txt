@@ -1,0 +1,25 @@
+cataleg-2026.pdf
+oferta-Fusteria-Garcia.txt
+oferta-Metalls-Ribera.txt
+oferta-Transports-Sanz.txt
+oferta-urgent.txt
+# 06 · Tornada del node A (srv-serveis) — 2026-11-12 16:07:18
+després del reinici el recurs està: Command 'drbdsetup-84 cstate 0' terminated with exit code 10
+$ drbdadm up r0
+rol: Secondary/Primary · SyncTarget · Inconsistent/UpToDate
+resincronització: 82 s
+ 0: cs:Connected ro:Secondary/Primary ds:UpToDate/UpToDate C r-----
+    ns:0 nr:2097052 dw:2097052 dr:0 al:0 bm:0 lo:0 pe:0 ua:0 ap:0 ep:1 wo:f oos:0
+Nov 12 16:07:19 srv-serveis kernel: drbd r0/0 drbd0: helper command: /sbin/drbdadm before-resync-target minor-0
+Nov 12 16:07:19 srv-serveis kernel: drbd r0/0 drbd0: helper command: /sbin/drbdadm before-resync-target minor-0 exit code 0 (0x0)
+Nov 12 16:07:19 srv-serveis kernel: drbd r0/0 drbd0: Began resync as SyncTarget (will sync 2097052 KB [524263 bits set]).
+Nov 12 16:08:44 srv-serveis kernel: drbd r0/0 drbd0: Resync done (total 84 sec; paused 0 sec; 24964 K/sec)
+Nov 12 16:08:44 srv-serveis kernel: drbd r0/0 drbd0: helper command: /sbin/drbdadm after-resync-target minor-0
+Nov 12 16:08:44 srv-serveis kernel: drbd r0/0 drbd0: helper command: /sbin/drbdadm after-resync-target minor-0 exit code 0 (0x0)
+
+## Interpretació
+S'esperava una resincronització parcial (només el que havia canviat), però DRBD n'ha fet una de completa (2 GiB, 84 s):
+«Marked additional 2048 MB as out-of-sync based on AL». El motiu: srv-serveis va caure sent PRIMARI, i DRBD considera
+dubtoses totes les zones del seu registre d'activitat (activity log). Per defecte l'AL cobreix 1237 zones de 4 MiB (≈ 4,8 GiB),
+més que el disc de 2 GiB de la prova, de manera que es marca tot el disc. En un disc real (centenars de GB) només es
+resincronitzarien les zones actives. Si el node que cau és el secundari, la resincronització sí que és parcial (bitmap).

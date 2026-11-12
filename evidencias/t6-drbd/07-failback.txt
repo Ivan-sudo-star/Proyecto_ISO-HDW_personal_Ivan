@@ -1,0 +1,11 @@
+
+# 07 · Tornada del servei al node A (failback planificat) — 2026-11-12 16:08:59
+srv-dades: Secondary/Secondary
+srv-serveis: Primary/Secondary
+cataleg-2026.pdf: OK
+oferta-Fusteria-Garcia.txt: OK
+oferta-Metalls-Ribera.txt: OK
+oferta-Transports-Sanz.txt: OK
+oferta-urgent.txt: OK
+Oferta urgent escrita mentre srv-serveis estava caigut - Thu Nov 12 16:06:58 CET 2026
+Temps del canvi planificat de primari: 2770 ms

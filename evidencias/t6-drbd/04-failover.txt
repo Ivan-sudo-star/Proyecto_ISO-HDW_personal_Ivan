@@ -1,0 +1,12 @@
+# 04 · Promoció del node B (srv-dades) — 2026-11-12 16:06:38
+$ drbdadm primary r0
+rol: Primary/Unknown
+$ mount /dev/drbd0 /srv/espill
+/dev/drbd0      2.0G   21M  1.8G   2% /srv/espill
+
+# 05 · Integritat
+cataleg-2026.pdf: OK
+oferta-Fusteria-Garcia.txt: OK
+oferta-Metalls-Ribera.txt: OK
+oferta-Transports-Sanz.txt: OK
+Temps total sense servei (de qm stop a dades verificades al node B): 7323 ms

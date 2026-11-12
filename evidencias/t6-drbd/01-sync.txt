@@ -1,0 +1,9 @@
+# 01 · Sincronització inicial — srv-serveis — 2026-11-12 16:04:47
+$ drbdadm primary --force r0
+sincronització inicial de 2 GiB: 87 s
+$ cat /proc/drbd
+version: 8.4.11 (api:1/proto:86-101)
+srcversion: 637677C4EAFCF5D1D5446B0 
+ 0: cs:Connected ro:Primary/Secondary ds:UpToDate/UpToDate C r-----
+    ns:2097052 nr:0 dw:0 dr:2097052 al:8 bm:0 lo:0 pe:0 ua:0 ap:0 ep:1 wo:f oos:0
+$ drbdadm role/cstate/dstate r0: Primary/Secondary · Connected · UpToDate/UpToDate

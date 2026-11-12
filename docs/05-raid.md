@@ -77,7 +77,7 @@ Nodes, en **dos nodes Proxmox diferents**, de manera que l'espill sobreviu a la 
 - `srv-dades` (VM 230 a PVE3): 192.168.13.23, el disc de 2 GB.
 - El disc s'identifica per mida (`lsblk -dbnpo NAME,SIZE | awk '$2==2147483648'`) i al `r0.res` es posa el seu camí estable de `/dev/disk/by-path/`, no `sdX`.
 
-Configuració: [`configs/drbd/r0.res`](../configs/drbd/r0.res), amb els passos al [README](../configs/drbd/README.md).
+Configuració: [`configs/drbd/r0.res`](../configs/drbd/r0.res), amb els passos al [README](../configs/drbd/README.md). Els discos s'identifiquen pel camí `/dev/disk/by-path` (srv-serveis = `sdb`, srv-dades = `sdg`), i el secret compartit es genera amb `openssl rand` i no es puja al repositori.
 
 ### Verificació i cas d'ús (a109)
 
@@ -85,15 +85,22 @@ Configuració: [`configs/drbd/r0.res`](../configs/drbd/r0.res), amb els passos a
 Si el servidor principal cau, en pocs minuts es pot tornar a servir des del segon **sense perdre res del que s'havia guardat**,
 perquè el protocol C és síncron.
 
-| Pas | Ordre | Resultat esperat | Evidència |
+**✅ Resultat (12/11/2026):** DRBD 8.4.11 entre `srv-serveis` (VM 220, PVE2) i `srv-dades` (VM 230, PVE3), protocol C, disc de 2 GiB per node.
+
+| Pas | Ordre | Resultat obtingut | Evidència |
 |---|---|---|---|
-| Sincronització inicial | `drbdadm status r0` | `disk:UpToDate peer-disk:UpToDate` | `t6-drbd/01-sync.txt` |
-| Escriptura al primari | `cp ... /srv/espill/comercial; sha256sum` | Hashes guardats | `02-escriptura.txt` |
-| Caiguda del node A | `qm stop 220` a PVE2 (tall brusc, com si caiguera el servidor) | B: `connection:Connecting` | `03-caiguda.txt` |
-| Promoció del node B | `drbdadm primary r0; mount /dev/drbd0 /srv/espill` | Muntat | `04-failover.txt` |
-| Integritat | `sha256sum -c` | Tots els fitxers OK | `05-integritat.txt` |
-| Tornada del node A | arrancar A → `drbdadm status` | A secundari, resincronització parcial | `06-retorn.txt` |
-| Temps total sense servei | cronòmetre | ___ min | — |
+| Sincronització inicial | `drbdadm primary --force r0` | `Connected · Primary/Secondary · UpToDate/UpToDate` en **87 s** (2 GiB) | [`01-sync.txt`](../evidencias/t6-drbd/01-sync.txt) |
+| Escriptura al primari | `mkfs.ext4 /dev/drbd0`, carpeta `comercial` (3 ofertes + catàleg de 20 MB) i `sha256sum` | 4 fitxers, 21 MB, hashes guardats | [`02-escriptura.txt`](../evidencias/t6-drbd/02-escriptura.txt) |
+| Caiguda del node A | `qm stop 220` a PVE2 (tall brusc) | B detecta que A no hi és després del temps d'espera de DRBD (uns segons) | [`03-caiguda.txt`](../evidencias/t6-drbd/03-caiguda.txt) |
+| Promoció del node B | `drbdadm primary r0; mount /dev/drbd0 /srv/espill` | `Primary/Unknown`, muntat | [`04-failover.txt`](../evidencias/t6-drbd/04-failover.txt) |
+| Integritat | `sha256sum -c` | **4/4 OK** | ídem |
+| Tornada del node A | arrancar A → `drbdadm up r0` | A entra com a **secundari** i es resincronitza des de B (84 s, vegeu la nota). Té el fitxer escrit a B mentre era caigut | [`06-retorn.txt`](../evidencias/t6-drbd/06-retorn.txt) |
+| Canvi planificat de primari | B: `umount` + `secondary` → A: `primary` + `mount` | **2,8 s**, 5/5 fitxers OK | [`07-failback.txt`](../evidencias/t6-drbd/07-failback.txt) |
+| **Temps total sense servei** | de `qm stop` a dades verificades a B | **7,3 s** (failover manual fet per script) | — |
+
+**Nota sobre la resincronització:** s'esperava que només es copiara el que havia canviat, però es va resincronitzar el disc sencer. El node A va caure sent primari, i DRBD marca com a dubtoses totes les zones del seu registre d'activitat (per defecte ≈ 4,8 GiB, més que el disc de 2 GiB de la prova). Amb un disc real gran només es resincronitzarien les zones actives, i si cau el secundari la resincronització és parcial (bitmap).
+
+**Conclusió del cas d'ús:** la carpeta de Comercial ha sobreviscut a la caiguda brusca d'un servidor sencer (i del seu node Proxmox) **sense perdre cap fitxer**, i s'ha tornat a servir des de l'altre node en 7,3 s. El que es va escriure mentre un node era caigut s'ha replicat quan ha tornat.
 
 **Límits:**
 - El *failover* és **manual**. Per fer-lo automàtic caldria Pacemaker o Corosync, més un tercer vot.

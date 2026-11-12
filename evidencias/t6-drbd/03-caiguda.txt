@@ -1,0 +1,6 @@
+# 03 · Caiguda del node A (srv-serveis) — 2026-11-12 16:06:31
+$ qm stop 220   (a PVE2: tall brusc, sense apagar el sistema)
+status: stopped
+srv-dades veu: Connected · rol Secondary/Primary · UpToDate/UpToDate
+ 0: cs:Connected ro:Secondary/Primary ds:UpToDate/UpToDate C r-----
+    ns:0 nr:2119312 dw:4281996 dr:0 al:8 bm:0 lo:0 pe:0 ua:0 ap:0 ep:1 wo:f oos:0

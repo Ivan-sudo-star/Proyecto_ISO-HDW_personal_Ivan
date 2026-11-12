@@ -1,0 +1,10 @@
+# 02 · Escriptura al primari (srv-serveis) — 2026-11-12 16:06:15
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/drbd0      2.0G  532K  1.9G   1% /srv/espill
+81ad5798d8c95d6f550b9ab9081ce6375bb69c4cdb60785bb5db2b750a3e3315  cataleg-2026.pdf
+0ca520acf8642338792e70be0dcf3a38502e674d9338506f9384e762f1fd3cf7  oferta-Fusteria-Garcia.txt
+3fba5df186b801ad6b268313be4574bb44af729260cef561ae13e106365b61e4  oferta-Metalls-Ribera.txt
+891177eba064568d2e356f4e2a3d188c62f5c2acceeea1ecb74fdc6ef99af44e  oferta-Transports-Sanz.txt
+fitxers: 4 · 21M
+ 0: cs:Connected ro:Primary/Secondary ds:UpToDate/UpToDate C r-----
+    ns:2119284 nr:0 dw:2152156 dr:2098325 al:18 bm:0 lo:0 pe:0 ua:0 ap:0 ep:1 wo:f oos:0

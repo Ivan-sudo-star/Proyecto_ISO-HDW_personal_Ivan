@@ -6,12 +6,16 @@
 lsblk -dbnpo NAME,SIZE | awk '$2==2147483648'     # el disc de 2 GiB
 ls -l /dev/disk/by-path/ | grep -w "$(basename <disc>)"   # el seu camí estable
 ```
-Posa aquest camí `/dev/disk/by-path/...` a la línia `disk` de cada node a `r0.res`.
+Posa aquest camí `/dev/disk/by-path/...` a la línia `disk` de cada node a `r0.res`, **entre cometes** (si no, DRBD dona *Parse error* pels `:`).
+
+**Versions (12/11/2026):** mòdul del nucli DRBD **8.4.11** (el que porta Debian 13) i `drbd-utils` **9.22**, que el detecta i usa `drbdsetup-84`. `drbd-utils` instal·la com a recomanat `exim4` (correu local per als avisos): només escolta a `127.0.0.1:25`.
 
 ```bash
 # A LES DUES VM (root)
 apt install -y drbd-utils
-cp r0.res /etc/drbd.d/r0.res        # i canviar shared-secret a mà
+modprobe drbd
+install -m 600 r0.res /etc/drbd.d/r0.res   # i canviar shared-secret a mà (openssl rand -hex 16)
+drbdadm dump r0                     # comprova la sintaxi
 # hostname ha de coincidir amb les seccions "on": srv-serveis / srv-dades
 drbdadm create-md r0
 drbdadm up r0

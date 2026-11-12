@@ -475,6 +475,6 @@ comprovar al NAS que el fitxer porta la data i l'hora correctes.
 | R1 sense NAT ni IP LAN | Internet de la LAN | `r1-backup.backup` del NAS | 15 min | **42 s** | cap (la còpia era de pocs minuts abans) |
 | R2 sense regles de LAN | Internet | `config.xml` del NAS | 15 min | **48 s** | cap |
 | R3 sense regles | Internet + filtre | `etc-*.tgz` del NAS | 10 min | **22 s** | cap |
-| Disc RAID fallit | Volum de dades | RAID 1/5 + reconstrucció | 0 (servei continu) | | |
-| Node DRBD A caigut | Carpeta replicada | Node B → primari | 5 min | | |
-| Configuració de Linux trencada | Servidor | `/etc` del NAS | 20 min | | |
+| Disc RAID fallit | Volum de dades | RAID 1/5 + reconstrucció | 0 (servei continu) | **0 s** (reconstrucció 8–12 s) | cap |
+| Node DRBD A caigut | Carpeta replicada | Node B → primari | 5 min | **7,3 s** | cap (protocol C) |
+| Configuració de Linux trencada | Servidor | `/etc` del NAS | 20 min | **2,8 s** (un fitxer) | cap |

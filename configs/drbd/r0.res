@@ -1,7 +1,7 @@
 # /etc/drbd.d/r0.res — Espill RAID 1 per xarxa entre dos equips (Tasca 6.3 · a107-a109)
 # Nodes: srv-serveis (192.168.13.22) i srv-dades (192.168.13.23), cadascun amb un disc de 2 GB.
-# COMPTE: /dev/sdb i /dev/sdg són provisionals. Substituir-los pel camí /dev/disk/by-path/... del disc de 2 GiB
-# (vegeu el README): a la VM 230 els noms sdX no segueixen l'ordre scsiN.
+# Disc de 2 GiB de cada VM pel seu camí estable /dev/disk/by-path (entre cometes: el ':' trenca l'analitzador).
+# Comprovat el 12/11/2026: srv-serveis = sdb, srv-dades = sdg (a la VM 230 els noms sdX no segueixen l'ordre scsiN).
 # Protocol C = síncron: l'escriptura no es confirma fins que és als DOS discos (zero pèrdua si cau un node).
 resource r0 {
   protocol C;
@@ -14,13 +14,13 @@ resource r0 {
   }
   on srv-serveis {
     device    /dev/drbd0;
-    disk      /dev/sdb;
+    disk      "/dev/disk/by-path/pci-0000:01:02.0-scsi-0:0:0:1";
     address   192.168.13.22:7789;
     meta-disk internal;
   }
   on srv-dades {
     device    /dev/drbd0;
-    disk      /dev/sdg;
+    disk      "/dev/disk/by-path/pci-0000:01:07.0-scsi-0:0:0:6";
     address   192.168.13.23:7789;
     meta-disk internal;
   }
