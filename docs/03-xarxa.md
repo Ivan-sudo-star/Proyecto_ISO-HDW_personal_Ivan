@@ -103,3 +103,23 @@ Evidències a `evidencias/t4-xarxa/`, un fitxer per prova i una línia que expli
 | Traceroute | `traceroute -n 1.1.1.1` · `tracert -d 1.1.1.1` | CLI-Debian / W11 | salt 1 = 192.168.13.1, salt 2 = 10.0.2.2... | `traceroute-*.txt` |
 | **Prova que falla a propòsit** | `nc -zv -w5 github.com 22` | CLI-Debian | timeout + línia `BLOQ-SSH` al registre del router | `bloquejada.txt` |
 | Aïllament | `ping -c3 192.168.13.20` i `ip route get 192.168.13.20` | amfitrió → NAS | **falla**: l'amfitrió (i, per tant, l'aula) no té cap ruta cap a LAN13; només s'hi entra a través del router | `aillament.txt` |
+
+## 5. Accés de gestió a les webs de la LAN13
+
+L'amfitrió no veu la LAN13: és una xarxa interna i només s'hi entra a través del router (vegeu la prova d'aïllament).
+**Decisió: la gestió es fa des de dins, amb CLI-Debian** com a «equip d'informàtica» de la LAN (escriptori GNOME + Firefox):
+
+| Servei | Adreça des de CLI-Debian | Usuari |
+|---|---|---|
+| Proxmox (clúster `cluster13`) | `https://192.168.13.32:8006` (o `.33`, `.34`) | `ivan`, *realm* Linux PAM |
+| TrueNAS | `https://192.168.13.20` | `truenas_admin` |
+| OPNsense (R2) | `https://192.168.13.2` | `admin-ivan` |
+| MikroTik (R1, WebFig) | `http://192.168.13.1` | `admin-ivan` |
+
+| Alternativa | Per què no és l'opció principal |
+|---|---|
+| Túnel SSH per R1 (`ssh -p 2201 -L 8006:192.168.13.32:8006 admin-ivan@127.0.0.1`) | Còmode des de l'amfitrió i no obri res al router. Queda com a via de suport: és la que s'ha fet servir per automatitzar la instal·lació |
+| Adaptador «Només amfitrió» a les VM | Trencaria l'aïllament: hi hauria una segona porta a la LAN13 que no passaria pel tallafocs |
+| DNAT a R1 + redirecció de port de VirtualBox | Dues traduccions per servei i publicaria les webs de gestió a la WAN |
+
+Condició: **R1 ha d'estar encés**, perquè és la porta d'enllaç i el DHCP de la LAN.
