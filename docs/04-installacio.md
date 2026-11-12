@@ -123,11 +123,24 @@ fora del disc (disc intern de casa o un altre pendrive), sense pujar-ho a GitHub
 |---|---|---|
 | a203 instal·lació i versió | ✅ RouterOS **7.24.5 (stable)** x86_64, paquet `system`. **Llicència: sense clau, 24 h de funcionament** (el comptador només avança amb la VM encesa: s'apaga quan no s'usa) | `t5-mikrotik/01-installador-paquets.png`, `02-installacio-completada.png`, `03-llicencia-x86-24h.png`, `a203-versio.txt` |
 | a204 usuaris | ✅ `admin-ivan` (grup full) i `suport` (grup `lectura`, només lectura). `admin` **deshabilitat** després de comprovar l'accés amb `admin-ivan` | `a204-usuaris.txt` |
-| a205 xarxa | ✅ ether1 WAN 10.0.2.15/24 per DHCP (GW 10.0.2.2), ether2 LAN 192.168.13.1/24 | `a205-xarxa.txt` |
+| a205 xarxa | ✅ ether1 WAN 10.0.2.15/24 per DHCP (GW 10.0.2.2), LAN 192.168.13.1/24 (des del 12/11, al **bridge-lan13**, vegeu sota) | `a205-xarxa.txt`, `bridge-r1.txt` |
 | a206 Internet per a la LAN | ✅ masquerade + DHCP .100–.200. CLI-Debian i TrueNAS s'han instal·lat descarregant paquets a través de R1 (leases .199 i .200). El NAS fa ping a 1.1.1.1 | `a206-nat-dhcp.txt` |
 | a207 permesa/bloquejada | ✅ des de CLI-Debian: `curl https://www.debian.org` → `HTTP/2 200` (registre `R1-FWD-OK ... ->130.89.148.77:443`). `nc github.com 22` → timeout (registre `R1-BLOQ-SSH`: 5 SYN, el primer i 4 retransmissions; comptador de la regla = 5 paquets). Interpretació a l'evidència | `a207-filtre.txt`, `a207-prova-permesa-bloquejada.txt` |
 | a208 còpia al NAS | ✅ `/export` (text, sense dades sensibles) + `/system backup save` (binari xifrat) pujats per SFTP a `/mnt/copies/routers/r1/` | `a208-copia-al-nas.txt` |
 | a209 fallada i recuperació | ✅ s'esborren la IP de la LAN, el NAT i la còpia local → els clients perden la porta d'enllaç. Recuperació: es torna a posar la IP de la LAN, es baixa `r1-backup.backup` del NAS per SFTP i es fa `/system backup load`. Prova final: CLI-Debian torna a obtindre `HTTP/2 200`. **Temps d'inactivitat: 42 s** | `a209-fallada-recuperacio.txt` |
+
+**Bridge de la LAN (12/11/2026).** Al principi la IP de la LAN, el DHCP i les regles estaven directament al port `ether2`. El grup ho té en un bridge (`bridge_grupo3` amb `ether2`–`ether5`), i és la pràctica recomanada a RouterOS, així que R1 ara té:
+- **`bridge-lan13`** amb el port `ether2`. La IP 192.168.13.1/24 i el servidor DHCP són al bridge, no al port.
+- **Llistes d'interfícies `LAN` (bridge-lan13) i `WAN` (ether1).** El filtre i el NAT usen les llistes, no noms de port.
+- **Descobriment de veïns i accés per MAC (MAC-Telnet/MAC-WinBox) només des de la LAN.**
+
+Per què és millor, encara que a la VM hi haja un sol port de LAN:
+- **Seguretat i ordre:** les regles diuen «LAN» i «WAN». Un port nou que s'afegisca al bridge queda protegit per les mateixes regles sense tocar-les, i no queda cap port de la LAN fora del filtre per error.
+- **No s'exposa res a la WAN:** l'accés per MAC i el descobriment de veïns ja no responen per `ether1`.
+- **Escalable:** més ports o VLAN (`vlan-filtering`) es posen al bridge i hereten la IP i el DHCP. Al hEX físic del grup és el que fa que `ether2`–`ether5` funcionen com un commutador.
+- **Mateix disseny que el grup.**
+
+Comprovat: el client renova el DHCP a través del bridge, navega (`R1-FWD-OK ... in:bridge-lan13`) i l'SSH cap a Internet continua bloquejat (`R1-BLOQ-SSH`). Còpia nova al NAS: `routers/r1/export-bridge-*.rsc`. **Incidència:** les regles que apuntaven a `ether2` van quedar *INVALID* en convertir-lo en port del bridge, i la LAN va estar ≈ 3 min sense eixida fins que es van passar a les llistes. Evidència: [`bridge-r1.txt`](../evidencias/t5-mikrotik/bridge-r1.txt). Punt de retorn: instantània `R1-abans-bridge`.
 
 **Accés de gestió afegit:** redirecció de port NAT de VirtualBox `127.0.0.1:2201 → R1:22`, i regla `input` que només accepta SSH per la WAN des de 10.0.2.2 (l'amfitrió). Amb `/ip ssh set forwarding-enabled=local`, R1 fa de **bastió**: des de l'amfitrió s'entra a la resta de la LAN13 amb `ssh -J admin-ivan@127.0.0.1:2201 usuari@192.168.13.x`.
 
@@ -227,7 +240,8 @@ Evidències a `evidencias/t5-opnsense/`.
 | Versió | RouterOS 7.24.5 | OPNsense 26.7 | Debian 13.7 + nftables |
 | Administrador / consulta | `admin-ivan` / `suport` (`admin` desactivat) | `admin-ivan` / `suport` (+ `root`) | `admin-ivan` (sudo) / `suport` (+ `ivancambra`) |
 | WAN | ether1 · DHCP 10.0.2.15 | em0 · DHCP 10.0.2.15 | enp0s3 · DHCP 10.0.2.15 |
-| LAN | ether2 · **192.168.13.1/24** | em1 · **192.168.13.2/24** | enp0s8 · **192.168.13.3/24** |
+| LAN | **bridge-lan13** (port ether2) · **192.168.13.1/24** | em1 · **192.168.13.2/24** | enp0s8 · **192.168.13.3/24** |
+| Bridge a la LAN | ✅ `bridge-lan13` + llistes LAN/WAN | ⬜ pendent de decidir | ➖ no (decisió de l'alumne: en Debian la LAN es queda directament a `enp0s8`) |
 | NAT | masquerade srcnat | Outbound NAT automàtic | `masquerade` (taula ip nat) |
 | DHCP LAN .100–.200 | ✅ actiu (router principal) | preparat, desactivat | `dnsmasq` preparat, desactivat |
 | DNS per a la LAN | `allow-remote-requests` | Unbound | `dnsmasq` |
@@ -237,7 +251,7 @@ Evidències a `evidencias/t5-opnsense/`.
 | Fallada provocada | s'esborren la IP de LAN, el NAT i la còpia local | s'esborren les regles de LAN | `nft flush` + `ip_forward=0` + s'esborra la config |
 | Recuperació (temps) | `backup load` des del NAS (**42 s**) | restauració de `config.xml` (**48 s**) | `tar` des del NAS + `nft -f` (**22 s**) |
 
-Diferències que el disseny accepta: la IP de LAN (.1/.2/.3, com al grup) i que el DHCP només està actiu al router principal.
+Diferències que el disseny accepta: la IP de LAN (.1/.2/.3, com al grup), que el DHCP només està actiu al router principal i que **el bridge de la LAN només és a R1**, que és el router principal (com el MikroTik del grup).
 
 ## 5. NAS · TrueNAS SCALE (a224–a227, a259)
 

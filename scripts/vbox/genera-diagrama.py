@@ -21,7 +21,7 @@ inet=box(570,50,160,60,"Internet","ellipse;shape=cloud;whiteSpace=wrap;html=1;fi
 host=box(430,135,440,60,"<b>Equip físic (amfitrió)</b><br>Classe: ASUS B3605 · eno1 1 Gb/s · 172.16.222.40/24<br>Casa: MSI B760M · enp7s0 100 Mb/s · 192.168.1.86/24",PHY)
 nat=box(430,220,440,50,"<b>WAN</b> · NAT de VirtualBox (una per VM) · 10.0.2.15/24 per DHCP<br>GW 10.0.2.2 · DNS 10.0.2.3",WAN)
 rs=[]
-for k,(n,d) in enumerate([("R1-MikroTik","(RouterOS 7.24.5)<br>ether1 WAN DHCP · ether2 <b>192.168.13.1/24</b>"),("R2-OPNsense","(26.7)<br>em0 WAN DHCP · em1 <b>192.168.13.2/24</b>"),("R3-Debian_NFtables","(Debian 13)<br>enp0s3 WAN DHCP · enp0s8 <b>192.168.13.3/24</b>")]):
+for k,(n,d) in enumerate([("R1-MikroTik","(RouterOS 7.24.5)<br>ether1 WAN DHCP · bridge-lan13 (ether2) <b>192.168.13.1/24</b>"),("R2-OPNsense","(26.7)<br>em0 WAN DHCP · em1 <b>192.168.13.2/24</b>"),("R3-Debian_NFtables","(Debian 13)<br>enp0s3 WAN DHCP · enp0s8 <b>192.168.13.3/24</b>")]):
     rs.append((box(250+k*285,310,230,65,f"<b>{n}</b> {d}",RT),250+k*285+115))
 BX,BY,BW=20,440,1260
 bus=box(BX,BY,BW,26,"<b>LAN13</b> · xarxa interna VirtualBox · 192.168.13.0/24 · màscara 255.255.255.0 · GW 192.168.13.1 · DNS 192.168.13.1 · DHCP .100–.200 (només dins la LAN)",R+"fillColor=#036897;fontColor=#ffffff;strokeColor=#036897;")
@@ -35,7 +35,7 @@ cols=[("NAS-TrueNAS","TrueNAS SCALE 25.10.7<br>192.168.13.20/24 estàtica<br>boo
       ("PVE2-Proxmox","Proxmox VE 9.2 · node 2<br>vmbr0 192.168.13.33/24<br>3 GB · 2 vCPU",SRV,[("SRV-SERVEIS","VM · Debian 13 sense GUI<br>.22 · còpies · DRBD A"),("CT 100","LXC Debian · 192.168.13.41")]),
       ("PVE3-Proxmox","Proxmox VE 9.2 · node 3<br>vmbr0 192.168.13.34/24<br>3 GB · 2 vCPU",SRV,[("SRV-DADES","VM · Debian 13 sense GUI<br>.23 · RAID · DRBD B")]),
       ("CLI-Debian","Client GNU/Linux<br>DHCP (.100–.200)<br>GW .1 · DNS .1",CLI,[]),
-      ("Cliente_windows_1","Client Windows 11<br>DHCP (.100–.200)<br>TPM 2.0 · UEFI · SB",CLI,[])]
+      ("Cliente_windows_1","Client Windows 11 Pro<br>DHCP (.100–.200)<br>TPM 2.0 · UEFI · SB",CLI,[])]
 bw=200; gap=(BW-6*bw)/5
 for k,(n,d,st,inner) in enumerate(cols):
     x=BX+k*(bw+gap); h=70+48*len(inner)+(10 if inner else 0)

@@ -34,7 +34,7 @@ Màscara a tota la LAN: **255.255.255.0 (/24)**. La xarxa NAT de VirtualBox és 
 | Equip | Nivell | Adaptador | Tipus de xarxa | Interfície (SO) | IP / màscara | Porta d'enllaç | DNS | Mètode |
 |---|---|---|---|---|---|---|---|---|
 | R1-MikroTik | VirtualBox | 1 | NAT | ether1 (WAN) | 10.0.2.15/24 | 10.0.2.2 | 10.0.2.3 | DHCP |
-| | | 2 | Interna LAN13 | ether2 (LAN) | **192.168.13.1/24** | — | — | estàtica · servidor DHCP |
+| | | 2 | Interna LAN13 | **bridge-lan13** (port ether2) | **192.168.13.1/24** | — | — | estàtica · servidor DHCP (al bridge) |
 | R2-OPNsense | VirtualBox | 1 | NAT | em0 (WAN) | 10.0.2.15/24 | 10.0.2.2 | 10.0.2.3 | DHCP |
 | | | 2 | Interna LAN13 | em1 (LAN) | **192.168.13.2/24** | — | — | estàtica |
 | R3 Debian_NFtables | VirtualBox | 1 | NAT | enp0s3 (WAN) | 10.0.2.15/24 | 10.0.2.2 | 10.0.2.3 | DHCP |

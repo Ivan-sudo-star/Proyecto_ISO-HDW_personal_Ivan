@@ -1,0 +1,100 @@
+# R1-MikroTik — LAN passada a un bridge (bridge-lan13) — 12/11/2026, equip de casa
+# Punt de retorn: instantània de VirtualBox R1-abans-bridge. Configuració final: configs/mikrotik/r1-config.rsc
+
+## 1. Configuració aplicada
+0 R comment=LAN13: la IP, el DHCP i el filtre van al bridge name=bridge-lan13 mtu=auto actual-mtu=1500 l2mtu=65535 arp=enabled arp-timeout=auto mac-address=xx:xx:xx:xx:xx:xx protocol-mode=rstp fast-forward=yes igmp-snooping=no auto-mac=yes ageing-time=5m priority=0x8000 max-message-age=20s forward-delay=15s transmit-hold-count=6 vlan-filtering=no dhcp-snooping=no dhcpv6-snooping=no ra-guard=no port-cost-mode=long max-learned-entries=auto mlag-peer-port=none mlag-priority=128 mlag-heartbeat=5s
+
+0 comment=LAN13 interface=ether2 bridge=bridge-lan13 priority=0x80 edge=auto point-to-point=auto learn=auto horizon=none hw=yes auto-isolate=no restricted-role=no restricted-tcn=no pvid=1 frame-types=admit-all ingress-filtering=yes unknown-unicast-flood=yes unknown-multicast-flood=yes broadcast-flood=yes tag-stacking=no bpdu-guard=no trusted=no trusted-ra=no trusted-dhcpv6=no mvrp-registrar-state=normal mvrp-applicant-state=normal-participant multicast-router=temporary-query fast-leave=no
+
+0 list=WAN interface=ether1 dynamic=no
+1 list=LAN interface=bridge-lan13 dynamic=no
+
+0 comment=LAN13 address=192.168.13.1/24 network=192.168.13.0 interface=bridge-lan13 actual-interface=bridge-lan13 vrf=main
+
+0 name=dhcp-lan13 interface=bridge-lan13 lease-time=12h address-pool=pool-lan13 dynamic-lease-identifiers=client-mac,client-id add-dns-entries-suffix=lan use-radius=no use-reconfigure=no lease-script= address-lists= support-broadband-tr101=no
+
+   discover-interface-list: LAN      
+         discover-interval: 30s      
+                  lldp-med: yes      
+  lldp-med-net-policy-vlan: disabled 
+       lldp-mac-phy-config: no       
+       lldp-max-frame-size: no       
+            lldp-vlan-info: no       
+                  protocol: cdp      
+                            lldp     
+                            mndp     
+                      mode: tx-and-rx
+                dying-gasp: no       
+           add-dns-entries: no       
+    add-dns-entries-suffix: lan      
+
+  allowed-interface-list: LAN
+
+  allowed-interface-list: LAN
+
+
+## 2. Filtre i NAT (ara amb llistes LAN/WAN; cap regla INVALID)
+ 0 comment=input: establertes chain=input action=accept connection-state=established,related
+ 1 chain=input action=drop connection-state=invalid
+ 2 comment=input: gestio des de la LAN chain=input action=accept in-interface-list=LAN
+ 3 chain=input action=accept protocol=icmp
+ 4 comment=input: gestio SSH des de l'amfitrio (port-forward NAT VirtualBox 127.0.0.1:2201) chain=input action=accept protocol=tcp src-address=10.0.2.2 in-interface-list=WAN dst-port=22
+ 5 comment=input: resta de la WAN chain=input action=drop in-interface-list=WAN log=yes log-prefix=R1-IN-DROP
+ 6 chain=forward action=accept connection-state=established,related
+ 7 chain=forward action=drop connection-state=invalid
+ 8 comment=PROVA: SSH a Internet bloquejat chain=forward action=drop protocol=tcp in-interface-list=LAN out-interface-list=WAN dst-port=22 log=yes log-prefix=R1-BLOQ-SSH
+ 9 comment=PROVA: eixida permesa chain=forward action=accept connection-state=new in-interface-list=LAN out-interface-list=WAN log=yes log-prefix=R1-FWD-OK
+10 chain=forward action=drop log=yes log-prefix=R1-FWD-DROP
+
+0 comment=LAN13 -> Internet chain=srcnat action=masquerade src-address=192.168.13.0/24 out-interface-list=WAN
+
+
+## 3. DHCP pel bridge: renovació de CLI-Debian (nmcli con down/up)
+ 2026-11-12 13:20:07 dhcp,error events on master port will be handled by slave ether2, update your config!!! (IPv4)
+ 2026-11-12 13:20:07 dhcp,info dhcp-lan13 deassigned 192.168.13.200 for xx:xx:xx:xx:xx:xx cli-debian
+ 2026-11-12 13:20:07 dhcp,info dhcp-lan13 deassigned 192.168.13.199 for xx:xx:xx:xx:xx:xx Windows11
+ 2026-11-12 13:20:07 dhcp,error ether2 no longer handles master port (IPv4)
+ 2026-11-12 13:23:14 dhcp,info dhcp-lan13 assigned 192.168.13.200 for xx:xx:xx:xx:xx:xx cli-debian
+
+0 D address=192.168.13.200 mac-address=xx:xx:xx:xx:xx:xx client-id=(amagat: conté la MAC) address-lists= server=dhcp-lan13 dhcp-option= agent-circuit-id= agent-remote-id= status=bound expires-after=11h58m34s last-seen=1m26s age=1m26s active-address=192.168.13.200 active-mac-address=xx:xx:xx:xx:xx:xx active-client-id=(amagat: conté la MAC) active-server=dhcp-lan13 active-agent-circuit-id= active-agent-remote-id= host-name=cli-debian
+
+
+## 4. Proves des de CLI-Debian (després de la renovació)
+$ ip -4 -br a show enp0s3; ip route
+enp0s3           UP             192.168.13.200/24 
+default via 192.168.13.1 dev enp0s3 proto dhcp src 192.168.13.200 metric 100 
+192.168.13.0/24 dev enp0s3 proto kernel scope link src 192.168.13.200 metric 100 
+$ ping -c3 192.168.13.1
+3 packets transmitted, 3 received, 0% packet loss, time 2150ms
+rtt min/avg/max/mdev = 0.133/0.504/0.734/0.264 ms
+$ dig +short debian.org @192.168.13.1
+151.101.194.132
+151.101.2.132
+$ curl -sI https://www.debian.org   (PERMESA)
+HTTP/2 200 
+$ nc -zv -w5 github.com 22           (BLOQUEJADA)
+nc: connect to github.com (20.250.119.67) port 22 (tcp) timed out: Operation now in progress
+
+## 5. Registre del tallafocs (ara l'entrada és in:bridge-lan13)
+ 2026-11-12 13:24:19 firewall,info R1-FWD-OK forward: in:bridge-lan13 out:ether1, connection-state:new src-mac xx:xx:xx:xx:xx:xx, proto TCP (SYN), 192.168.13.200:53778->192.41.228.80:443, len 60
+ 2026-11-12 13:24:19 firewall,info R1-FWD-OK forward: in:bridge-lan13 out:ether1, connection-state:new src-mac xx:xx:xx:xx:xx:xx, proto TCP (SYN), 192.168.13.200:53786->192.41.228.80:443, len 60
+ 2026-11-12 13:24:19 firewall,info R1-FWD-OK forward: in:bridge-lan13 out:ether1, connection-state:new src-mac xx:xx:xx:xx:xx:xx, proto TCP (SYN), 192.168.13.200:53794->192.41.228.80:443, len 60
+
+## 6. Hosts apresos pel bridge (equips de la LAN13 vistos pel port ether2)
+0 D mac-address=xx:xx:xx:xx:xx:xx interface=ether2 bridge=bridge-lan13 on-interface=ether2
+1 D mac-address=xx:xx:xx:xx:xx:xx interface=ether2 bridge=bridge-lan13 on-interface=ether2
+2 D mac-address=xx:xx:xx:xx:xx:xx interface=ether2 bridge=bridge-lan13 on-interface=ether2
+
+
+## 7. Còpia nova al NAS
+total 38
+-rw-r--r-- 1 copies copies  3294 Nov 12 13:21 export-bridge-2026-11-12_1321.rsc
+-rw-r--r-- 1 copies copies 26039 Nov 11 16:20 r1-backup.backup
+-rw-r--r-- 1 copies copies  2692 Nov 11 16:20 r1-export.rsc
+
+## Interpretació
+- La IP 192.168.13.1/24 i el servidor DHCP ja no són al port ether2, sinó a **bridge-lan13**, que té ether2 com a port. El bridge fa de commutador: si s'afig un altre port o una VLAN a la LAN, només cal posar-lo al bridge i hereta la IP, el DHCP i el filtre.
+- Les regles del tallafocs i el NAT ja no depenen de noms de port: usen les llistes **LAN** (bridge-lan13) i **WAN** (ether1). Un port nou de la LAN queda protegit automàticament per les mateixes regles.
+- Seguretat afegida (configuració per defecte de MikroTik): el descobriment de veïns i l'accés per MAC (MAC-Telnet/MAC-WinBox) només funcionen des de la LAN, mai des de la WAN.
+- Proves: el client rep la IP per DHCP a través del bridge, navega (HTTPS 200, registre R1-FWD-OK amb in:bridge-lan13) i l'SSH cap a Internet continua bloquejat (R1-BLOQ-SSH).
+- **Incidència durant el canvi:** el primer script movia les regles amb `set [find in-interface=ether2]`, però en convertir ether2 en port del bridge el `find` ja no trobava res. Les regles 2, 8 i 9 van quedar INVALID («in/out-interface matcher not possible when interface (ether2) is slave») i la LAN no va tindre eixida durant ≈ 3 min (paquets comptats a R1-FWD-DROP). Solució: buscar les regles pel comentari o el prefix de registre i fer `set ... !in-interface in-interface-list=LAN`. Lliçó: en RouterOS, quan un port entra en un bridge, totes les referències al port s'han de passar al bridge en el mateix pas.

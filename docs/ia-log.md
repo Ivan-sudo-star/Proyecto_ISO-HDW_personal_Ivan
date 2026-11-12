@@ -62,4 +62,10 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - Abans, l'IA va comprovar que la ISO inclou l'edició Pro, llegint l'XML d'`install.wim` sense extraure els 6 GB.
 - Error de l'IA: va tancar un túnel SSH amb `pkill -f` i el patró coincidia amb la seua pròpia ordre, que es va tallar (trampa ja coneguda). No va tindre conseqüències.
 
+**12/11/2026 (casa): bridge de la LAN a R1**, a petició de l'alumne (el grup ho té així):
+- R1 té ara `bridge-lan13` amb `ether2`, les llistes LAN/WAN i l'accés per MAC i el descobriment de veïns limitats a la LAN.
+- **Error de l'IA:** va moure les regles del tallafocs amb `set [find in-interface=ether2]`, però quan `ether2` ja era port del bridge el `find` no trobava res. Les regles van quedar INVALID i la LAN va estar ≈ 3 min sense eixida. Es va corregir buscant les regles pel comentari.
+- **Error de l'IA:** la primera prova de DHCP no va renovar de veritat (el `sudo` en segon pla no tenia la contrasenya i va morir en tancar-se la sessió SSH). Es va detectar perquè R1 no mostrava cap concessió, i es va repetir amb `systemd-run`.
+- R3: l'IA hi havia instal·lat `bridge-utils` i preparat el canvi, però l'alumne va decidir que R3 no tinga bridge. Es va restaurar la instantània `R3-abans-bridge`.
+
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*
