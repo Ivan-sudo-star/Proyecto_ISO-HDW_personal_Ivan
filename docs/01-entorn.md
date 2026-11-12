@@ -126,6 +126,6 @@ escenaris curts és una optimització possible (N/C, s'ha de mesurar).
 *(Afegir ací cada problema nou que aparega durant la instal·lació, amb símptoma, causa, solució i com ho he comprovat.)*
 
 ## 6. Evidències
-- [x] Captura de VirtualBox amb el grup `/ISO_HWD` desplegat → `evidencias/t0-entorn/vbox-grup.png`
-- [x] `VBoxManage list vms --long | grep -E "Name:|Groups:|Memory size|Number of CPUs"` → `evidencias/t0-entorn/vms.txt`
+- [ ] Captura de VirtualBox amb el grup `/ISO_HWD` desplegat → `evidencias/t0-entorn/vbox-grup.png`
+- [ ] `VBoxManage list vms --long | grep -E "Name:|Groups:|Memory size|Number of CPUs"` → `evidencias/t0-entorn/vms.txt`
 
