@@ -1,0 +1,25 @@
+# iperf3 equip de classe (172.16.222.40, eno1 1 Gb/s) ↔ equip d'un company (172.16.222.47) — 2026-11-12 08:16:37
+Eina: iperf 3.16 (cJSON 1.7.15)
+Condicions: 0 VM en marxa, xarxa de l'aula 172.16.222.0/24, servidor iperf3 -s al PC del company
+
+## ping
+5 packets transmitted, 5 received, 0% packet loss, time 4080ms
+rtt min/avg/max/mdev = 0.405/0.617/0.747/0.116 ms
+
+## Pujada (aquest equip → company), 10 s
+[  5]   0.00-10.00  sec  1.09 GBytes   936 Mbits/sec    0             sender
+[  5]   0.00-10.00  sec  1.09 GBytes   934 Mbits/sec                  receiver
+
+iperf Done.
+
+## Baixada (company → aquest equip, -R), 10 s
+[  5]   0.00-10.00  sec  1.09 GBytes   936 Mbits/sec    0             sender
+[  5]   0.00-10.00  sec  1.09 GBytes   934 Mbits/sec                  receiver
+
+iperf Done.
+
+## Interpretació
+- 934 Mb/s en les dues direccions, sense retransmissions (Retr = 0): és el màxim pràctic d'un enllaç Gigabit Ethernet
+  (≈ 94 % de 1000 Mb/s; la resta són capçaleres Ethernet, IP i TCP).
+- La xarxa local de l'aula (portàtil ↔ switch ↔ company) no és cap coll de botella. Contrasta amb els 8,5 Mb/s de
+  descàrrega d'Internet: el límit és la sortida compartida del centre, no la LAN ni la targeta del portàtil.

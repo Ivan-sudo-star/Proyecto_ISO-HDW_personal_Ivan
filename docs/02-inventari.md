@@ -44,7 +44,7 @@ Script: [`scripts/host/tests-diagnostic.sh`](../scripts/host/tests-diagnostic.sh
 | Xarxa: latència a la porta d'enllaç | `ping -c 20` | — | 0,67 ms | 4,4–5,5 ms |
 | Xarxa: latència a Internet | `ping -c 20 1.1.1.1` | — | **100 % de pèrdua: el centre bloqueja l'ICMP** (TCP/443 sí que funciona) | 11,2–12,4 ms · 0 % |
 | Xarxa: descàrrega | `curl` 100 MB (OVH) | — | **8,5 Mb/s** (límit de 60 s; sortida del centre compartida) | ≈ 48 Mb/s |
-| Xarxa: LAN equip↔equip | `iperf3` | — | ⬜ cal un altre equip de l'aula amb `iperf3 -s` | ⬜ no hi ha segon equip |
+| Xarxa: LAN equip↔equip | `iperf3` 3.16, 10 s per sentit | servidor al PC d'un company (172.16.222.47) | **934 Mb/s pujada i baixada, 0 retransmissions** ([evidència](../evidencias/t2-tests/iperf3-classe-20261112-0816.txt)) | ⬜ no hi ha segon equip |
 
 ¹ Primera execució a classe (11/11 13:39), substituïda per la completa del 12/11.
 
