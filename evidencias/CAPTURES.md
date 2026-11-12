@@ -55,6 +55,11 @@ Cada imatge és a la carpeta `captures/` de la seua tasca, al costat de l'evidè
 ## T5 · Clients ([evidències](t5-clients/))
 | Captura | Què demostra |
 |---|---|
+| ![](t5-clients/captures/w11-01-winver-pro-23h2.png) | a247: `winver`: **Windows 11 Pro**, versió 23H2 (22631.2861) |
+| ![](t5-clients/captures/w11-02-usuaris.png) | a248: usuaris `admin-ivan`, `Ivan` i `usuari`; administradors: `admin-ivan` i `Ivan` (l'`Administrador` integrat està desactivat) |
+| ![](t5-clients/captures/w11-03-xarxa-ipconfig-ping.png) | a249: IP 192.168.13.199/24 per DHCP, porta d'enllaç .1 i ping correcte |
+| ![](t5-clients/captures/w11-04-copia-al-nas-smb.png) | a250: la còpia del client al NAS (`\\192.168.13.20\clients\w11`, carpetes `config` i `dades`), oberta amb l'usuari `copies` |
+| ![](t5-clients/captures/w11-05-windows-update-pendent.png) | a79: Windows Update **encara té pendents** l'acumulativa de novembre de la 23H2 (KB5068865) i una firma de Defender (la 25H2 no es va completar) |
 | ![](t5-clients/captures/cli-01-gestio-des-de-la-lan.png) | CLI-Debian (192.168.13.200, GW .1) amb les quatre webs de gestió obertes: R1, TrueNAS, Proxmox i OPNsense |
 
 ## T5 · Incidència d'arrencada ([evidències](t5-linux-infra/incidencia-grub.md))

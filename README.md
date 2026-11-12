@@ -48,7 +48,7 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | T2 Tests (Apte+) | a27, a28, a29 | ✅ classe i casa (memtester, dd, fio, xarxa) | [02](docs/02-inventari.md) |
 | T4 Xarxa (Apte) | a128, a148 | ✅ esquema i taula d'interfícies (alineats amb el grup) | [03](docs/03-xarxa.md) |
 | T4 Xarxa (Apte+) | a129, a149 | ✅ ping, traceroute, rutes, interfícies i aïllament | [03](docs/03-xarxa.md) |
-| T5 General | a78, a79, a258, a259 | 🟡 a78 ✅ (5 de 6 ISO verificades, W11 justificada) · a258 ✅ (incidència de GRUB) · a259 ✅ · a79: falten R1, R2, R3 i W11 | [04](docs/04-installacio.md) |
+| T5 General | a78, a79, a258, a259 | 🟡 a78 ✅ (5 de 6 ISO verificades, W11 justificada) · a258 ✅ (incidència de GRUB) · a259 ✅ · a79: R1 7.25.1 ✅, R2 26.7.9 ✅, R3 ✅, NAS i Proxmox al dia ✅, **W11 pendent** (la 25H2 no es va completar) | [04](docs/04-installacio.md) |
 | T5 MikroTik | a203–a209 | ✅ complet (recuperació en 42 s) | [04 §2](docs/04-installacio.md#2-r1--mikrotik-routeros-a203a209) |
 | T5 OPNsense | a210–a216 | ✅ complet (recuperació en 48 s) | [04 §3](docs/04-installacio.md#3-r2--opnsense-a210a216) |
 | T5 nftables | a217–a223 | ✅ complet (recuperació en 22 s) · els 3 routers configurats igual | [04 §4](docs/04-installacio.md#4-r3--debian-13--nftables-a217a223) |

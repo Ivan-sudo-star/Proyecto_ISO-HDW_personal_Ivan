@@ -1,0 +1,37 @@
+# a79 — Windows 11 Pro: Windows Update (12/11/2026)
+# Script: scripts/clients/w11-update.ps1 (API Microsoft.Update.Session, PowerShell elevat) · instantània prèvia W11-Pro-23H2
+
+# Windows Update - 2026-11-12 16:28:58
+Abans: Microsoft Windows 11 Pro · compilació 22631.2861
+Actualitzacions trobades: 2
+  - Actualización de inteligencia de seguridad para Microsoft Defender Antivirus - KB2267602 (versión 1.463.266.0) - Canal actual (ampliado) (1541 MB)
+  - Windows 11, version 25H2 (96486 MB)
+Descàrrega: codi 2 (2 = correcte) en 30.4 min
+Instal·lació: codi 2 (2 = correcte) en 85.5 min · cal reiniciar: True
+  [2] Actualización de inteligencia de seguridad para Microsoft Defender Antivirus - KB2267602 (versión 1.463.266.0) - Canal actual (ampliado)
+  [2] Windows 11, version 25H2
+FI 18:25:03
+
+## Després del reinici (18:37)
+Edicio: Professional · Versio: 23H2 · Compilacio: 22631.2861
+Caption: Microsoft Windows 11 Pro
+HotFixID  InstalledOn       
+--------  -----------       
+KB5041655 22/09/2026 0:00:00
+KB5033375 04/12/2023 0:00:00
+KB5032393 04/12/2023 0:00:00
+Nombre: Windows(R), Professional edition
+Descripción: Windows(R) Operating System, RETAIL channel
+Clave de producto parcial: 3V66T
+Estado de licencia: notificación
+Razón de la notificación: 0xC004F034.
+
+## Historial de Windows Update (QueryHistory)
+17:25  Windows 11, version 25H2  -> ResultCode 1 (en curs), HResult 0x80242014 (WU_E_UH_POSTREBOOTSTILLPENDING)
+17:25  Defender KB2267602 1.463.266.0 -> 2 (correcte) · 17:37 Defender 1.463.267.0 -> 2 (correcte)
+Reinici pendent: no · carpeta C:\$WINDOWS.~BT: no existeix · espai lliure a C: 18,4 GB
+
+## Interpretació
+- Les firmes de Microsoft Defender sí que s'han actualitzat.
+- L'actualització de versió a la **25H2** es va descarregar (30 min) i instal·lar (85 min), però **no es va completar en reiniciar**: es va reiniciar amb Restart-Computer i Windows Update la va deixar «en curs» amb l'error 0x80242014 (operació posterior al reinici pendent) i en va esborrar la carpeta temporal. El sistema continua en 23H2 22631.2861 i funciona amb normalitat.
+- Windows Update ofereix ara l'actualització acumulativa de novembre per a la 23H2 (KB5068865) i una altra firma de Defender (captura w11-05). **a79 queda pendent per a W11**: cal instal·lar-les des de Configuració → Windows Update (que gestiona ell mateix el reinici) i tornar a intentar la 25H2, o usar l'Assistent d'instal·lació de Windows 11.

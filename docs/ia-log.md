@@ -93,4 +93,6 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - **R3:** 94 paquets i nucli nou. El servei `vboxadd`, que ja fallava, s'ha arreglat instal·lant les capçaleres del nucli, `make` i `gcc`. Contrapartida: més paquets en un router; l'alternativa seria desinstal·lar les Guest Additions.
 - **Error de l'IA:** el recompte de paquets pendents (`grep -vc Listing`) comptava la capçalera «Listando...» d'apt en castellà com un paquet (R3 i CLI-Debian). Es va detectar en veure «1 pendent» amb la llista buida.
 
+**12/11/2026: Windows 11 i la 25H2.** L'IA va reiniciar el W11 amb `Restart-Computer -Force` després que Windows Update demanés reiniciar. La 25H2 no es va completar (0x80242014) i Windows en va esborrar els fitxers temporals. Probablement el reinici s'havia d'haver fet des de Configuració → Windows Update («Reiniciar ara»), que és qui gestiona el pas posterior al reinici. Queda pendent.
+
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*
