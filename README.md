@@ -41,7 +41,7 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 
 | Tasca | Accions | Estat | On |
 |---|---|---|---|
-| T0 Entorn (Apte) | a17, a18 | 🟡 VM creades al grup `/ISO_HWD`; falta instal·lar-les | [01](docs/01-entorn.md) |
+| T0 Entorn (Apte) | a17, a18 | ✅ entorn muntat i funcionant | [01](docs/01-entorn.md) |
 | T0 Entorn (Apte+) | a127 | 🟡 documentat + Git; falta completar problemes a mesura que apareguen | [01](docs/01-entorn.md) |
 | T2 Inventari (Apte) | a19, a20, a21 | ✅ classe i casa complets (amb sudo) | [02](docs/02-inventari.md) |
 | T2 Tests (Apte+) | a27, a28, a29 | ✅ classe i casa (memtester, dd, fio, xarxa) | [02](docs/02-inventari.md) |
@@ -58,7 +58,7 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | T5 Clients | a247–a250, a252–a255 | 🟡 W11 ja instal·lat (reutilitzat) | [04 §9](docs/04-installacio.md#9-clients-a247a250-a252a255) |
 | T5 Apte+ còpies automàtiques | a105 | 🟡 script + timer systemd + scheduler MikroTik | [04 §10](docs/04-installacio.md#10-apte-còpies-automatitzades-a105) |
 | T6 RAID (Apte) | a102, a103 | 🟡 script de proves llest | [05](docs/05-raid.md) |
-| T6 Espill entre equips (Apte+) | a107, a108, a109 | 🟡 investigació + config DRBD | [05](docs/05-raid.md#tasca-63--espill-entre-dos-equips-a107a109) |
+| T6 Espill entre equips (Apte+) | a107, a108, a109 | 🟡 a107 ✅ investigació · falta implementar DRBD | [05](docs/05-raid.md#tasca-63--espill-entre-dos-equips-a107a109) |
 | T7 Rendiment (Apte) | a22, a23, a24, a119, a120, a121 | 🟡 línia base de casa ✅; falten les càrregues | [06](docs/06-rendiment.md) |
 | T7 Optimitzacions (Apte+) | a123, a124, a125 | 🟡 optimització 1 ✅ (R3: −65 % de RAM) | [06](docs/06-rendiment.md#optimitzacions-apte-a123a125) |
 | T8 Final (Apte) | a25, a26, a50–a53, a80, a104, a122 | ⬜ el dia 25/11 | [07](docs/07-cas-final.md) |
