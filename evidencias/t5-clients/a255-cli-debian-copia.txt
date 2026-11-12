@@ -1,0 +1,37 @@
+# a255 — Còpia del client GNU/Linux (CLI-Debian) al NAS — 2026-11-12 15:56:41
+
+## a253 (complement): usuaris igualats amb la resta d'equips
+uid=1000(ivancambra) gid=1000(ivancambra) grupos=1000(ivancambra),27(sudo),100(users)
+uid=1001(admin-ivan) gid=1001(admin-ivan) grupos=1001(admin-ivan),27(sudo)
+uid=1002(usuari) gid=1002(usuari) grupos=1002(usuari)
+sudo:x:27:ivancambra,admin-ivan
+sudo d'usuari: User usuari is not allowed to run sudo on cli-debian.
+
+## Còpia: /home (sense memòries cau ni paperera) + /etc + llista de paquets -> NAS:/mnt/copies/clients/cli-debian/
+mida del tar: 25M · paquets: 1627 · document de prova dins del tar: 1
+total 25086
+-rw-r--r-- 1 copies copies 25642849 Nov 12 15:56 cli-debian-home-etc-2026-11-12_1555.tgz
+-rw-r--r-- 1 copies copies    47830 Nov 12 15:56 cli-debian-paquets-2026-11-12_1555.txt
+-rw-r--r-- 1 copies copies      211 Nov 12 15:56 cli-debian-sums.txt
+cli-debian-home-etc-2026-11-12_1555.tgz: OK
+cli-debian-paquets-2026-11-12_1555.txt: OK
+
+## Prova de restauració: l'usuari perd un document — 2026-11-12 15:56:20
+abans: -rw-r--r-- 1 usuari usuari 61 nov 12 15:55 /home/usuari/prova-copia-cli.txt 5b0b9784595705ee2c23632ad8a7c271bad653a512ba27795b5a21da69353773  /home/usuari/prova-copia-cli.txt 
+després d esborrar-lo, existeix: no
+-rw-r--r-- 1 usuari usuari 61 nov 12 15:55 /home/usuari/prova-copia-cli.txt
+5b0b9784595705ee2c23632ad8a7c271bad653a512ba27795b5a21da69353773  /home/usuari/prova-copia-cli.txt
+Temps de recuperació (baixar 25 MB del NAS + extraure el fitxer): 4833 ms
+
+## Què es copia, què no i per què
+- **Sí:** `/home` (documents i configuració de cada usuari: és l'únic que no es pot tornar a instal·lar), `/etc` (xarxa, usuaris, configuració del sistema) i la llista de paquets.
+- **No:** el sistema i les aplicacions (es reinstal·len des de la ISO de Debian i la llista de paquets), les memòries cau dels usuaris (`~/.cache`, la cache de Firefox) i la paperera. Un client es reconstrueix més ràpid des d'una instal·lació neta que des d'una imatge sencera.
+- **Seguretat:** el tar conté `/etc/shadow` i les claus de host: només al NAS (dataset `clients`, usuari `copies`, permisos 770), mai al repositori.
+
+## Interpretació
+El document esborrat es recupera des del NAS amb el mateix propietari (usuari), els mateixos permisos i el mateix SHA-256 que abans d'esborrar-lo.
+
+## Incidència durant la prova
+En el primer intent el document de prova es va crear buit i la restauració va fallar («gzip: unexpected end of file»): l'ordre `echo <contrasenya> | sudo -S ...`
+substitueix l'entrada estàndard, de manera que ni `tee` va rebre el text ni `tar` va rebre el fitxer del NAS. Es va repetir la còpia
+i la prova baixant primer el tar a un fitxer temporal i executant `sudo` sobre el fitxer.

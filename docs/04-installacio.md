@@ -420,6 +420,18 @@ Evidències a `evidencias/t5-linux-infra/`.
    - Restaurar: reinstal·lar, fer `dpkg --set-selections` i `apt-get dselect-upgrade`, i descomprimir `/etc`.
    - **Què NO:** `/usr`, `/var/cache` i els discos de prova del RAID (són dades fictícies).
 
+### ✅ Resultat servidors GNU/Linux (12/11/2026, equip de casa)
+
+Configuració aplicada amb [`scripts/proxmox/infra-config.sh`](../scripts/proxmox/infra-config.sh) a les dues VM.
+
+| Acció | Estat | Evidència |
+|---|---|---|
+| a242 instal·lació i versió | ✅ Debian **13.7**, nucli 6.12.116, des de la imatge cloud oficial (SHA-512 verificat). 0 paquets pendents, 0 serveis fallits, Internet per R1 | `t5-linux-infra/a242-a246-srv-serveis.txt`, `a242-a246-srv-dades.txt` |
+| a243 usuaris | ✅ `ivancambra` (cloud-init), **`admin-ivan`** (sudo) i **`suport`** (sense sudo), igual que als routers. SSH **només amb clau**: root i contrasenyes rebutjats (`/etc/ssh/sshd_config.d/10-lloc13.conf`, comprovat des de fora) | ídem |
+| a244 xarxa | ✅ `eth0` amb IP fixa (.22 / .23) per cloud-init (netplan), GW i DNS .1, sufix `lan13.local` | ídem |
+| a246 programari | ✅ Cap servei addicional, com diu l'enunciat. Només `qemu-guest-agent`, perquè Proxmox apague bé la VM, en veja la IP i congele el disc a les còpies (`qm agent ping` = OK). `mdadm` i `drbd-utils` s'instal·len a la T6 | ídem |
+| a245 còpia | ✅ `/etc` + llista de paquets de cada servidor a `NAS:/mnt/copies/linux/<servidor>/` (verificat amb `sha256sum -c`), més el `vzdump` de la VM (a231). **Prova:** s'esborra la configuració SSH de srv-dades (root tornava a entrar) i es recupera del NAS en **2,8 s**, amb el mateix hash | `t5-linux-infra/a245-copies-linux.txt` |
+
 ## 9. Clients (a247–a250, a252–a255)
 
 Evidències a `evidencias/t5-clients/`.
@@ -427,9 +439,9 @@ Evidències a `evidencias/t5-clients/`.
 | | Windows 11 (`Cliente_windows_1`, existent) | GNU/Linux (`CLI-Debian`) |
 |---|---|---|
 | Instal·lació i versió (a247/a252) | ✅ **Windows 11 Pro 23H2** (era Home; canviada a Pro el 12/11, vegeu sota), compilació 22631, 64 bits. UEFI, **Secure Boot actiu** i **TPM 2.0 preparat** (llegits des d'un PowerShell elevat). Serveis automàtics aturats: només `edgeupdate`, `MapsBroker` i `sppsvc` (és normal que estiguen parats). Internet: HTTPS 200 | ✅ Debian 13 (trixie) + **GNOME** 48: fa d'equip de gestió amb Firefox per a les webs de la LAN13 ([03 §5](03-xarxa.md#5-accés-de-gestió-a-les-webs-de-la-lan13)). 0 serveis fallits, Internet HTTP/2 200 |
-| Usuaris (a248/a253) | ✅ `admin-ivan` (Administradors, el mateix nom que als routers) i `usuari` (Usuaris, estàndard: és el compte de treball diari). `Ivan` és el compte de la instal·lació i també és administrador. L'`Administrador` integrat i `Invitado` estan desactivats. UAC actiu (`EnableLUA=1`). Script: `scripts/clients/w11-usuaris.ps1` | ✅ `ivancambra` (grup `sudo`) · `root` amb contrasenya (només `su`). ⬜ Per igualar-ho amb la resta: `admin-ivan` i un usuari sense sudo |
+| Usuaris (a248/a253) | ✅ `admin-ivan` (Administradors, el mateix nom que als routers) i `usuari` (Usuaris, estàndard: és el compte de treball diari). `Ivan` és el compte de la instal·lació i també és administrador. L'`Administrador` integrat i `Invitado` estan desactivats. UAC actiu (`EnableLUA=1`). Script: `scripts/clients/w11-usuaris.ps1` | ✅ `ivancambra` i **`admin-ivan`** (grup `sudo`) · **`usuari`** (sense sudo, compte de treball) · `root` amb contrasenya (només `su`) |
 | Xarxa (a249/a254) | ✅ Per DHCP de R1: **192.168.13.199/24**, GW .1, DNS .1, sufix `lan13.local`. Ping a la GW correcte, el DNS resol, port 445 del NAS obert | ✅ DHCP de R1 ([evidència](../evidencias/t4-xarxa/ifaces-rutes-cli-debian.txt)) |
-| Còpia (a250/a255) | ✅ `scripts/copies/copia-w11.ps1`: `robocopy /MIR` cap a `\\192.168.13.20\clients\w11` amb l'usuari `copies`. **Es copien:** `config\` (ipconfig, configuració IP, usuaris, aplicacions instal·lades i versió, per poder reconstruir el client) i `dades\<usuari>\Documents` i `Desktop` (el que és únic de cada usuari). **No es copien:** la imatge sencera, `C:\Windows`, `Program Files` ni `AppData\Local` (memòria cau). Un client es reinstal·la des d'una imatge estàndard i les aplicacions es tornen a instal·lar a partir de la llista. **Prova de restauració:** s'esborra `prova-copia-w11.txt`, es recupera del NAS i el SHA-256 coincideix. També s'ha comprovat amb `ls -lR` al NAS | `rsync -a /home/ copies@192.168.13.20:/mnt/copies/clients/cli-debian/` i `/etc`. **No** les aplicacions |
+| Còpia (a250/a255) | ✅ `scripts/copies/copia-w11.ps1`: `robocopy /MIR` cap a `\\192.168.13.20\clients\w11` amb l'usuari `copies`. **Es copien:** `config\` (ipconfig, configuració IP, usuaris, aplicacions instal·lades i versió, per poder reconstruir el client) i `dades\<usuari>\Documents` i `Desktop` (el que és únic de cada usuari). **No es copien:** la imatge sencera, `C:\Windows`, `Program Files` ni `AppData\Local` (memòria cau). Un client es reinstal·la des d'una imatge estàndard i les aplicacions es tornen a instal·lar a partir de la llista. **Prova de restauració:** s'esborra `prova-copia-w11.txt`, es recupera del NAS i el SHA-256 coincideix. També s'ha comprovat amb `ls -lR` al NAS | ✅ `/home` (sense memòries cau), `/etc` i la llista de paquets a `NAS:/mnt/copies/clients/cli-debian/` (25 MB). **No:** el sistema ni les aplicacions, que es reinstal·len. **Prova:** es recupera un document esborrat de `usuari` amb el mateix hash i propietari (4,8 s) → [`a255-cli-debian-copia.txt`](../evidencias/t5-clients/a255-cli-debian-copia.txt) |
 | Domini | ➖ a251 desactivada a la rúbrica. L'enunciat deixa la implantació del domini per a RA4/RA5 d'ISO; el disseny del grup preveu unir els clients al domini amb **Windows 11 Pro**. Home no es pot unir a un domini: per això s'ha passat a **Pro** | ➖ a256 desactivada; al disseny, unió a AD amb SSSD/realmd en fases posteriors |
 
 **Windows 11 Home → Pro (fet el 12/11/2026).** La ISO és multiedició i inclou Pro, així que no cal reinstal·lar.

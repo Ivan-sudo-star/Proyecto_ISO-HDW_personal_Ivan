@@ -1,0 +1,77 @@
+# srv-serveis (VM 220 · 192.168.13.22 · node PVE2) — a242, a243, a244, a246 — 2026-11-12 15:53:13
+# Configuració aplicada amb scripts/proxmox/infra-config.sh (actualització, qemu-guest-agent, usuaris, SSH)
+
+## a242 versió i funcionament
+Debian GNU/Linux 13 (trixie) · Debian 13.7 · nucli 6.12.116+deb13-amd64 · up 1 minute
+origen: imatge oficial debian-13-generic-amd64.qcow2 (SHA-512 verificat) + cloud-init
+serveis fallits: 0 · paquets pendents d'actualitzar: 0
+hora: Europe/Madrid
+Internet: HTTP/2 200 
+
+## a243 usuaris
+uid=1000(ivancambra) gid=1000(ivancambra) groups=1000(ivancambra),4(adm),20(dialout),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev)
+uid=1001(admin-ivan) gid=1001(admin-ivan) groups=1001(admin-ivan),27(sudo)
+uid=1002(suport) gid=1002(suport) groups=1002(suport)
+grup sudo: sudo:x:27:ivancambra,admin-ivan
+sudo de suport: User suport is not allowed to run sudo on srv-serveis.
+SSH efectiu:
+permitrootlogin no
+pubkeyauthentication yes
+passwordauthentication no
+fitxer: /etc/ssh/sshd_config.d/10-lloc13.conf
+# Lloc 13: root no entra per SSH; només claus (sense contrasenya)
+PermitRootLogin no
+PasswordAuthentication no
+
+## a244 xarxa
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+eth0             UP             192.168.13.22/24 fe80::be24:11ff:fe5b:81f7/64 
+default via 192.168.13.1 dev eth0 proto static 
+192.168.13.0/24 dev eth0 proto kernel scope link src 192.168.13.22 
+DNS:  192.168.13.1
+--- /etc/netplan/50-cloud-init.yaml (generat per cloud-init des de Proxmox: qm set --ipconfig0)
+network:
+  version: 2
+  ethernets:
+    eth0:
+      match:
+        macaddress: xx:xx:xx:xx:xx:xx
+      addresses:
+      - "192.168.13.22/24"
+      nameservers:
+        addresses:
+        - 192.168.13.1
+        search:
+        - lan13.local
+      set-name: "eth0"
+      routes:
+      - to: "default"
+        via: "192.168.13.1"
+ping GW: 2 received
+ping NAS: 2 received
+
+## a246 programari
+qemu-guest-agent: 1:10.0.13+ds-0+deb13u1 · active
+paquets instal·lats: 323 (imatge cloud mínima: cap paquet d'entorn gràfic instal·lat)
+serveis escoltant:
+  0.0.0.0:22 sshd
+  0.0.0.0:5355 systemd-resolve
+  127.0.0.53%lo:53 systemd-resolve
+  127.0.0.54:53 systemd-resolve
+  [::]:22 sshd
+  [::]:5355 systemd-resolve
+sda   10G disk
+sdb    2G disk
+
+## Proves d'accés (des de l'amfitrió per R1)
+admin-ivan@.22 amb clau: OK root 
+root@.22 amb clau: root@192.168.13.22: Permission denied (publickey).
+suport@.22 amb contrasenya: suport@192.168.13.22: Permission denied (publickey).
+qm agent 220 ping: OK
+            "ip-address" : "192.168.13.22",
+
+## Interpretació
+- a242: Debian 13.7 actualitzat (0 paquets pendents, 0 serveis fallits) i amb Internet a través de R1.
+- a243: tres comptes amb funcions separades: ivancambra (creat per cloud-init), admin-ivan (sudo, el mateix nom que als routers i al client) i suport (sense privilegis). Per SSH només s'entra amb clau: root i les contrasenyes estan rebutjats (comprovat des de fora).
+- a244: IP fixa en eth0 configurada per cloud-init des de Proxmox (netplan), porta d'enllaç i DNS a R1, sufix lan13.local; arriba a la porta d'enllaç i al NAS.
+- a246: l'enunciat diu que de moment no cal programari addicional. Només s'ha afegit qemu-guest-agent, que no és un servei de xarxa: permet que Proxmox apague la VM correctament, en veja la IP i congele el disc durant les còpies vzdump (`qm agent ... ping` = OK). Només escolten SSH i el resolutor local.

@@ -68,4 +68,7 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - **Error de l'IA:** la primera prova de DHCP no va renovar de veritat (el `sudo` en segon pla no tenia la contrasenya i va morir en tancar-se la sessió SSH). Es va detectar perquè R1 no mostrava cap concessió, i es va repetir amb `systemd-run`.
 - R3: l'IA hi havia instal·lat `bridge-utils` i preparat el canvi, però l'alumne va decidir que R3 no tinga bridge. Es va restaurar la instantània `R3-abans-bridge`.
 
+**12/11/2026 (casa): servidors Linux (a242–a246) i còpia de CLI-Debian (a255)**, fet per l'IA:
+- **Error de l'IA:** a CLI-Debian va usar `echo <contrasenya> | sudo -S tee/tar`, que substitueix l'entrada estàndard (la mateixa trampa que ja estava apuntada). El document de prova es va crear buit i la primera restauració va fallar. Es va detectar perquè el hash era el d'un fitxer buit i `tar` donava error. Es va repetir bé.
+
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*

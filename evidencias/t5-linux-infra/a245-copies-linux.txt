@@ -1,0 +1,57 @@
+# a245 — Còpia dels servidors GNU/Linux d'infraestructura al NAS — 2026-11-12
+
+## Què es copia i on
+- /etc sencer (tar.gz) i la llista de paquets (dpkg --get-selections) de cada servidor -> NAS:/mnt/copies/linux/<servidor>/
+- Les imatges completes de les VM ja es fan amb vzdump cap a nas-proxmox (a231: VM 220 444 MB, VM 230 437 MB).
+
+## Fitxers al NAS (ls -l + sha256sum -c)
+/mnt/copies/linux/srv-dades:
+total 454
+-rw-r--r-- 1 copies copies 445917 Nov 12 15:53 srv-dades-etc-2026-11-12_1553.tgz
+-rw-r--r-- 1 copies copies   8633 Nov 12 15:53 srv-dades-paquets-2026-11-12_1553.txt
+-rw-r--r-- 1 copies copies    204 Nov 12 15:54 srv-dades-sums.txt
+
+/mnt/copies/linux/srv-serveis:
+total 454
+-rw-r--r-- 1 copies copies 445908 Nov 12 15:53 srv-serveis-etc-2026-11-12_1553.tgz
+-rw-r--r-- 1 copies copies   8633 Nov 12 15:53 srv-serveis-paquets-2026-11-12_1553.txt
+-rw-r--r-- 1 copies copies    208 Nov 12 15:53 srv-serveis-sums.txt
+srv-dades-etc-2026-11-12_1553.tgz: OK
+srv-dades-paquets-2026-11-12_1553.txt: OK
+srv-serveis-etc-2026-11-12_1553.tgz: OK
+srv-serveis-paquets-2026-11-12_1553.txt: OK
+
+## Prova de restauració a srv-dades — 2026-11-12 15:54:19
+### 1. Fallada provocada: s'esborra /etc/ssh/sshd_config.d/10-lloc13.conf
+permitrootlogin ara: permitrootlogin without-password
+### 2. Recuperació: es baixa srv-dades-etc-2026-11-12_1553.tgz del NAS i se n'extrau només el fitxer perdut
+restaurat i sshd recarregat
+### 3. Comprovació
+d74837b1a50af953e7b80bf4797ca7f166b4a3663f3eee82b4b9b9cc2ccc76bb  /etc/ssh/sshd_config.d/10-lloc13.conf
+permitrootlogin: permitrootlogin no
+hash a la còpia original: d74837b1a50af953e7b80bf4797ca7f166b4a3663f3eee82b4b9b9cc2ccc76bb
+root@.23: root@192.168.13.23: Permission denied (publickey).
+Temps de recuperació (des del NAS fins a sshd recarregat): 2,8 s
+
+## Què es copia, què no i per què
+| Es copia | Per què |
+|---|---|
+| `/etc` sencer | Tota la configuració del sistema: xarxa (netplan), usuaris, SSH, serveis, cron/timers. Ocupa ≈ 0,4 MB comprimit |
+| Llista de paquets | Amb `dpkg --set-selections` + `apt-get dselect-upgrade` es reinstal·len els mateixos paquets |
+| Imatge de la VM (vzdump, a231) | Per tornar a tindre el servidor sencer en minuts si es perd el disc |
+
+| NO es copia | Per què |
+|---|---|
+| `/usr`, `/var/cache`, `/var/lib/apt` | Programari que es reinstal·la des dels repositoris de Debian |
+| `/tmp`, `/proc`, `/sys`, `/run` | Són temporals o virtuals |
+| Discos de prova del RAID i del DRBD (VM 230) | Dades fictícies |
+
+**Restauració completa** si es perd el servidor: restaurar el vzdump (`qmrestore`) o crear la VM des de la imatge cloud
+(`scripts/proxmox/crea-vm-debian.sh`), descomprimir `/etc` i reinstal·lar els paquets de la llista.
+
+**Seguretat:** el tar de `/etc` conté els hash de les contrasenyes (`/etc/shadow`) i les claus de host SSH. Per això només es guarda al NAS
+(dataset `linux`, permisos 770 de l'usuari `copies`) i **mai al repositori**.
+
+## Interpretació
+La prova demostra que la còpia serveix: s'ha perdut un fitxer de configuració de seguretat (el SSH tornava a acceptar root),
+s'ha recuperat només aquest fitxer des del tar del NAS en menys de 3 s, el hash coincideix amb l'original i root torna a estar rebutjat.
