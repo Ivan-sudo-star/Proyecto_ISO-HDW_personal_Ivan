@@ -88,4 +88,9 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - **OPNsense 26.7 → 26.7.9:** actualització del firmware (96 paquets, inclou 4 avisos de seguretat) amb instantània prèvia `R2-abans-26.7.9`.
 - L'IA va mostrar per error a la sessió la clau privada del certificat del NAS (consulta sencera de `/system/general`). No es va guardar enlloc ni es va pujar.
 
+**12/11/2026 (casa): a79 de R1 i R3**:
+- **R1 7.24.5 → 7.25.1:** la llicència de prova no deixa actualitzar des de RouterOS. L'IA va proposar reinstal·lar des de la ISO verificada i restaurar la còpia binària. Es va descobrir que l'instal·lador de la v7 **no conserva la configuració** (esborra el disc), cosa que no s'esperava; es va resoldre amb la còpia (`backup load`). Efecte secundari: la llicència de prova es renova (24 h).
+- **R3:** 94 paquets i nucli nou. El servei `vboxadd`, que ja fallava, s'ha arreglat instal·lant les capçaleres del nucli, `make` i `gcc`. Contrapartida: més paquets en un router; l'alternativa seria desinstal·lar les Guest Additions.
+- **Error de l'IA:** el recompte de paquets pendents (`grep -vc Listing`) comptava la capçalera «Listando...» d'apt en castellà com un paquet (R3 i CLI-Debian). Es va detectar en veure «1 pendent» amb la llista buida.
+
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*

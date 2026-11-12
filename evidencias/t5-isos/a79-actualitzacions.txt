@@ -35,3 +35,64 @@ Prova de funcionament a través de R2 (ruta temporal des de CLI-Debian):
   HTTPS per R2: HTTP/2 200 
   SSH per R2: nc: connect to github.com (20.250.119.67) port 22 (tcp) timed out: Operation now in progress
   registre: R2-BLOQ-SSH per a 192.168.13.200 -> 20.250.119.67:22 (captura 03)
+
+# a79 — R1 MikroTik 7.24.5 -> 7.25.1 per reinstal·lació (12/11, 18:17–18:25)
+1. /system package update install -> «Missing license, please buy license to upgrade» (llicència x86 de prova)
+2. Còpia: /system backup save name=r1-abans-7251 + /export -> amfitrió i NAS:/mnt/copies/routers/r1/ (no al Git: conté els hash de les contrasenyes)
+3. ISO mikrotik-7.25.1.iso baixada de download.mikrotik.com i verificada: sha256 c639a8971e90432bd6972f54694ced222d71e47213f88e7c9af14a33c2b27480 = .iso.sha256 oficial
+4. Apagar R1 -> ISO al DVD -> instal·lador: paquet system, 'i', 'y' (avís: s'esborra el disc; la v7 no ofereix conservar la configuració) -> «Software installed» -> apagar, treure la ISO, arrencar
+5. Consola: MikroTik 7.25.1, «ROUTER HAS NO SOFTWARE KEY: 23h48m» (prova renovada), contrasenya temporal, /ip dhcp-client add interface=ether1
+6. scp r1-abans-7251.backup -> /system backup load -> reinici amb la configuració restaurada
+## Després
+                   uptime: 11m                        
+                  version: 7.25.1                     
+          minimum-version: 7.1                        
+   expires-in: 23h29m   
+0 X comment=system default user name=admin group=full inactivity-timeout=10m inactivity-policy=none address= 
+1   comment=Administrador principal name=admin-ivan group=full inactivity-timeout=10m inactivity-policy=none address= 
+2   comment=Consulta / diagnostic name=suport group=lectura inactivity-timeout=10m inactivity-policy=none address=
+0 R comment=LAN13: la IP, el DHCP i el filtre van al bridge name=bridge-lan13 mtu=auto actual-mtu=1500 l2mtu=65535 arp=enabled arp-timeout=auto mac-ad
+0 list=WAN interface=ether1 dynamic=no
+1 list=LAN interface=bridge-lan13 dynamic=no
+0   comment=LAN13 address=192.168.13.1/24 network=192.168.13.0 interface=bridge-lan13 actual-interface=bridge-lan13 vrf=main
+1 D address=10.0.2.15/24 network=10.0.2.0 interface=ether1 actual-interface=ether1 vrf=main
+11
+## Prova des de CLI-Debian
+$ ip route | head -1
+default via 192.168.13.1 dev enp0s3 proto dhcp src 192.168.13.200 metric 100 
+$ ping -c3 192.168.13.1
+rtt min/avg/max/mdev = 0.192/0.243/0.316/0.052 ms
+$ curl -sI https://www.debian.org (PERMESA)
+HTTP/2 200 
+$ nc -zv -w5 github.com 22 (BLOQUEJADA)
+nc: connect to github.com (20.250.119.67) port 22 (tcp) timed out: Operation now in progress
+
+# a79 — R3 Debian + nftables (12/11, 18:20–18:35)
+Abans: Debian 13.7 · nucli 6.12.107 · 94 paquets per actualitzar (el recompte d'abans, 95, incloïa la línia «Listando...» d'apt en castellà)
+Instantània: R3-abans-update · apt-get full-upgrade (EXIT=0): 94 actualitzats, 1 nou (linux-image-6.12.116)
+després: 13.7 nucli 6.12.116+deb13-amd64 · up 0 minutes
+pendents: 1
+serveis fallits: vboxadd.service
+ip_forward=1
+nftables: active, regles: 16
+lo               UNKNOWN        127.0.0.1/8 
+enp0s3           UP             10.0.2.15/24 
+enp0s8           UP             192.168.13.3/24 
+HTTPS per R3: HTTP/2 200 
+SSH per R3: nc: connect to github.com (20.250.119.67) port 22 (tcp) timed out: Operation now in progress
+nov 12 18:26:56 debianIvan kernel: NFT-FWD-BLOQ-SSH IN=enp0s8 OUT=enp0s3 MAC=(amagada) SRC=192.168.13.200 DST=20.250.119.67 LEN=60 TOS=0x0
+nov 12 18:26:57 debianIvan kernel: NFT-FWD-BLOQ-SSH IN=enp0s8 OUT=enp0s3 MAC=(amagada) SRC=192.168.13.200 DST=20.250.119.67 LEN=60 TOS=0x0
+0 actualizados, 30 nuevos se instalarán, 0 para eliminar y 0 no actualizados.
+VirtualBox Guest Additions: kernel modules were not reloaded
+VirtualBox Guest Additions: The log file /var/log/vboxadd-setup.log may contain 
+further information.
+Job for vboxadd.service failed because the control process exited with error code.
+See "systemctl status vboxadd.service" and "journalctl -xeu vboxadd.service" for details.
+vboxadd: failed · vboxadd-service: active
+serveis fallits: 1
+1
+bash: línea 1: sysctl: orden no encontrada
+després del reinici: nucli 6.12.116+deb13-amd64 · vboxadd activating · serveis fallits: 0 · nftables active · ip_forward=
+RAM usada: 337 MB de 967
+vboxadd failed · vboxadd-service active · serveis fallits: 1 · ip_forward=1
+després de compilar i reiniciar: vboxadd active · serveis fallits: 0 · mòdul vboxguest 7.2.18 r175117 · nftables active · ip_forward=1

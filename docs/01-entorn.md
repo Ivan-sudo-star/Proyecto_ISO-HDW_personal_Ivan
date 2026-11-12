@@ -44,7 +44,7 @@ La diferència és el suport. El grup usa maquinari físic (MikroTik hEX, PC-02 
 
 | VM | Funció | SO | vCPU | RAM | Disc(s) | Xarxa | Firmware |
 |---|---|---|---|---|---|---|---|
-| R1-MikroTik | Router/tallafocs principal (.1) | RouterOS 7.24.5 x86 | 1 | 512 MB | 1 GB | NAT + LAN13 | BIOS |
+| R1-MikroTik | Router/tallafocs principal (.1) | RouterOS **7.25.1** x86 (instal·lat amb la 7.24.5) | 1 | 512 MB | 1 GB | NAT + LAN13 | BIOS |
 | R2-OPNsense | Router/tallafocs alternatiu (.2) | OPNsense 26.7 | 2 | 2 GB | 20 GB | NAT + LAN13 | BIOS |
 | Debian_NFtables (R3) | Router/tallafocs alternatiu (.3) | Debian 13 + nftables | 2 → **1** | 4 GB → **1 GB** | 25 GB (existent, 7,3 GB ocupats) | NAT + LAN13 | BIOS |
 | NAS-TrueNAS | Servidor de còpies (.20) | TrueNAS SCALE 25.10.7 | 2 | 8 GB | 20 GB boot + **50 GB còpies** | LAN13 | EFI |

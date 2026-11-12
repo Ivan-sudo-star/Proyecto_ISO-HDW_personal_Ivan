@@ -1,4 +1,4 @@
-# r1-config.rsc — R1-MikroTik (RouterOS 7.24.5 x86) — lloc 13
+# r1-config.rsc — R1-MikroTik (RouterOS 7.25.1 x86; instal·lat amb la 7.24.5) — lloc 13
 # ether1 = WAN (NAT VirtualBox, DHCP)   ether2 = port del bridge-lan13 (LAN13, 192.168.13.1/24 al bridge)
 # Importar: /import file-name=r1-config.rsc   (pujar-lo abans per WinBox/SFTP o enganxar-lo al terminal)
 # La contrasenya NO va al fitxer: es posa a mà amb /user set admin-ivan password=...
