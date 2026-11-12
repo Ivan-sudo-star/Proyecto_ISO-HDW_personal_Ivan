@@ -12,7 +12,7 @@ L'enunciat permet usar IA si es registra quina proposta s'ha fet, com s'ha contr
 - l'esquema draw.io;
 - la creació de les VM buides al grup `/ISO_HWD`.
 
-**Què NO ha fet:** instal·lar els sistemes, fer les proves dins de les VM ni escriure les prediccions. Totes les mesures
+**Què NO ha fet:** escriure les explicacions que ha de redactar l'alumne (p. ex. què és un domini). Les prediccions (PREDIU) es van fer en grup. Totes les mesures
 que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dades posa N/C o està buit.
 
 | # | Proposta de l'IA | Com l'he contrastada | Decisió |

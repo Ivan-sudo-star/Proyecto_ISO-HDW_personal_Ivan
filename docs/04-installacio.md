@@ -341,9 +341,12 @@ Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node:
 | a230 xarxa | ✅ `vmbr0` amb IP fixa sobre **`nic0`** (Proxmox 9 «fixa» els noms de les targetes), GW i DNS .1, `/etc/hosts` correcte als 3 nodes | `t4-xarxa/ifaces-rutes-pve{1,2,3}.txt` |
 | a232 clúster | ✅ **`cluster13`**: 3 nodes, 3 vots, quòrum 2, `Quorate: Yes` | `a232-cluster.txt` |
 | a79 actualització | ✅ repositori *enterprise* desactivat i *no-subscription* activat; 211 paquets actualitzats; nucli 7.0.2-6 → **7.0.14-28**; 0 serveis fallits després de reiniciar | `a79-actualitzacio-nodes.txt` |
-| a231, a235, a236 | ⬜ pendents (VM i CT dins del clúster, migració, còpies) | — |
+| Emmagatzematge compartit | ✅ `nas-proxmox` (NFS del NAS, `/mnt/copies/proxmox`, 47 GB) visible als 3 nodes. Contingut: imatges, plantilles, còpies i *import* | — |
+| VM 220 i 230 | ✅ creades amb [`scripts/proxmox/crea-vm-debian.sh`](../scripts/proxmox/crea-vm-debian.sh) a partir de la imatge oficial `debian-13-generic-amd64.qcow2` (**SHA-512 verificat** amb `SHA512SUMS`) + cloud-init (usuari `ivancambra`, IP fixa, clau SSH, actualització al primer arrencada). SRV-SERVEIS a PVE2 (.22, 10 + 2 GB) i SRV-DADES a PVE3 (.23, 10 + 5×1 + 2 GB) | `a232-quorum-amb-un-node-apagat.txt` |
+| a231, a235, a236 | ⬜ en curs (CT 100, migració, còpies) | — |
 
 **Problemes trobats:**
+0. **12/11, a l'aula:** les descàrregues es quedaven penjades (connexió HTTP establerta sense dades) i la imatge `genericcloud` ja no existeix (404): s'usa `generic`. Solució: `wget -c` i `apt` amb `Acquire::http::Timeout=30` i reintents.
 1. **Contrasenya de root de 8 caràcters com a mínim** a l'instal·lador. S'instal·la amb una de 8 i després es canvia amb `chpasswd`.
 2. **Teclat espanyol** a l'instal·lador i teclat virtual US de VirtualBox: es tria «U.S. English».
 3. **Error meu a PVE1:** vaig traure la ISO abans de prémer «Reboot now» i l'entorn de l'instal·lador, que llegia del CD, va avortar amb errors d'E/S. La instal·lació al disc ja havia acabat: un reinici en fred i les comprovacions (`dpkg --audit`, `systemctl --failed`) ho confirmen. A PVE2 i PVE3: reiniciar amb la ISO posada, apagar i després traure-la.

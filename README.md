@@ -15,7 +15,6 @@
 
 | Doc | Tasca | Contingut | Mòdul-RA |
 |---|---|---|---|
-| [00-prediccions](docs/00-prediccions.md) | Prediu | Prediccions personals i revisió final | totes |
 | [01-entorn](docs/01-entorn.md) | T0 | Entorn de proves, recursos, taula de VM, limitacions, problemes i solucions | FDM RA1 |
 | [02-inventari](docs/02-inventari.md) | T2 | Inventari classe vs casa, colls de botella, solucions i tests | FDM RA1 |
 | [03-xarxa](docs/03-xarxa.md) | T4 | Esquema de xarxa, configuració de cada interfície, connectivitat | ISO RA1 |

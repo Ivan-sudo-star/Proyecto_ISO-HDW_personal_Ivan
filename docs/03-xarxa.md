@@ -44,18 +44,18 @@ Màscara a tota la LAN: **255.255.255.0 (/24)**. La xarxa NAT de VirtualBox és 
 | PVE2-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre nic0) | 192.168.13.33/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
 | PVE3-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre nic0) | 192.168.13.34/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
 | ↳ 210 SRV-WS2025 | Proxmox (PVE1) | net0 | vmbr0 | Ethernet | 192.168.13.21/24 | 192.168.13.1 | 192.168.13.1 (ell mateix si es promou a DC) | estàtica |
-| ↳ 220 SRV-SERVEIS | Proxmox (PVE2) | net0 | vmbr0 | ens18 | 192.168.13.22/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
-| ↳ 230 SRV-DADES | Proxmox (PVE3) | net0 | vmbr0 | ens18 | 192.168.13.23/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
+| ↳ 220 SRV-SERVEIS | Proxmox (PVE2) | net0 (virtio) | vmbr0 | eth0 | 192.168.13.22/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
+| ↳ 230 SRV-DADES | Proxmox (PVE3) | net0 (virtio) | vmbr0 | eth0 | 192.168.13.23/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
 | ↳ CT 100 | Proxmox (PVE2) | net0 | vmbr0 | eth0 | 192.168.13.41/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
 | CLI-Debian | VirtualBox | 1 | Interna LAN13 | enp0s3 | 192.168.13.100–200/24 | la del router actiu (.1 / .2 / .3) | ídem | DHCP |
 | Cliente_windows_1 | VirtualBox | 1 | Interna LAN13 | Ethernet | 192.168.13.100–200/24 | la del router actiu | ídem | DHCP |
 | Amfitrió (classe) | físic | — | física | eno1 | 172.16.222.40/24 | N/C | N/C | DHCP de l'aula |
 | Amfitrió (casa) | físic | — | física | enp7s0 | 192.168.1.86/24 | 192.168.1.1 | N/C | DHCP del router de casa |
 
-Exemple de configuració estàtica Debian (`/etc/network/interfaces` de SRV-SERVEIS):
+Exemple de configuració estàtica Debian. A SRV-SERVEIS i SRV-DADES l'aplica **cloud-init** des de Proxmox (`--ipconfig0`); la imatge cloud anomena la targeta `eth0`:
 ```
-auto ens18
-iface ens18 inet static
+auto eth0
+iface eth0 inet static
     address 192.168.13.22/24
     gateway 192.168.13.1
     dns-nameservers 192.168.13.1

@@ -1,0 +1,28 @@
+# Quòrum del clúster amb un node apagat (PVE1) — 2026-11-12 08:35:41
+Quorum information
+------------------
+Date:             Thu Nov 12 08:35:41 2026
+Quorum provider:  corosync_votequorum
+Nodes:            2
+Node ID:          0x00000003
+Ring ID:          2.1a
+Quorate:          Yes
+
+Votequorum information
+----------------------
+Expected votes:   3
+Highest expected: 3
+Total votes:      2
+Quorum:           2  
+Flags:            Quorate 
+
+Membership information
+----------------------
+    Nodeid      Votes Name
+0x00000002          1 192.168.13.34
+0x00000003          1 192.168.13.33 (local)
+
+## Interpretació
+PVE1 està apagat a propòsit (estalvi de 6 GB de RAM). Amb 3 vots esperats, el quòrum és 2: pve2 i pve3 sumen 2 vots i el clúster continua
+«Quorate: Yes», de manera que es poden crear, arrencar i migrar VM. Si en caiguera un altre, el node que quedara passaria /etc/pve a només
+lectura (protecció contra split-brain). Amb 2 nodes, en canvi, n'hi hauria prou amb una caiguda per perdre el quòrum.

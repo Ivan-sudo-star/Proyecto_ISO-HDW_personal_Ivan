@@ -1,0 +1,14 @@
+# CLI-Debian (client GNU/Linux) — a252, a253 — 2026-11-12 08:35:44
+## a252 versió i funcionament
+PRETTY_NAME="Debian GNU/Linux 13 (trixie)"
+13.1
+6.12.43+deb13-amd64
+escriptori: gnome-shell 48.7-0+deb13u2
+serveis fallits: 0
+Internet: HTTP/2 200 
+
+## a253 usuaris
+uid=1000(ivancambra) gid=1000(ivancambra) grupos=1000(ivancambra),27(sudo),100(users)
+sudo:x:27:ivancambra
+root: compte amb contrasenya (su)
+actualitzacions pendents: 37
