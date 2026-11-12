@@ -52,7 +52,7 @@ La diferència és el suport. El grup usa maquinari físic (MikroTik hEX, PC-02 
 | PVE2-Proxmox | Node 2 (.33): allotja Debian serveis + CT | Proxmox VE 9.2 | 2 | 3 GB | 40 GB | LAN13 (promiscu) | BIOS · VT-x niuat |
 | PVE3-Proxmox | Node 3 (.34): allotja Debian dades | Proxmox VE 9.2 | 2 | 3 GB | 40 GB | LAN13 (promiscu) | BIOS · VT-x niuat |
 | CLI-Debian | Client GNU/Linux i equip de gestió | Debian 13 + GNOME | 2 | 2 GB | 25 GB | LAN13 | BIOS |
-| Cliente_windows_1 | Client Windows | Windows 11 Home 23H2 (existent; pas a **Pro** preparat, problema 10) | 2 | 4 GB | 80 GB (existent, 14 GB ocupats) | LAN13 | EFI + TPM 2.0 + SB |
+| Cliente_windows_1 | Client Windows | Windows 11 **Pro** 23H2 (existent; era Home, problema 10) | 2 | 4 GB | 80 GB (existent, 14 GB ocupats) | LAN13 | EFI + TPM 2.0 + SB |
 
 ### 3.2 Nivell 2: VM i contenidors dins del clúster Proxmox
 
@@ -124,7 +124,7 @@ escenaris curts és una optimització possible (N/C, s'ha de mesurar).
 | 8 | TrueNAS: el disc d'arrencada va canviar de nom (`sda` → `sdb`) després del reinici | Linux assigna `sdX` per ordre de detecció | Identificar els discos per mida o número de sèrie, no pel nom | ✅ |
 
 | 9 | OPNsense (R2) es penjava: la web no responia i la consola mostrava `DSM TRIM ... Command timeout` | FreeBSD i el TRIM del controlador AHCI de VirtualBox no s'entenen | `--discard off` al disc de R2, corregit també a `crear-entorn.sh` ([04 §3](04-installacio.md#3-r2--opnsense-a210a216)) | ✅ |
-| 10 | El client és **Windows 11 Home**, però el disseny del grup preveu **Windows 11 Pro** (unió al domini, GPO, BitLocker). Home no es pot unir a un domini | La VM ja existia amb Home | La ISO `w11.iso` és multiedició (es-ES) i inclou Pro. Canvi d'edició *in situ* amb la clau genèrica de Microsoft per a Pro (només canvia l'edició, no activa): es conserven usuaris i configuració. Instantània prèvia `W11-Home-a250-ok` | 🟡 preparat |
+| 10 | El client és **Windows 11 Home**, però el disseny del grup preveu **Windows 11 Pro** (unió al domini, GPO, BitLocker). Home no es pot unir a un domini | La VM ja existia amb Home | La ISO `w11.iso` és multiedició (es-ES) i inclou Pro. Canvi d'edició *in situ* amb la clau genèrica de Microsoft per a Pro (només canvia l'edició, no activa): es conserven usuaris i configuració. Instantània prèvia `W11-Home-a250-ok` | ✅ 12/11: ara és Pro, sense activar ([evidència](../evidencias/t5-clients/a247-w11-pro.txt)) |
 | 11 | `VBoxManage guestcontrol` no pot fer tasques d'administrador a W11 (accés denegat a Secure Boot/TPM i a crear usuaris) | El procés s'executa amb el testimoni filtrat de l'UAC | S'obri un PowerShell elevat a la consola de la VM (Win+R, Ctrl+Maj+Retorn) i s'accepta l'UAC | ✅ |
 
 *(Afegir ací cada problema nou que aparega durant la instal·lació, amb símptoma, causa, solució i com ho he comprovat.)*

@@ -57,4 +57,9 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - Errors: va guardar primer l'evidència amb una codificació equivocada (la consola de Windows usa CP850) i va deixar mig visible el DUID de DHCPv6, que conté la MAC. Tots dos es van corregir abans de pujar-ho.
 - Revisió del repositori: va detectar que `raid-proves.sh` usava noms `sdX` fixos, que a la VM 230 podien apuntar al disc del sistema o al de DRBD. Corregit: ara detecta els discos per mida.
 
+**12/11/2026 (casa): Windows 11 Home → Pro**, fet per l'IA amb l'ordre explícita de l'alumne:
+- Es va fer amb `changepk.exe` i la clau genèrica pública de Microsoft per a Pro, que canvia l'edició sense activar-la. **L'IA va acceptar l'UAC** des del teclat virtual.
+- Abans, l'IA va comprovar que la ISO inclou l'edició Pro, llegint l'XML d'`install.wim` sense extraure els 6 GB.
+- Error de l'IA: va tancar un túnel SSH amb `pkill -f` i el patró coincidia amb la seua pròpia ordre, que es va tallar (trampa ja coneguda). No va tindre conseqüències.
+
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*
