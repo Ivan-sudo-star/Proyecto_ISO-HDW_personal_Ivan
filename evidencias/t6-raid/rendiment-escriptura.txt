@@ -1,0 +1,15 @@
+# Rendiment d'escriptura per nivell — srv-dades — 2026-11-12 15:59:45
+# dd if=/dev/zero bs=1M count=300 oflag=direct sobre ext4 (mateixos discos virtuals, mateix node PVE3)
+1 disc sol       | capacitat ext4:  974M | escriptura:  1.5 GB/s
+RAID 0 (2 discos) | capacitat ext4:  2.0G | escriptura:  629 MB/s
+RAID 1 (2 discos) | capacitat ext4:  988M | escriptura:  811 MB/s
+RAID 5 (3 discos) | capacitat ext4:  2.0G | escriptura:  612 MB/s
+RAID 10 (4 discos) | capacitat ext4:  2.0G | escriptura:  838 MB/s
+discos nets: 0 volums RAID actius
+
+## Interpretació (important)
+Aquests valors NO serveixen per comparar els nivells: els 5 discos virtuals són volums thin del mateix LVM de PVE3,
+que alhora és un fitxer VDI al mateix SSD USB, i les escriptures passen per les memòries cau de Proxmox i de VirtualBox
+(per això «1 disc sol» dona 1,5 GB/s, més que el SSD real). En un entorn virtual el RAID 0 no pot repartir la feina entre
+discos físics diferents. La mesura només confirma que tots els nivells funcionen i que la capacitat útil és la teòrica.
+Per mesurar el guany real caldrien discos físics independents.

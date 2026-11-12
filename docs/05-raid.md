@@ -23,16 +23,27 @@ bash raid-proves.sh neteja
 
 Abans de començar: instantània `qm snapshot 230 raid-net` a PVE3. Si alguna cosa va malament, `qm rollback 230 raid-net`.
 
-### Resultats (omplir amb els registres d'`evidencias/t6-raid/`)
+### ✅ Resultats (12/11/2026, VM 230 a PVE3, equip de casa)
 
-| Nivell | Discos | Capacitat útil (teòrica / `df -h`) | Fallada provocada | Dades després de la fallada | Reconstrucció | Escriptura `dd` |
-|---|---|---|---|---|---|---|
-| RAID 0 | D1 + D2 | 2 GB / | D2 perdut | ❌ esperat: no es pot assemblar | — | |
-| RAID 1 | D1 + D2 (+ D3 de substitució) | 1 GB / | `--fail D2` | ✅ esperat: íntegres, `[U_]` | s | |
-| RAID 5 | D1 + D2 + D3 + **spare D4** | 2 GB / | `--fail D2` | ✅ esperat: el spare entra sol | s | |
-| RAID 10 | D1 + D2 + D3 + D4 (+ D5) | 2 GB / | `--fail D1` | ✅ esperat | s | |
+Registres complets: [`raid0.log`](../evidencias/t6-raid/raid0.log), [`raid1.log`](../evidencias/t6-raid/raid1.log), [`raid5.log`](../evidencias/t6-raid/raid5.log), [`raid10.log`](../evidencias/t6-raid/raid10.log) i [`rendiment-escriptura.txt`](../evidencias/t6-raid/rendiment-escriptura.txt). Els discos D1–D5 van ser `sdb`–`sdf` (detectats per mida per l'script). A cada nivell s'hi copien 20 fitxers de 5 MB i una «factura» fictícia, i se'n comprova el SHA-256.
 
-### Què aporta cada nivell (a103) — *conclusions pròpies a partir dels resultats*
+| Nivell | Discos | Capacitat útil (teòrica / `df -h`) | Fallada provocada | Dades després de la fallada | Reconstrucció |
+|---|---|---|---|---|---|
+| RAID 0 | D1 + D2 | 2 GB / **2,0 G** | D2 perdut | ❌ **Dades perdudes**: `mdadm` no deixa ni marcar el disc com a fallit, i amb un sol disc no s'arrenca («Not enough devices») | — (no n'hi ha) |
+| RAID 1 | D1 + D2 (+ D3 de substitució) | 1 GB / **988 M** | `--fail D2` | ✅ Íntegres amb el volum degradat `[U_]` | **8 s** en afegir D3 |
+| RAID 5 | D1 + D2 + D3 + **spare D4** | 2 GB / **2,0 G** | `--fail D2` | ✅ Íntegres; **el disc de reserva entra sol** sense fer res | **12 s**, automàtica |
+| RAID 10 | D1 + D2 + D3 + D4 (+ D5) | 2 GB / **2,0 G** | `--fail D1` | ✅ Íntegres amb `[_UUU]` | **3 s** en afegir D5 (només copia la parella) |
+
+**Rendiment:** la mesura amb `dd` no permet comparar els nivells, perquè tots els discos virtuals són al mateix SSD USB i les escriptures passen per diverses memòries cau (un disc sol dona 1,5 GB/s). Està explicat a [`rendiment-escriptura.txt`](../evidencias/t6-raid/rendiment-escriptura.txt).
+
+**Conclusions a partir de les proves** (redactades amb l'IA a partir dels registres; l'alumne les ha de revisar i saber explicar):
+- **RAID 0** dona la capacitat dels dos discos, però la prova demostra que **perdre'n un és perdre-ho tot**: no hi ha manera d'assemblar-lo. Només per a dades que es poden regenerar.
+- **RAID 1** perd la meitat de la capacitat (988 M de 2 GB), però el servei **no s'atura** quan falla un disc, i la reconstrucció només copia un disc.
+- **RAID 5** aprofita més la capacitat (2 de 3 discos) i, amb un **spare**, es recupera sol: és l'únic dels quatre on no ha calgut fer res després de la fallada. La reconstrucció ha sigut la més lenta (12 s), perquè ha de recalcular la paritat amb tots els discos.
+- **RAID 10** té la mateixa capacitat que el RAID 5 amb un disc més, però la reconstrucció és la més ràpida (3 s), perquè només es copia el disc germà de la parella.
+- Cap d'ells substitueix la còpia: un esborrat es replica a tots els discos a l'instant.
+
+### Què aporta cada nivell (a103)
 
 | Nivell | Mínim de discos | Capacitat útil amb n discos de mida C | Tolerància | Rendiment | Quan l'usaria a l'empresa |
 |---|---|---|---|---|---|
@@ -43,7 +54,7 @@ Abans de començar: instantània `qm snapshot 230 raid-net` a PVE3. Si alguna co
 
 **Idees clau:**
 - **RAID no és còpia de seguretat.** Si esborre un fitxer o un ransomware el xifra, el RAID replica el desastre a tots els discos.
-- Un disc de **reserva** (*spare*) redueix el temps en què el volum està degradat: ho demostra la prova del RAID 5.
+- Un disc de **reserva** (*spare*) redueix el temps en què el volum està degradat: ho demostra la prova del RAID 5 (s'ha integrat sol en 12 s).
 
 ## Tasca 6.3 — Espill entre dos equips (Apte+ · a107–a109)
 

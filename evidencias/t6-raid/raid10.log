@@ -1,0 +1,93 @@
+# RAID 10 — srv-dades — 2026-11-12 15:58:58
+NAME  SIZE TYPE
+sdb     1G disk
+└─md5   2G raid5
+sdc     1G disk
+└─md5   2G raid5
+sdd     1G disk
+└─md5   2G raid5
+sde     1G disk
+└─md5   2G raid5
+sdf     1G disk
+mdadm: stopped /dev/md5
+Discos nets
+NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINTS
+sdb    8:16   0   1G  0 disk 
+sdc    8:32   0   1G  0 disk 
+sdd    8:48   0   1G  0 disk 
+sde    8:64   0   1G  0 disk 
+sdf    8:80   0   1G  0 disk 
+
+===== Creació RAID 10 (D1+D2+D3+D4) =====
+mdadm: Defaulting to version 1.2 metadata
+mdadm: array /dev/md10 started.
+Personalities : [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
+md10 : active raid10 sde[3] sdd[2] sdc[1] sdb[0]
+      2093056 blocks super 1.2 512K chunks 2 near-copies [4/4] [UUUU]
+      
+unused devices: <none>
+/dev/md10:
+           Version : 1.2
+     Creation Time : Thu Nov 12 15:58:59 2026
+        Raid Level : raid10
+        Array Size : 2093056 (2044.00 MiB 2143.29 MB)
+     Used Dev Size : 1046528 (1022.00 MiB 1071.64 MB)
+      Raid Devices : 4
+     Total Devices : 4
+       Persistence : Superblock is persistent
+
+       Update Time : Thu Nov 12 15:59:10 2026
+             State : active 
+    Active Devices : 4
+   Working Devices : 4
+    Failed Devices : 0
+     Spare Devices : 0
+
+            Layout : near=2
+        Chunk Size : 512K
+
+Consistency Policy : resync
+
+              Name : srv-dades:10  (local to host srv-dades)
+            Events : 19
+
+    Number   Major   Minor   RaidDevice State
+       0       8       16        0      active sync set-A   /dev/sdb
+       1       8       32        1      active sync set-B   /dev/sdc
+       2       8       48        2      active sync set-A   /dev/sdd
+       3       8       64        3      active sync set-B   /dev/sde
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md10       2.0G  532K  1.9G   1% /mnt/raid10
+DADES ÍNTEGRES
+
+===== Fallada simulada de /dev/sdb =====
+Personalities : [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
+md10 : active raid10 sde[3] sdd[2] sdc[1] sdb[0](F)
+      2093056 blocks super 1.2 512K chunks 2 near-copies [4/3] [_UUU]
+      
+unused devices: <none>
+             State : active, degraded 
+    Active Devices : 3
+    Failed Devices : 1
+    Number   Major   Minor   RaidDevice State
+
+===== Accés a les dades amb el RAID degradat =====
+DADES ÍNTEGRES
+
+===== Substitució: es retira /dev/sdb i s'afig /dev/sdf =====
+mdadm: hot removed /dev/sdb from /dev/md10
+mdadm: added /dev/sdf
+Personalities : [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
+md10 : active raid10 sdf[4] sde[3] sdd[2] sdc[1]
+      2093056 blocks super 1.2 512K chunks 2 near-copies [4/3] [_UUU]
+      [=======>.............]  recovery = 38.3% (401664/1046528) finish=0.0min speed=401664K/sec
+      
+unused devices: <none>
+Reconstrucció: 3 s
+             State : active 
+    Active Devices : 4
+   Working Devices : 4
+    Number   Major   Minor   RaidDevice State
+DADES ÍNTEGRES
+
+Registre: /root/evidencies-raid/raid10-155858.log

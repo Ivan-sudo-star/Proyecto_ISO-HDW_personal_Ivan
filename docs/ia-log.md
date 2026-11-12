@@ -71,4 +71,8 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 **12/11/2026 (casa): servidors Linux (a242–a246) i còpia de CLI-Debian (a255)**, fet per l'IA:
 - **Error de l'IA:** a CLI-Debian va usar `echo <contrasenya> | sudo -S tee/tar`, que substitueix l'entrada estàndard (la mateixa trampa que ja estava apuntada). El document de prova es va crear buit i la primera restauració va fallar. Es va detectar perquè el hash era el d'un fitxer buit i `tar` donava error. Es va repetir bé.
 
+**12/11/2026 (casa): RAID (a102, a103)**, fet per l'IA amb l'script `raid-proves.sh` (ja amb detecció de discos per mida):
+- Les conclusions de `05-raid.md` les ha redactat l'IA a partir dels registres. **L'alumne les ha de revisar** i saber-les explicar.
+- La mesura de rendiment amb `dd` no és vàlida per comparar nivells en un entorn virtual (un disc sol dona 1,5 GB/s). Es documenta com a limitació i no com a conclusió.
+
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*

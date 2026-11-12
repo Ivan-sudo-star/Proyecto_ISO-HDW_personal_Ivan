@@ -1,0 +1,72 @@
+# RAID 0 — srv-dades — 2026-11-12 15:57:48
+NAME SIZE TYPE
+sdb    1G disk
+sdc    1G disk
+sdd    1G disk
+sde    1G disk
+sdf    1G disk
+Discos nets
+NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINTS
+sdb    8:16   0   1G  0 disk 
+sdc    8:32   0   1G  0 disk 
+sdd    8:48   0   1G  0 disk 
+sde    8:64   0   1G  0 disk 
+sdf    8:80   0   1G  0 disk 
+
+===== Creació RAID 0 (D1+D2) =====
+mdadm: Defaulting to version 1.2 metadata
+mdadm: array /dev/md0 started.
+Personalities : [raid0] 
+md0 : active raid0 sdc[1] sdb[0]
+      2093056 blocks super 1.2 512k chunks
+      
+unused devices: <none>
+/dev/md0:
+           Version : 1.2
+     Creation Time : Thu Nov 12 15:57:48 2026
+        Raid Level : raid0
+        Array Size : 2093056 (2044.00 MiB 2143.29 MB)
+      Raid Devices : 2
+     Total Devices : 2
+       Persistence : Superblock is persistent
+
+       Update Time : Thu Nov 12 15:57:48 2026
+             State : clean 
+    Active Devices : 2
+   Working Devices : 2
+    Failed Devices : 0
+     Spare Devices : 0
+
+            Layout : original
+        Chunk Size : 512K
+
+Consistency Policy : none
+
+              Name : srv-dades:0  (local to host srv-dades)
+            Events : 0
+
+    Number   Major   Minor   RaidDevice State
+       0       8       16        0      active sync   /dev/sdb
+       1       8       32        1      active sync   /dev/sdc
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md0        2.0G  532K  1.9G   1% /mnt/raid0
+DADES ÍNTEGRES
+
+===== Rendiment d'escriptura =====
+314572800 bytes (315 MB, 300 MiB) copied, 1.23657 s, 254 MB/s
+
+===== Pèrdua de D2: RAID 0 NO té tolerància (mdadm ni tan sols deixa marcar-lo com a fallit) =====
+mdadm: Cannot remove /dev/sdc from /dev/md0, array will be failed.
+-> mdadm rebutja --fail en RAID 0
+mdadm: stopped /dev/md0
+Intent d'assemblar només amb D1 (com si D2 s'haguera perdut):
+mdadm: failed to RUN_ARRAY /dev/md0: Invalid argument
+mdadm: Not enough devices to start the array.
+-> IMPOSSIBLE: falten les meitats de cada bloc que estaven a D2. Dades perdudes.
+Personalities : [raid0] 
+
+===== Retorn (el disc no estava trencat de veritat) =====
+mdadm: /dev/md0 has been started with 2 drives.
+DADES ÍNTEGRES
+
+Registre: /root/evidencies-raid/raid0-155748.log

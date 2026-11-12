@@ -1,0 +1,91 @@
+# RAID 1 — srv-dades — 2026-11-12 15:57:52
+NAME  SIZE TYPE
+sdb     1G disk
+└─md0   2G raid0
+sdc     1G disk
+└─md0   2G raid0
+sdd     1G disk
+sde     1G disk
+sdf     1G disk
+mdadm: stopped /dev/md0
+Discos nets
+NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINTS
+sdb    8:16   0   1G  0 disk 
+sdc    8:32   0   1G  0 disk 
+sdd    8:48   0   1G  0 disk 
+sde    8:64   0   1G  0 disk 
+sdf    8:80   0   1G  0 disk 
+
+===== Creació RAID 1 (D1+D2) =====
+mdadm: Note: this array has metadata at the start and
+    may not be suitable as a boot device.  If you plan to
+    store '/boot' on this device please ensure that
+    your boot-loader understands md/v1.x metadata, or use
+    --metadata=0.90
+mdadm: Defaulting to version 1.2 metadata
+mdadm: array /dev/md1 started.
+Personalities : [raid0] [raid1] 
+md1 : active raid1 sdc[1] sdb[0]
+      1046528 blocks super 1.2 [2/2] [UU]
+      
+unused devices: <none>
+/dev/md1:
+           Version : 1.2
+     Creation Time : Thu Nov 12 15:57:52 2026
+        Raid Level : raid1
+        Array Size : 1046528 (1022.00 MiB 1071.64 MB)
+     Used Dev Size : 1046528 (1022.00 MiB 1071.64 MB)
+      Raid Devices : 2
+     Total Devices : 2
+       Persistence : Superblock is persistent
+
+       Update Time : Thu Nov 12 15:57:57 2026
+             State : active 
+    Active Devices : 2
+   Working Devices : 2
+    Failed Devices : 0
+     Spare Devices : 0
+
+Consistency Policy : resync
+
+              Name : srv-dades:1  (local to host srv-dades)
+            Events : 19
+
+    Number   Major   Minor   RaidDevice State
+       0       8       16        0      active sync   /dev/sdb
+       1       8       32        1      active sync   /dev/sdc
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md1        988M  276K  921M   1% /mnt/raid1
+DADES ÍNTEGRES
+
+===== Fallada simulada de /dev/sdc =====
+Personalities : [raid0] [raid1] 
+md1 : active raid1 sdc[1](F) sdb[0]
+      1046528 blocks super 1.2 [2/1] [U_]
+      
+unused devices: <none>
+             State : active, degraded 
+    Active Devices : 1
+    Failed Devices : 1
+    Number   Major   Minor   RaidDevice State
+
+===== Accés a les dades amb el RAID degradat =====
+DADES ÍNTEGRES
+
+===== Substitució: es retira /dev/sdc i s'afig /dev/sdd =====
+mdadm: hot removed /dev/sdc from /dev/md1
+mdadm: added /dev/sdd
+Personalities : [raid0] [raid1] 
+md1 : active raid1 sdd[2] sdb[0]
+      1046528 blocks super 1.2 [2/1] [U_]
+      [=======>.............]  recovery = 38.6% (405184/1046528) finish=0.0min speed=202592K/sec
+      
+unused devices: <none>
+Reconstrucció: 8 s
+             State : clean 
+    Active Devices : 2
+   Working Devices : 2
+    Number   Major   Minor   RaidDevice State
+DADES ÍNTEGRES
+
+Registre: /root/evidencies-raid/raid1-155752.log

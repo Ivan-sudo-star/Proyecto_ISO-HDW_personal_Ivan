@@ -57,7 +57,7 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | T5 Linux infra | a242–a246 | ✅ VM 220 (PVE2) i 230 (PVE3): actualitzades, usuaris, SSH només amb clau, còpia al NAS amb prova de restauració | [04 §8](docs/04-installacio.md#8-servidors-gnulinux-dinfraestructura-a242a246) |
 | T5 Clients | a247–a250, a252–a255 | 🟡 W11 Pro ✅ (a247–a250) · CLI-Debian ✅ (a252–a255) · Guest Additions als dos | [04 §9](docs/04-installacio.md#9-clients-a247a250-a252a255) |
 | T5 Apte+ còpies automàtiques | a105 | 🟡 script + timer systemd + scheduler MikroTik | [04 §10](docs/04-installacio.md#10-apte-còpies-automatitzades-a105) |
-| T6 RAID (Apte) | a102, a103 | 🟡 script de proves llest | [05](docs/05-raid.md) |
+| T6 RAID (Apte) | a102, a103 | ✅ RAID 0, 1, 5 (amb spare) i 10 a la VM 230: fallada, integritat i reconstrucció | [05](docs/05-raid.md) |
 | T6 Espill entre equips (Apte+) | a107, a108, a109 | 🟡 a107 ✅ investigació · falta implementar DRBD | [05](docs/05-raid.md#tasca-63--espill-entre-dos-equips-a107a109) |
 | T7 Rendiment (Apte) | a22, a23, a24, a119, a120, a121 | 🟡 línia base de casa ✅; falten les càrregues | [06](docs/06-rendiment.md) |
 | T7 Optimitzacions (Apte+) | a123, a124, a125 | 🟡 optimització 1 ✅ (R3: −65 % de RAM) | [06](docs/06-rendiment.md#optimitzacions-apte-a123a125) |
