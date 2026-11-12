@@ -21,8 +21,12 @@ rx1=$(cat /sys/class/net/$IF/statistics/rx_bytes); tx1=$(cat /sys/class/net/$IF/
   echo; echo "free -m al final:"; free -m
   echo; echo "Xarxa $IF: RX $(( (rx1-rx0)/SECS/1024 )) KiB/s, TX $(( (tx1-tx0)/SECS/1024 )) KiB/s (mitjana)"
   echo; echo "Processos que més consumeixen:"; ps -eo pid,comm,%cpu,%mem,rss --sort=-%cpu | head -8
+  echo; echo "Consum per VM (procés VBoxHeadless: %CPU mitjà des que arrenca, RSS = RAM real ocupada a l'amfitrió):"
+  ps -eo %cpu,rss,args --sort=-rss | awk '/VBoxHeadless/ && !/awk/ {for(i=1;i<=NF;i++) if($i=="--startvm"||$i=="--comment") {n=$(i+1); break} printf "  %-20s CPU %5s %%  RAM %6.0f MB\n", n, $1, $2/1024}'
+  echo; echo "Carrega de l'amfitrió (loadavg 1/5/15 min): $(cut -d' ' -f1-3 /proc/loadavg) · fils: $(nproc)"
 } >> "$OUT"
 # Resum d'una línia per a la taula de docs/06-rendiment.md
-awk -v t="$TAG" 'NF==18 && $1~/^[0-9]+$/ && $18~/^[0-9]+$/ {n++; r+=$1; sw+=$3; fr+=$4; si+=$7; so+=$8; us+=$13; sy+=$14; id+=$15; wa+=$16}
-  END {if(n) printf "| %s | %.1f | %.0f | %.0f | %.0f/%.0f | %.0f | %.0f | %.0f |\n", t, r/n, sw/n, fr/n, si/n, so/n, us/n+sy/n, wa/n, id/n}' "$OUT" | tee -a "$OUT"
+# CPU usada = us + sy + gu (gu = temps de CPU de les VM; sense sumar-lo, la càrrega de les VM no es veu). Es descarta la 1a línia (mitjana des de l'arrencada)
+awk -v t="$TAG" 'NF==18 && $1~/^[0-9]+$/ && $18~/^[0-9]+$/ {if(!s){s=1;next} n++; r+=$1; sw+=$3; fr+=$4; si+=$7; so+=$8; us+=$13; sy+=$14; id+=$15; wa+=$16; gu+=$18}
+  END {if(n) printf "| %s | %.1f | %.0f | %.0f | %.0f/%.0f | %.0f | %.0f | %.0f |\n", t, r/n, sw/n, fr/n, si/n, so/n, (us+sy+gu)/n, wa/n, id/n}' "$OUT" | tee -a "$OUT"
 echo "Desat en $OUT"

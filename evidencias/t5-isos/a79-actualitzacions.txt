@@ -1,0 +1,26 @@
+# a79 — R1 MikroTik: actualització 7.24.5 -> 7.25.1 — 2026-11-12 16:22:02
+## Abans
+                   uptime: 37m46s                     
+                  version: 7.24.5 (stable)            
+          minimum-version: 7.1                        
+         ip-version: auto                    
+  installed-version: 7.24.5                  
+     latest-version: 7.25.1                  
+             status: New version is available
+## Intent d'actualització
+$ /system package update install
+status: Missing license, please buy license to upgrade
+## Després (sense canvis, sense reinici)
+                   uptime: 38m40s                     
+                  version: 7.24.5 (stable)            
+          minimum-version: 7.1                        
+  software-id: (amagat)
+
+# a79 — NAS TrueNAS (API /update/status, 12/11)
+versió TrueNAS-25.10.7 · tren TrueNAS-SCALE-Goldeye · perfil MISSION_CRITICAL · new_version: null (cap actualització disponible)
+
+# a79 — Nodes Proxmox (12/11)
+pve2: 0 paquets per actualitzar · pve-manager/9.2.26/41a0e2e09b9e6f9d (running kernel: 7.0.14-28-pve)
+pve3: 0 paquets per actualitzar · pve-manager/9.2.26/41a0e2e09b9e6f9d (running kernel: 7.0.14-28-pve)
+
+# a79 — Servidors Linux i CLI-Debian: vegeu t5-linux-infra/a242-a246-*.txt (0 pendents) i t5-clients (CLI-Debian 6.12.43 -> 6.12.116)

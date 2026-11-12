@@ -59,8 +59,8 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | T5 Apte+ còpies automàtiques | a105 | ✅ imatges: tasca setmanal de Proxmox provada · 🟡 configuracions: orquestrador instal·lat, falta repartir la clau | [04 §10](docs/04-installacio.md#10-apte-còpies-automatitzades-a105) |
 | T6 RAID (Apte) | a102, a103 | ✅ RAID 0, 1, 5 (amb spare) i 10 a la VM 230: fallada, integritat i reconstrucció | [05](docs/05-raid.md) |
 | T6 Espill entre equips (Apte+) | a107, a108, a109 | ✅ DRBD entre VM 220 (PVE2) i 230 (PVE3): failover en 7,3 s sense perdre dades | [05](docs/05-raid.md#tasca-63--espill-entre-dos-equips-a107a109) |
-| T7 Rendiment (Apte) | a22, a23, a24, a119, a120, a121 | 🟡 línia base de casa ✅; falten les càrregues | [06](docs/06-rendiment.md) |
-| T7 Optimitzacions (Apte+) | a123, a124, a125 | 🟡 optimització 1 ✅ (R3: −65 % de RAM) | [06](docs/06-rendiment.md#optimitzacions-apte-a123a125) |
+| T7 Rendiment (Apte) | a22, a23, a24, a119, a120, a121 | ✅ 9 escenaris mesurats a casa: el límit és la **RAM** (9 VM sense el WS2025; amb el WS2025 hi ha swap) | [06](docs/06-rendiment.md) |
+| T7 Optimitzacions (Apte+) | a123, a124, a125 | ✅ opt. 1: R3 −65 % de RAM · opt. 2: CLI-Debian 26 → 20 serveis i 8 → 2 ports | [06](docs/06-rendiment.md#optimitzacions-apte-a123a125) |
 | T8 Final (Apte) | a25, a26, a50–a53, a80, a104, a122 | ⬜ el dia 25/11 | [07](docs/07-cas-final.md) |
 | T8 Qüestionari (Apte+) | a30, a57, a84, a110, a126 | ⬜ estudi preparat | [07](docs/07-cas-final.md) |
 | No exigides | a54–a56, a81–a83, a106, a251, a256 | ➖ | — |

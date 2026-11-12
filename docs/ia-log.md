@@ -75,4 +75,11 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - Les conclusions de `05-raid.md` les ha redactat l'IA a partir dels registres. **L'alumne les ha de revisar** i saber-les explicar.
 - La mesura de rendiment amb `dd` no és vàlida per comparar nivells en un entorn virtual (un disc sol dona 1,5 GB/s). Es documenta com a limitació i no com a conclusió.
 
+**12/11/2026 (casa): a78, a105, a258, T7 i optimització 2**, fet per l'IA:
+- **a105:** el classificador de permisos de l'assistent va **bloquejar el repartiment de la clau SSH** de l'usuari `copies` als altres equips (accés permanent). No es va intentar esquivar: queda pendent de l'autorització de l'alumne. La part d'imatges (tasca `vzdump` de Proxmox) sí que està automatitzada i provada.
+- **Error trobat a l'script de còpies:** la rotació podia esborrar fitxers del directori on hi ha els discos de les VM. Corregit abans d'activar res.
+- **T7:** l'script de mesura no sumava la columna `gu` (CPU de les VM) i la càrrega no es veia. Es va detectar perquè us+sy+id no sumava 100, i es va corregir. La RAM per VM (RSS) no és fiable amb VirtualBox: es documenta.
+- **Afirmació corregida:** l'IA havia escrit «cap avís al registre» sense poder-lo llegir (cal `sudo`). En comprovar-ho amb `dmesg` va trobar un bloqueig de 26 s de l'escriptori (controlador `amdgpu`), que ara està documentat.
+- **Per revisar:** l'informe de T7 (06 §5) i les conclusions les ha redactat l'IA; l'alumne les ha de revisar i saber explicar.
+
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*

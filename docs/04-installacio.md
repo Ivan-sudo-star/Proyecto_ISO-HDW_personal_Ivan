@@ -53,12 +53,12 @@ Hashes complets a les evidències ([`verificacio.txt`](../evidencias/t5-isos/ver
 
 | Sistema | Versió abans | Ordre d'actualització | Versió després | Prova de funcionament |
 |---|---|---|---|---|
-| MikroTik | `/system resource print` | `/system package update check-for-updates` → `install` | | ping 1.1.1.1 des de la LAN |
+| MikroTik | `/system resource print` | `/system package update check-for-updates` → `install` | ⚠️ 7.24.5, hi ha la **7.25.1**, però RouterOS respon *«Missing license, please buy license to upgrade»*: la llicència x86 de prova **no permet actualitzar**. Alternatives: reinstal·lar des de la ISO 7.25.1 i importar el `.rsc`, o passar a CHR (llicència gratuïta limitada a 1 Mb/s) → [`a79-actualitzacions.txt`](../evidencias/t5-isos/a79-actualitzacions.txt) | ping 1.1.1.1 des de la LAN |
 | OPNsense | Panell | `opnsense-update` o System → Firmware → Updates | | web de gestió + eixida LAN |
 | Debian (R3, INFRA, RAID, CLI) | `cat /etc/debian_version; uname -r` | `apt update && apt full-upgrade` | CLI-Debian: nucli 6.12.43 → **6.12.116** ✅ ([abans](../evidencias/t5-clients/a252-a253-cli-debian.txt), [després](../evidencias/t5-clients/guest-additions.txt)) · la resta, pendent | `systemctl --failed` buit + servei |
-| TrueNAS | Dashboard | System → Update | | pool ONLINE, recurs accessible |
+| TrueNAS | Dashboard | System → Update | ✅ 25.10.7, **al dia** (`/update/status`: `new_version: null`, tren Goldeye) | pool ONLINE, recurs accessible |
 | Proxmox | `pveversion -v` | repositori *no-subscription* + `apt update && apt full-upgrade` | `pve-manager` 9.2.2 → **9.2.26**, nucli → 7.0.14-28 ✅ ([evidència](../evidencias/t5-proxmox/a79-actualitzacio-nodes.txt)) | `pvecm status`, CT arrenca |
-| Windows (WS / W11) | `winver` | Windows Update | | `Test-NetConnection 192.168.13.1` |
+| Windows (WS / W11) | `winver` | Windows Update | 🟡 W11 Pro 23H2 (22631.2861): Windows Update ofereix les firmes de Defender i la **25H2**; la 23H2 Pro ja no té suport. **En curs** el 12/11 ([`w11-update.ps1`](../scripts/clients/w11-update.ps1)); instantània prèvia `W11-Pro-23H2` | `Test-NetConnection 192.168.13.1` |
 
 ### 1.3 Problemes possibles, configuracions crítiques i temps de resposta (a258)
 
