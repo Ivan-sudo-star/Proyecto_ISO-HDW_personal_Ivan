@@ -1,13 +1,18 @@
-# Inventari equip de CLASSE - 2026-11-11T13:29:55+01:00
-## Equip
+# Inventari equip de CLASSE - 2026-11-12T08:03:21+01:00
+
+## Equip (DMI)
 ASUSTeK COMPUTER INC.
 ASUS EXPERTBOOK B3605CCA
+ASUSTeK COMPUTER INC.
+B3605CCA
 ASUSTeK COMPUTER INC. (Licensed by AMI, LLC.)
 B3605CCA.303
 06/11/2025
+
 ## SO
 PRETTY_NAME="Linux Mint 22.3"
 6.8.0-142-generic
+
 ## CPU
 Arquitectura:                             x86_64
 modo(s) de operación de las CPUs:         32-bit, 64-bit
@@ -16,18 +21,20 @@ Orden de los bytes:                       Little Endian
 CPU(s):                                   18
 Lista de la(s) CPU(s) en línea:           0-17
 ID de fabricante:                         GenuineIntel
+ID de fabricante de BIOS:                 Intel(R) Corporation
 Nombre del modelo:                        Intel(R) Core(TM) Ultra 5 125H
+Nombre del modelo de BIOS:                Intel(R) Core(TM) Ultra 5 125H To Be Filled By O.E.M. CPU @ 3.3GHz
+Familia de CPU BIOS:                      773
 Familia de CPU:                           6
 Modelo:                                   170
 Hilo(s) de procesamiento por núcleo:      2
 Núcleo(s) por «socket»:                   14
 «Socket(s)»:                              1
 Revisión:                                 4
-CPU(s) factor de escala MHz:              30%
+CPU(s) factor de escala MHz:              46%
 CPU MHz máx.:                             4500,0000
 CPU MHz mín.:                             400,0000
 BogoMIPS:                                 5990,40
-Indicadores:                              fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid bus_lock_detect movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities ibpb_exit_to_user
 Virtualización:                           VT-x
 Caché L1d:                                448 KiB (12 instancias)
 Caché L1i:                                768 KiB (12 instancias)
@@ -35,47 +42,85 @@ Caché L2:                                 14 MiB (7 instancias)
 Caché L3:                                 18 MiB (1 instancia)
 Modo(s) NUMA:                             1
 CPU(s) del nodo NUMA 0:                   0-17
-Vulnerabilidad Gather data sampling:      Not affected
-Vulnerabilidad Indirect target selection: Not affected
-Vulnerabilidad Itlb multihit:             Not affected
-Vulnerabilidad L1tf:                      Not affected
-Vulnerabilidad Mds:                       Not affected
-Vulnerabilidad Meltdown:                  Not affected
-Vulnerabilidad Mmio stale data:           Not affected
-Vulnerabilidad Reg file data sampling:    Not affected
-Vulnerabilidad Retbleed:                  Not affected
-Vulnerabilidad Spec rstack overflow:      Not affected
-Vulnerabilidad Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
-Vulnerabilidad Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
-Vulnerabilidad Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS Not affected; BHI BHI_DIS_S
-Vulnerabilidad Srbds:                     Not affected
-Vulnerabilidad Tsa:                       Not affected
-Vulnerabilidad Tsx async abort:           Not affected
-Vulnerabilidad Vmscape:                   Mitigation; IBPB before exit to userspace
-## RAM
+Virtualització HW (vmx/svm): 36 fils
+kvm_intel             487424  0
+kvm                  1404928  1 kvm_intel
+
+## Memòria
                total       usado       libre  compartido   búf/caché  disponible
-Mem:            30Gi       5,5Gi       897Mi       977Mi        25Gi        25Gi
-Inter:          15Gi       256Ki        15Gi
-## Discs
-NAME          SIZE ROTA TYPE FSTYPE MOUNTPOINT MODEL                      TRAN
-sda         953,9G    1 disk                   INTENSO SSD                usb
-├─sda1        509M    1 part vfat   /boot/efi                             
-├─sda2       58,6G    1 part ext4   /                                     
-└─sda3      894,8G    1 part ext4   /home                                 
-zram0         7,6G    0 disk        [SWAP]                                
-nvme0n1     953,9G    0 disk                   SAMSUNG MZVMA1T0HCLD-00BTW nvme
-├─nvme0n1p1   260M    0 part vfat                                         nvme
-├─nvme0n1p2    16M    0 part                                              nvme
-├─nvme0n1p3 468,8G    0 part ntfs                                         nvme
-├─nvme0n1p4   1,4G    0 part ntfs                                         nvme
-├─nvme0n1p5   260M    0 part vfat                                         nvme
-├─nvme0n1p6  12,1G    0 part ext4                                         nvme
-└─nvme0n1p7 471,1G    0 part ext4                                         nvme
-S.ficheros     Tamaño Usados  Disp Uso% Montado en
-efivarfs         320K   152K  164K  49% /sys/firmware/efi/efivars
-/dev/sda2         58G    25G   30G  46% /
-/dev/sda3        880G   173G  663G  21% /home
-/dev/sda1        508M    51M  458M  10% /boot/efi
+Mem:            30Gi       5,8Gi        18Gi       498Mi       7,7Gi        24Gi
+Inter:          15Gi          0B        15Gi
+NAME       TYPE      SIZE USED PRIO
+/swapfile  file        8G   0B   -2
+/dev/zram0 partition 7,6G   0B  100
+	Error Correction Type: None
+	Size: 16 GB
+	Locator: Controller0-ChannelA-DIMM0
+	Type: DDR5
+	Speed: 5600 MT/s
+	Manufacturer: Kingston
+	Part Number: 99U5790-015.A00G    
+	Configured Memory Speed: 5600 MT/s
+	Memory Subsystem Controller Manufacturer ID: Unknown
+	Non-Volatile Size: None
+	Volatile Size: 16 GB
+	Cache Size: None
+	Logical Size: None
+	Size: 16 GB
+	Locator: Controller1-ChannelA-DIMM0
+	Type: DDR5
+	Speed: 5600 MT/s
+	Manufacturer: Kingston
+	Part Number: 99U5790-015.A00G    
+	Configured Memory Speed: 5600 MT/s
+	Memory Subsystem Controller Manufacturer ID: Unknown
+	Non-Volatile Size: None
+	Volatile Size: 16 GB
+	Cache Size: None
+	Logical Size: None
+
+## Discos
+NAME          SIZE ROTA TYPE TRAN   MODEL                      FSTYPE MOUNTPOINTS
+sda         953,9G    1 disk usb    INTENSO SSD                       
+├─sda1        509M    1 part                                   vfat   /boot/efi
+├─sda2       58,6G    1 part                                   ext4   /
+└─sda3      894,8G    1 part                                   ext4   /home
+zram0         7,6G    0 disk                                          [SWAP]
+nvme0n1     953,9G    0 disk nvme   SAMSUNG MZVMA1T0HCLD-00BTW        
+├─nvme0n1p1   260M    0 part nvme                              vfat   
+├─nvme0n1p2    16M    0 part nvme                                     
+├─nvme0n1p3 468,8G    0 part nvme                              ntfs   
+├─nvme0n1p4   1,4G    0 part nvme                              ntfs   
+├─nvme0n1p5   260M    0 part nvme                              vfat   
+├─nvme0n1p6  12,1G    0 part nvme                              ext4   
+└─nvme0n1p7 471,1G    0 part nvme                              ext4   
+S.ficheros     Tipo     Tamaño Usados  Disp Uso% Montado en
+efivarfs       efivarfs   320K   152K  164K  49% /sys/firmware/efi/efivars
+/dev/sda2      ext4        58G    25G   30G  46% /
+/dev/sda3      ext4       880G   214G  621G  26% /home
+/dev/sda1      vfat       508M    51M  458M  10% /boot/efi
+--- SMART /dev/sda
+SMART overall-health self-assessment test result: PASSED
+  5 Reallocated_Sector_Ct   0x0032   100   100   050    Old_age   Always       -       0
+  9 Power_On_Hours          0x0032   100   100   050    Old_age   Always       -       504
+177 Wear_Leveling_Count     0x0032   100   100   050    Old_age   Always       -       0
+194 Temperature_Celsius     0x0022   100   100   050    Old_age   Always       -       27
+196 Reallocated_Event_Count 0x0032   100   100   050    Old_age   Always       -       0
+--- SMART /dev/nvme0n1
+SMART overall-health self-assessment test result: PASSED
+Temperature:                        29 Celsius
+Percentage Used:                    0%
+Warning  Comp. Temperature Time:    0
+Critical Comp. Temperature Time:    0
+Temperature Sensor 1:               26 Celsius
+
+## Firmware i arrencada
+UEFI
+SecureBoot disabled
+/dev/tpm0
+/dev/tpmrm0
+TPM present
+
 ## Xarxa
 lo               UNKNOWN        xx:xx:xx:xx:xx:xx <LOOPBACK,UP,LOWER_UP> 
 eno1             UP             xx:xx:xx:xx:xx:xx <BROADCAST,MULTICAST,UP,LOWER_UP> 
@@ -85,74 +130,12 @@ lo               UNKNOWN        127.0.0.1/8 ::1/128
 eno1             UP             172.16.222.40/24 fe80::2de3:e999:6c24:e9f6/64 
 wlp1s0           DOWN           
 docker0          DOWN           172.17.0.1/16 
+eno1: driver=e1000e speed=1000Mb/s
+wlp1s0: driver=rtw89_8852be speed=Mb/s
 default via 172.16.222.1 dev eno1 proto dhcp src 172.16.222.40 metric 100 
 172.16.222.0/24 dev eno1 proto kernel scope link src 172.16.222.40 metric 100 
 172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown 
-## Firmware
-UEFI
-SecureBoot disabled
-/dev/tpm0
-/dev/tpmrm0
-## Resum lshw
-ruta H/W     Dispositivo   Clase          Descripción
-======================================================
-                           system         Computer
-/0                         bus            Motherboard
-/0/0                       memory         31GiB Memoria de sistema
-/0/1                       processor      Intel(R) Core(TM) Ultra 5 125H
-/0/100                     bridge         Intel Corporation
-/0/100/2     /dev/fb0      display        Meteor Lake-P [Intel Arc Graphics]
-/0/100/4                   generic        Intel Corporation
-/0/100/6                   generic        RST VMD Managed Controller
-/0/100/8                   generic        Intel Corporation
-/0/100/a                   generic        Intel Corporation
-/0/100/b                   generic        Meteor Lake NPU
-/0/100/d                   bus            Meteor Lake-P Thunderbolt 4 USB Controller
-/0/100/e                   storage        Volume Management Device NVMe RAID Controller Intel Corporation
-/0/100/14                  bus            Meteor Lake-P USB 3.2 Gen 2x1 xHCI Host Controller
-/0/100/14.2                memory         RAM memory
-/0/100/15                  bus            Meteor Lake-P Serial IO I2C Controller #0
-/0/100/15.1                bus            Meteor Lake-P Serial IO I2C Controller #1
-/0/100/16                  communication  Intel Corporation
-/0/100/1c                  bridge         Intel Corporation
-/0/100/1c/0  wlp1s0        network        RTL8852BE PCIe 802.11ax Wireless Network Controller
-/0/100/1e                  communication  Meteor Lake-P Serial IO UART Controller #0
-/0/100/1e.2                bus            Meteor Lake-P Serial IO SPI Controller #0
-/0/100/1f                  bridge         Intel Corporation
-/0/100/1f/0                system         PnP device PNP0c02
-/0/100/1f/1                system         PnP device PNP0c02
-/0/100/1f/2                system         PnP device PNP0c02
-/0/100/1f/3                input          PnP device PNP0303
-/0/100/1f/4                system         PnP device PNP0c02
-/0/100/1f/5                system         PnP device PNP0c02
-/0/100/1f/6                system         PnP device PNP0c02
-/0/100/1f.3  card0         multimedia     Meteor Lake-P HD Audio Controller
-/0/100/1f.4                bus            Meteor Lake-P SMBus Controller
-/0/100/1f.5                bus            Meteor Lake-P SPI Controller
-/0/100/1f.6  eno1          network        Intel Corporation
-/0/6                       bridge         Intel Corporation
-/0/6/0                     storage        Samsung Electronics Co Ltd
-/1           /dev/nvme0    storage        SAMSUNG MZVMA1T0HCLD-00BTW
-/1/0         hwmon3        disk           NVMe disk
-/1/2         /dev/ng0n1    disk           NVMe disk
-/1/1         /dev/nvme0n1  disk           NVMe disk
-/2           mmc0          bus            MMC Host
-/3           input0        input          Lid Switch
-/4           input1        input          Power Button
-/5           input10       input          Intel HID 5 button array
-/6           input11       input          Asus WMI hotkeys
-/7           input12       input          Video Bus
-/8           input13       input          sof-hda-dsp Headset Mic
-/9           input14       input          sof-hda-dsp Headphone
-/a           input15       input          sof-hda-dsp HDMI/DP,pcm=3
-/b           input16       input          sof-hda-dsp HDMI/DP,pcm=4
-/c           input17       input          sof-hda-dsp HDMI/DP,pcm=5
-/d           input19       input          PixArt USB Optical Mouse
-/e           input2        input          Power Button
-/f           input3        input          AT Translated Set 2 keyboard
-/10          input6        input          ASCP1209:00 093A:3023 Mouse
-/11          input7        input          ASCP1209:00 093A:3023 Touchpad
-/12          input9        input          Intel HID events
+
 ## PCI
 0000:00:00.0 Host bridge: Intel Corporation Device 7d14 (rev 04)
 0000:00:02.0 VGA compatible controller: Intel Corporation Meteor Lake-P [Intel Arc Graphics] (rev 08)
@@ -179,89 +162,100 @@ ruta H/W     Dispositivo   Clase          Descripción
 0000:01:00.0 Network controller: Realtek Semiconductor Co., Ltd. RTL8852BE PCIe 802.11ax Wireless Network Controller
 10000:e0:06.0 PCI bridge: Intel Corporation Device 7e4d (rev 20)
 10000:e1:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd Device a811 (rev 03)
+
 ## USB
 Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
 Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 Bus 003 Device 002: ID 322e:2339 BillionPixels USB2.0 FHD UVC WebCam
 Bus 003 Device 003: ID 0bda:0129 Realtek Semiconductor Corp. RTS5129 Card Reader Controller
+Bus 003 Device 004: ID 046a:000c CHERRY USB Optical Mouse
 Bus 003 Device 005: ID 13d3:3571 IMC Networks Bluetooth Radio
-Bus 003 Device 020: ID 214b:7250 Huasheng Electronics USB2.0 HUB
-Bus 003 Device 021: ID 046a:000c CHERRY USB Optical Mouse
 Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
 Bus 004 Device 002: ID 2109:0716 VIA Labs, Inc. TX100
-## inxi
+
+## Resum inxi
 System:
-  Kernel 6.8.0-142-generic arch x86_64 bits 64 compiler gcc v 13.3.0
-  Desktop Cinnamon v 6.6.9 Distro Linux Mint 22.3 Zena base Ubuntu 24.04 noble
+  Kernel: 6.8.0-142-generic arch: x86_64 bits: 64 compiler: gcc v: 13.3.0
+  Desktop: Cinnamon v: 6.6.9 Distro: Linux Mint 22.3 Zena
+    base: Ubuntu 24.04 noble
 Machine:
-  Type Laptop System ASUSTeK product ASUS EXPERTBOOK B3605CCA v 1.0 serial <superuser required>
-  Mobo ASUSTeK model B3605CCA v 1.0 serial <superuser required> UEFI ASUSTeK (Licensed by AMI
-    LLC.) v B3605CCA.303 date 06/11/2025
+  Type: Laptop System: ASUSTeK product: ASUS EXPERTBOOK B3605CCA v: 1.0
+    serial: <filter>
+  Mobo: ASUSTeK model: B3605CCA v: 1.0 serial: <filter> UEFI: ASUSTeK
+    (Licensed by AMI LLC.) v: B3605CCA.303 date: 06/11/2025
 Battery:
-  ID-1 BAT0 charge 47.0 Wh (100.0%) condition 47.0/50.1 Wh (93.9%) volts 11.9 min 11.9
-    model ASUSTeK ASUS Battery status full
+  ID-1: BAT0 charge: 47.0 Wh (100.0%) condition: 47.0/50.1 Wh (93.9%)
+    volts: 11.9 min: 11.9 model: ASUSTeK ASUS Battery status: full
 CPU:
-  Info 14-core (4-mt/10-st) model Intel Core Ultra 5 125H bits 64 type MST AMCP arch Meteor Lake
-    rev 4 cache L1 1.4 MiB L2 14 MiB L3 18 MiB
-  Speed (MHz) avg 587 high 1772 min/max 400/4500:3600:2500 cores  400  400  1286  400  400
-     1772  400  400  400  400  400  1510  400  400  400  400  400  400
-    bogomips 107827
-  Flags avx avx2 ht lm nx pae sse sse2 sse3 sse4_1 sse4_2 ssse3 vmx
+  Info: 14-core (4-mt/10-st) model: Intel Core Ultra 5 125H bits: 64
+    type: MST AMCP arch: Meteor Lake rev: 4 cache: L1: 1.4 MiB L2: 14 MiB
+    L3: 18 MiB
+  Speed (MHz): avg: 1002 high: 4500 min/max: 400/4500:3600:2500 cores:
+    1: 400 2: 4500 3: 400 4: 2000 5: 400 6: 400 7: 400 8: 1971 9: 400 10: 986
+    11: 1509 12: 1672 13: 400 14: 400 15: 1012 16: 400 17: 400 18: 400
+    bogomips: 107827
+  Flags: avx avx2 ht lm nx pae sse sse2 sse3 sse4_1 sse4_2 ssse3 vmx
 Graphics:
-  Device-1 Intel Meteor Lake-P [Intel Arc Graphics] vendor ASUSTeK driver i915 v kernel arch Gen-13
-    bus-ID 0000:00:02.0
-  Device-2 BillionPixels USB2.0 FHD UVC WebCam driver uvcvideo type USB bus-ID 3-4:2
-  Display x11 server X.Org v 21.1.11 with Xwayland v 23.2.6 driver X loaded modesetting
-    unloaded fbdev,vesa dri iris gpu i915 resolution  1920x1080~60Hz  1920x1200~60Hz
-  API EGL v 1.5 drivers iris,swrast platforms active gbm,x11,surfaceless,device inactive wayland
-  API OpenGL v 4.6 compat-v 4.5 vendor intel mesa v 25.2.8-0ubuntu0.24.04.2 glx-v 1.4
-    direct-render yes renderer Mesa Intel Arc Graphics (MTL)
-  API Vulkan v 1.3.275 drivers N/A surfaces xcb,xlib devices 2
+  Device-1: Intel Meteor Lake-P [Intel Arc Graphics] vendor: ASUSTeK
+    driver: i915 v: kernel arch: Gen-13 bus-ID: 0000:00:02.0
+  Device-2: BillionPixels USB2.0 FHD UVC WebCam driver: uvcvideo type: USB
+    bus-ID: 3-4:2
+  Display: x11 server: X.Org v: 21.1.11 with: Xwayland v: 23.2.6 driver: X:
+    loaded: modesetting unloaded: fbdev,vesa dri: iris gpu: i915 resolution:
+    1: 1920x1080~60Hz 2: 1920x1200~60Hz
+  API: EGL v: 1.5 drivers: iris,swrast platforms:
+    active: gbm,x11,surfaceless,device inactive: wayland
+  API: OpenGL v: 4.6 compat-v: 4.5 vendor: intel mesa
+    v: 25.2.8-0ubuntu0.24.04.2 glx-v: 1.4 direct-render: yes renderer: Mesa
+    Intel Arc Graphics (MTL)
+  API: Vulkan v: 1.3.275 drivers: N/A surfaces: xcb,xlib devices: 2
 Audio:
-  Device-1 Intel Meteor Lake-P HD Audio vendor ASUSTeK driver sof-audio-pci-intel-mtl
-    bus-ID 0000:00:1f.3
-  API ALSA v k6.8.0-142-generic status kernel-api
-  Server-1 PipeWire v 1.0.5 status active
+  Device-1: Intel Meteor Lake-P HD Audio vendor: ASUSTeK
+    driver: sof-audio-pci-intel-mtl bus-ID: 0000:00:1f.3
+  API: ALSA v: k6.8.0-142-generic status: kernel-api
+  Server-1: PipeWire v: 1.0.5 status: active
 Network:
-  Device-1 Intel driver e1000e v kernel port N/A bus-ID 0000:00:1f.6
-  IF eno1 state up speed 1000 Mbps duplex full mac <filter>
-  Device-2 Realtek RTL8852BE PCIe 802.11ax Wireless Network vendor AzureWave driver rtw89_8852be
-    v kernel port 3000 bus-ID 0000:01:00.0
-  IF wlp1s0 state down mac <filter>
-  IF-ID-1 docker0 state down mac <filter>
+  Device-1: Intel driver: e1000e v: kernel port: N/A bus-ID: 0000:00:1f.6
+  IF: eno1 state: up speed: 1000 Mbps duplex: full mac: <filter>
+  Device-2: Realtek RTL8852BE PCIe 802.11ax Wireless Network
+    vendor: AzureWave driver: rtw89_8852be v: kernel port: 3000
+    bus-ID: 0000:01:00.0
+  IF: wlp1s0 state: down mac: <filter>
+  IF-ID-1: docker0 state: down mac: <filter>
 Bluetooth:
-  Device-1 IMC Networks Bluetooth Radio driver btusb v 0.8 type USB bus-ID 3-10:5
-  Report hciconfig ID hci0 rfk-id 0 state up address <filter> bt-v 5.3 lmp-v 12
+  Device-1: IMC Networks Bluetooth Radio driver: btusb v: 0.8 type: USB
+    bus-ID: 3-10:5
+  Report: hciconfig ID: hci0 rfk-id: 0 state: up address: <filter> bt-v: 5.3
+    lmp-v: 12
 RAID:
-  Hardware-1 Intel Volume Management Device NVMe RAID Controller Intel driver vmd v 0.6
-    bus-ID 0000:00:0e.0
+  Hardware-1: Intel Volume Management Device NVMe RAID Controller Intel
+    driver: vmd v: 0.6 bus-ID: 0000:00:0e.0
 Drives:
-  Local Storage total 1.86 TiB used 197.6 GiB (10.4%)
-  ID-1 /dev/nvme0n1 vendor Samsung model MZVMA1T0HCLD-00BTW size 953.87 GiB temp 34.9 C
-  ID-2 /dev/sda vendor Intenso model SSD size 953.87 GiB type USB
+  Local Storage: total: 1.86 TiB used: 238.89 GiB (12.5%)
+  ID-1: /dev/nvme0n1 vendor: Samsung model: MZVMA1T0HCLD-00BTW
+    size: 953.87 GiB temp: 28.9 C
+  ID-2: /dev/sda vendor: Intenso model: SSD size: 953.87 GiB type: USB
 Partition:
-  ID-1 / size 57.36 GiB used 24.94 GiB (43.5%) fs ext4 dev /dev/sda2
-  ID-2 /boot/efi size 508 MiB used 50 MiB (9.9%) fs vfat dev /dev/sda1
-  ID-3 /home size 879.67 GiB used 172.62 GiB (19.6%) fs ext4 dev /dev/sda3
+  ID-1: / size: 57.36 GiB used: 24.9 GiB (43.4%) fs: ext4 dev: /dev/sda2
+  ID-2: /boot/efi size: 508 MiB used: 50 MiB (9.9%) fs: vfat dev: /dev/sda1
+  ID-3: /home size: 879.67 GiB used: 213.95 GiB (24.3%) fs: ext4
+    dev: /dev/sda3
 Swap:
-  ID-1 swap-1 type file size 8 GiB used 0 KiB (0.0%) file /swapfile
-  ID-2 swap-2 type zram size 7.65 GiB used 256 KiB (0.0%) dev /dev/zram0
+  ID-1: swap-1 type: file size: 8 GiB used: 0 KiB (0.0%) file: /swapfile
+  ID-2: swap-2 type: zram size: 7.65 GiB used: 0 KiB (0.0%) dev: /dev/zram0
 Sensors:
-  System Temperatures cpu 46.0 C mobo N/A
-  Fan Speeds (rpm) N/A
+  System Temperatures: cpu: 67.0 C mobo: N/A
+  Fan Speeds (rpm): N/A
 Info:
-  Memory total 32 GiB note est. available 30.6 GiB used 5.58 GiB (18.2%)
-  Processes 420 Uptime 5h 30m Init systemd target graphical (5)
-  Packages 2597 Compilers gcc 13.3.0 Client Unknown Client: 2.1.322 inxi 3.3.34
+  Memory: total: 32 GiB note: est. available: 30.6 GiB used: 5.85 GiB (19.1%)
+  Processes: 412 Uptime: 7m Init: systemd target: graphical (5)
+  Packages: 2609 Compilers: gcc: 13.3.0 Shell: Bash v: 5.2.21 inxi: 3.3.34
+
+## Alimentació
+ADP1
+BAT0
+BAT0: 100% estat=Full disseny= actual=
+
 ## VirtualBox
 7.2.18r175117
-"Debian" {294505db-ff99-47be-86c9-23d3b1450e9b}
-"Windows11" {a004318d-c05a-4b66-a1c5-b14c7c193b0f}
-"debianobserver" {fb2941b2-5f48-44fe-a528-6411c778e1e0}
-"Debiannet" {5f8d075b-b953-4178-88eb-cd64f123e506}
-"Windows11Net" {ca5fc4b6-ad26-4b54-9f84-ec0b190702ae}
-"DualBoot" {fb291eea-527b-4faa-bdb1-b3ea509c2502}
-"Proxmox_proves" {3ff983ad-b9c3-44e9-851a-1003b6711f5d}
-"Debian_NFtables" {25fe3e48-11b8-44a2-9036-7586f7ad5457}
-"Cliente_windows_1" {8295a796-9ae0-4311-85e3-4cd6c4b23e3f}

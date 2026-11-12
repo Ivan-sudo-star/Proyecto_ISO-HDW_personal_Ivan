@@ -33,7 +33,7 @@ Si es trenca qualsevol d'aquests cinc punts, l'escenari no és viable.
 | Etiqueta | Equip | VM enceses | `r` mitjà | swap MB | RAM lliure MB | si/so | CPU us+sy % | wa % | idle % | Respon? |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 0-base | casa | cap (Chrome i Discord oberts) | 1,4 | 0 | 19 757 | 0/0 | 12 | 0 | 88 | ✅ |
-| 0-base | classe | cap | | | | | | | | |
+| 0-base | classe | cap (escriptori obert) | 0,3 | 0 | 19 413 | 0/0 | 2 | 2 | 96 | ✅ |
 | 1-router | | R3 | | | | | | | | |
 | 2-E1 | | router + CLI + W11 + NAS | | | | | | | | |
 | 3-E2 | | R1 + PVE1 + PVE2 + PVE3 + CLI | | | | | | | | |

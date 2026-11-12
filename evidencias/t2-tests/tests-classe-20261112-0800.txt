@@ -1,0 +1,70 @@
+# Tests de diagnòstic — equip: classe — 2026-11-12 08:00:15
+## Condicions
+- Host: canvia-al-teu-nom | Kernel: 6.8.0-142-generic | Uptime: up 4 minutes
+- Alimentació: N/C
+- VM en marxa: 0
+- Càrrega (1/5/15 min): 1.88 0.90 0.37
+- Memòria: total 30Gi, usada 3,7Gi, disponible 26Gi
+
+## 1. Memòria
+Eina: memtester version 4.6.0 (64-bit)
+(executat sense root; el bloqueig de memòria amb mlock ha funcionat: «locked»)
+Ordre: memtester 2G 1
+got 2048MB (2147483648 bytes), trying mlock ...locked.
+Loop 1/1:
+ Stuck Address : ok
+ Random Value : ok
+ Compare XOR : ok
+ Compare SUB : ok
+ Compare MUL : ok
+ Compare DIV : ok
+ Compare OR : ok
+ Compare AND : ok
+ Sequential Increment: ok
+ Solid Bits : ok
+ Checkerboard : ok
+ 8-bit Writes : ok
+ 16-bit Writes : ok
+Done.
+Errors de memòria registrats pel nucli (EDAC/MCE):
+(cap línia = cap error registrat)
+
+## 2. Disc (/home/gordito)
+Eina: dd (coreutils) 9.4 | Dispositiu: /dev/sda3 | FS: ext4
+Escriptura seqüencial 1 GiB (oflag=direct, sense memòria cau):
+1073741824 bytes (1,1 GB, 1,0 GiB) copied, 2,75315 s, 390 MB/s
+Lectura seqüencial 1 GiB (iflag=direct):
+1073741824 bytes (1,1 GB, 1,0 GiB) copied, 2,56084 s, 419 MB/s
+Escriptura síncrona 4 KiB x 2000 (oflag=direct,dsync; límit 90 s) — aproximació a IOPS d'escriptura:
+8192000 bytes (8,2 MB, 7,8 MiB) copied, 3,50497 s, 2,3 MB/s
+Eina: fio-3.36 (ioengine=libaio, direct=1, fitxer 1 GiB, 20 s per prova)
+ Seqüencial lectura 1M QD8 lectura 432,6 MB/s 432 IOPS | escriptura 0,0 MB/s 0 IOPS
+ Seqüencial escriptura 1M QD8 lectura 0,0 MB/s 0 IOPS | escriptura 429,1 MB/s 429 IOPS
+ Aleatori lectura 4K QD32 lectura 106,7 MB/s 27323 IOPS | escriptura 0,0 MB/s 0 IOPS
+ Aleatori escriptura 4K QD32 lectura 0,0 MB/s 0 IOPS | escriptura 78,7 MB/s 20157 IOPS
+ Aleatori lectura 4K QD1 lectura 16,1 MB/s 4116 IOPS | escriptura 0,0 MB/s 0 IOPS
+ Aleatori escriptura 4K QD1 + fsync lectura 0,0 MB/s 0 IOPS | escriptura 0,7 MB/s 179 IOPS
+Estat SMART:
+ (sudo smartctl -H /dev/sda — es registra a l'inventari amb sudo)
+
+## 3. Xarxa
+Interfície: eno1 | Velocitat negociada: 1000 Mb/s | Porta d'enllaç: 172.16.222.1
+Latència a la porta d'enllaç (20 paquets):
+20 packets transmitted, 20 received, 0% packet loss, time 19454ms
+rtt min/avg/max/mdev = 0.480/0.669/0.870/0.104 ms
+Latència a Internet 1.1.1.1 (20 paquets):
+20 packets transmitted, 0 received, 100% packet loss, time 19452ms
+
+Descàrrega 100 MB (curl, proof.ovh.net):
+velocitat mitjana: 8,5 Mb/s (60.000530 s)
+iperf3: executa 'iperf3 -s' en un altre equip i després 'iperf3 -c <IP>'
+
+Informe desat en evidencias/t2-tests/tests-classe-20261112-0800.txt
+
+## Interpretació (classe)
+- Ping a 1.1.1.1 amb 100 % de pèrdua: **la xarxa del centre bloqueja l'ICMP cap a Internet** (confirmat pel professorat/alumne).
+  La porta d'enllaç 172.16.222.1 sí que respon (0,67 ms), i el TCP funciona: `curl https://www.google.com` → 200 i `/dev/tcp/1.1.1.1/443` → connecta.
+- La descàrrega de 100 MB arriba al límit de 60 s amb una mitjana de **8,5 Mb/s**. L'enllaç del portàtil és d'1 Gb/s, però la sortida a
+  Internet de l'aula és compartida: el coll de botella és la connexió del centre, no el portàtil.
+- Escriptura 4K amb fsync: **179 IOPS** (a casa, 422 amb el mateix disc). El disc està sa (SMART PASSED), així que la diferència és
+  el port i el controlador USB del portàtil.

@@ -43,8 +43,8 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 |---|---|---|---|
 | T0 Entorn (Apte) | a17, a18 | 🟡 VM creades al grup `/ISO_HWD`; falta instal·lar-les | [01](docs/01-entorn.md) |
 | T0 Entorn (Apte+) | a127 | 🟡 documentat + Git; falta completar problemes a mesura que apareguen | [01](docs/01-entorn.md) |
-| T2 Inventari (Apte) | a19, a20, a21 | ✅ casa complet (amb sudo) · classe sense RAM/SMART | [02](docs/02-inventari.md) |
-| T2 Tests (Apte+) | a27, a28, a29 | 🟡 casa ✅ (memtester, dd, fio, xarxa); falta classe | [02](docs/02-inventari.md) |
+| T2 Inventari (Apte) | a19, a20, a21 | ✅ classe i casa complets (amb sudo) | [02](docs/02-inventari.md) |
+| T2 Tests (Apte+) | a27, a28, a29 | ✅ classe i casa (memtester, dd, fio, xarxa) | [02](docs/02-inventari.md) |
 | T4 Xarxa (Apte) | a128, a148 | ✅ esquema i taula d'interfícies (alineats amb el grup) | [03](docs/03-xarxa.md) |
 | T4 Xarxa (Apte+) | a129, a149 | ✅ ping, traceroute, rutes, interfícies i aïllament | [03](docs/03-xarxa.md) |
 | T5 General | a78, a79, a258, a259 | 🟡 integritat ISO verificada (3 de 6); resta pendent | [04](docs/04-installacio.md) |
