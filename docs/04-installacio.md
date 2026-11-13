@@ -33,9 +33,9 @@ Hash oficial descarregat de la font del fabricant el mateix dia.
 | OPNsense 26.7 | `OPNsense-26.7-dvd-amd64.iso` | amd64 | pkg.opnsense.org/releases/26.7/OPNsense-26.7-checksums-amd64.sha256 | `1efd5dc9…48d5dcd` | ✅ **Sí** (12/11): el fabricant publica el hash del `.iso.bz2`. Es va tornar a baixar el `.bz2` (hash oficial correcte) i, descomprimit, dona el mateix hash que la ISO instal·lada |
 | MikroTik RouterOS 7.24.5 | `mikrotik-7.24.5.iso` | x86 | download.mikrotik.com/routeros/7.24.5/mikrotik-7.24.5.iso.sha256 | `4bff16b8…75aaec02` | ✅ **Sí** (12/11). La **7.25.1** (`c639a897…c2b27480`), usada per actualitzar R1, també coincideix amb el seu `.iso.sha256` oficial |
 | Windows 11 | `w11.iso` | x64 | microsoft.com/software-download/windows11 | `5210deed…89119dc8` | ➖ **No verificable**: ISO multiedició es-ES de la 23H2 (compilació base 22621). Microsoft només publica els hashes de la versió actual, i aquest no apareix en cap font pública. Alternativa: l'XML d'`install.wim` és coherent i el sistema instal·lat és 23H2 (22631). Per a una instal·lació nova: baixar la ISO actual i verificar-la |
-| Windows Server 2025 | *(falta)* | x64 | Microsoft Evaluation Center | — | ⬜ falta la ISO |
+| Windows Server 2025 | `26100.32230…SERVER_EVAL_x64FRE_en-us.iso` | x64 | Microsoft Evaluation Center | `7b052573…a1bfd51` | ➖ **No verificable** amb el fabricant (Microsoft no publica hashes de les ISO d'avaluació). Alternativa: `setup.exe` signat per Microsoft Corporation (cadena Microsoft Root CA 2010) i còpia a PVE1 amb el mateix SHA-256 ([`verificacio.txt`](../evidencias/t5-isos/verificacio.txt)) |
 
-Hashes complets a les evidències ([`verificacio.txt`](../evidencias/t5-isos/verificacio.txt)). **Resum: 5 de 6 ISO verificades contra el fabricant**; la de Windows 11 està justificada i la de Windows Server 2025 es verificarà quan es descarregue.
+Hashes complets a les evidències ([`verificacio.txt`](../evidencias/t5-isos/verificacio.txt)). **Resum: 5 de 7 ISO verificades contra el fabricant** (més la 7.25.1 de MikroTik); les de Windows 11 i Windows Server 2025 no es poden verificar amb Microsoft i estan justificades.
 
 **Requisits mínims oficials i recursos assignats:**
 
@@ -381,7 +381,7 @@ Captures (clúster amb 3 nodes, VM i CT, còpia programada, NFS i còpies `vzdum
 ## 7. Windows Server 2025 (a237–a241)
 
 **VM 210 dins de PVE1** (com al grup, on el Windows Server està dins del clúster). Evidències a `evidencias/t5-ws2025/`.
-**Bloqueig: falta la ISO** (avaluació de 180 dies del Microsoft Evaluation Center). Es puja a `nas-proxmox` o a `local` de PVE1,
+**ISO disponible des del 13/11** (avaluació de 180 dies, compilació 26100.32230). Preparat: [`configs/ws2025/`](../configs/ws2025/) (instal·lació desatesa) i [`scripts/proxmox/crea-vm-ws2025.sh`](../scripts/proxmox/crea-vm-ws2025.sh). Disc de 32 GB (no 50) perquè `local-lvm` de PVE1 només té 22 GB lliures. Es puja a `nas-proxmox` o a `local` de PVE1,
 juntament amb la ISO `virtio-win` (controladors de disc i xarxa VirtIO).
 
 1. **Instal·lació (a237):**

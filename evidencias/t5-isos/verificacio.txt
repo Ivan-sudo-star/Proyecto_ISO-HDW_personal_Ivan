@@ -24,3 +24,14 @@ s'identifica com a Windows 11 23H2 (22631). Per a una instal·lació nova caldri
 
 Resum: 5 de 6 ISO verificades contra el fabricant (Debian, Proxmox, TrueNAS, MikroTik, OPNsense). Windows 11: justificat.
 Windows Server 2025: es verificarà quan es descarregue la ISO.
+
+# 13/11/2026: Windows Server 2025 (avaluació)
+Fitxer: 26100.32230.260111-0550.lt_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso (8 152 356 864 B, volum SSS_X64FREE_EN-US_DV9)
+SHA-256: 7b052573ba7894c9924e3e87ba732ccd354d18cb75a883efa9b900ea125bfd51
+Hash oficial: N/C. Microsoft no publica els hashes de les ISO d'avaluació (Evaluation Center) i el valor no apareix en cap font pública.
+Comprovacions alternatives:
+- setup.exe de la ISO porta signatura Authenticode de "Microsoft Corporation", emesa per "Microsoft Code Signing PCA 2010" -> "Microsoft Root Certificate Authority 2010" (openssl pkcs7 -print_certs)
+- install.wim (XML): en-US, compilació 26100.32230; índexs 1 Standard Eval, 2 Standard Eval (Desktop Experience), 3 Datacenter Eval, 4 Datacenter Eval (Desktop Experience)
+- Còpia a PVE1 (local:iso) llegida del CD virtual: SHA-256 idèntic (7b052573…bfd51)
+virtio-win.iso (controladors VirtIO i agent QEMU per a Windows): versió 0.1.302 de fedorapeople.org (stable-virtio), amb controladors 2k25 (vioscsi, NetKVM).
+  El fitxer .sha256 de la mateixa web va baixar buit: hash oficial N/C.
