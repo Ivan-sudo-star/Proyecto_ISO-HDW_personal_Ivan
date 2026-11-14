@@ -95,4 +95,11 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 
 **12/11/2026: Windows 11 i la 25H2.** L'IA va reiniciar el W11 amb `Restart-Computer -Force` després que Windows Update demanés reiniciar. La 25H2 no es va completar (0x80242014) i Windows en va esborrar els fitxers temporals. Probablement el reinici s'havia d'haver fet des de Configuració → Windows Update («Reiniciar ara»), que és qui gestiona el pas posterior al reinici. Queda pendent.
 
+**14/11/2026 (casa): W11 25H2 i Windows Server 2025**:
+- **W11:** la 25H2 es va completar reiniciant des de Configuració → Windows Update (com s'havia previst el 12/11). Després, l'acumulativa de novembre, .NET i Defender amb el script elevat. Resultat: 25H2 26200.9974, «Todo está actualizado».
+- **Error de l'IA:** va fer la instal·lació del WS2025 i l'actualització de W11 alhora. PVE1 es va penjar amb l'arrel en només lectura. La causa real no era la càrrega sinó el **TRIM** (el mateix problema que R2): el format del disc de Windows deixava peticions `DISCARD` penjades al VDI. Es va trobar llegint el `VBox.log`. Solució: `--discard off` als nodes Proxmox, corregit també a `crear-entorn.sh`.
+- **Error de l'IA:** l'`autounattend.xml` tenia una ordre de 386 caràcters; el límit és 259 i Setup s'aturava. Es va trobar muntant el disc de la VM a PVE1 i llegint `setuperr.log`.
+- **Límit de l'equip:** dues aturades de VirtualBox (*Guru Meditation*, paginació niuada) amb el Windows niuat treballant fort. L'IA va decidir no tornar a provar Windows Update al WS2025 per no arriscar el node, i fer el `vzdump` amb la VM aturada. a79 queda pendent pel WS2025.
+- La ISO desatesa (amb la contrasenya) es va esborrar de PVE1 en acabar.
+
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*

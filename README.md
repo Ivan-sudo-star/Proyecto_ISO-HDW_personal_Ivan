@@ -43,18 +43,18 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | Tasca | Accions | Estat | On |
 |---|---|---|---|
 | T0 Entorn (Apte) | a17, a18 | ✅ entorn muntat i funcionant ([VM del grup](evidencias/t0-entorn/vms.txt)) | [01](docs/01-entorn.md) |
-| T0 Entorn (Apte+) | a127 | ✅ 11 problemes documentats amb causa i solució (s'hi afegeixen els nous) | [01 §5](docs/01-entorn.md#5-problemes-trobats-i-solució-a127) |
+| T0 Entorn (Apte+) | a127 | ✅ 13 problemes documentats amb causa i solució (s'hi afegeixen els nous) | [01 §5](docs/01-entorn.md#5-problemes-trobats-i-solució-a127) |
 | T2 Inventari (Apte) | a19, a20, a21 | ✅ classe i casa complets (amb sudo) | [02](docs/02-inventari.md) |
 | T2 Tests (Apte+) | a27, a28, a29 | ✅ classe i casa (memtester, dd, fio, xarxa) | [02](docs/02-inventari.md) |
 | T4 Xarxa (Apte) | a128, a148 | ✅ esquema i taula d'interfícies (alineats amb el grup) | [03](docs/03-xarxa.md) |
 | T4 Xarxa (Apte+) | a129, a149 | ✅ ping, traceroute, rutes, interfícies i aïllament | [03](docs/03-xarxa.md) |
-| T5 General | a78, a79, a258, a259 | 🟡 a78 ✅ (5 de 6 ISO verificades, W11 justificada) · a258 ✅ (incidència de GRUB) · a259 ✅ · a79: R1 7.25.1 ✅, R2 26.7.9 ✅, R3 ✅, NAS i Proxmox al dia ✅, **W11 pendent** (la 25H2 no es va completar) | [04](docs/04-installacio.md) |
+| T5 General | a78, a79, a258, a259 | 🟡 a78 ✅ (5 de 6 ISO verificades, W11 justificada) · a258 ✅ (incidència de GRUB) · a259 ✅ · a79: R1 7.25.1 ✅, R2 26.7.9 ✅, R3 ✅, NAS i Proxmox al dia ✅, W11 Pro 25H2 26200.9974 al dia ✅, **WS2025 pendent** (VirtualBox s'atura amb el Windows niuat: [01 núm. 13](docs/01-entorn.md)) | [04](docs/04-installacio.md) |
 | T5 MikroTik | a203–a209 | ✅ complet (recuperació en 42 s) | [04 §2](docs/04-installacio.md#2-r1--mikrotik-routeros-a203a209) |
 | T5 OPNsense | a210–a216 | ✅ complet (recuperació en 48 s) | [04 §3](docs/04-installacio.md#3-r2--opnsense-a210a216) |
 | T5 nftables | a217–a223 | ✅ complet (recuperació en 22 s) · els 3 routers configurats igual | [04 §4](docs/04-installacio.md#4-r3--debian-13--nftables-a217a223) |
 | T5 TrueNAS | a224–a227 | ✅ complet (pool `copies`, SSH/NFS/SMB) | [04 §5](docs/04-installacio.md#5-nas--truenas-scale-a224a227-a259) |
 | T5 Proxmox | a228–a232, a235, a236 | ✅ 3 nodes, clúster, NFS compartit, VM 220/230, CT 100, migració (8,5 s en calent) i còpies | [04 §6](docs/04-installacio.md#6-proxmox-ve-a228a232-a235-a236) |
-| T5 Windows Server 2025 | a237–a241 | 🟡 ISO verificada i a PVE1 · instal·lació desatesa preparada (VM 210 a PVE1) | [04 §7](docs/04-installacio.md#7-windows-server-2025-a237a241) |
+| T5 Windows Server 2025 | a237–a241 | 🟡 a237–a240 ✅: instal·lació desatesa a la VM 210 (PVE1), 26100.32230, `admin-ivan`, IP fixa .21, còpia `wbadmin` al NAS + `vzdump` · a241 ⬜ (l'explicació del domini l'ha d'escriure l'alumne) | [04 §7](docs/04-installacio.md#7-windows-server-2025-a237a241) |
 | T5 Linux infra | a242–a246 | ✅ VM 220 (PVE2) i 230 (PVE3): actualitzades, usuaris, SSH només amb clau, còpia al NAS amb prova de restauració | [04 §8](docs/04-installacio.md#8-servidors-gnulinux-dinfraestructura-a242a246) |
 | T5 Clients | a247–a250, a252–a255 | 🟡 W11 Pro ✅ (a247–a250) · CLI-Debian ✅ (a252–a255) · Guest Additions als dos | [04 §9](docs/04-installacio.md#9-clients-a247a250-a252a255) |
 | T5 Apte+ còpies automàtiques | a105 | ✅ imatges: tasca setmanal de Proxmox provada · 🟡 configuracions: orquestrador instal·lat, falta repartir la clau | [04 §10](docs/04-installacio.md#10-apte-còpies-automatitzades-a105) |

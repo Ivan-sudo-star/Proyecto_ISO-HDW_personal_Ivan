@@ -413,6 +413,25 @@ juntament amb la ISO `virtio-win` (controladors de disc i xarxa VirtIO).
      - i hi ha inventari i auditoria centralitzats.
    - **Inconvenient:** el domini és un servei crític. Calen còpies de l'estat del sistema i, idealment, dos controladors de domini.
 
+### ✅ Resultat Windows Server 2025 (14/11/2026, equip de casa)
+
+Instal·lació **desatesa** amb [`autounattend.xml`](../configs/ws2025/autounattend.xml) i [`config-ws2025.ps1`](../configs/ws2025/config-ws2025.ps1) (primer inici), i VM creada amb [`crea-vm-ws2025.sh`](../scripts/proxmox/crea-vm-ws2025.sh). Proves recollides des de PVE1 amb l'agent QEMU (`qm guest exec`) i [`ws-info.ps1`](../scripts/ws2025/ws-info.ps1).
+
+| Acció | Estat | Evidència |
+|---|---|---|
+| a237 instal·lació i versió | ✅ **Windows Server 2025 Standard Evaluation** (Desktop Experience), 24H2, compilació **26100.32230**, 64 bits, UEFI. Llicència d'avaluació: *Licensed*, 180 dies. Controladors VirtIO (SCSI, xarxa, sèrie) en estat OK i agent QEMU en marxa. Serveis automàtics aturats: només `edgeupdate` i dos de sessió d'usuari (normal) | [`a237-a239-srv-ws2025.txt`](../evidencias/t5-ws2025/a237-a239-srv-ws2025.txt) |
+| a238 usuaris | ✅ `Administrator` (amb contrasenya) i **`admin-ivan`** al grup Administrators, creats per l'`autounattend.xml`. `Guest` i `DefaultAccount` desactivats | ídem |
+| a239 xarxa | ✅ `Ethernet` (VirtIO): IP fixa **192.168.13.21/24**, GW i DNS 192.168.13.1, sufix `lan13.local`, DHCP desactivat. Ping a R1 i al NAS, DNS (`debian.org`), HTTPS 200 i SMB 445 al NAS correctes | ídem |
+| a240 còpia | ✅ **Nivell sistema:** [`ws-copia.ps1`](../scripts/ws2025/ws-copia.ps1) → configuració exportada en text (4 fitxers) i **`wbadmin`** (estat del sistema + volums crítics, VSS complet) a `\\192.168.13.20\windows`: correcte en 3,9 min, recuperable fins a *Bare Metal Recovery*. **Nivell VM:** `vzdump 210` a `nas-proxmox` (vegeu sota). Què es copia i què no: punt 4 d'aquesta secció | [`a240-copia-ws2025.txt`](../evidencias/t5-ws2025/a240-copia-ws2025.txt) |
+| a79 (WS2025) | ⚠️ **Pendent.** Windows Update troba 5 actualitzacions (acumulativa de novembre KB5131080, .NET KB5127690, Defender...). En dues ocasions, PVE1 s'ha aturat amb un *Guru Meditation* de VirtualBox (`VERR_VMM_RING0_ASSERTION`, paginació niuada) mentre el Windows niuat treballava fort (descàrrega d'actualitzacions i còpia amb la VM engegada). Vegeu [01 §problemes, núm. 13](01-entorn.md). Per no posar en risc el node, no s'ha tornat a provar: queda per fer amb un equip amb més marge o amb la VM a l'amfitrió | — |
+| a241 domini | ⬜ L'explicació l'ha d'escriure l'alumne (guió al punt 5) | — |
+
+**Incidències durant la instal·lació (14/11):**
+1. PVE1 es va penjar amb l'arrel en només lectura: TRIM del format de Windows penjat al VDI. Solució: `--discard off` i memòria cau de l'amfitrió al disc de PVE1 ([01, núm. 12](01-entorn.md)).
+2. La primera instal·lació es va aturar a la fase *specialize* («The computer restarted unexpectedly»). Al registre `C:\Windows\Panther\setuperr.log` (llegit muntant el disc de la VM a PVE1): `RunSynchronousCommand ... Path ... Value is invalid` (0x80220005). L'ordre feia 386 caràcters i el límit és 259. Corregit (ara 182 + una segona ordre `net accounts`).
+3. *Guru Meditation* de VirtualBox (dues vegades) → [01, núm. 13](01-entorn.md). Abans de tornar a engegar la VM, el thin-pool `local-lvm` es va ampliar 7 GB (21,4 → 28,4 GB).
+4. La ISO desatesa (`ws2025-unattend.iso`, porta la contrasenya) s'ha **esborrat** de PVE1 i expulsat de la VM.
+
 ## 8. Servidors GNU/Linux d'infraestructura (a242–a246)
 
 **VM 220 `SRV-SERVEIS` (.22, a PVE2) i VM 230 `SRV-DADES` (.23, a PVE3)**, igual que les «VM Debian · serveis» i «VM Debian · dades» del grup.

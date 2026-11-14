@@ -1,0 +1,22 @@
+# a240 — còpia de SRV-WS2025 al NAS (14/11/2026)
+# Script: scripts/ws2025/ws-copia.ps1, executat com a SYSTEM amb una tasca programada (lloc13-copia)
+# Destí: recurs SMB \\192.168.13.20\windows (dataset copies/windows de TrueNAS), usuari copies.
+# La contrasenya es passa per variable d'entorn i el fitxer temporal s'esborra en acabar.
+
+## a240 còpia - 2026-11-14 19:33:24
+(net use /delete previ: no hi havia cap connexió, és normal)
+The command completed successfully.
+config exportada: 4 fitxers
+Windows Server Backup: Installed
+wbadmin 1.0 - Backup command-line tool
+(C) Copyright Microsoft Corporation. All rights reserved.
+
+
+Note: The backed up data cannot be securely protected at this destination.
+Backups stored on a remote shared folder might be accessible by other
+people on the network. You should only save your backups to a location
+where you trust the other users who have access to the location or on a
+network that has additional security precautions in place.
+
+Retrieving volume information...
+This will back up SYSTEM(EFI System Pa

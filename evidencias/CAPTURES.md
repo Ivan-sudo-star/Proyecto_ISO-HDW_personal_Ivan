@@ -52,6 +52,12 @@ Cada imatge és a la carpeta `captures/` de la seua tasca, al costat de l'evidè
 | ![](t5-proxmox/captures/07-emmagatzematge-nfs-compartit.png) | Emmagatzematge `nas-proxmox` (NFS) compartit pels nodes |
 | ![](t5-proxmox/captures/08-copies-vzdump-al-nas.png) | a231/a105: còpies `vzdump` al NAS; la retenció ja ha esborrat la còpia més antiga de la VM 230 |
 
+## T5 · Windows Server 2025 ([evidències](t5-ws2025/))
+| Captura | Què demostra |
+|---|---|
+| ![](t5-ws2025/captures/ws-01-installacio-desatesa.png) | a237: instal·lació desatesa de Windows Server a la VM 210 (PVE1), sense cap pregunta: el disc VirtIO es detecta amb el controlador del CD de virtio-win |
+| ![](t5-ws2025/captures/ws-02-primer-inici-server-manager.png) | a237: primer inici de **SRV-WS2025**: Server Manager obert com a `Administrator`, i el script de primer inici (finestra de consola) configurant VirtIO, l'agent QEMU i la xarxa |
+
 ## T5 · Clients ([evidències](t5-clients/))
 | Captura | Què demostra |
 |---|---|
