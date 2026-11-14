@@ -14,7 +14,7 @@ rm -rf "$D"     # la còpia amb la contrasenya només queda dins de la ISO local
 
 qm create $VMID --name srv-ws2025 --ostype win11 --machine q35 --bios ovmf \
   --efidisk0 local-lvm:1,efitype=4m,pre-enrolled-keys=1 \
-  --cpu host --cores 2 --memory 4096 --balloon 0 \
+  --cpu host --cores 2 --memory 3072 --balloon 0 \
   --scsihw virtio-scsi-single --scsi0 local-lvm:32,discard=on,ssd=1,iothread=1 \
   --net0 virtio,bridge=vmbr0 --agent enabled=1 \
   --ide2 local:iso/$ISO,media=cdrom \

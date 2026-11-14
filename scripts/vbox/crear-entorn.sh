@@ -32,7 +32,7 @@ crear_vm() {
 }
 
 # disc NOM PORT MIDA_MB [nom_fitxer] [discard on|off]
-# Nota: FreeBSD (OPNsense) dona timeouts amb TRIM al controlador AHCI de VirtualBox → discard off
+# Nota: FreeBSD (OPNsense) dona timeouts amb TRIM al controlador AHCI de VirtualBox → discard off (també als nodes Proxmox)
 disc() {
   local name=$1 port=$2 size=$3 file=${4:-disk$2} discard=${5:-on}
   local path="$BASE/$name/$file.vdi"
@@ -103,7 +103,10 @@ pve() {  # pve N RAM_MB VCPU DISC_MB
   if nova PVE$n-Proxmox; then
     crear_vm PVE$n-Proxmox Debian13_64 "$2" "$3" bios
     VBoxManage modifyvm PVE$n-Proxmox --nested-hw-virt on
-    disc PVE$n-Proxmox 0 "$4"
+    # discard off + memòria cau de l'amfitrió: amb TRIM, el format del disc d'una VM niuada (WS2025)
+    # deixava peticions DISCARD penjades al VDI → reinicis del port AHCI i arrel de Proxmox en només lectura (14/11)
+    disc PVE$n-Proxmox 0 "$4" disk0 off
+    VBoxManage storagectl PVE$n-Proxmox --name SATA --hostiocache on
     iso PVE$n-Proxmox "$ISO_PROXMOX"
     nic_lan PVE$n-Proxmox 1 allow-all   # promiscu: les VM/CT niuades necessiten passar per vmbr0
   fi
