@@ -62,11 +62,17 @@
     </component>
     <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
       <RunSynchronous>
-        <!-- Laboratori: totes les contrasenyes són curtes; Windows Server exigeix complexitat per defecte. Es desactiva abans de crear els comptes. -->
+        <!-- Laboratori: totes les contrasenyes són curtes; Windows Server exigeix complexitat per defecte. Es desactiva abans de crear els comptes.
+             Path té un límit de 259 caràcters (la primera versió en tenia 386 i Setup s'aturava amb 0x80220005 «Value is invalid»). -->
         <RunSynchronousCommand wcm:action="add">
           <Order>1</Order>
-          <Path>powershell -NoProfile -Command "secedit /export /cfg C:\Windows\Temp\sec.inf; (Get-Content C:\Windows\Temp\sec.inf) -replace 'PasswordComplexity = 1','PasswordComplexity = 0' -replace 'MinimumPasswordLength = \d+','MinimumPasswordLength = 4' | Set-Content C:\Windows\Temp\sec.inf; secedit /configure /db C:\Windows\security\local.sdb /cfg C:\Windows\Temp\sec.inf /areas SECURITYPOLICY"</Path>
-          <Description>Politica de contrasenyes del laboratori</Description>
+          <Path>powershell -c "secedit /export /cfg c:\s.inf;(gc c:\s.inf) -replace 'Complexity = 1','Complexity = 0'|sc c:\s.inf;secedit /configure /db c:\s.sdb /cfg c:\s.inf /areas SECURITYPOLICY"</Path>
+          <Description>Sense complexitat de contrasenya</Description>
+        </RunSynchronousCommand>
+        <RunSynchronousCommand wcm:action="add">
+          <Order>2</Order>
+          <Path>net accounts /minpwlen:4</Path>
+          <Description>Longitud minima 4</Description>
         </RunSynchronousCommand>
       </RunSynchronous>
     </component>
