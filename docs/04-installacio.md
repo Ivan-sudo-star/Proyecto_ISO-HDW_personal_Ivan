@@ -402,9 +402,13 @@ Captures (clúster amb 3 nodes, VM i CT, còpia programada, NFS i còpies `vzdum
    - També `Get-NetIPConfiguration` i `Get-WindowsFeature | ? Installed`, exportats a un fitxer de text.
    - **Què NO:** el fitxer de paginació i la hibernació, les dades temporals i les aplicacions que es reinstal·len.
    - **Què SÍ:** l'estat del sistema. Si el servidor és controlador de domini, conté la base de dades d'Active Directory, que és el més valuós.
-5. **Què és un domini i què aporta (a241)** — *explicació de l'alumne, amb les seues paraules:*
+5. **Què és un domini i què aporta (a241)** — *explicació de l'alumne, ampliada amb ajuda de l'IA:*
 
-   > És una forma d'agrupar de manera lògica els equips, usuaris i recursos d'una xarxa per poder administrar-los tots des d'una única base de dades central, on es controlen els permisos i la seguretat. Això dona molt més control a l'empresa, però si es treballa al núvol, o som molt pocs i no tenim restriccions d'accés... no cal (personalment parlant) i es pot estalviar.
+   > Un domini és una forma d'agrupar de manera lògica els equips, usuaris i recursos d'una xarxa per poder administrar-los tots des d'una única base de dades central (a Windows Server, l'**Active Directory**, que guarda el **controlador de domini**), on es controlen els permisos i la seguretat.
+   >
+   > La gestió centralitzada dona molt més control a l'empresa: un usuari entra amb el mateix compte a qualsevol equip, les altes i baixes es fan en un sol lloc, els permisos de les carpetes compartides es donen per grups (per exemple, per departament) i es poden aplicar normes a tots els equips alhora amb les polítiques de grup (GPO).
+   >
+   > Ara bé, si l'empresa treballa al núvol o som molt pocs i no tenim restriccions d'accés, personalment crec que no cal muntar un domini local amb servidor propi, i es pot estalviar. Al núvol també hi ha gestió centralitzada (per exemple, Microsoft Entra ID), però sense mantenir el servidor. A l'empresa de l'enunciat, amb cinc departaments, sí que compensa: per això el disseny del grup el preveu, encara que en aquesta part individual no s'implanta (l'enunciat el deixa per a més endavant i la unió dels clients al domini, a251 i a256, no s'exigeix).
 
 ### ✅ Resultat Windows Server 2025 (14/11/2026, equip de casa; traslladat a VirtualBox el 16/11)
 

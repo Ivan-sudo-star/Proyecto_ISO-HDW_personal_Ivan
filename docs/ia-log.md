@@ -110,3 +110,6 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - **Apagada de l'equip de classe (09:34)** mentre el WS2025 s'actualitzava. L'IA ho va atribuir, amb reserves, a la temperatura (el portàtil arriba a 97–100 °C amb aquesta càrrega). Va tornar a engegar-ho tot per ordre i va repetir l'actualització vigilant la temperatura: WS2025 26100.33822, 0 pendents → **a79 fet**.
 
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*
+
+**16/11/2026: a241 (què és un domini).** L'alumne va escriure la seua explicació (definició i quan no cal un domini). L'IA va proposar ampliar-la amb el que demana la rúbrica (què aporta en concret: compte únic, altes i baixes centralitzades, permisos per grups i GPO), els noms tècnics (Active Directory, controlador de domini) i el matís del núvol (Entra ID). L'alumne va revisar la proposta abans d'aplicar-la i va demanar aclarir que el domini no s'implanta en aquesta part. **Decisió:** es manté l'estructura i l'opinió de l'alumne, ampliada.
+
