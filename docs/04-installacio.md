@@ -404,7 +404,7 @@ Captures (clúster amb 3 nodes, VM i CT, còpia programada, NFS i còpies `vzdum
    - **Què SÍ:** l'estat del sistema. Si el servidor és controlador de domini, conté la base de dades d'Active Directory, que és el més valuós.
 5. **Què és un domini i què aporta (a241)** — *explicació de l'alumne, amb les seues paraules:*
 
-   > Es una forma de agrupar de manera lógica los equipos, usuarios y recursos de una red para poder administrarlos todos desde una única base de datos central, donde se controlan los permisos y la seguridad. Esto da mucho mas control a la empresa, pero si se trabaja en la nube, o somos muy pocos, no tenemos restricciones de acceso... no hace falta (personalmente hablando) y se puede ahorrar.
+   > És una forma d'agrupar de manera lògica els equips, usuaris i recursos d'una xarxa per poder administrar-los tots des d'una única base de dades central, on es controlen els permisos i la seguretat. Això dona molt més control a l'empresa, però si es treballa al núvol, o som molt pocs i no tenim restriccions d'accés... no cal (personalment parlant) i es pot estalviar.
 
 ### ✅ Resultat Windows Server 2025 (14/11/2026, equip de casa; traslladat a VirtualBox el 16/11)
 
