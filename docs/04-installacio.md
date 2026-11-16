@@ -402,15 +402,9 @@ Captures (clúster amb 3 nodes, VM i CT, còpia programada, NFS i còpies `vzdum
    - També `Get-NetIPConfiguration` i `Get-WindowsFeature | ? Installed`, exportats a un fitxer de text.
    - **Què NO:** el fitxer de paginació i la hibernació, les dades temporals i les aplicacions que es reinstal·len.
    - **Què SÍ:** l'estat del sistema. Si el servidor és controlador de domini, conté la base de dades d'Active Directory, que és el més valuós.
-5. **Què és un domini i què aporta (a241)** — *redactar-ho amb les meues paraules; guió:*
-   - Un domini és un conjunt d'usuaris, equips i recursos que comparteixen una mateixa base de dades d'identitats (Active Directory), gestionada per un o més controladors de domini.
-   - **A l'empresa de l'enunciat** (direcció, administració, comercial, producció i informàtica):
-     - un usuari s'autentica igual a qualsevol equip;
-     - les altes i les baixes es fan en un sol lloc;
-     - es poden aplicar polítiques (GPO) per departament;
-     - els permisos de les carpetes compartides es donen per grups;
-     - i hi ha inventari i auditoria centralitzats.
-   - **Inconvenient:** el domini és un servei crític. Calen còpies de l'estat del sistema i, idealment, dos controladors de domini.
+5. **Què és un domini i què aporta (a241)** — *explicació de l'alumne, amb les seues paraules:*
+
+   > Es una forma de agrupar de manera lógica los equipos, usuarios y recursos de una red para poder administrarlos todos desde una única base de datos central, donde se controlan los permisos y la seguridad. Esto da mucho mas control a la empresa, pero si se trabaja en la nube, o somos muy pocos, no tenemos restricciones de acceso... no hace falta (personalmente hablando) y se puede ahorrar.
 
 ### ✅ Resultat Windows Server 2025 (14/11/2026, equip de casa; traslladat a VirtualBox el 16/11)
 
@@ -423,7 +417,7 @@ Instal·lació **desatesa** amb [`autounattend.xml`](../configs/ws2025/autounatt
 | a239 xarxa | ✅ `Ethernet` (VirtIO): IP fixa **192.168.13.21/24**, GW i DNS 192.168.13.1, sufix `lan13.local`, DHCP desactivat. Ping a R1 i al NAS, DNS (`debian.org`), HTTPS 200 i SMB 445 al NAS correctes | ídem |
 | a240 còpia | ✅ **Nivell sistema:** [`ws-copia.ps1`](../scripts/ws2025/ws-copia.ps1) → configuració exportada en text (4 fitxers) i **`wbadmin`** (estat del sistema + volums crítics, VSS complet) a `\\192.168.13.20\windows`: correcte en 3,9 min, recuperable fins a *Bare Metal Recovery*. **Nivell VM:** `vzdump 210 --mode stop` a `nas-proxmox`: 11,3 GB (zstd) en 2 min 26 s. Amb la VM engegada, PVE1 s'aturava ([01 núm. 13](01-entorn.md)); per això la VM 210 no és a la tasca setmanal i es copia a mà, aturada. Què es copia i què no: punt 4 d'aquesta secció | [`a240-copia-ws2025.txt`](../evidencias/t5-ws2025/a240-copia-ws2025.txt) |
 | a79 (WS2025) | ✅ **16/11, ja a VirtualBox:** acumulativa de novembre **KB5131080** (compilació 26100.32230 → **26100.33822**), .NET KB5127690, plataforma de seguretat i MSRT, tot amb codi 2 (correcte). Després de dos reinicis: **0 pendents**, IP .21, SMB al NAS i Internet correctes. Dins de PVE1 no es va poder fer (el node es penjava; [01 núm. 13](01-entorn.md)) | [`a79-ws2025-windows-update.txt`](../evidencias/t5-ws2025/a79-ws2025-windows-update.txt) |
-| a241 domini | ⬜ L'explicació l'ha d'escriure l'alumne (guió al punt 5) | — |
+| a241 domini | ✅ Explicació escrita per l'alumne (16/11): què és un domini, què aporta a l'empresa i quan no cal | punt 5 d'aquesta secció |
 
 ### Trasllat a VirtualBox (16/11)
 
