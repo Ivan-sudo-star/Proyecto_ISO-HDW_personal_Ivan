@@ -77,3 +77,12 @@ Cada imatge és a la carpeta `captures/` de la seua tasca, al costat de l'evidè
 | ![](t5-linux-infra/captures/a258-grub-prompt.png) | a258: símptoma, prompt `grub>` |
 | ![](t5-linux-infra/captures/a258-grub-diagnosi.png) | a258: diagnosi, falta `grub.cfg` |
 | ![](t5-linux-infra/captures/a258-grub-menu.png) | a258: el menú de GRUB carregat a mà |
+
+## T5 · Domini ivan-cambra-13.lan ([evidències](t5-domini/))
+| Captura | Què demostra |
+|---|---|
+| ![](t5-domini/captures/w11-01-inici-sessio-domini.png) | W11 unit al domini: la pantalla d'inici demana usuari i contrasenya i diu «Iniciar sesión en IVANCAMBRA13» (GPO `Lloc13-Inici-de-sessio`) |
+| ![](t5-domini/captures/w11-02-sessio-ivancambra13-ivan.png) | La sessió oberta al W11 és de l'usuari del domini `IVANCAMBRA13\ivan` |
+| ![](t5-domini/captures/w11-03-whoami-nltest.png) | `whoami` → `ivancambra13\ivan`, UPN `ivan@ivan-cambra-13.lan`, `LOGONSERVER=\\SRV-WS2025` i `nltest /sc_query` → `NERR_Success` |
+| ![](t5-domini/captures/cli-01-gdm-nom-usuari.png) | CLI-Debian unit al domini: GDM demana el nom d'usuari (llista d'usuaris desactivada) |
+| ![](t5-domini/captures/cli-02-terminal-ivan-kerberos.png) | Sessió gràfica de `ivan` al CLI-Debian: `id` (grup `domain users`) i `klist` amb el tiquet de `IVAN-CAMBRA-13.LAN` |

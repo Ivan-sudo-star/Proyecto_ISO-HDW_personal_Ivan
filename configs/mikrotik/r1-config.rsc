@@ -38,6 +38,8 @@
 /ip dhcp-server add name=dhcp-lan13 interface=bridge-lan13 address-pool=pool-lan13 lease-time=12h disabled=no
 /ip dhcp-server network add address=192.168.13.0/24 gateway=192.168.13.1 dns-server=192.168.13.1 domain=lan13.local
 /ip dns set allow-remote-requests=yes servers=1.1.1.1,9.9.9.9
+# Domini AD (16/11): les consultes de ivan-cambra-13.lan (i subdominis, p. ex. _msdcs) van al controlador de domini SRV-WS2025
+/ip dns static add name=ivan-cambra-13.lan type=FWD forward-to=192.168.13.21 match-subdomain=yes comment="domini AD -> SRV-WS2025"
 
 # --- NAT: eixida a Internet de la LAN (a206) ---
 /ip firewall nat add chain=srcnat src-address=192.168.13.0/24 out-interface-list=WAN action=masquerade comment="LAN13 -> Internet"

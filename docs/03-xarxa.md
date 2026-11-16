@@ -25,7 +25,7 @@ Es regenera amb [`scripts/vbox/genera-diagrama.py`](../scripts/vbox/genera-diagr
 | IP dels tres routers | La mateixa · una per router | **Una per router (.1, .2, .3)**, com al grup | Poden conviure encesos sense conflicte d'IP. R1 (MikroTik) és la porta d'enllaç principal dels servidors. Quan es prova R2 o R3, el client rep la porta d'enllaç del router actiu per DHCP |
 | DHCP | A tots els routers · només a un | **Només a l'actiu** | Dos DHCP a la mateixa LAN es contradiuen. Abans de provar R2 o R3, s'apaga R1 (o se'n desactiva el DHCP) |
 | Assignació | Tot estàtic · tot DHCP | **Servidors estàtics, clients per DHCP** (.100–.200) | Els servidors necessiten adreça fixa per a les còpies i la gestió |
-| DNS | Públic directe · router | **El router** reenvia a 1.1.1.1 / 9.9.9.9 | Un sol punt de configuració. El grup usa el DNS del centre (172.16.222.1), però amb el NAT de VirtualBox no el necessite |
+| DNS | Públic directe · router | **El router** reenvia a 1.1.1.1 / 9.9.9.9. **Des del 16/11, les consultes del domini `ivan-cambra-13.lan` R1 les reenvia al DC (.21)** | Un sol punt de configuració. El grup usa el DNS del centre (172.16.222.1), però amb el NAT de VirtualBox no el necessite. Amb el reenviament condicional, els clients troben el domini sense canviar el DHCP i Internet no depén del servidor Windows |
 
 ## 2. Configuració de cada interfície (a148)
 
@@ -40,7 +40,7 @@ Màscara a tota la LAN: **255.255.255.0 (/24)**. La xarxa NAT de VirtualBox és 
 | R3 Debian_NFtables | VirtualBox | 1 | NAT | enp0s3 (WAN) | 10.0.2.15/24 | 10.0.2.2 | 10.0.2.3 | DHCP |
 | | | 2 | Interna LAN13 | enp0s8 (LAN) | **192.168.13.3/24** | — | — | estàtica |
 | NAS-TrueNAS | VirtualBox | 1 | Interna LAN13 | enp0s3 | 192.168.13.20/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
-| SRV-WS2025 | VirtualBox (des del 16/11; abans VM 210 de PVE1) | 1 (virtio-net) | Interna LAN13 | Ethernet 2 | 192.168.13.21/24 | 192.168.13.1 | 192.168.13.1 (ell mateix si es promou a DC) | estàtica |
+| SRV-WS2025 | VirtualBox (des del 16/11; abans VM 210 de PVE1) | 1 (virtio-net) | Interna LAN13 | Ethernet 2 | 192.168.13.21/24 | 192.168.13.1 | **127.0.0.1** i 192.168.13.1 (és el DC de `ivan-cambra-13.lan` des del 16/11) | estàtica |
 | PVE1-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre nic0) | 192.168.13.32/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
 | PVE2-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre nic0) | 192.168.13.33/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
 | PVE3-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre nic0) | 192.168.13.34/24 | 192.168.13.1 | 192.168.13.1 | estàtica |

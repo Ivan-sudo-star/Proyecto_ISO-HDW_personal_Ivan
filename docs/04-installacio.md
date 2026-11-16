@@ -408,7 +408,7 @@ Captures (clúster amb 3 nodes, VM i CT, còpia programada, NFS i còpies `vzdum
    >
    > La gestió centralitzada dona molt més control a l'empresa: un usuari entra amb el mateix compte a qualsevol equip, les altes i baixes es fan en un sol lloc, els permisos de les carpetes compartides es donen per grups (per exemple, per departament) i es poden aplicar normes a tots els equips alhora amb les polítiques de grup (GPO).
    >
-   > Ara bé, si l'empresa treballa al núvol o som molt pocs i no tenim restriccions d'accés, personalment crec que no cal muntar un domini local amb servidor propi, i es pot estalviar. Al núvol també hi ha gestió centralitzada (per exemple, Microsoft Entra ID), però sense mantenir el servidor. A l'empresa de l'enunciat, amb cinc departaments, sí que compensa: per això el disseny del grup el preveu, encara que en aquesta part individual no s'implanta (l'enunciat el deixa per a més endavant i la unió dels clients al domini, a251 i a256, no s'exigeix).
+   > Ara bé, si l'empresa treballa al núvol o som molt pocs i no tenim restriccions d'accés, personalment crec que no cal muntar un domini local amb servidor propi, i es pot estalviar. Al núvol també hi ha gestió centralitzada (per exemple, Microsoft Entra ID), però sense mantenir el servidor. A l'empresa de l'enunciat, amb cinc departaments, sí que compensa: per això l'he implantat (domini `ivan-cambra-13.lan`, amb els dos clients units; vegeu «Domini» més avall).
 
 ### ✅ Resultat Windows Server 2025 (14/11/2026, equip de casa; traslladat a VirtualBox el 16/11)
 
@@ -421,7 +421,7 @@ Instal·lació **desatesa** amb [`autounattend.xml`](../configs/ws2025/autounatt
 | a239 xarxa | ✅ `Ethernet` (VirtIO): IP fixa **192.168.13.21/24**, GW i DNS 192.168.13.1, sufix `lan13.local`, DHCP desactivat. Ping a R1 i al NAS, DNS (`debian.org`), HTTPS 200 i SMB 445 al NAS correctes | ídem |
 | a240 còpia | ✅ **Nivell sistema:** [`ws-copia.ps1`](../scripts/ws2025/ws-copia.ps1) → configuració exportada en text (4 fitxers) i **`wbadmin`** (estat del sistema + volums crítics, VSS complet) a `\\192.168.13.20\windows`: correcte en 3,9 min, recuperable fins a *Bare Metal Recovery*. **Nivell VM:** `vzdump 210 --mode stop` a `nas-proxmox`: 11,3 GB (zstd) en 2 min 26 s. Amb la VM engegada, PVE1 s'aturava ([01 núm. 13](01-entorn.md)); per això la VM 210 no és a la tasca setmanal i es copia a mà, aturada. Què es copia i què no: punt 4 d'aquesta secció | [`a240-copia-ws2025.txt`](../evidencias/t5-ws2025/a240-copia-ws2025.txt) |
 | a79 (WS2025) | ✅ **16/11, ja a VirtualBox:** acumulativa de novembre **KB5131080** (compilació 26100.32230 → **26100.33822**), .NET KB5127690, plataforma de seguretat i MSRT, tot amb codi 2 (correcte). Després de dos reinicis: **0 pendents**, IP .21, SMB al NAS i Internet correctes. Dins de PVE1 no es va poder fer (el node es penjava; [01 núm. 13](01-entorn.md)) | [`a79-ws2025-windows-update.txt`](../evidencias/t5-ws2025/a79-ws2025-windows-update.txt) |
-| a241 domini | ✅ Explicació escrita per l'alumne (16/11): què és un domini, què aporta a l'empresa i quan no cal | punt 5 d'aquesta secció |
+| a241 domini | ✅ Explicació escrita per l'alumne (16/11): què és un domini, què aporta a l'empresa i quan no cal. **I implantat el 16/11**: domini `ivan-cambra-13.lan` amb W11 i CLI-Debian units (secció següent) | punt 5 d'aquesta secció · [`domini-ivan-cambra-13.txt`](../evidencias/t5-domini/domini-ivan-cambra-13.txt) |
 
 ### Trasllat a VirtualBox (16/11)
 
@@ -447,6 +447,44 @@ Instal·lació **desatesa** amb [`autounattend.xml`](../configs/ws2025/autounatt
 2. La primera instal·lació es va aturar a la fase *specialize* («The computer restarted unexpectedly»). Al registre `C:\Windows\Panther\setuperr.log` (llegit muntant el disc de la VM a PVE1): `RunSynchronousCommand ... Path ... Value is invalid` (0x80220005). L'ordre feia 386 caràcters i el límit és 259. Corregit (ara 182 + una segona ordre `net accounts`).
 3. *Guru Meditation* de VirtualBox (dues vegades) → [01, núm. 13](01-entorn.md). Abans de tornar a engegar la VM, el thin-pool `local-lvm` es va ampliar 7 GB (21,4 → 28,4 GB).
 4. La ISO desatesa (`ws2025-unattend.iso`, porta la contrasenya) s'ha **esborrat** de PVE1 i expulsat de la VM.
+
+### ✅ Domini `ivan-cambra-13.lan` (16/11/2026, equip de classe)
+
+**Decisió.** Al final s'ha decidit implantar el domini en el muntatge individual (canvi de l'última hora): SRV-WS2025 passa a **controlador de domini** i els dos clients s'hi uneixen, de manera que s'inicia sessió en tots dos amb el **mateix usuari del domini**.
+
+| Element | Valor | Per què |
+|---|---|---|
+| Domini (FQDN) | **`ivan-cambra-13.lan`** | Identifica l'alumne i el lloc 13. El nom demanat, «DC_Ivan_Cambra_13», no és vàlid: el guió baix no es pot usar en noms DNS. No s'ha usat `.local` perquè xoca amb mDNS (Avahi) als clients Linux |
+| Nom NetBIOS | **`IVANCAMBRA13`** | És el que es veu a la pantalla d'inici de Windows (`IVANCAMBRA13\ivan`); màxim 15 caràcters |
+| Controlador de domini | `SRV-WS2025` (192.168.13.21), bosc i domini nous, nivell Windows Server 2016, DNS integrat a AD | Un sol DC (laboratori). És PDC, catàleg global i servidor de temps |
+| Estructura | OU `Usuaris-Lloc13` (usuari `ivan`) i OU `Equips-Lloc13` (els equips nous hi van sols: `redircmp`) | Separar usuaris i equips per poder aplicar-hi directives |
+| Usuari | **`ivan`** (Ivan Cambra), `ivan@ivan-cambra-13.lan`, usuari normal (*Domain Users*), contrasenya del laboratori | El que es fa servir als dos clients |
+| Política de contrasenyes | Sense complexitat, mínim 4 caràcters, sense caducitat | Laboratori: la contrasenya del lloc és curta. **A una empresa real no es faria** |
+| DNS | El DC es resol a si mateix (127.0.0.1) i reenvia la resta a R1. Zona inversa `13.168.192.in-addr.arpa`. **R1 reenvia només `ivan-cambra-13.lan` cap a .21** (`/ip dns static … type=FWD`) | Els clients continuen tenint R1 com a DNS (DHCP) i Internet no depén del servidor Windows |
+| GPO `Lloc13-Inici-de-sessio` (OU `Equips-Lloc13`) | No mostrar l'últim usuari (la pantalla demana usuari i contrasenya), sense inici automàtic després de reiniciar, `AutoAdminLogon=0` i esborrar `DefaultPassword` | El W11 tenia l'inici automàtic de `Ivan` (local) activat: amb això, en arrencar es demana l'usuari del domini |
+
+**Passos** (scripts al repositori; les contrasenyes es passen en executar-los, no hi són):
+1. Instantànies `abans-domini` de SRV-WS2025, CLI-Debian i Cliente_windows_1.
+2. **DC:** [`domini-ivan-cambra-13.ps1`](../configs/ws2025/domini-ivan-cambra-13.ps1) `-Fase 1` → `Install-WindowsFeature AD-Domain-Services` + `Install-ADDSForest` (reinicia sol). `-Fase 2` → DNS (reenviador, zona inversa), política de contrasenyes, OU, usuari `ivan` i `redircmp`. La tasca d'inici [`xarxa-inici.ps1`](../configs/ws2025/xarxa-inici.ps1) ara posa el DNS `127.0.0.1, 192.168.13.1`.
+3. **R1:** reenviament condicional del domini ([`r1-config.rsc`](../configs/mikrotik/r1-config.rsc)). Comprovació: `nslookup -type=SRV _ldap._tcp.dc._msdcs.ivan-cambra-13.lan 192.168.13.1` → `srv-ws2025.ivan-cambra-13.lan:389`.
+4. **CLI-Debian:** `apt install realmd sssd sssd-tools libnss-sss libpam-sss adcli samba-common-bin oddjob-mkhomedir krb5-user` → hora sincronitzada amb el DC (`timesyncd`, NTP=192.168.13.21; Kerberos no admet més de 5 min de diferència) → `realm join -U Administrator ivan-cambra-13.lan` → a `sssd.conf`, `use_fully_qualified_names = False` i `fallback_homedir = /home/%u` (s'entra amb `ivan`, no `ivan@ivan-cambra-13.lan`) → `pam-auth-update --enable mkhomedir` (crea `/home/ivan` al primer inici) → GDM amb `disable-user-list=true` (demana el nom d'usuari, com Windows).
+5. **W11:** [`w11-unir-domini.ps1`](../scripts/clients/w11-unir-domini.ps1) en un PowerShell elevat → `Add-Computer -DomainName ivan-cambra-13.lan` amb l'administrador del domini → reinici. Després, la GPO.
+
+**Resultat** ([`domini-ivan-cambra-13.txt`](../evidencias/t5-domini/domini-ivan-cambra-13.txt) i captures a `evidencias/t5-domini/captures/`):
+
+| Comprovació | Windows 11 Pro | CLI-Debian |
+|---|---|---|
+| Compte d'equip a AD | ✅ `CN=WINDOWS11,OU=Equips-Lloc13` | ✅ `CN=CLI-DEBIAN,OU=Equips-Lloc13` |
+| Unió | ✅ `PartOfDomain: True`; `nltest /sc_query` → `NERR_Success` amb `\\SRV-WS2025` | ✅ `realm list` → `configured: kerberos-member`, `login-policy: allow-realm-logins` |
+| Pantalla d'inici | ✅ Demana usuari i contrasenya, «Iniciar sesión en IVANCAMBRA13» | ✅ GDM demana el nom d'usuari |
+| Inici de sessió amb `ivan` + contrasenya | ✅ `whoami` → `ivancambra13\ivan`, `ivan@ivan-cambra-13.lan`, `LOGONSERVER=\\SRV-WS2025` | ✅ sessió gràfica (GDM) i SSH: `uid=631601104(ivan) gid=…(domain users)`, `/home/ivan` creat sol, tiquet Kerberos `ivan@IVAN-CAMBRA-13.LAN` |
+
+**Incidències (16/11):**
+1. Al script del W11, `"…$Domini: …"` → PowerShell ho llegeix com una unitat (`$Domini:`) i el script no s'executa. Corregit amb `${Domini}`.
+2. Després d'unir-se, el W11 tornava a entrar sol amb `Ivan` (local): tenia `AutoAdminLogon=1`. Resolt des del domini amb la GPO (no tocant el client a mà).
+3. A GDM, un espai abans del nom (` ivan`) fa que SSSD no trobe l'usuari (`Usuario desconocido`). Cal escriure `ivan` exactament.
+
+**Què canvia a partir d'ara:** SRV-WS2025 s'ha d'engegar **abans que els clients** (just després de R1) perquè s'hi puga iniciar sessió amb `ivan`. Els comptes locals (`Ivan`, `admin-ivan`, `ivancambra`…) continuen funcionant si el DC està apagat. La còpia `wbadmin` amb `-systemState` ja inclou la base de dades d'Active Directory.
 
 ## 8. Servidors GNU/Linux d'infraestructura (a242–a246)
 
@@ -486,7 +524,7 @@ Evidències a `evidencias/t5-clients/`. Captures: [índex de captures](../eviden
 | Usuaris (a248/a253) | ✅ `admin-ivan` (Administradors, el mateix nom que als routers) i `usuari` (Usuaris, estàndard: és el compte de treball diari). `Ivan` és el compte de la instal·lació i també és administrador. L'`Administrador` integrat i `Invitado` estan desactivats. UAC actiu (`EnableLUA=1`). Script: `scripts/clients/w11-usuaris.ps1` | ✅ `ivancambra` i **`admin-ivan`** (grup `sudo`) · **`usuari`** (sense sudo, compte de treball) · `root` amb contrasenya (només `su`) |
 | Xarxa (a249/a254) | ✅ Per DHCP de R1: **192.168.13.199/24**, GW .1, DNS .1, sufix `lan13.local`. Ping a la GW correcte, el DNS resol, port 445 del NAS obert | ✅ DHCP de R1 ([evidència](../evidencias/t4-xarxa/ifaces-rutes-cli-debian.txt)) |
 | Còpia (a250/a255) | ✅ `scripts/copies/copia-w11.ps1`: `robocopy /MIR` cap a `\\192.168.13.20\clients\w11` amb l'usuari `copies`. **Es copien:** `config\` (ipconfig, configuració IP, usuaris, aplicacions instal·lades i versió, per poder reconstruir el client) i `dades\<usuari>\Documents` i `Desktop` (el que és únic de cada usuari). **No es copien:** la imatge sencera, `C:\Windows`, `Program Files` ni `AppData\Local` (memòria cau). Un client es reinstal·la des d'una imatge estàndard i les aplicacions es tornen a instal·lar a partir de la llista. **Prova de restauració:** s'esborra `prova-copia-w11.txt`, es recupera del NAS i el SHA-256 coincideix. També s'ha comprovat amb `ls -lR` al NAS | ✅ `/home` (sense memòries cau), `/etc` i la llista de paquets a `NAS:/mnt/copies/clients/cli-debian/` (25 MB). **No:** el sistema ni les aplicacions, que es reinstal·len. **Prova:** es recupera un document esborrat de `usuari` amb el mateix hash i propietari (4,8 s) → [`a255-cli-debian-copia.txt`](../evidencias/t5-clients/a255-cli-debian-copia.txt) |
-| Domini | ➖ a251 desactivada a la rúbrica. L'enunciat deixa la implantació del domini per a RA4/RA5 d'ISO; el disseny del grup preveu unir els clients al domini amb **Windows 11 Pro**. Home no es pot unir a un domini: per això s'ha passat a **Pro** | ➖ a256 desactivada; al disseny, unió a AD amb SSSD/realmd en fases posteriors |
+| Domini | ✅ **Unit a `ivan-cambra-13.lan` (16/11)**: s'inicia sessió amb `IVANCAMBRA13\ivan`. La unió és possible perquè és **Pro** (Home no es pot unir a un domini). a251 està desactivada a la rúbrica (no s'exigeix), però s'ha fet: vegeu §7, «Domini» | ✅ **Unit a `ivan-cambra-13.lan` (16/11)** amb realmd + SSSD: s'inicia sessió amb `ivan` a GDM i per SSH. a256 desactivada a la rúbrica (no s'exigeix), però s'ha fet |
 
 **Windows 11 Home → Pro (fet el 12/11/2026).** La ISO és multiedició i inclou Pro, així que no cal reinstal·lar.
 Es fa el canvi d'edició *in situ* amb la clau genèrica de Microsoft per a Pro (`changepk.exe /ProductKey <clau genèrica>`):

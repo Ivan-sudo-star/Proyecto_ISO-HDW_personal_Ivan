@@ -10,7 +10,8 @@ if ($ip.IPAddress -notcontains '192.168.13.21') {
   $ip | Remove-NetIPAddress -Confirm:$false -ErrorAction SilentlyContinue
   Remove-NetRoute -InterfaceIndex $nic.ifIndex -DestinationPrefix 0.0.0.0/0 -Confirm:$false -ErrorAction SilentlyContinue
   New-NetIPAddress -InterfaceIndex $nic.ifIndex -IPAddress 192.168.13.21 -PrefixLength 24 -DefaultGateway 192.168.13.1 | Out-Null
-  Set-DnsClientServerAddress -InterfaceIndex $nic.ifIndex -ServerAddresses 192.168.13.1
+  # Des del 16/11 és controlador del domini ivan-cambra-13.lan: primer el seu propi DNS, després R1
+  Set-DnsClientServerAddress -InterfaceIndex $nic.ifIndex -ServerAddresses 127.0.0.1, 192.168.13.1
   Set-DnsClient -InterfaceIndex $nic.ifIndex -ConnectionSpecificSuffix lan13.local
   "$(Get-Date -f s) IP .21 aplicada a $($nic.Name) ($($nic.InterfaceDescription))" | Add-Content $log
 } else { "$(Get-Date -f s) $($nic.Name) ja té .21" | Add-Content $log }
