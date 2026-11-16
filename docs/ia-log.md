@@ -107,5 +107,6 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - L'alumne va demanar seguir l'**estructura individual del professor** (foto de la pissarra): el WS2025 és una VM de VirtualBox. L'IA el va moure **sense reinstal·lar**: va preparar el Windows (IP en arrencar, OpenSSH), va copiar el disc en 5 min (`dd | zstd` → `convertfromraw`) i va crear la VM amb virtio-scsi/virtio-net, perquè Windows ja tenia aquests controladors. Va arrencar a la primera.
 - **Errors de l'IA:** (1) va posar el rellotge de la VM en UTC (Windows anava 1 h endarrere). (2) La regla de tallafocs d'OpenSSH només valia per a un perfil. (3) La primera càrrega es va llançar per SSH i Windows la va matar en tancar la sessió; es va repetir mantenint la sessió oberta.
 - **Resultat:** la mateixa càrrega ja no bloqueja res; a classe caben **8 VM** amb 4,5 GB de marge; PVE1 baixa a 3 GB.
+- **Apagada de l'equip de classe (09:34)** mentre el WS2025 s'actualitzava. L'IA ho va atribuir, amb reserves, a la temperatura (el portàtil arriba a 97–100 °C amb aquesta càrrega). Va tornar a engegar-ho tot per ordre i va repetir l'actualització vigilant la temperatura: WS2025 26100.33822, 0 pendents → **a79 fet**.
 
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*
