@@ -1,4 +1,4 @@
-# ws-info.ps1 — evidència de SRV-WS2025 (a237, a238, a239). S'executa amb: qm guest exec 210 -- powershell -EncodedCommand ...
+# ws-info.ps1 — evidència de SRV-WS2025 (a237, a238, a239). Des del 16/11 (VM de VirtualBox) s'executa per SSH: ssh admin-ivan@192.168.13.21 powershell -File C:\lloc13\ws-info.ps1
 "## a237 versió i funcionament - $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 $r = Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'; "Compilació: $($r.CurrentBuild).$($r.UBR) ($($r.DisplayVersion))"
 Get-ComputerInfo | Select-Object CsName,WindowsProductName,WindowsEditionId,OSDisplayVersion,OsVersion,OsBuildNumber,OsArchitecture,BiosFirmwareType,CsTotalPhysicalMemory | Format-List | Out-String

@@ -1,0 +1,96 @@
+# SRV-WS2025 com a VM de VirtualBox (16/11/2026, equip de classe) — a237, a238, a239 després de moure-la
+# Disc copiat de la VM 210 de PVE1 (sense reinstal·lar) · controlador virtio-scsi i targeta virtio-net de VirtualBox
+# Recollit per SSH (admin-ivan@192.168.13.21) amb scripts/ws2025/ws-info.ps1. L'hora del Windows anava 1 h endarrere (RTC en UTC, corregit després).
+
+## a237 versió i funcionament - 2026-11-16 08:06:45
+Compilació: 26100.32230 (24H2)
+
+
+CsName                : SRV-WS2025
+WindowsProductName    : Windows Server 2025 Standard Evaluation
+WindowsEditionId      : ServerStandardEval
+OSDisplayVersion      : 24H2
+OsVersion             : 10.0.26100
+OsBuildNumber         : 26100
+OsArchitecture        : 64-bit
+BiosFirmwareType      : Uefi
+CsTotalPhysicalMemory : 4274917376
+
+
+
+
+Llicència (avaluació):
+
+Name: Windows(R), ServerStandardEval edition
+Description: Windows(R) Operating System, TIMEBASED_EVAL channel
+License Status: Licensed
+Timebased activation expiration: 256916 minute(s) (179 day(s))
+Remaining Windows rearm count: 1
+Remaining SKU rearm count: 1
+Serveis automàtics aturats:
+
+edgeupdate
+
+
+
+Controladors VirtIO:
+
+Class       FriendlyName                                Status
+-----       ------------                                ------
+Net         Red Hat VirtIO Ethernet Adapter #2          OK    
+SCSIAdapter Red Hat VirtIO SCSI pass-through controller OK    
+
+
+
+Agent QEMU: Running
+## a238 usuaris
+
+Name               Enabled Description                                                                                 
+----               ------- -----------                                                                                 
+admin-ivan            True                                                                                             
+Administrator         True Built-in account for administering the computer/domain                                      
+DefaultAccount       False A user account managed by the system.                                                       
+Guest                False Built-in account for guest access to the computer/domain                                    
+WDAGUtilityAccount   False A user account managed and used by the system for Windows Defender Application Guard scen...
+
+
+
+Administrators:
+
+SRV-WS2025\Administrator
+SRV-WS2025\admin-ivan   
+
+
+
+## a239 xarxa
+Ethernet 2 (Red Hat VirtIO Ethernet Adapter #2): IP 192.168.13.21/24 · GW 192.168.13.1 · DNS 192.168.13.1 · sufix lan13.local
+DHCP: Disabled
+Ping GW .1: True · Ping NAS .20: True
+DNS debian.org: 151.101.130.132
+Internet HTTPS: 200
+SMB NAS 445: True
+## Registre del primer inici (C:\config-ws2025.log)
+# Primer inici - 2026-11-14 18:02:06
+CD de virtio-win: D:
+qemu-ga: Running
+Targeta: Ethernet (Red Hat VirtIO Ethernet Adapter)
+
+
+InterfaceAlias       : Ethernet
+InterfaceIndex       : 4
+InterfaceDescription : Red Hat VirtIO Ethernet Adapter
+NetProfile.Name      : Network
+IPv4Address          : 192.168.13.21
+IPv6DefaultGateway   : 
+IPv4DefaultGateway   : 192.168.13.1
+DNSServer            : 192.168.13.1
+FI 18:03:06
+**********************
+Windows PowerShell transcript end
+End time: 20261114180306
+**********************
+
+
+
+## Tasca d'inici lloc13-xarxa (C:\lloc13\xarxa.log)
+2026-11-16T08:03:02 IP .21 aplicada a Ethernet 2 (Red Hat VirtIO Ethernet Adapter #2)

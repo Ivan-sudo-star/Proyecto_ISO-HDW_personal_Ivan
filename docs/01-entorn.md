@@ -48,7 +48,8 @@ La diferència és el suport. El grup usa maquinari físic (MikroTik hEX, PC-02 
 | R2-OPNsense | Router/tallafocs alternatiu (.2) | OPNsense 26.7 | 2 | 2 GB | 20 GB | NAT + LAN13 | BIOS |
 | Debian_NFtables (R3) | Router/tallafocs alternatiu (.3) | Debian 13 + nftables | 2 → **1** | 4 GB → **1 GB** | 25 GB (existent, 7,3 GB ocupats) | NAT + LAN13 | BIOS |
 | NAS-TrueNAS | Servidor de còpies (.20) | TrueNAS SCALE 25.10.7 | 2 | 8 GB | 20 GB boot + **50 GB còpies** | LAN13 | EFI |
-| PVE1-Proxmox | Node 1 (.32): allotja el WS2025 | Proxmox VE 9.2 | 4 | 6 GB | 64 GB | LAN13 (promiscu) | BIOS · VT-x niuat |
+| SRV-WS2025 | Windows Server 2025 (.21) · centralització (domini) | Windows Server 2025 Standard Eval. | 2 | 4 GB | 32 GB (virtio-scsi) | LAN13 (virtio-net) | EFI |
+| PVE1-Proxmox | Node 1 (.32) | Proxmox VE 9.2 | 4 → **2** | 6 GB → **3 GB** (16/11, ja no allotja el WS2025) | 64 GB | LAN13 (promiscu) | BIOS · VT-x niuat |
 | PVE2-Proxmox | Node 2 (.33): allotja Debian serveis + CT | Proxmox VE 9.2 | 2 | 3 GB | 40 GB | LAN13 (promiscu) | BIOS · VT-x niuat |
 | PVE3-Proxmox | Node 3 (.34): allotja Debian dades | Proxmox VE 9.2 | 2 | 3 GB | 40 GB | LAN13 (promiscu) | BIOS · VT-x niuat |
 | CLI-Debian | Client GNU/Linux i equip de gestió | Debian 13 + GNOME | 2 | 2 GB | 25 GB | LAN13 | BIOS |
@@ -58,13 +59,12 @@ La diferència és el suport. El grup usa maquinari físic (MikroTik hEX, PC-02 
 
 | VM/CT (Proxmox) | Node | Funció | SO | vCPU | RAM | Disc(s) | IP |
 |---|---|---|---|---|---|---|---|
-| 210 SRV-WS2025 | PVE1 | Centralització (domini) | Windows Server 2025 | 2 | 4 GB | 50 GB (thin) | 192.168.13.21 |
 | 220 SRV-SERVEIS | PVE2 | Servidor d'infraestructura, orquestrador de còpies, DRBD node A | Debian 13 sense GUI | 1 | 1 GB | 10 GB + 2 GB (DRBD) | 192.168.13.22 |
 | 230 SRV-DADES | PVE3 | Servidor de dades, proves de RAID, DRBD node B | Debian 13 sense GUI | 1 | 1 GB | 10 GB + 5×1 GB (RAID) + 2 GB (DRBD) | 192.168.13.23 |
 | CT 100 | PVE2 | Contenidor de prova per a la migració | Debian 13 (LXC) | 1 | 512 MB | 4 GB | 192.168.13.41 |
 
 **Comprovació interna dels nodes:**
-- PVE1: 6 GB − 4 GB del WS2025 = 2 GB per a Proxmox (n'usa ≈ 1–1,5 GB). Just, però dins del marge.
+- PVE1: 3 GB i cap VM fixa (des del 16/11): és el node lliure per rebre migracions.
 - PVE2: 3 GB − 1 GB − 0,5 GB = 1,5 GB lliures. Hi cap una migració del CT o de la VM d'un altre node.
 - PVE3: 3 GB − 1 GB = 2 GB lliures. Pot rebre SRV-SERVEIS en una migració.
 
@@ -100,8 +100,7 @@ Per això treballe per **escenaris**: només arranque les VM que necessita cada 
 **Sobreassignació de vCPU:** assignar més vCPU que fils físics és possible, perquè les vCPU només consumeixen quan
 treballen. Amb tots els nodes ocupats alhora, però, la cua de CPU (`r` a `vmstat`) creix. Ho comprove a la [Tasca 7](06-rendiment.md).
 
-**Virtualització niuada a dos nivells** (VirtualBox → Proxmox → WS2025): cada nivell afig sobrecàrrega. Que el Windows Server
-vaja lent dins de PVE1 és previsible; serà una de les mesures de la T7.
+**Virtualització niuada a dos nivells** (VirtualBox → Proxmox → VM): cada nivell afig sobrecàrrega. Amb els Debian sense GUI funciona bé; amb el **Windows Server 2025 dins de PVE1** (14–16/11) el node es penjava (problemes 13 i 14). Per això, i com a l'estructura individual del professor, el WS2025 és ara una VM de VirtualBox.
 
 **Disc:** els VDI són dinàmics. La mida nominal total és ≈ 365 GB i en queden 663 lliures, així que l'espai no limita.
 El que limita és la **velocitat d'escriptura síncrona del SSD USB** ([02 §3](02-inventari.md#3-colls-de-botella)):
@@ -126,7 +125,8 @@ escenaris curts és una optimització possible (N/C, s'ha de mesurar).
 | 10 | El client és **Windows 11 Home**, però el disseny del grup preveu **Windows 11 Pro** (unió al domini, GPO, BitLocker). Home no es pot unir a un domini | La VM ja existia amb Home | La ISO `w11.iso` és multiedició (es-ES) i inclou Pro. Canvi d'edició *in situ* amb la clau genèrica de Microsoft per a Pro (només canvia l'edició, no activa): es conserven usuaris i configuració. Instantània prèvia `W11-Home-a250-ok` | ✅ 12/11: ara és Pro, sense activar ([evidència](../evidencias/t5-clients/a247-w11-pro.txt)) |
 | 11 | `VBoxManage guestcontrol` no pot fer tasques d'administrador a W11 (accés denegat a Secure Boot/TPM i a crear usuaris) | El procés s'executa amb el testimoni filtrat de l'UAC | S'obri un PowerShell elevat a la consola de la VM (Win+R, Ctrl+Maj+Retorn) i s'accepta l'UAC | ✅ |
 | 12 | **14/11: PVE1 es penjava** durant la instal·lació del WS2025 (VM 210): a la consola, `EXT4-fs (dm-1): ... error -5` i l'arrel de Proxmox passava a **només lectura**; ni SSH ni l'apagada ACPI responien | El format del disc de Windows envia TRIM de tot el disc; travessa el thin-pool de Proxmox i arriba al VDI de VirtualBox, on les peticions `DISCARD` es quedaven penjades (`VBox.log`: `Type=DISCARD State=CANCELED` i `AHCI#0: Port 0 reset` cada 30 s). És el mateix problema que el núm. 9 | Apagar PVE1, `--discard off` al disc i `--hostiocache on` al controlador SATA. En arrencar, el diari d'ext4 es reprodueix i el sistema queda `clean` (`tune2fs -l`). Corregit també a `crear-entorn.sh` per als 3 nodes. Lliçó: no fer dues tasques de disc pesades alhora (W11 25H2 + instal·lació WS2025) | ✅ PVE1 `discard_max_bytes = 0`, clúster amb quòrum, la instal·lació del WS2025 avança sense errors |
-| 13 | **14/11: PVE1 s'atura dues vegades amb un *Guru Meditation*** (19:28, mentre el WS2025 baixava actualitzacions, i 19:50, durant el `vzdump` amb la VM engegada) | Error intern de VirtualBox 7.2 amb la virtualització niuada: `VERR_VMM_RING0_ASSERTION` a `pgmPoolTracDerefGCPhys` (paginació niuada, `fIsNested=true`). No és un error de Proxmox ni del Windows | Apagar i tornar a engegar PVE1 (no hi ha cap altra manera de sortir d'un Guru Meditation). L'arrel queda `clean` i el clúster amb quòrum. Abans de tornar a arrencar la VM 210, s'amplia el thin-pool `local-lvm` 7 GB (21,4 → 28,4 GB, 54 % usat) perquè les actualitzacions de Windows no l'omplin | 🟡 PVE1 torna a funcionar cada vegada (arrel `clean`). Es reprodueix quan el Windows niuat treballa fort; el `vzdump` es va repetir amb la VM **aturada** (`--mode stop`), que no executa el Windows. Les actualitzacions del WS2025 queden pendents. Lliçó: una VM Windows dins d'un node niuat és el límit d'aquest equip |
+| 13 | **14/11: PVE1 s'atura dues vegades amb un *Guru Meditation*** (19:28, mentre el WS2025 baixava actualitzacions, i 19:50, durant el `vzdump` amb la VM engegada) | Error intern de VirtualBox 7.2 amb la virtualització niuada: `VERR_VMM_RING0_ASSERTION` a `pgmPoolTracDerefGCPhys` (paginació niuada, `fIsNested=true`). No és un error de Proxmox ni del Windows | Apagar i tornar a engegar PVE1 (no hi ha cap altra manera de sortir d'un Guru Meditation). L'arrel queda `clean` i el clúster amb quòrum. Abans de tornar a arrencar la VM 210, s'amplia el thin-pool `local-lvm` 7 GB (21,4 → 28,4 GB, 54 % usat) perquè les actualitzacions de Windows no l'omplin | 🟡 PVE1 torna a funcionar cada vegada (arrel `clean`). Es reprodueix quan el Windows niuat treballa fort; el `vzdump` es va repetir amb la VM **aturada** (`--mode stop`), que no executa el Windows. Lliçó: una VM Windows dins d'un node niuat és el límit d'aquest equip. **Resolt el 16/11** movent el WS2025 a VirtualBox (núm. 14) |
+| 14 | **16/11 (classe): PVE1 es penja** en engegar el WS2025 (VM 210) i en posar-li càrrega: sense ping, fora del clúster, `Guest seems to be unresponsive` al `VBox.log`. Hi havia 9,9 GB de RAM lliures | El mateix que el núm. 13: Windows dins de KVM dins de VirtualBox (virtualització niuada) | **El WS2025 passa a ser una VM de VirtualBox** (`SRV-WS2025`), com a l'estructura individual del professor. Es copia el disc sense reinstal·lar (5 min) i s'esborra la VM 210 de PVE1, que baixa a 3 GB i 2 vCPU ([04 §7](04-installacio.md#trasllat-a-virtualbox-1611)) | ✅ la mateixa càrrega amb el WS2025 a VirtualBox no bloqueja res ([06](06-rendiment.md)) |
 
 *(Afegir ací cada problema nou que aparega durant la instal·lació, amb símptoma, causa, solució i com ho he comprovat.)*
 

@@ -95,9 +95,9 @@ if nova NAS-TrueNAS; then
 fi
 
 # ---------- Virtualització: clúster de 3 nodes Proxmox (igual que el grup) ----------
-# Els servidors empresarials NO són VM de VirtualBox: són VM DINS dels nodes Proxmox
-#   PVE1 -> SRV-WS2025 (Windows Server 2025)   PVE2 -> Debian serveis   PVE3 -> Debian dades
-# Per això PVE1 té més RAM i disc (ha d'allotjar el Windows Server).
+# Els servidors Debian són VM DINS dels nodes Proxmox: PVE2 -> SRV-SERVEIS · PVE3 -> SRV-DADES.
+# El Windows Server 2025 és una VM de VirtualBox (estructura individual del professor): scripts/vbox/crea-srv-ws2025.sh.
+# Fins al 16/11 anava dins de PVE1 (6 GB, 4 vCPU), però niuat penjava el node: ara els 3 nodes són iguals.
 pve() {  # pve N RAM_MB VCPU DISC_MB
   local n=$1
   if nova PVE$n-Proxmox; then
@@ -111,7 +111,7 @@ pve() {  # pve N RAM_MB VCPU DISC_MB
     nic_lan PVE$n-Proxmox 1 allow-all   # promiscu: les VM/CT niuades necessiten passar per vmbr0
   fi
 }
-pve 1 6144 4 65536
+pve 1 3072 2 65536
 pve 2 3072 2 40960
 pve 3 3072 2 40960
 

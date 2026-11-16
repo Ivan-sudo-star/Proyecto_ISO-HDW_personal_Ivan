@@ -55,7 +55,8 @@ Cada imatge és a la carpeta `captures/` de la seua tasca, al costat de l'evidè
 ## T5 · Windows Server 2025 ([evidències](t5-ws2025/))
 | Captura | Què demostra |
 |---|---|
-| ![](t5-ws2025/captures/ws-01-installacio-desatesa.png) | a237: instal·lació desatesa de Windows Server a la VM 210 (PVE1), sense cap pregunta: el disc VirtIO es detecta amb el controlador del CD de virtio-win |
+| ![](t5-ws2025/captures/ws-01-installacio-desatesa.png) | a237 (14/11): instal·lació desatesa de Windows Server a la VM 210 (aleshores dins de PVE1), sense cap pregunta: el disc VirtIO es detecta amb el controlador del CD de virtio-win |
+| ![](t5-ws2025/captures/ws-03-virtualbox-ipconfig.png) | 16/11: SRV-WS2025 ja com a **VM de VirtualBox** (targeta virtio-net «Ethernet 2»): la tasca d'inici ha posat la IP fixa 192.168.13.21/24, GW .1 i sufix `lan13.local` |
 | ![](t5-ws2025/captures/ws-02-primer-inici-server-manager.png) | a237: primer inici de **SRV-WS2025**: Server Manager obert com a `Administrator`, i el script de primer inici (finestra de consola) configurant VirtIO, l'agent QEMU i la xarxa |
 
 ## T5 · Clients ([evidències](t5-clients/))

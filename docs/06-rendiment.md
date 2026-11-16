@@ -44,6 +44,21 @@ Totes les del 12/11 són a l'**equip de casa** (12 fils, 32 GB), amb `mesura-car
 | Límit: **9 VM (totes)** | ídem + R2 + R3 | 2,5 | 18 | 0 | **3,0 GB** | 0 | ✅ (al límit) | [`…limit-9VM`](../evidencias/t7-rendiment/20261112-1634-casa-limit-9VM.txt) |
 | Límit: 9 VM + WS2025 simulat | ídem + 2,5 GB ocupats dins de PVE1 (com si hi corrés el WS2025) | 4,6 | 34 | 0 | **0,96 GB** | **663 MB**, `so` > 0 | ❌ **criteri trencat** | [`…WS2025-simulat`](../evidencias/t7-rendiment/20261112-1636-casa-limit-9VM+WS2025-simulat.txt) |
 
+**Classe (16/11, 18 fils, 32 GB)**, amb el mateix script (corregit per comptar també les VM obertes des de la interfície gràfica, procés `VirtualBoxVM`). Primer amb el WS2025 **dins de PVE1** (com estava) i després **com a VM de VirtualBox** (estructura del professor). La càrrega del WS2025 és la mateixa a totes dues: 2 fils de CPU al 100 % + escriptura contínua a disc durant 80 s.
+
+| Escenari (classe) | VM enceses (VirtualBox) | `r` mitjà | CPU usada % | wa % | RAM disponible | swap | Respon? | Fitxer |
+|---|---|---|---|---|---|---|---|---|
+| 6 VM en repòs | R1 + NAS + PVE1 (6 GB) + PVE2 + PVE3 + CLI | 1,1 | 5 | 4 | 10,1 GB | 0 | ✅ | [`…classe-6VM-repos`](../evidencias/t7-rendiment/20261116-0844-classe-6VM-repos.txt) |
+| 6 VM + WS2025 niuat arrencant | ídem + VM 210 dins de PVE1 | 2,3 | 12 | 3 | 10,0 GB | 0 | ✅ | [`…6VM+WS2025-arrencada`](../evidencias/t7-rendiment/20261116-0846-classe-6VM+WS2025-arrencada.txt) |
+| 6 VM + WS2025 niuat en repòs | ídem | 1,6 | 8 | 3 | 9,9 GB | 0 | ✅ | [`…6VM+WS2025-repos`](../evidencias/t7-rendiment/20261116-0848-classe-6VM+WS2025-repos.txt) |
+| 6 VM + WS2025 niuat **amb càrrega** | ídem | 2,0 | 10 | 2 | 9,9 GB | 0 | ❌ **PVE1 es penja** (sense ping, fora del clúster; cal reiniciar-lo) amb RAM de sobra | [`…6VM+WS2025-carrega`](../evidencias/t7-rendiment/20261116-0849-classe-6VM+WS2025-carrega.txt) |
+| **7 VM** (WS2025 a VirtualBox) en repòs | R1 + NAS + **SRV-WS2025** + PVE1 (3 GB) + PVE2 + PVE3 + CLI | 0,9 | 6 | 4 | 8,8 GB | 0 | ✅ | [`…7VM-WS2025-vbox-repos`](../evidencias/t7-rendiment/20261116-0907-classe-7VM-WS2025-vbox-repos.txt) |
+| 7 VM, WS2025 **amb càrrega** | ídem | 3,5 | 17 | 3 | 8,8 GB | 0 | ✅ cap bloqueig | [`…7VM-WS2025-vbox-carrega`](../evidencias/t7-rendiment/20261116-0910-classe-7VM-WS2025-vbox-carrega.txt) |
+| 8 VM, W11 arrencant | ídem + Cliente_windows_1 (4 GB) | 3,9 | 22 | 3 | 4,5 GB | 0 | ✅ | [`…8VM-W11-arrencada`](../evidencias/t7-rendiment/20261116-0911-classe-8VM-W11-arrencada.txt) |
+| **8 VM** en repòs | ídem | 2,1 | 13 | 2 | **4,5 GB** | 0 | ✅ | [`…8VM-repos`](../evidencias/t7-rendiment/20261116-0913-classe-8VM-repos.txt) |
+| 10 VM, routers arrencant | ídem + R2 + R3 | 2,6 | 16 | 2 | 1,8 GB | 161 MB, `so` > 0 | ❌ criteri trencat | [`…10VM-arrencada`](../evidencias/t7-rendiment/20261116-0914-classe-10VM-arrencada.txt) |
+| **10 VM (totes)** en repòs | ídem | 2,7 | 12 | 2 | **1,7 GB** | 174 MB | ❌ **criteri trencat** (< 2 GB) | [`…10VM-repos`](../evidencias/t7-rendiment/20261116-0915-classe-10VM-repos.txt) |
+
 **Consum per VM** (procés `VBoxHeadless`, als mateixos fitxers): W11 és de lluny la que més CPU gasta (130–160 %, és a dir, les 2 vCPU quasi plenes mentre s'actualitza); els nodes Proxmox, un 20–25 % cadascun encara que estiguen en repòs; el NAS un 10 %; els routers menys del 15 %.
 
 **Limitació de la mesura per VM:** la RAM de cada VM que dona `ps` (RSS) **no és fiable amb VirtualBox**. En simular el WS2025, l'amfitrió va perdre ≈ 2 GB i el RSS de PVE1 quasi no va pujar, perquè VirtualBox reserva la RAM de les VM a través del seu controlador del nucli. Per això el criteri es calcula amb la RAM disponible total de l'amfitrió.
@@ -54,7 +69,8 @@ Totes les del 12/11 són a l'**equip de casa** (12 fils, 32 GB), amb `mesura-car
 |---|---|---|
 | Windows 11 / WS2025 | **Disc** i RAM | ✅ **Confirmat per a CPU i RAM**: W11 actualitzant ocupa les 2 vCPU (130–160 %) i 4,2 GB. El disc no arriba a saturar (`wa` ≤ 1 %), però alenteix les arrencades de les altres VM del mateix SSD (opt. 2) |
 | NAS-TrueNAS | **RAM** | 🟡 Parcial: té 8 GB assignats però en ús normal en toca ≈ 2 GB. Pot créixer quan ZFS ompli la memòria cau (ARC) |
-| PVE1 (amb el WS2025 dins) | CPU i disc | ✅ **Confirmat per a RAM**: és la que trenca el límit. Amb el WS2025 (4 GB) dins de PVE1, l'amfitrió es queda sense RAM i comença a usar la swap |
+| PVE1 (amb el WS2025 dins) | CPU i disc | ✅ **Confirmat per a RAM** a casa (amb el WS2025 dins, l'amfitrió es queda sense RAM i fa swap). ❌ **I a més es penja**: a classe (16/11), amb RAM de sobra, PVE1 deixa de respondre quan el WS2025 niuat treballa fort; a casa, *Guru Meditation*. Per això el WS2025 s'ha passat a VirtualBox i PVE1 ha baixat a 3 GB |
+| SRV-WS2025 a VirtualBox (des del 16/11) | CPU i RAM | ✅ 4 GB i 55–90 % de CPU (les 2 vCPU) quan treballa; amb càrrega **no bloqueja res** (`wa` 3 %) |
 | PVE2 / PVE3 | RAM | 🟡 Usen ≈ 2,5 GB i un 20–25 % de CPU **en repòs** (els serveis del clúster: corosync, pmxcfs). Són el «cost fix» més gran després del NAS |
 | Routers | Res | ✅ Confirmat: R1 < 5 % de CPU i < 0,5 GB; R3 371 MB, R2 818 MB |
 | CLI-Debian amb navegador | RAM | 🟡 ≈ 2 GB i 6 % de CPU amb GNOME |
@@ -66,7 +82,7 @@ Totes les del 12/11 són a l'**equip de casa** (12 fils, 32 GB), amb `mesura-car
 | Equip | VM simultànies que compleixen el criteri | Recurs que limita primer | Combinació |
 |---|---|---|---|
 | Casa (32 GB, 12 fils) | **9 VM** (totes les de VirtualBox) **sense** el WS2025: queden 3 GB disponibles, sense swap i amb la CPU al 82 % lliure. **Amb el WS2025** dins de PVE1 el criteri es trenca (0,96 GB disponibles i swap) | **RAM** | Per treballar còmode: **un sol router** (R1) + NAS + 3 nodes + CLI + W11 = 7 VM amb 5,6 GB de marge. Per al WS2025: no encendre W11 alhora (allibera ≈ 4 GB) o apagar R2/R3 |
-| Classe (32 GB, 18 fils) | N/C: no s'han repetit les proves a classe. Té la mateixa RAM útil (30,6 GB, la iGPU en reserva una part) i més fils, així que el límit hauria de ser el mateix (RAM) | RAM | La mateixa recomanació |
+| Classe (32 GB, 18 fils) | **8 VM** (16/11): R1 + NAS + SRV-WS2025 + 3 nodes + CLI + W11, amb **4,5 GB** disponibles, sense swap i la CPU al 85 % lliure. Amb **10 VM** (+ R2 + R3) queden 1,7 GB i hi ha swap: **criteri trencat**. Amb el WS2025 **dins de PVE1**, el límit no era la RAM sinó l'estabilitat: PVE1 es penjava amb el WS2025 treballant | **RAM** (i, niuat, la virtualització niuada) | **8 VM** per treballar: un sol router (R1). R2 i R3 s'encenen en lloc de W11 o d'un node (cada un allibera 3–4 GB). El WS2025 sempre com a VM de VirtualBox |
 
 **Detall important:** VirtualBox **no torna a l'amfitrió la RAM** que una VM ja ha tocat fins que la VM s'apaga (després de la simulació, PVE1 va continuar ocupant-la). Per això l'ordre d'encesa i apagat per escenaris és el que més ajuda.
 
@@ -79,7 +95,8 @@ Totes les del 12/11 són a l'**equip de casa** (12 fils, 32 GB), amb `mesura-car
 - **Quantes VM:** 9 (totes) sense el WS2025, al límit; 7 amb marge (amb l'avís del bloqueig gràfic d'una vegada, que no és de recursos). Amb el WS2025 cal apagar el client Windows o els routers alternatius.
 - **Hipòtesis:** es confirma que Windows és la VM més pesada i que la RAM és el límit; es descarta que el disc USB sature en ús normal (sí que alenteix les arrencades quan hi ha altra E/S).
 - **Registre de successos** (`dmesg -T`; `journalctl -k` necessita `sudo` o el grup `adm`): **cap OOM** ni error USB/UAS durant les proves. Sí que hi ha **un bloqueig de l'escriptori de 26 s** a les 16:32:14–16:32:40, mentre arrancava PVE1: `watchdog: BUG: soft lockup - CPU#11 stuck for 26s! [Xorg]`, dins del controlador **`amdgpu`** de la gràfica (RX 7600) mentre canviava les freqüències de la pantalla (`dcn32_update_clocks`). En aquell moment quedaven 5,6 GB de RAM i un 74 % de CPU lliures, així que **no és per falta de recursos de les VM**: és un problema del controlador gràfic de l'amfitrió (o del canvi de mode de pantalla). Només ha passat una vegada. Per confirmar-ho caldria repetir l'escenari i mirar si torna a passar, o actualitzar el nucli/controlador de Linux Mint.
-- **Millores possibles:** reduir la RAM dels nodes Proxmox sense VM, provar el NAS amb menys RAM (ja documentat com a N/C), i fer les proves de classe per comparar.
+- **Classe (16/11):** el límit també és la RAM: **8 VM** amb 4,5 GB de marge, 10 VM trenquen el criteri. Però el problema greu era un altre: amb el **WS2025 niuat dins de PVE1**, en posar-li càrrega, **PVE1 es penjava** encara que sobraven 9,9 GB. Moure el WS2025 a VirtualBox (estructura del professor) ho ha resolt: la mateixa càrrega ja no bloqueja res, i PVE1 ha passat de 6 a 3 GB.
+- **Millores possibles:** provar el NAS amb menys RAM (ja documentat com a N/C) i no encendre mai els 3 routers alhora.
 
 ---
 

@@ -102,4 +102,10 @@ que apareixen als documents s'han executat de veritat a l'equip; on no hi ha dad
 - **Límit de l'equip:** dues aturades de VirtualBox (*Guru Meditation*, paginació niuada) amb el Windows niuat treballant fort. L'IA va decidir no tornar a provar Windows Update al WS2025 per no arriscar el node, i fer el `vzdump` amb la VM aturada. a79 queda pendent pel WS2025.
 - La ISO desatesa (amb la contrasenya) es va esborrar de PVE1 en acabar.
 
+**16/11/2026 (classe): proves de capacitat i trasllat del WS2025 a VirtualBox**:
+- L'alumne va engegar el WS2025 (dins de PVE1) i l'equip es va «congelar». L'IA ho va reconstruir amb els registres: PVE1 es va penjar (el diari s'atura abans de l'engegada) i es va reiniciar. Ho va reproduir a propòsit durant les mesures: amb càrrega al WS2025, PVE1 surt del clúster amb 9,9 GB de RAM lliures. No és falta de recursos, és la virtualització niuada.
+- L'alumne va demanar seguir l'**estructura individual del professor** (foto de la pissarra): el WS2025 és una VM de VirtualBox. L'IA el va moure **sense reinstal·lar**: va preparar el Windows (IP en arrencar, OpenSSH), va copiar el disc en 5 min (`dd | zstd` → `convertfromraw`) i va crear la VM amb virtio-scsi/virtio-net, perquè Windows ja tenia aquests controladors. Va arrencar a la primera.
+- **Errors de l'IA:** (1) va posar el rellotge de la VM en UTC (Windows anava 1 h endarrere). (2) La regla de tallafocs d'OpenSSH només valia per a un perfil. (3) La primera càrrega es va llançar per SSH i Windows la va matar en tancar la sessió; es va repetir mantenint la sessió oberta.
+- **Resultat:** la mateixa càrrega ja no bloqueja res; a classe caben **8 VM** amb 4,5 GB de marge; PVE1 baixa a 3 GB.
+
 *(Afegir una fila cada vegada que consulte una IA: abans, la meua predicció i el motiu; després, el contrast i la decisió.)*

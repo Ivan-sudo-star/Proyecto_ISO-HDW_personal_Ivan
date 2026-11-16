@@ -21,8 +21,8 @@ rx1=$(cat /sys/class/net/$IF/statistics/rx_bytes); tx1=$(cat /sys/class/net/$IF/
   echo; echo "free -m al final:"; free -m
   echo; echo "Xarxa $IF: RX $(( (rx1-rx0)/SECS/1024 )) KiB/s, TX $(( (tx1-tx0)/SECS/1024 )) KiB/s (mitjana)"
   echo; echo "Processos que més consumeixen:"; ps -eo pid,comm,%cpu,%mem,rss --sort=-%cpu | head -8
-  echo; echo "Consum per VM (procés VBoxHeadless: %CPU mitjà des que arrenca, RSS = RAM real ocupada a l'amfitrió):"
-  ps -eo %cpu,rss,args --sort=-rss | awk '/VBoxHeadless/ && !/awk/ {for(i=1;i<=NF;i++) if($i=="--startvm"||$i=="--comment") {n=$(i+1); break} printf "  %-20s CPU %5s %%  RAM %6.0f MB\n", n, $1, $2/1024}'
+  echo; echo "Consum per VM (procés VBoxHeadless o VirtualBoxVM: %CPU mitjà des que arrenca, RSS = RAM real ocupada a l'amfitrió):"
+  ps -eo %cpu,rss,args --sort=-rss | awk '/VBoxHeadless|VirtualBoxVM/ && !/awk/ {for(i=1;i<=NF;i++) if($i=="--startvm"||$i=="--comment") {n=$(i+1); break} printf "  %-20s CPU %5s %%  RAM %6.0f MB\n", n, $1, $2/1024}'
   echo; echo "Carrega de l'amfitrió (loadavg 1/5/15 min): $(cut -d' ' -f1-3 /proc/loadavg) · fils: $(nproc)"
 } >> "$OUT"
 # Resum d'una línia per a la taula de docs/06-rendiment.md

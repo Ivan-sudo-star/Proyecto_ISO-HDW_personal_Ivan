@@ -40,10 +40,10 @@ Màscara a tota la LAN: **255.255.255.0 (/24)**. La xarxa NAT de VirtualBox és 
 | R3 Debian_NFtables | VirtualBox | 1 | NAT | enp0s3 (WAN) | 10.0.2.15/24 | 10.0.2.2 | 10.0.2.3 | DHCP |
 | | | 2 | Interna LAN13 | enp0s8 (LAN) | **192.168.13.3/24** | — | — | estàtica |
 | NAS-TrueNAS | VirtualBox | 1 | Interna LAN13 | enp0s3 | 192.168.13.20/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
+| SRV-WS2025 | VirtualBox (des del 16/11; abans VM 210 de PVE1) | 1 (virtio-net) | Interna LAN13 | Ethernet 2 | 192.168.13.21/24 | 192.168.13.1 | 192.168.13.1 (ell mateix si es promou a DC) | estàtica |
 | PVE1-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre nic0) | 192.168.13.32/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
 | PVE2-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre nic0) | 192.168.13.33/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
 | PVE3-Proxmox | VirtualBox | 1 (promiscu) | Interna LAN13 | vmbr0 (sobre nic0) | 192.168.13.34/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
-| ↳ 210 SRV-WS2025 | Proxmox (PVE1) | net0 | vmbr0 | Ethernet | 192.168.13.21/24 | 192.168.13.1 | 192.168.13.1 (ell mateix si es promou a DC) | estàtica |
 | ↳ 220 SRV-SERVEIS | Proxmox (PVE2) | net0 (virtio) | vmbr0 | eth0 | 192.168.13.22/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
 | ↳ 230 SRV-DADES | Proxmox (PVE3) | net0 (virtio) | vmbr0 | eth0 | 192.168.13.23/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
 | ↳ CT 100 | Proxmox (PVE2) | net0 | vmbr0 | eth0 | 192.168.13.41/24 | 192.168.13.1 | 192.168.13.1 | estàtica |
@@ -78,7 +78,8 @@ iface vmbr0 inet static
 ## 3. Camí del trànsit
 
 ```
-SRV-WS2025 (192.168.13.21) ─net0─► vmbr0 de PVE1 ─enp0s3─► LAN13 ─► R1 192.168.13.1
+SRV-WS2025 (192.168.13.21) ────────────────────────────────► LAN13 ─► R1 192.168.13.1
+SRV-SERVEIS / SRV-DADES (.22/.23) ─net0─► vmbr0 del node ─► LAN13 ─► R1 192.168.13.1
 CLI-Debian (192.168.13.10x) ──────────────────────────────► LAN13 ─► router actiu (.1 / .2 / .3)
    router: filtre forward (es permet LAN→WAN excepte tcp/22) + NAT masquerade (origen → 10.0.2.15)
    ─WAN 10.0.2.15─► NAT VirtualBox 10.0.2.2 ─► NIC física (eno1 / enp7s0) ─► router de l'aula/casa ─► Internet
@@ -95,7 +96,7 @@ Evidències a `evidencias/t4-xarxa/`. Cada fitxer acaba amb una interpretació d
 |---|---|---|---|---|
 | Configuració d'interfícies i taula d'encaminament | `ip a` + `ip route` · `/ip address print` + `/ip route print` · `ipconfig /all` | cada equip | IP, màscara i estat UP; `default via 192.168.13.1` (routers: `via 10.0.2.2`) | ✅ [R1](../evidencias/t4-xarxa/ifaces-rutes-r1.txt) · [NAS](../evidencias/t4-xarxa/ifaces-rutes-nas.txt) · [PVE1](../evidencias/t4-xarxa/ifaces-rutes-pve1.txt) · [PVE2](../evidencias/t4-xarxa/ifaces-rutes-pve2.txt) · [PVE3](../evidencias/t4-xarxa/ifaces-rutes-pve3.txt) · [CLI-Debian](../evidencias/t4-xarxa/ifaces-rutes-cli-debian.txt) · [W11](../evidencias/t5-clients/a247-a249-w11.txt) |
 | Ping dins la LAN | `ping -c3` a .1, .20, .32, .33, .34 | CLI-Debian → R1, NAS, nodes | 0 % pèrdua, < 1 ms | ✅ [`ping-lan-i-internet.txt`](../evidencias/t4-xarxa/ping-lan-i-internet.txt) |
-| Ping a una VM niuada | `ping -c4 192.168.13.22` (i .23, .21) | CLI-Debian → VM dins dels nodes | resposta: el bridge funciona | ⬜ pendent (es farà amb a244; el WS2025 quan existisca) |
+| Ping a una VM niuada | `ping -c4 192.168.13.22` (i .23, .21) | CLI-Debian → VM dins dels nodes | resposta: el bridge funciona | ✅ 16/11: des de PVE2, `ping` al WS2025 (.21, ara VM de VirtualBox) 0 % de pèrdua; les VM niuades .22/.23 es gestionen per SSH a través del bridge ([a242–a246](../evidencias/t5-linux-infra/)) |
 | Ping a la porta d'enllaç des de Windows | `Test-Connection 192.168.13.1` | W11 → R1 | resposta | ✅ [`a247-a249-w11.txt`](../evidencias/t5-clients/a247-a249-w11.txt) |
 | Eixida a Internet | `ping -c3 1.1.1.1` · `curl -I https://debian.org` | CLI-Debian | resposta | ✅ [`ping-lan-i-internet.txt`](../evidencias/t4-xarxa/ping-lan-i-internet.txt) |
 | Resolució DNS i traceroute | `dig +short debian.org @192.168.13.1` · `traceroute -n 1.1.1.1` | CLI-Debian | IP resolta pel router · salt 1 = 192.168.13.1, salt 2 = 10.0.2.2 | ✅ [`traceroute-dns-cli-debian.txt`](../evidencias/t4-xarxa/traceroute-dns-cli-debian.txt) |

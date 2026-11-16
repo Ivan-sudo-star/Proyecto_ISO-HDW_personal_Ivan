@@ -380,9 +380,8 @@ Captures (clúster amb 3 nodes, VM i CT, còpia programada, NFS i còpies `vzdum
 
 ## 7. Windows Server 2025 (a237–a241)
 
-**VM 210 dins de PVE1** (com al grup, on el Windows Server està dins del clúster). Evidències a `evidencias/t5-ws2025/`.
-**ISO disponible des del 13/11** (avaluació de 180 dies, compilació 26100.32230). Preparat: [`configs/ws2025/`](../configs/ws2025/) (instal·lació desatesa) i [`scripts/proxmox/crea-vm-ws2025.sh`](../scripts/proxmox/crea-vm-ws2025.sh). Disc de 32 GB (no 50) perquè `local-lvm` de PVE1 només té 22 GB lliures. Es puja a `nas-proxmox` o a `local` de PVE1,
-juntament amb la ISO `virtio-win` (controladors de disc i xarxa VirtIO).
+**Des del 16/11, VM de VirtualBox `SRV-WS2025`** a la xarxa interna LAN13 (192.168.13.21), com a l'[estructura individual del professor](#estructura-del-professor). Del 14 al 16/11 va estar dins de PVE1 com a VM 210 (així està al grup); es va moure perquè, niuat, penjava PVE1 (vegeu [el trasllat](#trasllat-a-virtualbox-1611)). Evidències a `evidencias/t5-ws2025/`.
+**ISO** d'avaluació de 180 dies, compilació 26100.32230. Instal·lació desatesa: [`configs/ws2025/`](../configs/ws2025/). La VM de VirtualBox es crea amb [`scripts/vbox/crea-srv-ws2025.sh`](../scripts/vbox/crea-srv-ws2025.sh) (l'script antic de Proxmox, [`crea-vm-ws2025.sh`](../scripts/proxmox/crea-vm-ws2025.sh), queda com a referència). Disc de 32 GB amb controladors VirtIO.
 
 1. **Instal·lació (a237):**
    - VM 210 a PVE1: màquina `q35`, BIOS OVMF, disc VirtIO SCSI i xarxa VirtIO a `vmbr0`.
@@ -413,7 +412,7 @@ juntament amb la ISO `virtio-win` (controladors de disc i xarxa VirtIO).
      - i hi ha inventari i auditoria centralitzats.
    - **Inconvenient:** el domini és un servei crític. Calen còpies de l'estat del sistema i, idealment, dos controladors de domini.
 
-### ✅ Resultat Windows Server 2025 (14/11/2026, equip de casa)
+### ✅ Resultat Windows Server 2025 (14/11/2026, equip de casa; traslladat a VirtualBox el 16/11)
 
 Instal·lació **desatesa** amb [`autounattend.xml`](../configs/ws2025/autounattend.xml) i [`config-ws2025.ps1`](../configs/ws2025/config-ws2025.ps1) (primer inici), i VM creada amb [`crea-vm-ws2025.sh`](../scripts/proxmox/crea-vm-ws2025.sh). Proves recollides des de PVE1 amb l'agent QEMU (`qm guest exec`) i [`ws-info.ps1`](../scripts/ws2025/ws-info.ps1).
 
@@ -425,6 +424,25 @@ Instal·lació **desatesa** amb [`autounattend.xml`](../configs/ws2025/autounatt
 | a240 còpia | ✅ **Nivell sistema:** [`ws-copia.ps1`](../scripts/ws2025/ws-copia.ps1) → configuració exportada en text (4 fitxers) i **`wbadmin`** (estat del sistema + volums crítics, VSS complet) a `\\192.168.13.20\windows`: correcte en 3,9 min, recuperable fins a *Bare Metal Recovery*. **Nivell VM:** `vzdump 210 --mode stop` a `nas-proxmox`: 11,3 GB (zstd) en 2 min 26 s. Amb la VM engegada, PVE1 s'aturava ([01 núm. 13](01-entorn.md)); per això la VM 210 no és a la tasca setmanal i es copia a mà, aturada. Què es copia i què no: punt 4 d'aquesta secció | [`a240-copia-ws2025.txt`](../evidencias/t5-ws2025/a240-copia-ws2025.txt) |
 | a79 (WS2025) | ⚠️ **Pendent.** Windows Update troba 5 actualitzacions (acumulativa de novembre KB5131080, .NET KB5127690, Defender...). En dues ocasions, PVE1 s'ha aturat amb un *Guru Meditation* de VirtualBox (`VERR_VMM_RING0_ASSERTION`, paginació niuada) mentre el Windows niuat treballava fort (descàrrega d'actualitzacions i còpia amb la VM engegada). Vegeu [01 §problemes, núm. 13](01-entorn.md). Per no posar en risc el node, no s'ha tornat a provar: queda per fer amb un equip amb més marge o amb la VM a l'amfitrió | — |
 | a241 domini | ⬜ L'explicació l'ha d'escriure l'alumne (guió al punt 5) | — |
+
+### Trasllat a VirtualBox (16/11)
+
+<a id="estructura-del-professor"></a>**Per què.** A l'esquema «Muntatge individual» del professor, el Windows Server 2025 és una màquina més de la xarxa interna, al mateix nivell que els 3 Proxmox, el TrueNAS i els clients; no va dins d'un node. A més, dins de PVE1 el WS2025 penjava el node cada vegada que treballava fort. Va passar a casa (dos *Guru Meditation*, 14/11) i a classe (16/11: PVE1 deixa de respondre, `Guest seems to be unresponsive` al `VBox.log`, en engegar-lo i en posar-li càrrega). És la virtualització niuada (VirtualBox → KVM → Windows).
+
+**Com (sense reinstal·lar, ≈ 15 min).**
+1. Amb la VM 210 engegada a PVE1, per l'agent QEMU:
+   - tasca d'inici `lloc13-xarxa` ([`xarxa-inici.ps1`](../configs/ws2025/xarxa-inici.ps1)) que torna a posar la IP .21 a la targeta activa (en canviar de maquinari, Windows veu una targeta nova i li posaria DHCP);
+   - servei **OpenSSH** activat, per gestionar-lo sense l'agent QEMU;
+   - `storahci` a l'arrencada, per si cal un controlador SATA.
+2. VM apagada → disc copiat de PVE1 a l'amfitrió en *streaming* comprimit, directament a VDI: `dd | zstd` per SSH → `VBoxManage convertfromraw stdin` (32 GB, 15 GB reals, **5 min**).
+3. [`crea-srv-ws2025.sh`](../scripts/vbox/crea-srv-ws2025.sh): EFI, 4 GB, 2 vCPU, controlador **virtio-scsi** i targeta **virtio-net** de VirtualBox. Windows ja tenia els controladors VirtIO, així que **arrenca a la primera** i la tasca d'inici posa la .21.
+4. Ajustos: la regla del tallafocs d'OpenSSH només valia per a un perfil de xarxa (es posa a tots); el rellotge anava 1 h endarrere (`--rtc-use-utc off`, Windows espera l'hora local); l'agent QEMU es desactiva (ja no hi ha Proxmox).
+5. Comprovat: [`a237-a239-srv-ws2025-virtualbox.txt`](../evidencias/t5-ws2025/a237-a239-srv-ws2025-virtualbox.txt) (mateixa edició i llicència, usuaris, IP .21, ping, DNS, HTTPS i SMB al NAS) i captura `ws-03`.
+6. La VM 210 s'ha esborrat de PVE1 (no hi pot haver dos servidors amb la .21). Queda la còpia `vzdump` del 14/11 al NAS. PVE1 passa a **3 GB i 2 vCPU**, com PVE2 i PVE3.
+
+**Còpies a partir d'ara (a240):** `wbadmin` al recurs SMB `\\192.168.13.20\windows` ([`ws-copia.ps1`](../scripts/ws2025/ws-copia.ps1)), que ja és independent de l'hipervisor. La còpia de la VM sencera ja no és un `vzdump` sinó `VBoxManage export SRV-WS2025` (o copiar el `.vdi`) amb la VM apagada.
+
+**Nota:** a l'esquema del professor també hi ha un **«Server monitorització»** com a VM pròpia. En aquest muntatge, el servidor de serveis és SRV-SERVEIS (dins de PVE2, com al grup).
 
 **Incidències durant la instal·lació (14/11):**
 1. PVE1 es va penjar amb l'arrel en només lectura: TRIM del format de Windows penjat al VDI. Solució: `--discard off` i memòria cau de l'amfitrió al disc de PVE1 ([01, núm. 12](01-entorn.md)).

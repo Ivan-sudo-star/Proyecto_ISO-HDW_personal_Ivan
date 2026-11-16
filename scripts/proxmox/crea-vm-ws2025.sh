@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # crea-vm-ws2025.sh — VM 210 SRV-WS2025 a PVE1 amb instal·lació desatesa (a237-a239)
+# HISTÒRIC: es va fer servir el 14/11. Des del 16/11 el WS2025 és una VM de VirtualBox (scripts/vbox/crea-srv-ws2025.sh)
+# perquè niuat dins de PVE1 penjava el node (docs/01, problemes 13 i 14).
 # S'executa com a root a PVE1, amb autounattend.xml i config-ws2025.ps1 al mateix directori:
 #   PASS_LAB='<contrasenya>' bash crea-vm-ws2025.sh
 # Necessita a local:iso: la ISO del WS2025 (avaluació) i virtio-win.iso.
