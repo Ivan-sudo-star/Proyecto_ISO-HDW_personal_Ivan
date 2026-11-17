@@ -581,7 +581,7 @@ Totes les còpies anteriors eren de la configuració amb la xarxa 192.168.13.0/2
 | VM 220 / 230 | `/etc` + llista de paquets | `linux/srv-*/srv-*-etc-2026-11-17_1046.tgz` | ~1.340 entrades; `r0.res` amb .31.22/.31.23 |
 | CLI-Debian | `/home` (sense memòries cau) + `/etc` + paquets | `clients/cli-debian/cli-debian-home-etc-2026-11-17_1002.tgz` (27 MB) | Inclou `/home/ivan` (usuari del domini) i `/etc/sssd` |
 | Windows 11 | [`copia-w11.ps1`](../scripts/copies/copia-w11.ps1): configuració + Documents i Escriptori **de cada usuari** | `clients/w11/config`, `dades/Ivan/` i **`dades/IVANCAMBRA31-ivan/`** | Prova de restauració amb els dos usuaris: mateix SHA-256 abans i després |
-| SRV-WS2025 (DC) | [`ws-copia.ps1`](../scripts/ws2025/ws-copia.ps1): configuració, **Active Directory** (domini, OU, usuaris, equips, zones DNS), **còpia de les GPO** (`Backup-GPO`) i `wbadmin` (estat del sistema = base de dades d'AD + SYSVOL, i volums crítics) | `windows/srv-ws2025/config`, `windows/srv-ws2025/gpo-…`, `windows/WindowsImageBackup` | ⚠️ **Incompleta (17/11):** la configuració, l'exportació d'AD i la còpia de les GPO són al NAS; el `wbadmin` va copiar els volums però a les 14:20 encara no havia acabat l'estat del sistema i es va haver d'apagar l'equip. **Cal repetir-lo** (tasca `lloc31-copia-ara`, uns 2 h amb el disc USB) |
+| SRV-WS2025 (DC) | [`ws-copia.ps1`](../scripts/ws2025/ws-copia.ps1): configuració, **Active Directory** (domini, OU, usuaris, equips, zones DNS), **còpia de les GPO** (`Backup-GPO`) i `wbadmin` (estat del sistema = base de dades d'AD + SYSVOL, i volums crítics) | `windows/srv-ws2025/config`, `windows/srv-ws2025/gpo-…`, `windows/WindowsImageBackup` | ✅ **17/11 (equip de casa):** `wbadmin` codi **0** en 87 min, versió `11/17/2026-15:35` recuperable com a *Volume(s), File(s), Application(s), **Bare Metal Recovery, System State*** (19 GB al NAS). Exportació d'AD (10 fitxers) i GPO copiades → [`a240-copia-ws2025-dc-lloc31.txt`](../evidencias/t5-ws2025/a240-copia-ws2025-dc-lloc31.txt) |
 
 **Canvis en els scripts de còpia (17/11):**
 - `ws-copia.ps1`: si l'equip és controlador de domini, ja no exporta usuaris locals (no n'hi ha) sinó els objectes d'AD i fa `Backup-GPO -All`.
@@ -590,7 +590,7 @@ Totes les còpies anteriors eren de la configuració amb la xarxa 192.168.13.0/2
 
 **Incidències:**
 1. `wbadmin` va començar una **còpia completa nova** («Volume size changed», pel trasllat a VirtualBox). En fer-la, Windows elimina la versió anterior del recurs compartit: la còpia del 14/11 (9,3 GB) ja no hi és.
-2. La primera execució, llançada des d'SSH, va tardar 74 min amb el disc USB carregat i va acabar «amb errors» (els tres volums correctes; el `wbadmin stop job` i un segon intent simultani hi van interferir). Es va repetir com a tasca de SYSTEM.
+2. La primera execució (equip de classe), llançada des d'SSH, va tardar 74 min amb el disc USB carregat i va acabar «amb errors» (els tres volums correctes; el `wbadmin stop job` i un segon intent simultani hi van interferir). La segona, també a classe, es va haver de tallar en apagar l'equip. La tercera, a casa i com a tasca de SYSTEM, va acabar bé (87 min). **Durant unes hores no hi va haver cap imatge vàlida del DC**: cal no deixar mai una còpia completa a mitges.
 3. El dataset `proxmox` del NAS és de root (s'hi escriu per NFS des dels nodes): la configuració dels nodes es desa des dels nodes, no amb l'usuari `copies`.
 
 ## Pla de contingència individual: temps observats

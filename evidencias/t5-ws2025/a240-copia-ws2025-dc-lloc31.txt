@@ -1,0 +1,101 @@
+# a240 · Còpia de SRV-WS2025 (controlador del domini ivan-cambra-31.lan) al NAS · 17/11/2026, equip de casa
+# ws-copia.ps1 executat com a tasca programada de SYSTEM (lloc31-copia-ara). Registre complet (sense les línies de progrés):
+
+## a240 còpia - 2026-11-17 16:34:57
+The command completed successfully.
+GPO copiades a \\192.168.31.20\windows\srv-ws2025\gpo-2026-11-17_1635
+config exportada: 10 fitxers
+Windows Server Backup: Installed
+wbadmin 1.0 - Backup command-line tool
+(C) Copyright Microsoft Corporation. All rights reserved.
+Note: The backed up data cannot be securely protected at this destination.
+Backups stored on a remote shared folder might be accessible by other
+people on the network. You should only save your backups to a location
+where you trust the other users who have access to the location or on a 
+network that has additional security precautions in place.
+Retrieving volume information...
+This will back up SYSTEM(EFI System Partition) (100.00 MB),Windows(C:),(\\?\Volume{a80efd90-4824-4b7f-a12f-d5be643ab0d6}\) to \\192.168.31.20\windows.
+The backup operation to \\192.168.31.20\windows is starting.
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (0%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (0%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (0%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (0%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (0%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (0%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (0%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (0%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (0%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (11%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (12%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (12%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (13%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (13%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (17%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (18%).
+Compacting the virtual hard disk for volume SYSTEM(EFI System Partition) (100.00 MB), completed (28%).
+The backup of volume SYSTEM(EFI System Partition) (100.00 MB) completed successfully.
+Summary of the backup operation:
+------------------
+The backup operation successfully completed.
+The backup of volume SYSTEM(EFI System Partition) (100.00 MB) completed successfully.
+The backup of volume Windows(C:) completed successfully.
+The backup of volume  (884.00 MB) completed successfully.
+Log of files successfully backed up:
+C:\WINDOWS\Logs\WindowsServerBackup\Backup-17-11-2026_15-35-27.log
+wbadmin: codi 0 en 87.3 min
+wbadmin 1.0 - Backup command-line tool
+(C) Copyright Microsoft Corporation. All rights reserved.
+Backup time: 17/11/2026 16:35 
+Backup location: Network Share labeled \\192.168.31.20\windows
+Version identifier: 11/17/2026-15:35
+Can recover: Volume(s), File(s), Application(s), Bare Metal Recovery, System State
+\\192.168.31.20\windows\WindowsImageBackup\SRV-WS2025                         
+\\192.168.31.20\windows\WindowsImageBackup\SRV-WS2025\Backup 2026-11-17 153527
+\\192.168.31.20\windows\WindowsImageBackup\SRV-WS2025\Catalog                 
+\\192.168.31.20\windows\WindowsImageBackup\SRV-WS2025\SPPMetadataCache        
+FI 18:02:32
+
+## Registre de Windows Server Backup
+2026-11-17 18:02 [14] The backup operation has completed.
+2026-11-17 18:02 [4] The backup operation has finished successfully.
+2026-11-17 16:41 [24] Backup started a fresh backup for volume '{00000000-0000-0000-0000-000000000000}' ('Esp') : [Reason: 'Volume size changed']. This may cause loss of older backup versions when backup completes.
+
+## Al NAS (usuari copies)
+19G	WindowsImageBackup
+total 14943261
+-rw-rw-r-- 1 copies copies 19209912320 2026-11-17_17:59 953d809e-2cf8-4015-b03b-b70ff68c10f3.vhdx
+-rw-rw-r-- 1 copies copies         776 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_AdditionalFilesc3b9f3c7-5e52-4d5e-8b20-19adc95a34c7.xml
+-rw-rw-r-- 1 copies copies       15642 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_Components.xml
+-rw-rw-r-- 1 copies copies        6228 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_RegistryExcludes.xml
+-rw-rw-r-- 1 copies copies        3138 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_Writer0bada1de-01a9-4625-8278-69e735f39dd2.xml
+-rw-rw-r-- 1 copies copies        2300 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_Writer2707761b-2324-473d-88eb-eb007a359533.xml
+-rw-rw-r-- 1 copies copies        3118 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_Writer4dc3bdd4-ab48-4d07-adb0-3bee2926fd7f.xml
+-rw-rw-r-- 1 copies copies        1488 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_Writer542da469-d3e1-473c-9f4f-7847f01fc64f.xml
+-rw-rw-r-- 1 copies copies        1628 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_Writer75dfb225-e2e4-4d39-9ac9-ffaff65ddf06.xml
+-rw-rw-r-- 1 copies copies        1484 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_Writera6ad56c2-b509-4e6c-bb19-49d8f43532f0.xml
+-rw-rw-r-- 1 copies copies        2940 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_Writerafbab4a2-367d-4d15-a586-71dbb18f8485.xml
+-rw-rw-r-- 1 copies copies        1850 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_Writerb2014c9e-8711-4c5c-a5a9-3cf384484757.xml
+-rw-rw-r-- 1 copies copies        4782 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_Writerbe000cbe-11fe-4426-9c58-531aa6355fc4.xml
+-rw-rw-r-- 1 copies copies        1746 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_Writerd61d61c8-d73a-4eee-8cdd-f6f9786b7124.xml
+-rw-rw-r-- 1 copies copies     7303452 2026-11-17_17:45 979fbd42-5600-4584-b3cf-a5585119e9ef_Writere8132975-6f93-4464-a53e-1050253ae220.xml
+-rw-rw-r-- 1 copies copies        1524 2026-11-17_17:45 BackupSpecs.xml
+-rw-rw-r-- 1 copies copies    71303168 2026-11-17_17:56 Esp.vhdx
+-rw-rw-r-- 1 copies copies   830472192 2026-11-17_18:02 a80efd90-4824-4b7f-a12f-d5be643ab0d6.vhdx
+srv-ws2025:
+config
+gpo-2026-11-17_1001
+gpo-2026-11-17_1030
+gpo-2026-11-17_1126
+gpo-2026-11-17_1635
+
+srv-ws2025/config:
+computerinfo.txt
+domini.txt
+equips-ad.txt
+gpo-copiades.txt
+ou.txt
+rols-i-caracteristiques.txt
+usuaris-ad.txt
+usuaris.txt
+xarxa.txt
+zones-dns.txt
