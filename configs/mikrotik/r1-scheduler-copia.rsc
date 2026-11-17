@@ -8,9 +8,9 @@
   /export file=r1-export
   /system backup save name=r1-backup
   :delay 3s
-  /tool fetch upload=yes mode=sftp address=192.168.13.20 user=copies password=$nasPass \
+  /tool fetch upload=yes mode=sftp address=192.168.31.20 user=copies password=$nasPass \
       src-path=r1-export.rsc dst-path=("/mnt/copies/routers/r1/r1-export-" . $data . ".rsc")
-  /tool fetch upload=yes mode=sftp address=192.168.13.20 user=copies password=$nasPass \
+  /tool fetch upload=yes mode=sftp address=192.168.31.20 user=copies password=$nasPass \
       src-path=r1-backup.backup dst-path=("/mnt/copies/routers/r1/r1-" . $data . ".backup")
   :log info "copia-nas: còpia de R1 pujada al NAS"
 }

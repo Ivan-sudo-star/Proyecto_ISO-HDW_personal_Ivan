@@ -1,7 +1,7 @@
-# ws-copia.ps1 — a240: còpia de SRV-WS2025 al NAS (recurs SMB \\192.168.13.20\windows, usuari copies)
+# ws-copia.ps1 — a240: còpia de SRV-WS2025 al NAS (recurs SMB \\192.168.31.20\windows, usuari copies)
 # Ús: $env:PASS_NAS='<contrasenya>' ; powershell -File ws-copia.ps1   (o per qm guest exec amb -EncodedCommand)
 "## a240 còpia - $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
-$share='\\192.168.13.20\windows'; $pass=$env:PASS_NAS
+$share='\\192.168.31.20\windows'; $pass=$env:PASS_NAS
 net use $share /delete /y 2>$null | Out-Null
 net use $share $pass /user:copies /persistent:no
 # 1) Configuració exportada en text (es pot llegir sense restaurar res)

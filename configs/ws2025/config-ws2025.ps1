@@ -10,15 +10,15 @@ Start-Process msiexec.exe -Wait -ArgumentList "/i ${v}:\virtio-win-gt-x64.msi /q
 Start-Process msiexec.exe -Wait -ArgumentList "/i ${v}:\guest-agent\qemu-ga-x86_64.msi /qn /norestart"
 "qemu-ga: $((Get-Service QEMU-GA -ErrorAction SilentlyContinue).Status)"
 
-# 2. Xarxa (a239): IP fixa 192.168.13.21/24, porta d'enllaç i DNS a R1
+# 2. Xarxa (a239): IP fixa 192.168.31.21/24, porta d'enllaç i DNS a R1
 Start-Sleep 10
 $nic = Get-NetAdapter | Where-Object Status -eq 'Up' | Select-Object -First 1
 "Targeta: $($nic.Name) ($($nic.InterfaceDescription))"
 Set-NetIPInterface -InterfaceIndex $nic.ifIndex -Dhcp Disabled
 Get-NetIPAddress -InterfaceIndex $nic.ifIndex -AddressFamily IPv4 -ErrorAction SilentlyContinue | Remove-NetIPAddress -Confirm:$false
-New-NetIPAddress -InterfaceIndex $nic.ifIndex -IPAddress 192.168.13.21 -PrefixLength 24 -DefaultGateway 192.168.13.1 | Out-Null
-Set-DnsClientServerAddress -InterfaceIndex $nic.ifIndex -ServerAddresses 192.168.13.1
-Set-DnsClient -InterfaceIndex $nic.ifIndex -ConnectionSpecificSuffix lan13.local
+New-NetIPAddress -InterfaceIndex $nic.ifIndex -IPAddress 192.168.31.21 -PrefixLength 24 -DefaultGateway 192.168.31.1 | Out-Null
+Set-DnsClientServerAddress -InterfaceIndex $nic.ifIndex -ServerAddresses 192.168.31.1
+Set-DnsClient -InterfaceIndex $nic.ifIndex -ConnectionSpecificSuffix lan31.local
 Set-NetConnectionProfile -InterfaceIndex $nic.ifIndex -NetworkCategory Private -ErrorAction SilentlyContinue
 
 # 3. Tallafocs: permetre el ping (per a les proves de connectivitat de la LAN)

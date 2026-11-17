@@ -12,7 +12,7 @@ Get-LocalUser | Select-Object Name,Enabled,PasswordRequired,LastLogon | Format-T
 "## a249 xarxa"
 ipconfig /all
 Get-NetIPConfiguration | Format-List | Out-String
-"Ping GW .1: " + (Test-Connection 192.168.13.1 -Count 2 -Quiet)
+"Ping GW .1: " + (Test-Connection 192.168.31.1 -Count 2 -Quiet)
 "DNS: "; Resolve-DnsName deb.debian.org -Type A -ErrorAction SilentlyContinue | Select-Object -First 2 Name,IPAddress | Out-String
-"SMB NAS 445: " + (Test-NetConnection 192.168.13.20 -Port 445 -WarningAction SilentlyContinue).TcpTestSucceeded
+"SMB NAS 445: " + (Test-NetConnection 192.168.31.20 -Port 445 -WarningAction SilentlyContinue).TcpTestSucceeded
 "Internet HTTPS: " + $(try{(Invoke-WebRequest https://www.debian.org -UseBasicParsing -TimeoutSec 15).StatusCode}catch{$_.Exception.Message})

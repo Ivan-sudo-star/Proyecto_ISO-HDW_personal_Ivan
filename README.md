@@ -1,15 +1,17 @@
 # Naix un sistema: instal·la, configura i vigila'l — Part individual
 
-**Alumne:** Ivan · **Lloc a l'aula:** 13 · **LAN:** `192.168.13.0/24` · **Curs:** 1r ASIX · ISO + FDM
+**Alumne:** Ivan · **Lloc a l'aula:** 31 · **LAN:** `192.168.31.0/24` · **Curs:** 1r ASIX · ISO + FDM
 **Enunciat:** ASIX ThinkLab V2.0 (19/10/2026) · **Lliurament documentació:** diumenge 22/11/2026 · **Final individual:** dimecres 25/11/2026
 
-> Reprodueix el disseny del grup 3 ([asix-aula-grup-03-ISO](https://github.com/varo010/asix-aula-grup-03-ISO)) amb la LAN 192.168.13.0/24.
+> Reprodueix el disseny del grup 3 ([asix-aula-grup-03-ISO](https://github.com/varo010/asix-aula-grup-03-ISO)) amb la LAN 192.168.31.0/24.
 >
 > L'entorn de proves viu en un **SSD USB extern** (Linux Mint 22.3 + VirtualBox 7.2.18) que s'arranca
 > indistintament a l'**equip de classe** i a l'**equip de casa**. El sistema i les VM són els mateixos;
 > el que canvia és el maquinari amfitrió. Per això el disseny es dimensiona per a l'equip més limitat.
 
-![Esquema de xarxa individual](diagrames/xarxa-individual-lloc13.png)
+> **Canvi de lloc (17/11/2026):** el meu lloc a l'aula és el **31**, no el 13. Tot el muntatge (màquines, configuracions, scripts, esquema i documentació) s'ha passat a **192.168.31.0/24** i el domini és `ivan-cambra-31.lan`. Les **evidències recollides abans del 17/11** (registres i captures de `evidencias/`) són sortides reals i mostren l'adreçament antic **192.168.13.x**: no s'han modificat. Les comprovacions fetes després del canvi són a [`evidencias/canvi-lloc31/`](evidencias/canvi-lloc31/) i [`evidencias/t5-domini/`](evidencias/t5-domini/). Procediment: [03 §6](docs/03-xarxa.md#6-canvi-de-lloc-13--31-17112026).
+
+![Esquema de xarxa individual](diagrames/xarxa-individual-lloc31.png)
 
 ## Índex de la documentació
 
@@ -43,7 +45,7 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | Tasca | Accions | Estat | On |
 |---|---|---|---|
 | T0 Entorn (Apte) | a17, a18 | ✅ entorn muntat i funcionant ([VM del grup](evidencias/t0-entorn/vms.txt)) | [01](docs/01-entorn.md) |
-| T0 Entorn (Apte+) | a127 | ✅ 16 problemes documentats amb causa i solució (s'hi afegeixen els nous) | [01 §5](docs/01-entorn.md#5-problemes-trobats-i-solució-a127) |
+| T0 Entorn (Apte+) | a127 | ✅ 18 problemes documentats amb causa i solució (s'hi afegeixen els nous) | [01 §5](docs/01-entorn.md#5-problemes-trobats-i-solució-a127) |
 | T2 Inventari (Apte) | a19, a20, a21 | ✅ classe i casa complets (amb sudo) | [02](docs/02-inventari.md) |
 | T2 Tests (Apte+) | a27, a28, a29 | ✅ classe i casa (memtester, dd, fio, xarxa) | [02](docs/02-inventari.md) |
 | T4 Xarxa (Apte) | a128, a148 | ✅ esquema i taula d'interfícies (alineats amb el grup) | [03](docs/03-xarxa.md) |
@@ -54,9 +56,9 @@ Llegenda: ✅ fet amb evidència · 🟡 preparat (disseny/scripts llestos, falt
 | T5 nftables | a217–a223 | ✅ complet (recuperació en 22 s) · els 3 routers configurats igual | [04 §4](docs/04-installacio.md#4-r3--debian-13--nftables-a217a223) |
 | T5 TrueNAS | a224–a227 | ✅ complet (pool `copies`, SSH/NFS/SMB) | [04 §5](docs/04-installacio.md#5-nas--truenas-scale-a224a227-a259) |
 | T5 Proxmox | a228–a232, a235, a236 | ✅ 3 nodes, clúster, NFS compartit, VM 220/230, CT 100, migració (8,5 s en calent) i còpies | [04 §6](docs/04-installacio.md#6-proxmox-ve-a228a232-a235-a236) |
-| T5 Windows Server 2025 | a237–a241 | ✅ a237–a240: instal·lació desatesa (14/11, dins de PVE1) i **traslladat a VirtualBox el 16/11** (estructura del professor; niuat penjava PVE1), 26100.33822, `admin-ivan`, IP fixa .21, còpia `wbadmin` al NAS + `vzdump` · a241 ✅ (explicació del domini escrita per l'alumne) · **domini `ivan-cambra-13.lan` implantat (16/11)**: SRV-WS2025 és el DC, usuari `ivan`, GPO d'inici de sessió | [04 §7](docs/04-installacio.md#7-windows-server-2025-a237a241) |
+| T5 Windows Server 2025 | a237–a241 | ✅ a237–a240: instal·lació desatesa (14/11, dins de PVE1) i **traslladat a VirtualBox el 16/11** (estructura del professor; niuat penjava PVE1), 26100.33822, `admin-ivan`, IP fixa .21, còpia `wbadmin` al NAS + `vzdump` · a241 ✅ (explicació del domini escrita per l'alumne) · **domini `ivan-cambra-31.lan` implantat (16/11)**: SRV-WS2025 és el DC, usuari `ivan`, GPO d'inici de sessió | [04 §7](docs/04-installacio.md#7-windows-server-2025-a237a241) |
 | T5 Linux infra | a242–a246 | ✅ VM 220 (PVE2) i 230 (PVE3): actualitzades, usuaris, SSH només amb clau, còpia al NAS amb prova de restauració | [04 §8](docs/04-installacio.md#8-servidors-gnulinux-dinfraestructura-a242a246) |
-| T5 Clients | a247–a250, a252–a255 | ✅ W11 Pro ✅ (a247–a250) · CLI-Debian ✅ (a252–a255) · **tots dos units al domini `ivan-cambra-13.lan`: s'inicia sessió amb `ivan`** (a251/a256 no s'exigeixen, però s'han fet) · Guest Additions als dos | [04 §9](docs/04-installacio.md#9-clients-a247a250-a252a255) |
+| T5 Clients | a247–a250, a252–a255 | ✅ W11 Pro ✅ (a247–a250) · CLI-Debian ✅ (a252–a255) · **tots dos units al domini `ivan-cambra-31.lan`: s'inicia sessió amb `ivan`** (a251/a256 no s'exigeixen, però s'han fet) · Guest Additions als dos | [04 §9](docs/04-installacio.md#9-clients-a247a250-a252a255) |
 | T5 Apte+ còpies automàtiques | a105 | ✅ imatges: tasca setmanal de Proxmox provada · 🟡 configuracions: orquestrador instal·lat, falta repartir la clau | [04 §10](docs/04-installacio.md#10-apte-còpies-automatitzades-a105) |
 | T6 RAID (Apte) | a102, a103 | ✅ RAID 0, 1, 5 (amb spare) i 10 a la VM 230: fallada, integritat i reconstrucció | [05](docs/05-raid.md) |
 | T6 Espill entre equips (Apte+) | a107, a108, a109 | ✅ DRBD entre VM 220 (PVE2) i 230 (PVE3): failover en 7,3 s sense perdre dades | [05](docs/05-raid.md#tasca-63--espill-entre-dos-equips-a107a109) |

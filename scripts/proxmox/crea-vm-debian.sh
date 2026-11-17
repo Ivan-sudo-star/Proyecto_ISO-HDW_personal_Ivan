@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# crea-vm-debian.sh — Crea una VM Debian 13 sense entorn gràfic dins del clúster cluster13
+# crea-vm-debian.sh — Crea una VM Debian 13 sense entorn gràfic dins del clúster cluster31
 # a partir de la imatge cloud oficial (debian-13-generic-amd64.qcow2, verificada amb SHA512SUMS)
 # i la configura amb cloud-init (usuari, contrasenya, clau SSH, IP fixa).
 #
 # Ús (com a root en un node Proxmox):
 #   bash crea-vm-debian.sh <VMID> <nom> <IP> <discos-extra-GB separats per comes|-> [/ruta/clau.pub]
-#   bash crea-vm-debian.sh 220 srv-serveis 192.168.13.22 2
-#   bash crea-vm-debian.sh 230 srv-dades   192.168.13.23 1,1,1,1,1,2
+#   bash crea-vm-debian.sh 220 srv-serveis 192.168.31.22 2
+#   bash crea-vm-debian.sh 230 srv-dades   192.168.31.23 1,1,1,1,1,2
 # La contrasenya NO va a l'script: es llig de la variable d'entorn CIPASS.
 set -euo pipefail
 VMID=$1; NOM=$2; IP=$3; EXTRA=${4:--}; CLAU=${5:-}
@@ -26,6 +26,6 @@ if [ "$EXTRA" != "-" ]; then
 fi
 # cloud-init: usuari amb sudo, contrasenya, clau i xarxa
 qm set "$VMID" --ide2 local-lvm:cloudinit --ciuser ivancambra --cipassword "$CIPASS" \
-  --ipconfig0 "ip=$IP/24,gw=192.168.13.1" --nameserver 192.168.13.1 --searchdomain lan13.local --ciupgrade 1
+  --ipconfig0 "ip=$IP/24,gw=192.168.31.1" --nameserver 192.168.31.1 --searchdomain lan31.local --ciupgrade 1
 [ -n "$CLAU" ] && qm set "$VMID" --sshkeys "$CLAU"
 qm config "$VMID"

@@ -1,5 +1,5 @@
 $ErrorActionPreference='Continue'
-$share='\\192.168.13.20\clients'; $dst="$share\w11"; $cfg="$env:TEMP\w11-config"
+$share='\\192.168.31.20\clients'; $dst="$share\w11"; $cfg="$env:TEMP\w11-config"
 "# a250 copia del client Windows 11 - $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 net use $share /delete /y 2>$null | Out-Null
 net use $share * /user:copies /persistent:no   # demana la contrasenya

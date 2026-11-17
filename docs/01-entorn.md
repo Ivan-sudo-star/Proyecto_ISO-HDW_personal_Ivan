@@ -31,7 +31,7 @@ Dades brutes: [`evidencias/t2-inventari/`](../evidencias/t2-inventari/).
 
 ## 3. Màquines virtuals planificades
 
-Totes al grup `/ISO_HWD`, LAN = xarxa interna `LAN13` (192.168.13.0/24), WAN dels routers = NAT.
+Totes al grup `/ISO_HWD`, LAN = xarxa interna `LAN31` (192.168.31.0/24), WAN dels routers = NAT.
 El disseny **reprodueix el del grup 3** ([repositori del grup](https://github.com/varo010/asix-aula-grup-03-ISO)):
 - 3 servidors de comunicacions alternatius;
 - NAS TrueNAS;
@@ -44,31 +44,31 @@ La diferència és el suport. El grup usa maquinari físic (MikroTik hEX, PC-02 
 
 | VM | Funció | SO | vCPU | RAM | Disc(s) | Xarxa | Firmware |
 |---|---|---|---|---|---|---|---|
-| R1-MikroTik | Router/tallafocs principal (.1) | RouterOS **7.25.1** x86 (instal·lat amb la 7.24.5) | 1 | 512 MB | 1 GB | NAT + LAN13 | BIOS |
-| R2-OPNsense | Router/tallafocs alternatiu (.2) | OPNsense 26.7 | 2 | 2 GB | 20 GB | NAT + LAN13 | BIOS |
-| Debian_NFtables (R3) | Router/tallafocs alternatiu (.3) | Debian 13 + nftables | 2 → **1** | 4 GB → **1 GB** | 25 GB (existent, 7,3 GB ocupats) | NAT + LAN13 | BIOS |
-| NAS-TrueNAS | Servidor de còpies (.20) | TrueNAS SCALE 25.10.7 | 2 | 8 GB | 20 GB boot + **50 GB còpies** | LAN13 | EFI |
-| SRV-WS2025 | Windows Server 2025 (.21) · centralització (domini) | Windows Server 2025 Standard Eval. | 2 | 4 GB | 32 GB (virtio-scsi) | LAN13 (virtio-net) | EFI |
-| PVE1-Proxmox | Node 1 (.32) | Proxmox VE 9.2 | 4 → **2** | 6 GB → **3 GB** (16/11, ja no allotja el WS2025) | 64 GB | LAN13 (promiscu) | BIOS · VT-x niuat |
-| PVE2-Proxmox | Node 2 (.33): allotja Debian serveis + CT | Proxmox VE 9.2 | 2 | 3 GB | 40 GB | LAN13 (promiscu) | BIOS · VT-x niuat |
-| PVE3-Proxmox | Node 3 (.34): allotja Debian dades | Proxmox VE 9.2 | 2 | 3 GB | 40 GB | LAN13 (promiscu) | BIOS · VT-x niuat |
-| CLI-Debian | Client GNU/Linux i equip de gestió | Debian 13 + GNOME | 2 | 2 GB | 25 GB | LAN13 | BIOS |
-| Cliente_windows_1 | Client Windows | Windows 11 **Pro** 23H2 (existent; era Home, problema 10) | 2 | 4 GB | 80 GB (existent, 14 GB ocupats) | LAN13 | EFI + TPM 2.0 + SB |
+| R1-MikroTik | Router/tallafocs principal (.1) | RouterOS **7.25.1** x86 (instal·lat amb la 7.24.5) | 1 | 512 MB | 1 GB | NAT + LAN31 | BIOS |
+| R2-OPNsense | Router/tallafocs alternatiu (.2) | OPNsense 26.7 | 2 | 2 GB | 20 GB | NAT + LAN31 | BIOS |
+| Debian_NFtables (R3) | Router/tallafocs alternatiu (.3) | Debian 13 + nftables | 2 → **1** | 4 GB → **1 GB** | 25 GB (existent, 7,3 GB ocupats) | NAT + LAN31 | BIOS |
+| NAS-TrueNAS | Servidor de còpies (.20) | TrueNAS SCALE 25.10.7 | 2 | 8 GB | 20 GB boot + **50 GB còpies** | LAN31 | EFI |
+| SRV-WS2025 | Windows Server 2025 (.21) · centralització (domini) | Windows Server 2025 Standard Eval. | 2 | 4 GB | 32 GB (virtio-scsi) | LAN31 (virtio-net) | EFI |
+| PVE1-Proxmox | Node 1 (.32) | Proxmox VE 9.2 | 4 → **2** | 6 GB → **3 GB** (16/11, ja no allotja el WS2025) | 64 GB | LAN31 (promiscu) | BIOS · VT-x niuat |
+| PVE2-Proxmox | Node 2 (.33): allotja Debian serveis + CT | Proxmox VE 9.2 | 2 | 3 GB | 40 GB | LAN31 (promiscu) | BIOS · VT-x niuat |
+| PVE3-Proxmox | Node 3 (.34): allotja Debian dades | Proxmox VE 9.2 | 2 | 3 GB | 40 GB | LAN31 (promiscu) | BIOS · VT-x niuat |
+| CLI-Debian | Client GNU/Linux i equip de gestió | Debian 13 + GNOME | 2 | 2 GB | 25 GB | LAN31 | BIOS |
+| Cliente_windows_1 | Client Windows | Windows 11 **Pro** 23H2 (existent; era Home, problema 10) | 2 | 4 GB | 80 GB (existent, 14 GB ocupats) | LAN31 | EFI + TPM 2.0 + SB |
 
 ### 3.2 Nivell 2: VM i contenidors dins del clúster Proxmox
 
 | VM/CT (Proxmox) | Node | Funció | SO | vCPU | RAM | Disc(s) | IP |
 |---|---|---|---|---|---|---|---|
-| 220 SRV-SERVEIS | PVE2 | Servidor d'infraestructura, orquestrador de còpies, DRBD node A | Debian 13 sense GUI | 1 | 1 GB | 10 GB + 2 GB (DRBD) | 192.168.13.22 |
-| 230 SRV-DADES | PVE3 | Servidor de dades, proves de RAID, DRBD node B | Debian 13 sense GUI | 1 | 1 GB | 10 GB + 5×1 GB (RAID) + 2 GB (DRBD) | 192.168.13.23 |
-| CT 100 | PVE2 | Contenidor de prova per a la migració | Debian 13 (LXC) | 1 | 512 MB | 4 GB | 192.168.13.41 |
+| 220 SRV-SERVEIS | PVE2 | Servidor d'infraestructura, orquestrador de còpies, DRBD node A | Debian 13 sense GUI | 1 | 1 GB | 10 GB + 2 GB (DRBD) | 192.168.31.22 |
+| 230 SRV-DADES | PVE3 | Servidor de dades, proves de RAID, DRBD node B | Debian 13 sense GUI | 1 | 1 GB | 10 GB + 5×1 GB (RAID) + 2 GB (DRBD) | 192.168.31.23 |
+| CT 100 | PVE2 | Contenidor de prova per a la migració | Debian 13 (LXC) | 1 | 512 MB | 4 GB | 192.168.31.41 |
 
 **Comprovació interna dels nodes:**
 - PVE1: 3 GB i cap VM fixa (des del 16/11): és el node lliure per rebre migracions.
 - PVE2: 3 GB − 1 GB − 0,5 GB = 1,5 GB lliures. Hi cap una migració del CT o de la VM d'un altre node.
 - PVE3: 3 GB − 1 GB = 2 GB lliures. Pot rebre SRV-SERVEIS en una migració.
 
-R3 i el client Windows són VM que ja tenia instal·lades. L'script els ha afegit la interfície de la LAN13.
+R3 i el client Windows són VM que ja tenia instal·lades. L'script els ha afegit la interfície de la LAN31.
 El canvi de RAM de R3 (4 GB → 1 GB) és la primera optimització de la [Tasca 7](06-rendiment.md#optimitzacions-apte-a123a125).
 
 ## 4. Càlculs i limitacions (a18)
@@ -128,7 +128,9 @@ escenaris curts és una optimització possible (N/C, s'ha de mesurar).
 | 13 | **14/11: PVE1 s'atura dues vegades amb un *Guru Meditation*** (19:28, mentre el WS2025 baixava actualitzacions, i 19:50, durant el `vzdump` amb la VM engegada) | Error intern de VirtualBox 7.2 amb la virtualització niuada: `VERR_VMM_RING0_ASSERTION` a `pgmPoolTracDerefGCPhys` (paginació niuada, `fIsNested=true`). No és un error de Proxmox ni del Windows | Apagar i tornar a engegar PVE1 (no hi ha cap altra manera de sortir d'un Guru Meditation). L'arrel queda `clean` i el clúster amb quòrum. Abans de tornar a arrencar la VM 210, s'amplia el thin-pool `local-lvm` 7 GB (21,4 → 28,4 GB, 54 % usat) perquè les actualitzacions de Windows no l'omplin | 🟡 PVE1 torna a funcionar cada vegada (arrel `clean`). Es reprodueix quan el Windows niuat treballa fort; el `vzdump` es va repetir amb la VM **aturada** (`--mode stop`), que no executa el Windows. Lliçó: una VM Windows dins d'un node niuat és el límit d'aquest equip. **Resolt el 16/11** movent el WS2025 a VirtualBox (núm. 14) |
 | 14 | **16/11 (classe): PVE1 es penja** en engegar el WS2025 (VM 210) i en posar-li càrrega: sense ping, fora del clúster, `Guest seems to be unresponsive` al `VBox.log`. Hi havia 9,9 GB de RAM lliures | El mateix que el núm. 13: Windows dins de KVM dins de VirtualBox (virtualització niuada) | **El WS2025 passa a ser una VM de VirtualBox** (`SRV-WS2025`), com a l'estructura individual del professor. Es copia el disc sense reinstal·lar (5 min) i s'esborra la VM 210 de PVE1, que baixa a 3 GB i 2 vCPU ([04 §7](04-installacio.md#trasllat-a-virtualbox-1611)) | ✅ la mateixa càrrega amb el WS2025 a VirtualBox no bloqueja res ([06](06-rendiment.md)) |
 | 15 | **16/11, 09:34 (classe): l'equip físic s'apaga de cop** amb 7 VM enceses i el WS2025 instal·lant l'acumulativa de novembre. El diari de l'amfitrió s'acaba en sec (sense seqüència d'apagada) i `last -x` marca *crash* | Molt probablement **tèrmica**: l'equip de classe és un portàtil i, en tornar a posar la mateixa càrrega, el processador marca **97 °C** i arriba a **100 °C** mentre el WS2025 instal·la l'actualització (crític: 110 °C). No es pot confirmar amb el registre del nucli sense `sudo` | Tornar a engegar per ordre (R1 → NAS → nodes → WS2025): sistemes de fitxers dels nodes `clean`, clúster amb 3 vots, Windows arrenca bé (l'actualització no s'havia aplicat i es torna a llançar). Vigilar la temperatura amb `sensors` i **no fer dues tasques pesades alhora al portàtil** (actualitzacions de Windows amb totes les VM enceses). Registre: [`20261116-temperatura-classe.txt`](../evidencias/t7-rendiment/20261116-temperatura-classe.txt) | 🟡 la segona vegada l'actualització va acabar sense apagada (màxim 100 °C), però el marge tèrmic del portàtil és petit |
-| 16 | **16/11 (classe): domini.** El nom demanat «DC_Ivan_Cambra_13» no és vàlid per a un domini, i després d'unir-lo al domini el W11 tornava a entrar sol amb l'usuari local `Ivan` | El guió baix no està permés en noms DNS. El W11 tenia `AutoAdminLogon=1` (inici automàtic) | Domini `ivan-cambra-13.lan` (NetBIOS `IVANCAMBRA13`). L'inici automàtic es desactiva **des del domini** amb una GPO (`Lloc13-Inici-de-sessio`), que a més fa que la pantalla demane usuari i contrasenya ([04 §7](04-installacio.md)) |
+| 16 | **16/11 (classe): domini.** El nom demanat «DC_Ivan_Cambra_31» no és vàlid per a un domini, i després d'unir-lo al domini el W11 tornava a entrar sol amb l'usuari local `Ivan` | El guió baix no està permés en noms DNS. El W11 tenia `AutoAdminLogon=1` (inici automàtic) | Domini `ivan-cambra-31.lan` (NetBIOS `IVANCAMBRA31`). L'inici automàtic es desactiva **des del domini** amb una GPO (`Lloc31-Inici-de-sessio`), que a més fa que la pantalla demane usuari i contrasenya ([04 §7](04-installacio.md)) |
+| 17 | **17/11: el número de lloc era el 31, no el 13.** Tot el muntatge s'havia fet amb la LAN 192.168.13.0/24 | Error en el número de lloc de l'aula | Canvi complet a **192.168.31.0/24** mantenint els últims octets: xarxa interna de VirtualBox `LAN13` → `LAN31` a les 10 VM, R1 (bridge, DHCP, NAT, serveis), R2, R3 (interfícies, nftables, dnsmasq), NAS (IP, passarel·la, NFS), clúster Proxmox (`corosync.conf`, `cluster13` → `cluster31`, `storage.cfg`, `interfaces`, `hosts`, certificats), VM 220/230 (cloud-init) i DRBD, CT 100, SRV-WS2025 i clients. Durant el canvi, R1 va tenir una **IP temporal 192.168.13.254** per arribar a les màquines encara no canviades (esborrada al final). Instantànies `abans-canvi-31` de totes les VM. El domini es va tornar a crear (`ivan-cambra-31.lan`). Detall: [03 §6](03-xarxa.md#6-canvi-de-lloc-13--31-17112026) |
+| 18 | **17/11: PVE3 es penja** (disc en error d'E/S) poc després d'arrencar les VM 220/230 | Al `VBox.log`, peticions **DISCARD** cancel·lades: el TRIM penjat del núm. 12. La solució s'havia aplicat a PVE1, però **no a PVE2 ni a PVE3** | Apagat forçat (el procés de VirtualBox estava encallat en «stopping»), `--discard off` i memòria cau de l'amfitrió **als tres nodes**. PVE3 va tornar amb el disc net i el clúster amb 3 vots |
 
 *(Afegir ací cada problema nou que aparega durant la instal·lació, amb símptoma, causa, solució i com ho he comprovat.)*
 

@@ -51,7 +51,7 @@
       <UserData>
         <AcceptEula>true</AcceptEula>
         <FullName>Ivan</FullName>
-        <Organization>ASIX lloc 13</Organization>
+        <Organization>ASIX lloc 31</Organization>
       </UserData>
     </component>
   </settings>
@@ -94,7 +94,7 @@
         <LocalAccounts>
           <LocalAccount wcm:action="add">
             <Name>admin-ivan</Name>
-            <DisplayName>Administrador (lloc 13)</DisplayName>
+            <DisplayName>Administrador (lloc 31)</DisplayName>
             <Group>Administrators</Group>
             <Password><Value>CANVIAR-CONTRASENYA</Value><PlainText>true</PlainText></Password>
           </LocalAccount>

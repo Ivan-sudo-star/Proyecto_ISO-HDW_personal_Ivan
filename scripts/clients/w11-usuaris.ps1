@@ -8,7 +8,7 @@ Get-Tpm | Select-Object TpmPresent,TpmReady,TpmEnabled,ManufacturerVersion | For
 $pw = Read-Host 'Contrasenya per als usuaris nous' -AsSecureString
 $admins = (Get-LocalGroup -SID S-1-5-32-544).Name
 $users  = (Get-LocalGroup -SID S-1-5-32-545).Name
-foreach ($u in @(@{n='admin-ivan';d='Administrador del client (lloc 13)';g=$admins}, @{n='usuari';d='Usuari estandard de treball';g=$users})) {
+foreach ($u in @(@{n='admin-ivan';d='Administrador del client (lloc 31)';g=$admins}, @{n='usuari';d='Usuari estandard de treball';g=$users})) {
   if (-not (Get-LocalUser -Name $u.n -ErrorAction SilentlyContinue)) {
     New-LocalUser -Name $u.n -Password $pw -Description $u.d -PasswordNeverExpires | Out-Null; "creat: $($u.n)"
   } else { "ja existia: $($u.n)" }

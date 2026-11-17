@@ -1,5 +1,7 @@
 # Índex de captures
 
+> **Nota (17/11):** el lloc correcte és el 31. Les captures fetes **abans del 17/11** mostren l'adreçament antic **192.168.13.x** (i noms com `lan13`); són captures reals i no s'han modificat. Les de les seccions «Domini» i «Canvi de lloc» ja són de la xarxa 192.168.31.0/24.
+
 Totes les imatges són captures reals de la pantalla de les VM (VirtualBox), fetes el 11/11 i el 12/11/2026.
 Les webs de gestió s'han obert **des de CLI-Debian (192.168.13.200), dins de la LAN13**, que és l'accés de gestió escollit ([03 §5](../docs/03-xarxa.md#5-accés-de-gestió-a-les-webs-de-la-lan13)).
 Les adreces MAC (i la IPv6 que en deriva) estan tapades amb un rectangle negre.
@@ -78,11 +80,17 @@ Cada imatge és a la carpeta `captures/` de la seua tasca, al costat de l'evidè
 | ![](t5-linux-infra/captures/a258-grub-diagnosi.png) | a258: diagnosi, falta `grub.cfg` |
 | ![](t5-linux-infra/captures/a258-grub-menu.png) | a258: el menú de GRUB carregat a mà |
 
-## T5 · Domini ivan-cambra-13.lan ([evidències](t5-domini/))
+## T5 · Domini ivan-cambra-31.lan ([evidències](t5-domini/)) · 17/11, ja amb el lloc 31
 | Captura | Què demostra |
 |---|---|
-| ![](t5-domini/captures/w11-01-inici-sessio-domini.png) | W11 unit al domini: la pantalla d'inici demana usuari i contrasenya i diu «Iniciar sesión en IVANCAMBRA13» (GPO `Lloc13-Inici-de-sessio`) |
-| ![](t5-domini/captures/w11-02-sessio-ivancambra13-ivan.png) | La sessió oberta al W11 és de l'usuari del domini `IVANCAMBRA13\ivan` |
-| ![](t5-domini/captures/w11-03-whoami-nltest.png) | `whoami` → `ivancambra13\ivan`, UPN `ivan@ivan-cambra-13.lan`, `LOGONSERVER=\\SRV-WS2025` i `nltest /sc_query` → `NERR_Success` |
+| ![](t5-domini/captures/w11-01-inici-sessio-IVANCAMBRA31.png) | W11 unit al domini: la pantalla d'inici demana usuari i contrasenya i diu «Iniciar sesión en IVANCAMBRA31» (GPO `Lloc31-Inici-de-sessio`) |
+| ![](t5-domini/captures/w11-02-whoami-nltest.png) | Sessió de l'usuari del domini al W11: `whoami` → `ivancambra31\ivan`, UPN `ivan@ivan-cambra-31.lan`, `LOGONSERVER=\\SRV-WS2025`, IP **192.168.31.199** i `nltest /sc_query` → `NERR_Success` |
 | ![](t5-domini/captures/cli-01-gdm-nom-usuari.png) | CLI-Debian unit al domini: GDM demana el nom d'usuari (llista d'usuaris desactivada) |
-| ![](t5-domini/captures/cli-02-terminal-ivan-kerberos.png) | Sessió gràfica de `ivan` al CLI-Debian: `id` (grup `domain users`) i `klist` amb el tiquet de `IVAN-CAMBRA-13.LAN` |
+| ![](t5-domini/captures/cli-02-terminal-ivan-kerberos.png) | Sessió gràfica de `ivan` al CLI-Debian: `id` (grup `domain users`), IP **192.168.31.200** i `klist` amb el tiquet de `IVAN-CAMBRA-31.LAN` |
+
+Les captures del primer domini (16/11, `ivan-cambra-13.lan`, abans de corregir el número de lloc) són a [`t5-domini/historic-lloc13/captures/`](t5-domini/historic-lloc13/captures/).
+
+## Canvi de lloc 13 → 31 ([evidències](canvi-lloc31/)) · 17/11
+| Captura | Què demostra |
+|---|---|
+| ![](canvi-lloc31/captures/r2-consola-lan-192.168.31.2.png) | R2 (OPNsense) després del canvi: LAN `em1` → **192.168.31.2/24** |

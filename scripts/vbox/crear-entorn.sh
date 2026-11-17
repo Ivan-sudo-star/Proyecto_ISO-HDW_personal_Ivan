@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# crear-entorn.sh — Crea l'entorn individual de proves (lloc 13) en VirtualBox.
+# crear-entorn.sh — Crea l'entorn individual de proves (lloc 31) en VirtualBox.
 # - Totes les VM van al grup /ISO_HWD.
-# - Xarxa interna LAN: "LAN13" (192.168.13.0/24). WAN dels routers: NAT de VirtualBox.
+# - Xarxa interna LAN: "LAN31" (192.168.31.0/24). WAN dels routers: NAT de VirtualBox.
 # - Idempotent: si una VM ja existeix, no la toca.
 # Ús: bash scripts/vbox/crear-entorn.sh
 set -euo pipefail
 
 GROUP="/ISO_HWD"
-LAN="LAN13"
+LAN="LAN31"
 ISO_DIR="$HOME/Escritorio/ISOS"
 BASE="$HOME/VirtualBox VMs/ISO_HWD"
 

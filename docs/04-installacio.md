@@ -101,7 +101,7 @@ fora del disc (disc intern de casa o un altre pendrive), sense pujar-ho a GitHub
    - `/system resource print` → versió 7.24.5, arquitectura x86 i RAM.
    - `/system license print` → nivell de llicència. **N/C:** sense clau, RouterOS x86 pot funcionar en mode demostració de temps limitat. Si passa, l'alternativa és la imatge CHR, que té llicència gratuïta limitada a 1 Mb/s.
 2. **Usuaris (a204):** importar el bloc d'usuaris del `.rsc` i fer `/user set admin-ivan password=<...>`. Comprovar l'accés amb el nou usuari i deshabilitar `admin`. L'usuari `suport` és de només lectura.
-3. **Xarxa (a205):** `/ip address print`, `/ip dhcp-client print` → WAN 10.0.2.15, LAN 192.168.13.1.
+3. **Xarxa (a205):** `/ip address print`, `/ip dhcp-client print` → WAN 10.0.2.15, LAN 192.168.31.1.
 4. **Internet per a la LAN (a206):** regla `masquerade`. Des de CLI-Debian: `ping 1.1.1.1` i `curl -I https://debian.org`.
 5. **Permesa / bloquejada (a207):**
    - `curl` (permesa) i `nc -zv github.com 22` (bloquejada).
@@ -125,15 +125,15 @@ Captures (WebFig: bridge, llistes LAN/WAN i tallafocs): [índex de captures](../
 |---|---|---|
 | a203 instal·lació i versió | ✅ RouterOS **7.24.5 (stable)** x86_64, paquet `system`. **Llicència: sense clau, 24 h de funcionament** (el comptador només avança amb la VM encesa: s'apaga quan no s'usa) | `t5-mikrotik/captures/01-installador-paquets.png`, `02-installacio-completada.png`, `03-llicencia-x86-24h.png`, `a203-versio.txt` |
 | a204 usuaris | ✅ `admin-ivan` (grup full) i `suport` (grup `lectura`, només lectura). `admin` **deshabilitat** després de comprovar l'accés amb `admin-ivan` | `a204-usuaris.txt` |
-| a205 xarxa | ✅ ether1 WAN 10.0.2.15/24 per DHCP (GW 10.0.2.2), LAN 192.168.13.1/24 (des del 12/11, al **bridge-lan13**, vegeu sota) | `a205-xarxa.txt`, `bridge-r1.txt` |
+| a205 xarxa | ✅ ether1 WAN 10.0.2.15/24 per DHCP (GW 10.0.2.2), LAN 192.168.31.1/24 (des del 12/11, al **bridge-lan31**, vegeu sota) | `a205-xarxa.txt`, `bridge-r1.txt` |
 | a206 Internet per a la LAN | ✅ masquerade + DHCP .100–.200. CLI-Debian i TrueNAS s'han instal·lat descarregant paquets a través de R1 (leases .199 i .200). El NAS fa ping a 1.1.1.1 | `a206-nat-dhcp.txt` |
 | a207 permesa/bloquejada | ✅ des de CLI-Debian: `curl https://www.debian.org` → `HTTP/2 200` (registre `R1-FWD-OK ... ->130.89.148.77:443`). `nc github.com 22` → timeout (registre `R1-BLOQ-SSH`: 5 SYN, el primer i 4 retransmissions; comptador de la regla = 5 paquets). Interpretació a l'evidència | `a207-filtre.txt`, `a207-prova-permesa-bloquejada.txt` |
 | a208 còpia al NAS | ✅ `/export` (text, sense dades sensibles) + `/system backup save` (binari xifrat) pujats per SFTP a `/mnt/copies/routers/r1/` | `a208-copia-al-nas.txt` |
 | a209 fallada i recuperació | ✅ s'esborren la IP de la LAN, el NAT i la còpia local → els clients perden la porta d'enllaç. Recuperació: es torna a posar la IP de la LAN, es baixa `r1-backup.backup` del NAS per SFTP i es fa `/system backup load`. Prova final: CLI-Debian torna a obtindre `HTTP/2 200`. **Temps d'inactivitat: 42 s** | `a209-fallada-recuperacio.txt` |
 
 **Bridge de la LAN (12/11/2026).** Al principi la IP de la LAN, el DHCP i les regles estaven directament al port `ether2`. El grup ho té en un bridge (`bridge_grupo3` amb `ether2`–`ether5`), i és la pràctica recomanada a RouterOS, així que R1 ara té:
-- **`bridge-lan13`** amb el port `ether2`. La IP 192.168.13.1/24 i el servidor DHCP són al bridge, no al port.
-- **Llistes d'interfícies `LAN` (bridge-lan13) i `WAN` (ether1).** El filtre i el NAT usen les llistes, no noms de port.
+- **`bridge-lan31`** amb el port `ether2`. La IP 192.168.31.1/24 i el servidor DHCP són al bridge, no al port.
+- **Llistes d'interfícies `LAN` (bridge-lan31) i `WAN` (ether1).** El filtre i el NAT usen les llistes, no noms de port.
 - **Descobriment de veïns i accés per MAC (MAC-Telnet/MAC-WinBox) només des de la LAN.**
 
 Per què és millor, encara que a la VM hi haja un sol port de LAN:
@@ -142,9 +142,9 @@ Per què és millor, encara que a la VM hi haja un sol port de LAN:
 - **Escalable:** més ports o VLAN (`vlan-filtering`) es posen al bridge i hereten la IP i el DHCP. Al hEX físic del grup és el que fa que `ether2`–`ether5` funcionen com un commutador.
 - **Mateix disseny que el grup.**
 
-Comprovat: el client renova el DHCP a través del bridge, navega (`R1-FWD-OK ... in:bridge-lan13`) i l'SSH cap a Internet continua bloquejat (`R1-BLOQ-SSH`). Còpia nova al NAS: `routers/r1/export-bridge-*.rsc`. **Incidència:** les regles que apuntaven a `ether2` van quedar *INVALID* en convertir-lo en port del bridge, i la LAN va estar ≈ 3 min sense eixida fins que es van passar a les llistes. Evidència: [`bridge-r1.txt`](../evidencias/t5-mikrotik/bridge-r1.txt). Punt de retorn: instantània `R1-abans-bridge`.
+Comprovat: el client renova el DHCP a través del bridge, navega (`R1-FWD-OK ... in:bridge-lan31`) i l'SSH cap a Internet continua bloquejat (`R1-BLOQ-SSH`). Còpia nova al NAS: `routers/r1/export-bridge-*.rsc`. **Incidència:** les regles que apuntaven a `ether2` van quedar *INVALID* en convertir-lo en port del bridge, i la LAN va estar ≈ 3 min sense eixida fins que es van passar a les llistes. Evidència: [`bridge-r1.txt`](../evidencias/t5-mikrotik/bridge-r1.txt). Punt de retorn: instantània `R1-abans-bridge`.
 
-**Accés de gestió afegit:** redirecció de port NAT de VirtualBox `127.0.0.1:2201 → R1:22`, i regla `input` que només accepta SSH per la WAN des de 10.0.2.2 (l'amfitrió). Amb `/ip ssh set forwarding-enabled=local`, R1 fa de **bastió**: des de l'amfitrió s'entra a la resta de la LAN13 amb `ssh -J admin-ivan@127.0.0.1:2201 usuari@192.168.13.x`.
+**Accés de gestió afegit:** redirecció de port NAT de VirtualBox `127.0.0.1:2201 → R1:22`, i regla `input` que només accepta SSH per la WAN des de 10.0.2.2 (l'amfitrió). Amb `/ip ssh set forwarding-enabled=local`, R1 fa de **bastió**: des de l'amfitrió s'entra a la resta de la LAN31 amb `ssh -J admin-ivan@127.0.0.1:2201 usuari@192.168.31.x`.
 
 ## 3. R2 · OPNsense (a210–a216)
 
@@ -159,13 +159,13 @@ Evidències a `evidencias/t5-opnsense/`.
    - System → Access → Users: crear `admin-ivan` al grup `admins`.
    - Optativament, desactivar el login de root a la web (System → Settings → Administration).
 3. **Xarxa (a212):**
-   - Opció 2 de la consola: LAN **192.168.13.2/24**. Servidor DHCP .100–.200 **només mentre R1 està apagat**. La WAN funciona per DHCP.
-   - Accés a la web des de CLI-Debian: `https://192.168.13.2`.
+   - Opció 2 de la consola: LAN **192.168.31.2/24**. Servidor DHCP .100–.200 **només mentre R1 està apagat**. La WAN funciona per DHCP.
+   - Accés a la web des de CLI-Debian: `https://192.168.31.2`.
 4. **Internet (a213):** l'*Outbound NAT* automàtic ja fa masquerade de la LAN. Prova des del client.
 5. **Permesa / bloquejada (a214):**
    - Firewall → Rules → LAN: regla 1 *Block* TCP, destí qualsevol, port 22, amb **Log** activat. Regla 2 *Pass* LAN net → any, amb log.
    - Llegir Firewall → Log Files → **Live View**: interpretar la línia vermella (bloquejada) i la verda (permesa).
-6. **Còpia (a215):** System → Configuration → Backups → *Download* `config.xml` (tota la configuració en un fitxer). Pujada automàtica amb `copia-configs.sh`, que fa `scp root@192.168.13.2:/conf/config.xml`.
+6. **Còpia (a215):** System → Configuration → Backups → *Download* `config.xml` (tota la configuració en un fitxer). Pujada automàtica amb `copia-configs.sh`, que fa `scp root@192.168.31.2:/conf/config.xml`.
 7. **Fallada i recuperació (a216):**
    - Instantània → esborrar les regles de LAN o fer *Reset to factory defaults*. Símptoma: no hi ha eixida, o bé la IP LAN torna a 192.168.1.1.
    - Restaurar `config.xml` (Backups → *Restore*) i reiniciar. Comprovar el client. **Temps.**
@@ -179,8 +179,8 @@ Captures (panell, regles de la LAN i registre en viu): [índex de captures](../e
 |---|---|---|
 | a210 instal·lació i versió | ✅ OPNsense **26.7** amd64 en UFS (ZFS consumeix massa RAM amb 2 GB). L'instal·lador recomana 3 GB des de la imatge *live*, però amb 2 GB ha funcionat | `t5-opnsense/a210-a214-opnsense.txt` |
 | a211 usuaris | ✅ `root` · **`admin-ivan`** (grup admins; s'ha comprovat que pot iniciar sessió a la web) · `suport` (sense privilegis d'administrador). Els mateixos que R1 i R3 | ídem |
-| a212 xarxa | ✅ WAN `em0` 10.0.2.15 per DHCP · LAN `em1` **192.168.13.2/24** · sense DHCP propi (el dona el router actiu) | ídem |
-| a213 Internet per a la LAN | ✅ Outbound NAT automàtic. `traceroute` del client → 192.168.13.2 → 10.0.2.2 → router de casa · `curl` → `HTTP/2 200` | ídem |
+| a212 xarxa | ✅ WAN `em0` 10.0.2.15 per DHCP · LAN `em1` **192.168.31.2/24** · sense DHCP propi (el dona el router actiu) | ídem |
+| a213 Internet per a la LAN | ✅ Outbound NAT automàtic. `traceroute` del client → 192.168.31.2 → 10.0.2.2 → router de casa · `curl` → `HTTP/2 200` | ídem |
 | a214 permesa/bloquejada | ✅ Regles **iguals que a R1 i R3**: seq. 10 *block* tcp/22 amb registre i seq. 20 *pass* amb registre. La regla de fàbrica «Default allow LAN to any» queda desactivada. Registre: `pass em1 ... ->130.89.148.77:443` i `block em1 ... ->20.250.119.67:22` (SYN + retransmissions) | ídem |
 | a215 còpia al NAS | ✅ `config.xml` (41 KB, tota la configuració) descarregat per l'API i desat a `/mnt/copies/routers/r2/`. Conté els hash de les contrasenyes: només al NAS | `a215-copia-al-nas.txt` |
 | a216 fallada i recuperació | ✅ s'esborren les regles de la LAN → el *default deny* talla tota l'eixida. Es restaura el `config.xml` del NAS (System → Configuration → Backups) → **48 s** fins que el client torna a navegar; després del reinici les regles hi són | `a216-fallada-recuperacio.txt` |
@@ -205,7 +205,7 @@ Captures (panell, regles de la LAN i registre en viu): [índex de captures](../e
 
 1. **Instal·lació i versió (a217):** VM `Debian_NFtables` existent. `cat /etc/debian_version`, `uname -r`, `nft --version`, `apt update && apt full-upgrade`.
 2. **Usuaris (a218):** `admin-ivan` (sudo) i `suport` (sense privilegis), com a R1 i R2. A `/etc/ssh/sshd_config`: `PermitRootLogin no`. Accés per clau des de SRV-SERVEIS (usuari `copies`, només per a les còpies).
-3. **Xarxa (a219):** fitxer `interfaces`: `enp0s3` per DHCP (WAN) i `enp0s8` **192.168.13.3/24** (LAN). Activar `ip_forward`. El `dnsmasq` dona DHCP amb porta d'enllaç .3 i només s'activa quan R1 està apagat.
+3. **Xarxa (a219):** fitxer `interfaces`: `enp0s3` per DHCP (WAN) i `enp0s8` **192.168.31.3/24** (LAN). Activar `ip_forward`. El `dnsmasq` dona DHCP amb porta d'enllaç .3 i només s'activa quan R1 està apagat.
 4. **Internet (a220):** `masquerade` a la taula `ip nat`, més `dnsmasq` per al DHCP i el DNS de la LAN. Prova des del client.
 5. **Permesa / bloquejada (a221):**
    - `journalctl -k | grep NFT-`: interpretar `NFT-FWD-OK` i `NFT-FWD-BLOQ-SSH`, amb `IN`, `OUT`, `SRC`, `DST`, `PROTO`, `DPT` i `SYN`.
@@ -225,8 +225,8 @@ Captures (panell, regles de la LAN i registre en viu): [índex de captures](../e
 |---|---|---|
 | a217 instal·lació i versió | ✅ VM existent: Debian **13.7**, nucli 6.12.107, nftables. Tenia **escriptori GNOME**: el router no el necessita (optimització 1 de la T7) | `t5-nftables/a217-a219-versio-usuaris-xarxa.txt` |
 | a218 usuaris | ✅ `ivancambra` no era al grup `sudo`: s'hi ha afegit des de la consola com a root (`su -`). SSH instal·lat (`openssh-server`); root sense login SSH per contrasenya (`PermitRootLogin prohibit-password`, valor per defecte) | ídem |
-| a219 xarxa | ✅ enp0s3 WAN 10.0.2.15 per DHCP · enp0s8 LAN **192.168.13.3/24** amb ifupdown (NetworkManager deixa de gestionar-la) · `ip_forward=1` | ídem |
-| a220 Internet per a la LAN | ✅ CLI-Debian amb porta d'enllaç .3: `traceroute` → 192.168.13.3 → 10.0.2.2 → router de casa; `curl` → `HTTP/2 200` | `a220-a221-prova-permesa-bloquejada.txt` |
+| a219 xarxa | ✅ enp0s3 WAN 10.0.2.15 per DHCP · enp0s8 LAN **192.168.31.3/24** amb ifupdown (NetworkManager deixa de gestionar-la) · `ip_forward=1` | ídem |
+| a220 Internet per a la LAN | ✅ CLI-Debian amb porta d'enllaç .3: `traceroute` → 192.168.31.3 → 10.0.2.2 → router de casa; `curl` → `HTTP/2 200` | `a220-a221-prova-permesa-bloquejada.txt` |
 | a221 permesa/bloquejada | ✅ `NFT-FWD-OK ... DPT=443` i `NFT-FWD-BLOQ-SSH ... DPT=22` a `journalctl -k`, amb comptadors per regla | ídem |
 | a222 còpia al NAS | ✅ `etc-AAAA-MM-DD_HHMM.tgz` (nftables, network, sysctl, dnsmasq) + `ruleset-*.txt` a `/mnt/copies/routers/r3/` | `a222-copia-al-nas.txt` |
 | a223 fallada i recuperació | ✅ `nft flush ruleset` + `ip_forward=0` + s'esborra `/etc/nftables.conf` → el client no té Internet. Es restaura des del tgz del NAS, amb `nft -c` abans d'aplicar-lo. **Temps d'inactivitat: 22 s** | `a223-fallada-recuperacio.txt` |
@@ -244,8 +244,8 @@ Captures (panell, regles de la LAN i registre en viu): [índex de captures](../e
 | Versió | RouterOS **7.25.1** | OPNsense **26.7.9** | Debian 13.7 + nftables (nucli 6.12.116) |
 | Administrador / consulta | `admin-ivan` / `suport` (`admin` desactivat) | `admin-ivan` / `suport` (+ `root`) | `admin-ivan` (sudo) / `suport` (+ `ivancambra`) |
 | WAN | ether1 · DHCP 10.0.2.15 | em0 · DHCP 10.0.2.15 | enp0s3 · DHCP 10.0.2.15 |
-| LAN | **bridge-lan13** (port ether2) · **192.168.13.1/24** | em1 · **192.168.13.2/24** | enp0s8 · **192.168.13.3/24** |
-| Bridge a la LAN | ✅ `bridge-lan13` + llistes LAN/WAN | ➖ no (decisió de l'alumne): la LAN es queda a `em1` | ➖ no (decisió de l'alumne): la LAN es queda a `enp0s8` |
+| LAN | **bridge-lan31** (port ether2) · **192.168.31.1/24** | em1 · **192.168.31.2/24** | enp0s8 · **192.168.31.3/24** |
+| Bridge a la LAN | ✅ `bridge-lan31` + llistes LAN/WAN | ➖ no (decisió de l'alumne): la LAN es queda a `em1` | ➖ no (decisió de l'alumne): la LAN es queda a `enp0s8` |
 | NAT | masquerade srcnat | Outbound NAT automàtic | `masquerade` (taula ip nat) |
 | DHCP LAN .100–.200 | ✅ actiu (router principal) | preparat, desactivat | `dnsmasq` preparat, desactivat |
 | DNS per a la LAN | `allow-remote-requests` | Unbound | `dnsmasq` |
@@ -267,10 +267,10 @@ Evidències a `evidencias/t5-truenas/`.
 2. **Usuaris (a225):**
    - `truenas_admin` (administrador creat a la instal·lació).
    - Usuari `copies`: no administrador, amb home a `/mnt/copies` i clau SSH pública de SRV-SERVEIS. Té permisos d'escriptura només al pool de còpies.
-3. **Xarxa (a226):** consola → *Configure network interfaces*: 192.168.13.20/24, GW 192.168.13.1, DNS 192.168.13.1. Desactivar el DHCP.
+3. **Xarxa (a226):** consola → *Configure network interfaces*: 192.168.31.20/24, GW 192.168.31.1, DNS 192.168.31.1. Desactivar el DHCP.
 4. **Disc addicional per a còpies (a227):**
    - Storage → *Create pool* `copies` sobre el disc de 50 GB (stripe). Sense redundància, perquè a l'entorn individual és un únic disc. Ho justifique a §1.4.
-   - Datasets: `routers`, `linux`, `proxmox` (NFS per a 192.168.13.0/24, el munten els nodes Proxmox), `windows` i `clients` (SMB).
+   - Datasets: `routers`, `linux`, `proxmox` (NFS per a 192.168.31.0/24, el munten els nodes Proxmox), `windows` i `clients` (SMB).
    - Serveis: SSH (amb SFTP), NFS i SMB.
 5. **Equips crítics** que es copien: els 3 routers (sense ells no hi ha xarxa), els nodes Proxmox, el WS2025 (identitats) i el mateix NAS.
 6. **Còpia del propi NAS:** System → General → *Manage configuration* → *Download file*, amb el secret seed. Es guarda **fora** del NAS i **fora** del Git.
@@ -284,9 +284,9 @@ Captures (panell, pool, datasets, recursos SMB/NFS i usuaris): [índex de captur
 |---|---|---|
 | a224 instal·lació i versió | ✅ TrueNAS SCALE **25.10.7**, instal·lat **només** al disc de 20 GiB (`boot-pool` a `sda`) | `t5-truenas/captures/01-disc-installacio-sda.png`, `02-installacio-completada.png`, `a224-a227-truenas.txt` |
 | a225 usuaris | ✅ `truenas_admin` (administrador, creat a l'instal·lador; el login de root amb contrasenya queda desactivat) i `copies` (uid 3000, **sense** privilegis d'administrador, home `/mnt/copies/usuaris/copies`) | `t5-truenas/a224-a227-truenas.txt` |
-| a226 xarxa | ✅ enp0s3 **192.168.13.20/24** estàtica (sense DHCP), GW i DNS 192.168.13.1, nom `nas13.lan13.local`. Canvi aplicat amb *commit* i *checkin* (si no es confirma en 120 s, TrueNAS torna sol a la configuració anterior) | ídem |
-| a227 disc addicional | ✅ pool **`copies`** (stripe, 48 GB útils) sobre el disc de 50 GiB · datasets `routers` (r1, r2, r3), `linux`, `proxmox` (NFS per a 192.168.13.0/24), `windows` i `clients` (SMB) · propietari `copies`, permisos 770 · serveis SSH/SFTP, NFS i SMB actius | ídem (exportat per l'API el 12/11) |
-| Web de gestió només per HTTPS (12/11) | ✅ En fer les captures es va veure que el panell s'usava per **HTTP** (sense xifrar: la contrasenya de `truenas_admin` viatjava en clar per la LAN). S'ha activat **«Web Interface HTTP → HTTPS Redirect»** (`ui_httpsredirect: true` per l'API + reinici de la web): ara `http://192.168.13.20` respon **307 → https**. TLS 1.2 i 1.3; certificat autofermat `truenas_default` | `t5-truenas/captures/08-gui-https-redireccio.png` |
+| a226 xarxa | ✅ enp0s3 **192.168.31.20/24** estàtica (sense DHCP), GW i DNS 192.168.31.1, nom `nas31.lan31.local`. Canvi aplicat amb *commit* i *checkin* (si no es confirma en 120 s, TrueNAS torna sol a la configuració anterior) | ídem |
+| a227 disc addicional | ✅ pool **`copies`** (stripe, 48 GB útils) sobre el disc de 50 GiB · datasets `routers` (r1, r2, r3), `linux`, `proxmox` (NFS per a 192.168.31.0/24), `windows` i `clients` (SMB) · propietari `copies`, permisos 770 · serveis SSH/SFTP, NFS i SMB actius | ídem (exportat per l'API el 12/11) |
+| Web de gestió només per HTTPS (12/11) | ✅ En fer les captures es va veure que el panell s'usava per **HTTP** (sense xifrar: la contrasenya de `truenas_admin` viatjava en clar per la LAN). S'ha activat **«Web Interface HTTP → HTTPS Redirect»** (`ui_httpsredirect: true` per l'API + reinici de la web): ara `http://192.168.31.20` respon **307 → https**. TLS 1.2 i 1.3; certificat autofermat `truenas_default` | `t5-truenas/captures/08-gui-https-redireccio.png` |
 
 **Problema trobat i evitat:** després de reiniciar, el disc d'arrencada (20 GiB) va passar a anomenar-se **`sdb`** i el de 50 GiB **`sda`**. La primera ordre de creació del pool (amb `sdb`) va fallar amb *«disks are already in use: sdb»*: TrueNAS va impedir esborrar el disc del sistema.
 **Lliçó:** no s'han d'identificar els discos pel nom `sdX`, que pot canviar en cada arrencada, sinó per la mida o el número de sèrie (`/api/v2.0/disk`).
@@ -297,9 +297,9 @@ Evidències a `evidencias/t5-proxmox/`. Com al grup: un **clúster de 3 nodes**,
 Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node: `egrep -c vmx /proc/cpuinfo` ha de donar més de 0.
 
 1. **Instal·lació (a228):**
-   - PVE1: hostname `pve1.lan13.local`, IP 192.168.13.32/24.
-   - PVE2: `pve2.lan13.local`, .33.
-   - PVE3: `pve3.lan13.local`, .34.
+   - PVE1: hostname `pve1.lan31.local`, IP 192.168.31.32/24.
+   - PVE2: `pve2.lan31.local`, .33.
+   - PVE3: `pve3.lan31.local`, .34.
    - Tots tres amb GW i DNS .1.
    - Després, `pveversion -v`, desactivar el repositori enterprise, activar el `no-subscription` i fer `apt update && apt full-upgrade`.
    - Comprovar que `/etc/hosts` té el nom de cada node amb la seua IP. El grup va tindre problemes amb això (si Proxmox no troba el seu nom, no arrenca la web).
@@ -309,8 +309,8 @@ Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node:
    - Usuari de consulta: rol `PVEAuditor`.
 3. **Xarxa (a230):** `/etc/network/interfaces` amb `vmbr0` sobre `nic0` (exemple a [03 §2](03-xarxa.md#2-configuració-de-cada-interfície-a148)). Comprovar `ip a` i `bridge link`.
 4. **Clúster (a232):**
-   - PVE1: `pvecm create cluster13`. PVE2 i PVE3 s'uneixen per l'API, sense haver d'escriure la contrasenya de manera interactiva:
-     `pvesh create /cluster/config/join --hostname 192.168.13.32 --fingerprint <empremta de pve-ssl.pem> --password <...>`
+   - PVE1: `pvecm create cluster31`. PVE2 i PVE3 s'uneixen per l'API, sense haver d'escriure la contrasenya de manera interactiva:
+     `pvesh create /cluster/config/join --hostname 192.168.31.32 --fingerprint <empremta de pve-ssl.pem> --password <...>`
    - Després, `pvecm status` (`Expected votes: 3`, `Quorate: Yes`) i `pvecm nodes`.
    - **Quòrum amb 3 nodes:** cada node té 1 vot i en calen 2, la majoria. Si en cau un, els altres dos continuen funcionant. Si en cauen dos, el que queda passa `/etc/pve` a només lectura per evitar un *split-brain*.
    - **Prova:** apagar PVE3 → `pvecm status` encara diu `Quorate: Yes`.
@@ -318,7 +318,7 @@ Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node:
      - *Gestió conjunta*: una sola web i una sola configuració per als 3 nodes.
      - *Migració*: moure a mà una VM o un CT d'un node a un altre.
      - *Alta disponibilitat (HA)*: el clúster reinicia sol les VM d'un node caigut en un altre node. Necessita quòrum i emmagatzematge compartit (o replicació); amb discos locals al meu SSD USB no és viable, i queda com a disseny.
-5. **Emmagatzematge compartit:** `pvesm add nfs nas-proxmox --server 192.168.13.20 --export /mnt/copies/proxmox --content backup,iso,vztmpl,images`.
+5. **Emmagatzematge compartit:** `pvesm add nfs nas-proxmox --server 192.168.31.20 --export /mnt/copies/proxmox --content backup,iso,vztmpl,images`.
    S'hi guarden la ISO del WS2025 i les plantilles. Així tots els nodes les veuen sense copiar-les.
 6. **Servidors dins del clúster:**
 
@@ -330,7 +330,7 @@ Requisit: `--nested-hw-virt on`, ja aplicat. Per comprovar-ho dins de cada node:
    | CT 100 | ct-prova | PVE2 | 1 vCPU · 512 MB | 4 GB |
 
    - Debian més ràpid: importar `debian-13-generic-amd64.qcow2` amb `qm importdisk` en lloc de la netinst (la variant `genericcloud` ja no existeix: 404).
-   - CT: `pveam download local debian-13-standard_*.tar.zst` i després `pct create 100 local:vztmpl/... --memory 512 --rootfs local-lvm:4 --net0 name=eth0,bridge=vmbr0,ip=192.168.13.41/24,gw=192.168.13.1`.
+   - CT: `pveam download local debian-13-standard_*.tar.zst` i després `pct create 100 local:vztmpl/... --memory 512 --rootfs local-lvm:4 --net0 name=eth0,bridge=vmbr0,ip=192.168.31.41/24,gw=192.168.31.1`.
 7. **Migració (a235) i mesures (a236)** — la VM migrada és **SRV-SERVEIS**, una Debian sense entorn gràfic, com demana la rúbrica:
 
    | Migració | Ordre | Temps | Espai ocupat | Observacions |
@@ -362,7 +362,7 @@ Captures (clúster amb 3 nodes, VM i CT, còpia programada, NFS i còpies `vzdum
 | a228 instal·lació i versió | ✅ 3 nodes amb l'instal·lador en mode text: ext4/LVM-thin, Europe/Madrid, teclat US. `pve-manager` 9.2.2 → **9.2.26** després d'actualitzar | `t5-proxmox/captures/01..03-*-resum-installacio.png`, `a79-actualitzacio-nodes.txt` |
 | a229 usuaris | ✅ `root@pam` · **`ivan@pam`** (rol Administrator a `/`) · `consulta@pve` (rol PVEAuditor). El *realm* `pve` exigeix 8 caràcters com a mínim, per això l'administrador és un usuari PAM (Linux) | `t5-proxmox/a229-usuaris.txt` |
 | a230 xarxa | ✅ `vmbr0` amb IP fixa sobre **`nic0`** (Proxmox 9 «fixa» els noms de les targetes), GW i DNS .1, `/etc/hosts` correcte als 3 nodes | `t4-xarxa/ifaces-rutes-pve{1,2,3}.txt` |
-| a232 clúster | ✅ **`cluster13`**: 3 nodes, 3 vots, quòrum 2, `Quorate: Yes` | `a232-cluster.txt` |
+| a232 clúster | ✅ **`cluster31`**: 3 nodes, 3 vots, quòrum 2, `Quorate: Yes` | `a232-cluster.txt` |
 | a79 actualització | ✅ repositori *enterprise* desactivat i *no-subscription* activat; 211 paquets actualitzats; nucli 7.0.2-6 → **7.0.14-28**; 0 serveis fallits després de reiniciar | `a79-actualitzacio-nodes.txt` |
 | Emmagatzematge compartit | ✅ `nas-proxmox` (NFS del NAS, `/mnt/copies/proxmox`, 47 GB) visible als 3 nodes. Contingut: imatges, plantilles, còpies i *import* | — |
 | VM 220 i 230 | ✅ creades amb [`scripts/proxmox/crea-vm-debian.sh`](../scripts/proxmox/crea-vm-debian.sh) a partir de la imatge oficial `debian-13-generic-amd64.qcow2` (**SHA-512 verificat** amb `SHA512SUMS`) + cloud-init (usuari `ivancambra`, IP fixa, clau SSH, actualització al primer arrencada). SRV-SERVEIS a PVE2 (.22, 10 + 2 GB) i SRV-DADES a PVE3 (.23, 10 + 5×1 + 2 GB) | `a232-quorum-amb-un-node-apagat.txt` |
@@ -380,7 +380,7 @@ Captures (clúster amb 3 nodes, VM i CT, còpia programada, NFS i còpies `vzdum
 
 ## 7. Windows Server 2025 (a237–a241)
 
-**Des del 16/11, VM de VirtualBox `SRV-WS2025`** a la xarxa interna LAN13 (192.168.13.21), com a l'[estructura individual del professor](#estructura-del-professor). Del 14 al 16/11 va estar dins de PVE1 com a VM 210 (així està al grup); es va moure perquè, niuat, penjava PVE1 (vegeu [el trasllat](#trasllat-a-virtualbox-1611)). Evidències a `evidencias/t5-ws2025/`.
+**Des del 16/11, VM de VirtualBox `SRV-WS2025`** a la xarxa interna LAN31 (192.168.31.21), com a l'[estructura individual del professor](#estructura-del-professor). Del 14 al 16/11 va estar dins de PVE1 com a VM 210 (així està al grup); es va moure perquè, niuat, penjava PVE1 (vegeu [el trasllat](#trasllat-a-virtualbox-1611)). Evidències a `evidencias/t5-ws2025/`.
 **ISO** d'avaluació de 180 dies, compilació 26100.32230. Instal·lació desatesa: [`configs/ws2025/`](../configs/ws2025/). La VM de VirtualBox es crea amb [`scripts/vbox/crea-srv-ws2025.sh`](../scripts/vbox/crea-srv-ws2025.sh) (l'script antic de Proxmox, [`crea-vm-ws2025.sh`](../scripts/proxmox/crea-vm-ws2025.sh), queda com a referència). Disc de 32 GB amb controladors VirtIO.
 
 1. **Instal·lació (a237):**
@@ -392,13 +392,13 @@ Captures (clúster amb 3 nodes, VM i CT, còpia programada, NFS i còpies `vzdum
    `New-LocalUser admin-ivan; Add-LocalGroupMember Administrators admin-ivan`.
 3. **Xarxa (a239):**
    ```powershell
-   New-NetIPAddress -InterfaceAlias Ethernet -IPAddress 192.168.13.21 -PrefixLength 24 -DefaultGateway 192.168.13.1
-   Set-DnsClientServerAddress -InterfaceAlias Ethernet -ServerAddresses 192.168.13.1
+   New-NetIPAddress -InterfaceAlias Ethernet -IPAddress 192.168.31.21 -PrefixLength 24 -DefaultGateway 192.168.31.1
+   Set-DnsClientServerAddress -InterfaceAlias Ethernet -ServerAddresses 192.168.31.1
    Rename-Computer SRV-WS2025 -Restart
    ```
 4. **Còpia (a240):**
    - **Nivell VM:** `vzdump 210` cap a `nas-proxmox`, que és la imatge completa.
-   - **Nivell sistema:** `Install-WindowsFeature Windows-Server-Backup` i després `wbadmin start backup -backupTarget:\\192.168.13.20\windows -allCritical -systemState -quiet`.
+   - **Nivell sistema:** `Install-WindowsFeature Windows-Server-Backup` i després `wbadmin start backup -backupTarget:\\192.168.31.20\windows -allCritical -systemState -quiet`.
    - També `Get-NetIPConfiguration` i `Get-WindowsFeature | ? Installed`, exportats a un fitxer de text.
    - **Què NO:** el fitxer de paginació i la hibernació, les dades temporals i les aplicacions que es reinstal·len.
    - **Què SÍ:** l'estat del sistema. Si el servidor és controlador de domini, conté la base de dades d'Active Directory, que és el més valuós.
@@ -408,7 +408,7 @@ Captures (clúster amb 3 nodes, VM i CT, còpia programada, NFS i còpies `vzdum
    >
    > La gestió centralitzada dona molt més control a l'empresa: un usuari entra amb el mateix compte a qualsevol equip, les altes i baixes es fan en un sol lloc, els permisos de les carpetes compartides es donen per grups (per exemple, per departament) i es poden aplicar normes a tots els equips alhora amb les polítiques de grup (GPO).
    >
-   > Ara bé, si l'empresa treballa al núvol o som molt pocs i no tenim restriccions d'accés, personalment crec que no cal muntar un domini local amb servidor propi, i es pot estalviar. Al núvol també hi ha gestió centralitzada (per exemple, Microsoft Entra ID), però sense mantenir el servidor. A l'empresa de l'enunciat, amb cinc departaments, sí que compensa: per això l'he implantat (domini `ivan-cambra-13.lan`, amb els dos clients units; vegeu «Domini» més avall).
+   > Ara bé, si l'empresa treballa al núvol o som molt pocs i no tenim restriccions d'accés, personalment crec que no cal muntar un domini local amb servidor propi, i es pot estalviar. Al núvol també hi ha gestió centralitzada (per exemple, Microsoft Entra ID), però sense mantenir el servidor. A l'empresa de l'enunciat, amb cinc departaments, sí que compensa: per això l'he implantat (domini `ivan-cambra-31.lan`, amb els dos clients units; vegeu «Domini» més avall).
 
 ### ✅ Resultat Windows Server 2025 (14/11/2026, equip de casa; traslladat a VirtualBox el 16/11)
 
@@ -418,10 +418,10 @@ Instal·lació **desatesa** amb [`autounattend.xml`](../configs/ws2025/autounatt
 |---|---|---|
 | a237 instal·lació i versió | ✅ **Windows Server 2025 Standard Evaluation** (Desktop Experience), 24H2, compilació **26100.32230**, 64 bits, UEFI. Llicència d'avaluació: *Licensed*, 180 dies. Controladors VirtIO (SCSI, xarxa, sèrie) en estat OK i agent QEMU en marxa. Serveis automàtics aturats: només `edgeupdate` i dos de sessió d'usuari (normal) | [`a237-a239-srv-ws2025.txt`](../evidencias/t5-ws2025/a237-a239-srv-ws2025.txt) |
 | a238 usuaris | ✅ `Administrator` (amb contrasenya) i **`admin-ivan`** al grup Administrators, creats per l'`autounattend.xml`. `Guest` i `DefaultAccount` desactivats | ídem |
-| a239 xarxa | ✅ `Ethernet` (VirtIO): IP fixa **192.168.13.21/24**, GW i DNS 192.168.13.1, sufix `lan13.local`, DHCP desactivat. Ping a R1 i al NAS, DNS (`debian.org`), HTTPS 200 i SMB 445 al NAS correctes | ídem |
-| a240 còpia | ✅ **Nivell sistema:** [`ws-copia.ps1`](../scripts/ws2025/ws-copia.ps1) → configuració exportada en text (4 fitxers) i **`wbadmin`** (estat del sistema + volums crítics, VSS complet) a `\\192.168.13.20\windows`: correcte en 3,9 min, recuperable fins a *Bare Metal Recovery*. **Nivell VM:** `vzdump 210 --mode stop` a `nas-proxmox`: 11,3 GB (zstd) en 2 min 26 s. Amb la VM engegada, PVE1 s'aturava ([01 núm. 13](01-entorn.md)); per això la VM 210 no és a la tasca setmanal i es copia a mà, aturada. Què es copia i què no: punt 4 d'aquesta secció | [`a240-copia-ws2025.txt`](../evidencias/t5-ws2025/a240-copia-ws2025.txt) |
+| a239 xarxa | ✅ `Ethernet` (VirtIO): IP fixa **192.168.31.21/24**, GW i DNS 192.168.31.1, sufix `lan31.local`, DHCP desactivat. Ping a R1 i al NAS, DNS (`debian.org`), HTTPS 200 i SMB 445 al NAS correctes | ídem |
+| a240 còpia | ✅ **Nivell sistema:** [`ws-copia.ps1`](../scripts/ws2025/ws-copia.ps1) → configuració exportada en text (4 fitxers) i **`wbadmin`** (estat del sistema + volums crítics, VSS complet) a `\\192.168.31.20\windows`: correcte en 3,9 min, recuperable fins a *Bare Metal Recovery*. **Nivell VM:** `vzdump 210 --mode stop` a `nas-proxmox`: 11,3 GB (zstd) en 2 min 26 s. Amb la VM engegada, PVE1 s'aturava ([01 núm. 13](01-entorn.md)); per això la VM 210 no és a la tasca setmanal i es copia a mà, aturada. Què es copia i què no: punt 4 d'aquesta secció | [`a240-copia-ws2025.txt`](../evidencias/t5-ws2025/a240-copia-ws2025.txt) |
 | a79 (WS2025) | ✅ **16/11, ja a VirtualBox:** acumulativa de novembre **KB5131080** (compilació 26100.32230 → **26100.33822**), .NET KB5127690, plataforma de seguretat i MSRT, tot amb codi 2 (correcte). Després de dos reinicis: **0 pendents**, IP .21, SMB al NAS i Internet correctes. Dins de PVE1 no es va poder fer (el node es penjava; [01 núm. 13](01-entorn.md)) | [`a79-ws2025-windows-update.txt`](../evidencias/t5-ws2025/a79-ws2025-windows-update.txt) |
-| a241 domini | ✅ Explicació escrita per l'alumne (16/11): què és un domini, què aporta a l'empresa i quan no cal. **I implantat el 16/11**: domini `ivan-cambra-13.lan` amb W11 i CLI-Debian units (secció següent) | punt 5 d'aquesta secció · [`domini-ivan-cambra-13.txt`](../evidencias/t5-domini/domini-ivan-cambra-13.txt) |
+| a241 domini | ✅ Explicació escrita per l'alumne (16/11): què és un domini, què aporta a l'empresa i quan no cal. **I implantat el 16/11**: domini `ivan-cambra-31.lan` amb W11 i CLI-Debian units (secció següent) | punt 5 d'aquesta secció · [`domini-ivan-cambra-31.txt`](../evidencias/t5-domini/domini-ivan-cambra-31.txt) |
 
 ### Trasllat a VirtualBox (16/11)
 
@@ -429,7 +429,7 @@ Instal·lació **desatesa** amb [`autounattend.xml`](../configs/ws2025/autounatt
 
 **Com (sense reinstal·lar, ≈ 15 min).**
 1. Amb la VM 210 engegada a PVE1, per l'agent QEMU:
-   - tasca d'inici `lloc13-xarxa` ([`xarxa-inici.ps1`](../configs/ws2025/xarxa-inici.ps1)) que torna a posar la IP .21 a la targeta activa (en canviar de maquinari, Windows veu una targeta nova i li posaria DHCP);
+   - tasca d'inici `lloc31-xarxa` ([`xarxa-inici.ps1`](../configs/ws2025/xarxa-inici.ps1)) que torna a posar la IP .21 a la targeta activa (en canviar de maquinari, Windows veu una targeta nova i li posaria DHCP);
    - servei **OpenSSH** activat, per gestionar-lo sense l'agent QEMU;
    - `storahci` a l'arrencada, per si cal un controlador SATA.
 2. VM apagada → disc copiat de PVE1 a l'amfitrió en *streaming* comprimit, directament a VDI: `dd | zstd` per SSH → `VBoxManage convertfromraw stdin` (32 GB, 15 GB reals, **5 min**).
@@ -438,7 +438,7 @@ Instal·lació **desatesa** amb [`autounattend.xml`](../configs/ws2025/autounatt
 5. Comprovat: [`a237-a239-srv-ws2025-virtualbox.txt`](../evidencias/t5-ws2025/a237-a239-srv-ws2025-virtualbox.txt) (mateixa edició i llicència, usuaris, IP .21, ping, DNS, HTTPS i SMB al NAS) i captura `ws-03`.
 6. La VM 210 s'ha esborrat de PVE1 (no hi pot haver dos servidors amb la .21). Queda la còpia `vzdump` del 14/11 al NAS. PVE1 passa a **3 GB i 2 vCPU**, com PVE2 i PVE3.
 
-**Còpies a partir d'ara (a240):** `wbadmin` al recurs SMB `\\192.168.13.20\windows` ([`ws-copia.ps1`](../scripts/ws2025/ws-copia.ps1)), que ja és independent de l'hipervisor. La còpia de la VM sencera ja no és un `vzdump` sinó `VBoxManage export SRV-WS2025` (o copiar el `.vdi`) amb la VM apagada.
+**Còpies a partir d'ara (a240):** `wbadmin` al recurs SMB `\\192.168.31.20\windows` ([`ws-copia.ps1`](../scripts/ws2025/ws-copia.ps1)), que ja és independent de l'hipervisor. La còpia de la VM sencera ja no és un `vzdump` sinó `VBoxManage export SRV-WS2025` (o copiar el `.vdi`) amb la VM apagada.
 
 **Nota:** a l'esquema del professor també hi ha un **«Server monitorització»** com a VM pròpia. En aquest muntatge, el servidor de serveis és SRV-SERVEIS (dins de PVE2, com al grup).
 
@@ -448,41 +448,48 @@ Instal·lació **desatesa** amb [`autounattend.xml`](../configs/ws2025/autounatt
 3. *Guru Meditation* de VirtualBox (dues vegades) → [01, núm. 13](01-entorn.md). Abans de tornar a engegar la VM, el thin-pool `local-lvm` es va ampliar 7 GB (21,4 → 28,4 GB).
 4. La ISO desatesa (`ws2025-unattend.iso`, porta la contrasenya) s'ha **esborrat** de PVE1 i expulsat de la VM.
 
-### ✅ Domini `ivan-cambra-13.lan` (16/11/2026, equip de classe)
+### ✅ Domini `ivan-cambra-31.lan` (16/11/2026; refet el 17/11 amb el lloc 31, equip de classe)
+
+> **17/11:** el domini es va crear el 16/11 com a `ivan-cambra-13.lan`, amb el número de lloc equivocat. En corregir-lo (lloc **31**, xarxa 192.168.31.0/24; vegeu [01, núm. 17](01-entorn.md)) **no s'ha reanomenat**, sinó que s'ha **tornat a crear**: es van restaurar les instantànies `abans-domini` del servidor i dels clients i es va repetir el procés amb els scripts actualitzats. Evidències del primer domini: [`historic-lloc13/`](../evidencias/t5-domini/historic-lloc13/).
 
 **Decisió.** Al final s'ha decidit implantar el domini en el muntatge individual (canvi de l'última hora): SRV-WS2025 passa a **controlador de domini** i els dos clients s'hi uneixen, de manera que s'inicia sessió en tots dos amb el **mateix usuari del domini**.
 
 | Element | Valor | Per què |
 |---|---|---|
-| Domini (FQDN) | **`ivan-cambra-13.lan`** | Identifica l'alumne i el lloc 13. El nom demanat, «DC_Ivan_Cambra_13», no és vàlid: el guió baix no es pot usar en noms DNS. No s'ha usat `.local` perquè xoca amb mDNS (Avahi) als clients Linux |
-| Nom NetBIOS | **`IVANCAMBRA13`** | És el que es veu a la pantalla d'inici de Windows (`IVANCAMBRA13\ivan`); màxim 15 caràcters |
-| Controlador de domini | `SRV-WS2025` (192.168.13.21), bosc i domini nous, nivell Windows Server 2016, DNS integrat a AD | Un sol DC (laboratori). És PDC, catàleg global i servidor de temps |
-| Estructura | OU `Usuaris-Lloc13` (usuari `ivan`) i OU `Equips-Lloc13` (els equips nous hi van sols: `redircmp`) | Separar usuaris i equips per poder aplicar-hi directives |
-| Usuari | **`ivan`** (Ivan Cambra), `ivan@ivan-cambra-13.lan`, usuari normal (*Domain Users*), contrasenya del laboratori | El que es fa servir als dos clients |
+| Domini (FQDN) | **`ivan-cambra-31.lan`** | Identifica l'alumne i el lloc 31. El nom demanat, «DC_Ivan_Cambra_31», no és vàlid: el guió baix no es pot usar en noms DNS. No s'ha usat `.local` perquè xoca amb mDNS (Avahi) als clients Linux |
+| Nom NetBIOS | **`IVANCAMBRA31`** | És el que es veu a la pantalla d'inici de Windows (`IVANCAMBRA31\ivan`); màxim 15 caràcters |
+| Controlador de domini | `SRV-WS2025` (192.168.31.21), bosc i domini nous, nivell Windows Server 2016, DNS integrat a AD | Un sol DC (laboratori). És PDC, catàleg global i servidor de temps |
+| Estructura | OU `Usuaris-Lloc31` (usuari `ivan`) i OU `Equips-Lloc31` (els equips nous hi van sols: `redircmp`) | Separar usuaris i equips per poder aplicar-hi directives |
+| Usuari | **`ivan`** (Ivan Cambra), `ivan@ivan-cambra-31.lan`, usuari normal (*Domain Users*), contrasenya del laboratori | El que es fa servir als dos clients |
 | Política de contrasenyes | Sense complexitat, mínim 4 caràcters, sense caducitat | Laboratori: la contrasenya del lloc és curta. **A una empresa real no es faria** |
-| DNS | El DC es resol a si mateix (127.0.0.1) i reenvia la resta a R1. Zona inversa `13.168.192.in-addr.arpa`. **R1 reenvia només `ivan-cambra-13.lan` cap a .21** (`/ip dns static … type=FWD`) | Els clients continuen tenint R1 com a DNS (DHCP) i Internet no depén del servidor Windows |
-| GPO `Lloc13-Inici-de-sessio` (OU `Equips-Lloc13`) | No mostrar l'últim usuari (la pantalla demana usuari i contrasenya), sense inici automàtic després de reiniciar, `AutoAdminLogon=0` i esborrar `DefaultPassword` | El W11 tenia l'inici automàtic de `Ivan` (local) activat: amb això, en arrencar es demana l'usuari del domini |
+| DNS | El DC es resol a si mateix (127.0.0.1) i reenvia la resta a R1. Zona inversa `31.168.192.in-addr.arpa`. **R1 reenvia només `ivan-cambra-31.lan` cap a .21** (`/ip dns static … type=FWD`) | Els clients continuen tenint R1 com a DNS (DHCP) i Internet no depén del servidor Windows |
+| GPO `Lloc31-Inici-de-sessio` (OU `Equips-Lloc31`) | No mostrar l'últim usuari (la pantalla demana usuari i contrasenya), sense inici automàtic després de reiniciar, `AutoAdminLogon=0` i esborrar `DefaultPassword` | El W11 tenia l'inici automàtic de `Ivan` (local) activat: amb això, en arrencar es demana l'usuari del domini |
 
 **Passos** (scripts al repositori; les contrasenyes es passen en executar-los, no hi són):
 1. Instantànies `abans-domini` de SRV-WS2025, CLI-Debian i Cliente_windows_1.
-2. **DC:** [`domini-ivan-cambra-13.ps1`](../configs/ws2025/domini-ivan-cambra-13.ps1) `-Fase 1` → `Install-WindowsFeature AD-Domain-Services` + `Install-ADDSForest` (reinicia sol). `-Fase 2` → DNS (reenviador, zona inversa), política de contrasenyes, OU, usuari `ivan` i `redircmp`. La tasca d'inici [`xarxa-inici.ps1`](../configs/ws2025/xarxa-inici.ps1) ara posa el DNS `127.0.0.1, 192.168.13.1`.
-3. **R1:** reenviament condicional del domini ([`r1-config.rsc`](../configs/mikrotik/r1-config.rsc)). Comprovació: `nslookup -type=SRV _ldap._tcp.dc._msdcs.ivan-cambra-13.lan 192.168.13.1` → `srv-ws2025.ivan-cambra-13.lan:389`.
-4. **CLI-Debian:** `apt install realmd sssd sssd-tools libnss-sss libpam-sss adcli samba-common-bin oddjob-mkhomedir krb5-user` → hora sincronitzada amb el DC (`timesyncd`, NTP=192.168.13.21; Kerberos no admet més de 5 min de diferència) → `realm join -U Administrator ivan-cambra-13.lan` → a `sssd.conf`, `use_fully_qualified_names = False` i `fallback_homedir = /home/%u` (s'entra amb `ivan`, no `ivan@ivan-cambra-13.lan`) → `pam-auth-update --enable mkhomedir` (crea `/home/ivan` al primer inici) → GDM amb `disable-user-list=true` (demana el nom d'usuari, com Windows).
-5. **W11:** [`w11-unir-domini.ps1`](../scripts/clients/w11-unir-domini.ps1) en un PowerShell elevat → `Add-Computer -DomainName ivan-cambra-13.lan` amb l'administrador del domini → reinici. Després, la GPO.
+2. **DC:** [`domini-ivan-cambra-31.ps1`](../configs/ws2025/domini-ivan-cambra-31.ps1) `-Fase 1` → `Install-WindowsFeature AD-Domain-Services` + `Install-ADDSForest` (reinicia sol). `-Fase 2` → DNS (reenviador, zona inversa), política de contrasenyes, OU, usuari `ivan`, `redircmp` i la **GPO `Lloc31-Inici-de-sessio`** (el 16/11 es va crear a mà; ara és dins del script). La tasca d'inici [`xarxa-inici.ps1`](../configs/ws2025/xarxa-inici.ps1) ara posa el DNS `127.0.0.1, 192.168.31.1`.
+3. **R1:** reenviament condicional del domini ([`r1-config.rsc`](../configs/mikrotik/r1-config.rsc)). Comprovació: `nslookup -type=SRV _ldap._tcp.dc._msdcs.ivan-cambra-31.lan 192.168.31.1` → `srv-ws2025.ivan-cambra-31.lan:389`.
+4. **CLI-Debian** ([`cli-unir-domini.sh`](../scripts/clients/cli-unir-domini.sh), afegit el 17/11): `apt install realmd sssd sssd-tools libnss-sss libpam-sss adcli samba-common-bin oddjob-mkhomedir krb5-user` → hora sincronitzada amb el DC (`timesyncd`, NTP=192.168.31.21; Kerberos no admet més de 5 min de diferència) → `realm join -U Administrator ivan-cambra-31.lan` → a `sssd.conf`, `use_fully_qualified_names = False` i `fallback_homedir = /home/%u` (s'entra amb `ivan`, no `ivan@ivan-cambra-31.lan`) → `pam-auth-update --enable mkhomedir` (crea `/home/ivan` al primer inici) → GDM amb `disable-user-list=true` (demana el nom d'usuari, com Windows).
+5. **W11:** [`w11-unir-domini.ps1`](../scripts/clients/w11-unir-domini.ps1) (o la mateixa ordre `Add-Computer`) en un PowerShell elevat → `Add-Computer -DomainName ivan-cambra-31.lan` amb l'administrador del domini → reinici. Després, la GPO.
 
-**Resultat** ([`domini-ivan-cambra-13.txt`](../evidencias/t5-domini/domini-ivan-cambra-13.txt) i captures a `evidencias/t5-domini/captures/`):
+**Resultat** ([`domini-ivan-cambra-31.txt`](../evidencias/t5-domini/domini-ivan-cambra-31.txt) i captures a `evidencias/t5-domini/captures/`):
 
 | Comprovació | Windows 11 Pro | CLI-Debian |
 |---|---|---|
-| Compte d'equip a AD | ✅ `CN=WINDOWS11,OU=Equips-Lloc13` | ✅ `CN=CLI-DEBIAN,OU=Equips-Lloc13` |
+| Compte d'equip a AD | ✅ `CN=WINDOWS11,OU=Equips-Lloc31` | ✅ `CN=CLI-DEBIAN,OU=Equips-Lloc31` |
 | Unió | ✅ `PartOfDomain: True`; `nltest /sc_query` → `NERR_Success` amb `\\SRV-WS2025` | ✅ `realm list` → `configured: kerberos-member`, `login-policy: allow-realm-logins` |
-| Pantalla d'inici | ✅ Demana usuari i contrasenya, «Iniciar sesión en IVANCAMBRA13» | ✅ GDM demana el nom d'usuari |
-| Inici de sessió amb `ivan` + contrasenya | ✅ `whoami` → `ivancambra13\ivan`, `ivan@ivan-cambra-13.lan`, `LOGONSERVER=\\SRV-WS2025` | ✅ sessió gràfica (GDM) i SSH: `uid=631601104(ivan) gid=…(domain users)`, `/home/ivan` creat sol, tiquet Kerberos `ivan@IVAN-CAMBRA-13.LAN` |
+| Pantalla d'inici | ✅ Demana usuari i contrasenya, «Iniciar sesión en IVANCAMBRA31» | ✅ GDM demana el nom d'usuari |
+| Inici de sessió amb `ivan` + contrasenya | ✅ `whoami` → `ivancambra31\ivan`, `ivan@ivan-cambra-31.lan`, `LOGONSERVER=\\SRV-WS2025` | ✅ sessió gràfica (GDM) i SSH: `uid=631601104(ivan) gid=…(domain users)`, `/home/ivan` creat sol, tiquet Kerberos `ivan@IVAN-CAMBRA-31.LAN` |
 
 **Incidències (16/11):**
 1. Al script del W11, `"…$Domini: …"` → PowerShell ho llegeix com una unitat (`$Domini:`) i el script no s'executa. Corregit amb `${Domini}`.
 2. Després d'unir-se, el W11 tornava a entrar sol amb `Ivan` (local): tenia `AutoAdminLogon=1`. Resolt des del domini amb la GPO (no tocant el client a mà).
 3. A GDM, un espai abans del nom (` ivan`) fa que SSSD no trobe l'usuari (`Usuario desconocido`). Cal escriure `ivan` exactament.
+
+**Incidències (17/11, en refer-lo):**
+1. La fase 2 va fallar en crear la zona inversa (error **9901**): just després del reinici, la partició `DomainDnsZones` encara no existia. El script ara espera que hi siga.
+2. En restaurar les instantànies, el rellotge de Windows va tornar al 16/11 (17 h de diferència). Kerberos no ho admet: es va posar l'hora bona al DC abans de crear el domini.
+3. `VBoxManage guestcontrol` deixava d'obrir sessió al W11 després de restaurar-lo; la unió es va fer des de la consola (Executar → PowerShell elevat). Després es va esborrar l'historial d'Executar, perquè l'ordre portava la contrasenya.
 
 **Què canvia a partir d'ara:** SRV-WS2025 s'ha d'engegar **abans que els clients** (just després de R1) perquè s'hi puga iniciar sessió amb `ivan`. Els comptes locals (`Ivan`, `admin-ivan`, `ivancambra`…) continuen funcionant si el DC està apagat. La còpia `wbadmin` amb `-systemState` ja inclou la base de dades d'Active Directory.
 
@@ -509,8 +516,8 @@ Configuració aplicada amb [`scripts/proxmox/infra-config.sh`](../scripts/proxmo
 | Acció | Estat | Evidència |
 |---|---|---|
 | a242 instal·lació i versió | ✅ Debian **13.7**, nucli 6.12.116, des de la imatge cloud oficial (SHA-512 verificat). 0 paquets pendents, 0 serveis fallits, Internet per R1 | `t5-linux-infra/a242-a246-srv-serveis.txt`, `a242-a246-srv-dades.txt` |
-| a243 usuaris | ✅ `ivancambra` (cloud-init), **`admin-ivan`** (sudo) i **`suport`** (sense sudo), igual que als routers. SSH **només amb clau**: root i contrasenyes rebutjats (`/etc/ssh/sshd_config.d/10-lloc13.conf`, comprovat des de fora) | ídem |
-| a244 xarxa | ✅ `eth0` amb IP fixa (.22 / .23) per cloud-init (netplan), GW i DNS .1, sufix `lan13.local` | ídem |
+| a243 usuaris | ✅ `ivancambra` (cloud-init), **`admin-ivan`** (sudo) i **`suport`** (sense sudo), igual que als routers. SSH **només amb clau**: root i contrasenyes rebutjats (`/etc/ssh/sshd_config.d/10-lloc31.conf`, comprovat des de fora) | ídem |
+| a244 xarxa | ✅ `eth0` amb IP fixa (.22 / .23) per cloud-init (netplan), GW i DNS .1, sufix `lan31.local` | ídem |
 | a246 programari | ✅ Cap servei addicional, com diu l'enunciat. Només `qemu-guest-agent`, perquè Proxmox apague bé la VM, en veja la IP i congele el disc a les còpies (`qm agent ping` = OK). `mdadm` i `drbd-utils` s'instal·len a la T6 | ídem |
 | a245 còpia | ✅ `/etc` + llista de paquets de cada servidor a `NAS:/mnt/copies/linux/<servidor>/` (verificat amb `sha256sum -c`), més el `vzdump` de la VM (a231). **Prova:** s'esborra la configuració SSH de srv-dades (root tornava a entrar) i es recupera del NAS en **2,8 s**, amb el mateix hash | `t5-linux-infra/a245-copies-linux.txt` |
 
@@ -520,11 +527,11 @@ Evidències a `evidencias/t5-clients/`. Captures: [índex de captures](../eviden
 
 | | Windows 11 (`Cliente_windows_1`, existent) | GNU/Linux (`CLI-Debian`) |
 |---|---|---|
-| Instal·lació i versió (a247/a252) | ✅ **Windows 11 Pro** (era Home; canviada a Pro el 12/11, vegeu sota), 23H2 22631 → **25H2 26200.9974 el 14/11** (a79), 64 bits. UEFI, **Secure Boot actiu** i **TPM 2.0 preparat** (llegits des d'un PowerShell elevat). Serveis automàtics aturats: només `edgeupdate`, `MapsBroker` i `sppsvc` (és normal que estiguen parats). Internet: HTTPS 200 | ✅ Debian 13 (trixie) + **GNOME** 48: fa d'equip de gestió amb Firefox per a les webs de la LAN13 ([03 §5](03-xarxa.md#5-accés-de-gestió-a-les-webs-de-la-lan13)). 0 serveis fallits, Internet HTTP/2 200 |
+| Instal·lació i versió (a247/a252) | ✅ **Windows 11 Pro** (era Home; canviada a Pro el 12/11, vegeu sota), 23H2 22631 → **25H2 26200.9974 el 14/11** (a79), 64 bits. UEFI, **Secure Boot actiu** i **TPM 2.0 preparat** (llegits des d'un PowerShell elevat). Serveis automàtics aturats: només `edgeupdate`, `MapsBroker` i `sppsvc` (és normal que estiguen parats). Internet: HTTPS 200 | ✅ Debian 13 (trixie) + **GNOME** 48: fa d'equip de gestió amb Firefox per a les webs de la LAN31 ([03 §5](03-xarxa.md#5-accés-de-gestió-a-les-webs-de-la-lan31)). 0 serveis fallits, Internet HTTP/2 200 |
 | Usuaris (a248/a253) | ✅ `admin-ivan` (Administradors, el mateix nom que als routers) i `usuari` (Usuaris, estàndard: és el compte de treball diari). `Ivan` és el compte de la instal·lació i també és administrador. L'`Administrador` integrat i `Invitado` estan desactivats. UAC actiu (`EnableLUA=1`). Script: `scripts/clients/w11-usuaris.ps1` | ✅ `ivancambra` i **`admin-ivan`** (grup `sudo`) · **`usuari`** (sense sudo, compte de treball) · `root` amb contrasenya (només `su`) |
-| Xarxa (a249/a254) | ✅ Per DHCP de R1: **192.168.13.199/24**, GW .1, DNS .1, sufix `lan13.local`. Ping a la GW correcte, el DNS resol, port 445 del NAS obert | ✅ DHCP de R1 ([evidència](../evidencias/t4-xarxa/ifaces-rutes-cli-debian.txt)) |
-| Còpia (a250/a255) | ✅ `scripts/copies/copia-w11.ps1`: `robocopy /MIR` cap a `\\192.168.13.20\clients\w11` amb l'usuari `copies`. **Es copien:** `config\` (ipconfig, configuració IP, usuaris, aplicacions instal·lades i versió, per poder reconstruir el client) i `dades\<usuari>\Documents` i `Desktop` (el que és únic de cada usuari). **No es copien:** la imatge sencera, `C:\Windows`, `Program Files` ni `AppData\Local` (memòria cau). Un client es reinstal·la des d'una imatge estàndard i les aplicacions es tornen a instal·lar a partir de la llista. **Prova de restauració:** s'esborra `prova-copia-w11.txt`, es recupera del NAS i el SHA-256 coincideix. També s'ha comprovat amb `ls -lR` al NAS | ✅ `/home` (sense memòries cau), `/etc` i la llista de paquets a `NAS:/mnt/copies/clients/cli-debian/` (25 MB). **No:** el sistema ni les aplicacions, que es reinstal·len. **Prova:** es recupera un document esborrat de `usuari` amb el mateix hash i propietari (4,8 s) → [`a255-cli-debian-copia.txt`](../evidencias/t5-clients/a255-cli-debian-copia.txt) |
-| Domini | ✅ **Unit a `ivan-cambra-13.lan` (16/11)**: s'inicia sessió amb `IVANCAMBRA13\ivan`. La unió és possible perquè és **Pro** (Home no es pot unir a un domini). a251 està desactivada a la rúbrica (no s'exigeix), però s'ha fet: vegeu §7, «Domini» | ✅ **Unit a `ivan-cambra-13.lan` (16/11)** amb realmd + SSSD: s'inicia sessió amb `ivan` a GDM i per SSH. a256 desactivada a la rúbrica (no s'exigeix), però s'ha fet |
+| Xarxa (a249/a254) | ✅ Per DHCP de R1: **192.168.31.199/24**, GW .1, DNS .1, sufix `lan31.local`. Ping a la GW correcte, el DNS resol, port 445 del NAS obert | ✅ DHCP de R1 ([evidència](../evidencias/t4-xarxa/ifaces-rutes-cli-debian.txt)) |
+| Còpia (a250/a255) | ✅ `scripts/copies/copia-w11.ps1`: `robocopy /MIR` cap a `\\192.168.31.20\clients\w11` amb l'usuari `copies`. **Es copien:** `config\` (ipconfig, configuració IP, usuaris, aplicacions instal·lades i versió, per poder reconstruir el client) i `dades\<usuari>\Documents` i `Desktop` (el que és únic de cada usuari). **No es copien:** la imatge sencera, `C:\Windows`, `Program Files` ni `AppData\Local` (memòria cau). Un client es reinstal·la des d'una imatge estàndard i les aplicacions es tornen a instal·lar a partir de la llista. **Prova de restauració:** s'esborra `prova-copia-w11.txt`, es recupera del NAS i el SHA-256 coincideix. També s'ha comprovat amb `ls -lR` al NAS | ✅ `/home` (sense memòries cau), `/etc` i la llista de paquets a `NAS:/mnt/copies/clients/cli-debian/` (25 MB). **No:** el sistema ni les aplicacions, que es reinstal·len. **Prova:** es recupera un document esborrat de `usuari` amb el mateix hash i propietari (4,8 s) → [`a255-cli-debian-copia.txt`](../evidencias/t5-clients/a255-cli-debian-copia.txt) |
+| Domini | ✅ **Unit a `ivan-cambra-31.lan` (16/11)**: s'inicia sessió amb `IVANCAMBRA31\ivan`. La unió és possible perquè és **Pro** (Home no es pot unir a un domini). a251 està desactivada a la rúbrica (no s'exigeix), però s'ha fet: vegeu §7, «Domini» | ✅ **Unit a `ivan-cambra-31.lan` (16/11)** amb realmd + SSSD: s'inicia sessió amb `ivan` a GDM i per SSH. a256 desactivada a la rúbrica (no s'exigeix), però s'ha fet |
 
 **Windows 11 Home → Pro (fet el 12/11/2026).** La ISO és multiedició i inclou Pro, així que no cal reinstal·lar.
 Es fa el canvi d'edició *in situ* amb la clau genèrica de Microsoft per a Pro (`changepk.exe /ProductKey <clau genèrica>`):

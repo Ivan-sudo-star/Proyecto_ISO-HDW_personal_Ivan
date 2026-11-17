@@ -6,7 +6,7 @@ iface lo inet loopback
 allow-hotplug enp0s3
 iface enp0s3 inet dhcp
 
-# LAN: adaptador 2 (xarxa interna LAN13) — R3 és la .3 (R1 .1, R2 .2)
+# LAN: adaptador 2 (xarxa interna LAN31) — R3 és la .3 (R1 .1, R2 .2)
 auto enp0s8
 iface enp0s8 inet static
-    address 192.168.13.3/24
+    address 192.168.31.3/24

@@ -1,0 +1,109 @@
+# Domini ivan-cambra-31.lan (NetBIOS IVANCAMBRA31) · 17/11/2026 · SRV-WS2025 192.168.31.21
+# Refet després del canvi de lloc 13 -> 31 (instantànies abans-domini + domini-ivan-cambra-31.ps1)
+
+## 1. Controlador de domini
+IP: 192.168.31.21  GW: 192.168.31.1  DNS: ::1, 127.0.0.1, 192.168.31.1
+
+
+DNSRoot            : ivan-cambra-31.lan
+NetBIOSName        : IVANCAMBRA31
+DomainMode         : Windows2016Domain
+PDCEmulator        : SRV-WS2025.ivan-cambra-31.lan
+ComputersContainer : OU=Equips-Lloc31,DC=ivan-cambra-31,DC=lan
+
+
+
+
+Name      Status
+----      ------
+DNS      Running
+KDC      Running
+Netlogon Running
+NTDS     Running
+
+
+
+
+ComplexityEnabled : False
+MinPasswordLength : 4
+MaxPasswordAge    : 00:00:00
+
+
+
+
+Name               DistinguishedName                             
+----               -----------------                             
+Domain Controllers OU=Domain Controllers,DC=ivan-cambra-31,DC=lan
+Usuaris-Lloc31     OU=Usuaris-Lloc31,DC=ivan-cambra-31,DC=lan    
+Equips-Lloc31      OU=Equips-Lloc31,DC=ivan-cambra-31,DC=lan     
+
+
+
+
+
+Name              : Ivan Cambra
+SamAccountName    : ivan
+UserPrincipalName : ivan@ivan-cambra-31.lan
+DistinguishedName : CN=Ivan Cambra,OU=Usuaris-Lloc31,DC=ivan-cambra-31,DC=lan
+Enabled           : True
+
+
+
+
+Name       OperatingSystem                         DistinguishedName                                           
+----       ---------------                         -----------------                                           
+SRV-WS2025 Windows Server 2025 Standard Evaluation CN=SRV-WS2025,OU=Domain Controllers,DC=ivan-cambra-31,DC=lan
+CLI-DEBIAN pc-linux-gnu                            CN=CLI-DEBIAN,OU=Equips-Lloc31,DC=ivan-cambra-31,DC=lan     
+WINDOWS11  Windows 11 Pro                          CN=WINDOWS11,OU=Equips-Lloc31,DC=ivan-cambra-31,DC=lan      
+
+
+
+## 2. DNS
+
+ZoneName                  ZoneType IsDsIntegrated
+--------                  -------- --------------
+_msdcs.ivan-cambra-31.lan Primary            True
+31.168.192.in-addr.arpa   Primary            True
+ivan-cambra-31.lan        Primary            True
+
+
+Reenviador: 192.168.31.1
+## 3. GPO
+
+DisplayName            Enabled Target                                   
+-----------            ------- ------                                   
+Lloc31-Inici-de-sessio    True ou=equips-lloc31,dc=ivan-cambra-31,dc=lan
+
+
+
+
+ValueName                     Value
+---------                     -----
+DontDisplayLastUserName           1
+DisableAutomaticRestartSignOn     1
+
+
+## 4. Resolució del domini a través de R1
+Using domain server:
+Name: 192.168.31.1
+Address: 192.168.31.1#53
+Aliases: 
+
+_ldap._tcp.dc._msdcs.ivan-cambra-31.lan has SRV record 0 100 389 srv-ws2025.ivan-cambra-31.lan.
+
+## 5. CLI-Debian
+ivan-cambra-31.lan
+  configured: kerberos-member
+  login-formats: %U
+  login-policy: allow-realm-logins
+fallback_homedir = /home/%u
+use_fully_qualified_names = False
+--- SSH com a ivan:
+ivan
+uid=631601104(ivan) gid=631600513(domain users) grupos=631600513(domain users)
+Default principal: ivan@IVAN-CAMBRA-31.LAN
+--- sessió gràfica:
+16 631601104 ivan       seat0 5686 user    tty2 no -
+17 631601104 ivan       -     5703 manager -    no -
+
+## 6. Windows 11: vegeu les captures w11-01 (pantalla d'inici IVANCAMBRA31) i w11-02 (whoami ivancambra31\ivan, IP 192.168.31.199, nltest NERR_Success)

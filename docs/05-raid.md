@@ -17,7 +17,7 @@
 apt install -y mdadm
 bash raid-proves.sh 0      # i després 1, 5 i 10 (cada nivell neteja els discos abans de començar)
 bash raid-proves.sh neteja
-# Copiar els registres a l'amfitrió (amb la clau lab13_ed25519, saltant per R1): scp ivancambra@192.168.13.23:~/evidencies-raid/* evidencias/t6-raid/
+# Copiar els registres a l'amfitrió (amb la clau lab13_ed25519, saltant per R1): scp ivancambra@192.168.31.23:~/evidencies-raid/* evidencias/t6-raid/
 # (abans, dins la VM: sudo cp -r /root/evidencies-raid ~ && sudo chown -R ivancambra ~/evidencies-raid)
 ```
 
@@ -73,8 +73,8 @@ demostrar a mà. Ceph i Gluster tindrien sentit amb el clúster de 3 nodes de l'
 ### Implementació (a108)
 
 Nodes, en **dos nodes Proxmox diferents**, de manera que l'espill sobreviu a la caiguda d'un node sencer:
-- `srv-serveis` (VM 220 a PVE2): 192.168.13.22, el disc de 2 GB.
-- `srv-dades` (VM 230 a PVE3): 192.168.13.23, el disc de 2 GB.
+- `srv-serveis` (VM 220 a PVE2): 192.168.31.22, el disc de 2 GB.
+- `srv-dades` (VM 230 a PVE3): 192.168.31.23, el disc de 2 GB.
 - El disc s'identifica per mida (`lsblk -dbnpo NAME,SIZE | awk '$2==2147483648'`) i al `r0.res` es posa el seu camí estable de `/dev/disk/by-path/`, no `sdX`.
 
 Configuració: [`configs/drbd/r0.res`](../configs/drbd/r0.res), amb els passos al [README](../configs/drbd/README.md). Els discos s'identifiquen pel camí `/dev/disk/by-path` (srv-serveis = `sdb`, srv-dades = `sdg`), i el secret compartit es genera amb `openssl rand` i no es puja al repositori.

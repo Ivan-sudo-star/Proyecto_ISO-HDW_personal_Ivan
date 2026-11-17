@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # copia-configs.sh — Orquestrador de còpies de configuració (Tasca 5 Apte+ · a105)
-# S'executa a SRV-SERVEIS (192.168.13.22) com a usuari local "copies", amb claus SSH (cap contrasenya a l'script).
-# Arreplega la configuració dels equips crítics que estiguen encesos i la puja al NAS (192.168.13.20:/mnt/copies) amb rsync.
+# S'executa a SRV-SERVEIS (192.168.31.22) com a usuari local "copies", amb claus SSH (cap contrasenya a l'script).
+# Arreplega la configuració dels equips crítics que estiguen encesos i la puja al NAS (192.168.31.20:/mnt/copies) amb rsync.
 #
 #   R1 MikroTik      -> /export (usuari "copies" de només lectura al router)   -> routers/r1/
 #   R2 OPNsense      -> /conf/config.xml (només si root té la clau instal·lada) -> routers/r2/
@@ -16,11 +16,11 @@
 # Prova manual: sudo systemctl start copia-configs.service && journalctl -u copia-configs -n 30
 set -uo pipefail
 
-NAS="copies@192.168.13.20"
+NAS="copies@192.168.31.20"
 NAS_DIR="/mnt/copies"
-R1=192.168.13.1; R2=192.168.13.2; R3=192.168.13.3
-PVE_NODES="192.168.13.32 192.168.13.33 192.168.13.34"
-LINUX_SRV="192.168.13.22 192.168.13.23"
+R1=192.168.31.1; R2=192.168.31.2; R3=192.168.31.3
+PVE_NODES="192.168.31.32 192.168.31.33 192.168.31.34"
+LINUX_SRV="192.168.31.22 192.168.31.23"
 LINUX_USR="ivancambra"   # usuari de cloud-init (sudo sense contrasenya); les VM cloud no accepten root per SSH
 KEEP_DAYS=14             # rotació: només s'esborren fitxers *-auto-* creats per aquest script
 WORK=$(mktemp -d); DATA=$(date +%F_%H%M)

@@ -1,0 +1,2 @@
+## R2 (OPNsense): ping des de R1 a la nova IP de la LAN
+    sent=3 received=3 packet-loss=0% min-rtt=967us avg-rtt=1ms62us 
