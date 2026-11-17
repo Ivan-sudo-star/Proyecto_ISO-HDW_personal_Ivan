@@ -9,7 +9,7 @@
 > indistintament a l'**equip de classe** i a l'**equip de casa**. El sistema i les VM són els mateixos;
 > el que canvia és el maquinari amfitrió. Per això el disseny es dimensiona per a l'equip més limitat.
 
-> **Canvi de lloc (17/11/2026):** el meu lloc a l'aula és el **31**, no el 13. Tot el muntatge (màquines, configuracions, scripts, esquema i documentació) s'ha passat a **192.168.31.0/24** i el domini és `ivan-cambra-31.lan`. Les **evidències recollides abans del 17/11** (registres i captures de `evidencias/`) són sortides reals i mostren l'adreçament antic **192.168.13.x**: no s'han modificat. Les comprovacions fetes després del canvi són a [`evidencias/canvi-lloc31/`](evidencias/canvi-lloc31/) i [`evidencias/t5-domini/`](evidencias/t5-domini/). Procediment: [03 §6](docs/03-xarxa.md#6-canvi-de-lloc-13--31-17112026).
+> **Canvi de lloc (17/11/2026):** el meu lloc a l'aula és el **31**, no el 13. Tot el muntatge (màquines, configuracions, scripts, esquema i documentació) s'ha passat a **192.168.31.0/24** i el domini és `ivan-cambra-31.lan`. Les **evidències recollides abans del 17/11** (registres i captures de `evidencias/`) són sortides reals i mostren l'adreçament antic **192.168.13.x**: no s'han modificat. Les comprovacions fetes després del canvi són a [`evidencias/canvi-lloc31/`](evidencias/canvi-lloc31/) i [`evidencias/t5-domini/`](evidencias/t5-domini/). Procediment: [03 §6](docs/03-xarxa.md#6-canvi-de-lloc-13--31-17112026). Totes les **còpies de seguretat s'han refet** amb la configuració nova: [04 §11](docs/04-installacio.md#11-còpies-refetes-després-del-canvi-de-lloc-17112026).
 
 ![Esquema de xarxa individual](diagrames/xarxa-individual-lloc31.png)
 

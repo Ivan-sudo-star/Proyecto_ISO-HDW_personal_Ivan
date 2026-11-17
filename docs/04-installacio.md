@@ -566,6 +566,33 @@ comprovar al NAS que el fitxer porta la data i l'hora correctes.
 
 ---
 
+## 11. Còpies refetes després del canvi de lloc (17/11/2026)
+
+Totes les còpies anteriors eren de la configuració amb la xarxa 192.168.13.0/24: si s'hagueren restaurat, haurien tornat la màquina a la xarxa vella. Per això, després del canvi a 192.168.31.0/24 i de refer el domini, **s'han tornat a fer totes**, amb el mateix mètode i el mateix lloc del NAS que la primera vegada. Les antigues es conserven (són la versió anterior). Inventari complet amb mides i SHA-256: [`copies-lloc31.txt`](../evidencias/canvi-lloc31/copies-lloc31.txt).
+
+| Equip | Què es copia | On (NAS `/mnt/copies/…`) | Comprovació |
+|---|---|---|---|
+| R1 MikroTik | `/system backup` (binari xifrat) + `/export` | `routers/r1/r1-lloc31-2026-11-17.backup`, `export-lloc31-2026-11-17.rsc` | L'export té 10 línies amb 192.168.31 i cap amb 192.168.13 |
+| R2 OPNsense | `/conf/config.xml` (scp des de la consola) | `routers/r2/config-2026-11-17-lloc31.xml` | `<ipaddr>192.168.31.2</ipaddr>` |
+| R3 nftables | `etc` (nftables, network, sysctl, dnsmasq) + ruleset actiu | `routers/r3/etc-2026-11-17_1005.tgz`, `ruleset-…txt` | Inclou `dnsmasq.d/lan31.conf`; ruleset amb .31 |
+| NAS TrueNAS | Configuració del sistema (`/api/v2.0/config/save`, sense la *secret seed*) | `nas/nas31-config-…db` (dataset nou `copies/nas`) | SQLite vàlid. **Nou:** abans no es copiava la configuració del NAS. Està al mateix NAS: per a una fallada del NAS caldria guardar-la també fora |
+| Nodes Proxmox | `/etc/pve`, xarxa, `hosts`, `resolv.conf`, corosync | `proxmox/config/pve{1,2,3}-config-2026-11-17_1045.tgz` | `cluster_name: cluster31`, `ring0_addr` .31 |
+| CT 100, VM 220, VM 230 | `vzdump` (snapshot, zstd) | `proxmox/dump/vzdump-*-2026_11_17-*.zst` (204 / 693 / 679 MB) | `zstd -t` correcte als tres |
+| VM 220 / 230 | `/etc` + llista de paquets | `linux/srv-*/srv-*-etc-2026-11-17_1046.tgz` | ~1.340 entrades; `r0.res` amb .31.22/.31.23 |
+| CLI-Debian | `/home` (sense memòries cau) + `/etc` + paquets | `clients/cli-debian/cli-debian-home-etc-2026-11-17_1002.tgz` (27 MB) | Inclou `/home/ivan` (usuari del domini) i `/etc/sssd` |
+| Windows 11 | [`copia-w11.ps1`](../scripts/copies/copia-w11.ps1): configuració + Documents i Escriptori **de cada usuari** | `clients/w11/config`, `dades/Ivan/` i **`dades/IVANCAMBRA31-ivan/`** | Prova de restauració amb els dos usuaris: mateix SHA-256 abans i després |
+| SRV-WS2025 (DC) | [`ws-copia.ps1`](../scripts/ws2025/ws-copia.ps1): configuració, **Active Directory** (domini, OU, usuaris, equips, zones DNS), **còpia de les GPO** (`Backup-GPO`) i `wbadmin` (estat del sistema = base de dades d'AD + SYSVOL, i volums crítics) | `windows/srv-ws2025/config`, `windows/srv-ws2025/gpo-…`, `windows/WindowsImageBackup` | ⚠️ **Incompleta (17/11):** la configuració, l'exportació d'AD i la còpia de les GPO són al NAS; el `wbadmin` va copiar els volums però a les 14:20 encara no havia acabat l'estat del sistema i es va haver d'apagar l'equip. **Cal repetir-lo** (tasca `lloc31-copia-ara`, uns 2 h amb el disc USB) |
+
+**Canvis en els scripts de còpia (17/11):**
+- `ws-copia.ps1`: si l'equip és controlador de domini, ja no exporta usuaris locals (no n'hi ha) sinó els objectes d'AD i fa `Backup-GPO -All`.
+- `copia-w11.ps1`: la contrasenya del NAS es pot passar per `PASS_NAS` (sense finestra) i cada usuari copia el seu perfil en una carpeta pròpia (`Ivan` local i `IVANCAMBRA31-ivan` del domini).
+- Còpies de `wbadmin` cap al NAS: s'han de llançar **com a tasca de SYSTEM**, no dins d'una sessió SSH (vegeu les incidències).
+
+**Incidències:**
+1. `wbadmin` va començar una **còpia completa nova** («Volume size changed», pel trasllat a VirtualBox). En fer-la, Windows elimina la versió anterior del recurs compartit: la còpia del 14/11 (9,3 GB) ja no hi és.
+2. La primera execució, llançada des d'SSH, va tardar 74 min amb el disc USB carregat i va acabar «amb errors» (els tres volums correctes; el `wbadmin stop job` i un segon intent simultani hi van interferir). Es va repetir com a tasca de SYSTEM.
+3. El dataset `proxmox` del NAS és de root (s'hi escriu per NFS des dels nodes): la configuració dels nodes es desa des dels nodes, no amb l'usuari `copies`.
+
 ## Pla de contingència individual: temps observats
 
 | Escenari | Funció afectada | Recurs de recuperació | RTO objectiu | RTO observat | Dades perdudes |

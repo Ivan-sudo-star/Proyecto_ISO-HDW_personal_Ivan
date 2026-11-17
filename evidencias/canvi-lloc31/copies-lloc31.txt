@@ -1,0 +1,92 @@
+# Còpies de seguretat refetes després del canvi de lloc 13 -> 31 · 17/11/2026
+# Totes al NAS 192.168.31.20 (pool copies). Llistat fet des del NAS com a usuari copies.
+
+## routers/r1
+-rw-r--r-- 1 copies copies  3478 2026-11-17_10:02 export-lloc31-2026-11-17.rsc
+-rw-r--r-- 1 copies copies 28014 2026-11-17_10:02 r1-lloc31-2026-11-17.backup
+511cca5b274b743807c7f4dfb083d4e9d018c7f1e6ab7caf1230d109bf047662  export-lloc31-2026-11-17.rsc
+3a2574fa4c6056b9325dffca10f99e45c81667e08d8926291565f9ed866325da  r1-lloc31-2026-11-17.backup
+
+## routers/r2
+-rw-r----- 1 copies copies 42350 2026-11-17_10:06 config-2026-11-17-lloc31.xml
+5ece70f8f4dda4be6f8589e86f4e0dce503183bbd6031b3f06caf46c37b147fa  config-2026-11-17-lloc31.xml
+
+## routers/r3
+-rw-r--r-- 1 copies copies 4456 2026-11-17_10:05 etc-2026-11-17_1005.tgz
+-rw-r--r-- 1 copies copies 1195 2026-11-17_10:05 ruleset-2026-11-17_1005.txt
+cd24f4e0f47afdd2787a8345bb6a431ae3c4b73202f53e02a1a8c164023bd909  etc-2026-11-17_1005.tgz
+7c7559ee3c8830951e11459e704ee9904af056f1c679388d60f7e706163b2042  ruleset-2026-11-17_1005.txt
+
+## linux/srv-serveis
+-rw-r--r-- 1 copies copies 505261 2026-11-17_10:46 srv-serveis-etc-2026-11-17_1046.tgz
+-rw-r--r-- 1 copies copies   9172 2026-11-17_10:46 srv-serveis-paquets-2026-11-17_1046.txt
+-rw-r--r-- 1 copies copies    416 2026-11-17_10:46 srv-serveis-sums.txt
+37d4a2fb9ca04d350505b7f3e204fd0e8a1a658c42f0e2c5ec06ca4edc46acdc  srv-serveis-etc-2026-11-17_1046.tgz
+1f1c2b90b2004f3334f5124d2a114fc978920c040ffc244aafb49b5e7dd2f869  srv-serveis-paquets-2026-11-17_1046.txt
+
+## linux/srv-dades
+-rw-r--r-- 1 copies copies 504710 2026-11-17_10:47 srv-dades-etc-2026-11-17_1046.tgz
+-rw-r--r-- 1 copies copies   9130 2026-11-17_10:47 srv-dades-paquets-2026-11-17_1046.txt
+-rw-r--r-- 1 copies copies    408 2026-11-17_10:47 srv-dades-sums.txt
+4cbe4b920b404f4542bd91f7b4c4abd0fbcbc22c4b1e0db5abc4ede7dd5d628a  srv-dades-etc-2026-11-17_1046.tgz
+c35f55496796c67a3568d1d39a6017d1ab62123d763935b19f520bb6505fdaf6  srv-dades-paquets-2026-11-17_1046.txt
+
+## clients/cli-debian
+-rw-r--r-- 1 copies copies 27453793 2026-11-17_10:02 cli-debian-home-etc-2026-11-17_1002.tgz
+-rw-r--r-- 1 copies copies    49227 2026-11-17_10:02 cli-debian-paquets-2026-11-17_1002.txt
+-rw-r--r-- 1 copies copies      422 2026-11-17_10:02 cli-debian-sums.txt
+297eeab0618b70fd4609745f346915f1bd17f1fc6de2f44e3fe393b9fbe2818b  cli-debian-home-etc-2026-11-17_1002.tgz
+ec286040b45e3e45533352eb37be58b4ea062ca314ce3340e105302a600647de  cli-debian-paquets-2026-11-17_1002.txt
+
+## nas
+-rw-r--r-- 1 copies copies     98 2026-11-17_11:21 nas-sums.txt
+-rw-r--r-- 1 copies copies 835584 2026-11-17_11:21 nas31-config-2026-11-17_1121.db
+10ac5735378b0cb579662e197715157c528de3075f041f67e000259b57aacfcd  nas31-config-2026-11-17_1121.db
+
+## clients/w11 (robocopy per usuari)
+clients/w11/config/aplicacions.txt
+clients/w11/config/ipconfig.txt
+clients/w11/config/netipconfig.txt
+clients/w11/config/usuaris.txt
+clients/w11/config/versio.txt
+clients/w11/dades/IVANCAMBRA31-ivan/Desktop/desktop.ini
+clients/w11/dades/IVANCAMBRA31-ivan/Documents/desktop.ini
+clients/w11/dades/IVANCAMBRA31-ivan/Documents/prova-copia-w11.txt
+clients/w11/dades/Ivan/Documents/prova-copia-w11.txt
+
+## windows/srv-ws2025 (config, AD i GPO)
+windows/srv-ws2025:
+config
+gpo-2026-11-17_1001
+gpo-2026-11-17_1030
+gpo-2026-11-17_1126
+
+windows/srv-ws2025/config:
+computerinfo.txt
+domini.txt
+equips-ad.txt
+gpo-copiades.txt
+ou.txt
+rols-i-caracteristiques.txt
+usuaris-ad.txt
+usuaris.txt
+xarxa.txt
+zones-dns.txt
+
+## proxmox (vzdump i configuració dels nodes, escrit pels nodes per NFS)
+-rw-r--r-- 1 root root         789 2026-11-17_11:08 vzdump-lxc-100-2026_11_17-11_08_21.log
+-rw-r--r-- 1 root root   214114631 2026-11-17_11:08 vzdump-lxc-100-2026_11_17-11_08_21.tar.zst
+-rw-r--r-- 1 root root          21 2026-11-17_11:08 vzdump-lxc-100-2026_11_17-11_08_21.tar.zst.notes
+-rw-r--r-- 1 root root        1830 2026-11-17_11:08 vzdump-qemu-220-2026_11_17-11_08_33.log
+-rw-r--r-- 1 root root   726869595 2026-11-17_11:08 vzdump-qemu-220-2026_11_17-11_08_33.vma.zst
+-rw-r--r-- 1 root root          24 2026-11-17_11:08 vzdump-qemu-220-2026_11_17-11_08_33.vma.zst.notes
+-rw-r--r-- 1 root root        2183 2026-11-17_11:09 vzdump-qemu-230-2026_11_17-11_08_53.log
+-rw-r--r-- 1 root root   712233086 2026-11-17_11:09 vzdump-qemu-230-2026_11_17-11_08_53.vma.zst
+-rw-r--r-- 1 root root          22 2026-11-17_11:09 vzdump-qemu-230-2026_11_17-11_08_53.vma.zst.notes
+-rw-r--r-- 1 root root 27900 2026-11-17_10:46 pve1-config-2026-11-17_1046.tgz
+-rw-r--r-- 1 root root 27884 2026-11-17_10:46 pve2-config-2026-11-17_1046.tgz
+-rw-r--r-- 1 root root 27935 2026-11-17_10:46 pve3-config-2026-11-17_1046.tgz
+dump/vzdump-qemu-230-2026_11_17-11_08_53.vma.zst  zstd -t OK
+dump/vzdump-qemu-220-2026_11_17-11_08_33.vma.zst  zstd -t OK
+dump/vzdump-lxc-100-2026_11_17-11_08_21.tar.zst  zstd -t OK
+lloc31 17/11 ct-provalloc31 17/11 srv-serveislloc31 17/11 srv-dades

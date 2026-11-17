@@ -8,10 +8,23 @@ net use $share $pass /user:copies /persistent:no
 $cfg="$share\srv-ws2025\config"; New-Item -ItemType Directory -Force $cfg | Out-Null
 Get-ComputerInfo | Out-File "$cfg\computerinfo.txt" -Width 200
 Get-NetIPConfiguration -Detailed | Out-File "$cfg\xarxa.txt" -Width 200
-Get-LocalUser | Out-File "$cfg\usuaris.txt"
+if ((Get-CimInstance Win32_ComputerSystem).DomainRole -ge 4) {
+    # Controlador de domini (des del 16/11): no hi ha usuaris locals; s'exporta Active Directory i les GPO
+    Import-Module ActiveDirectory, GroupPolicy
+    Get-ADDomain | Out-File "$cfg\domini.txt" -Width 200
+    Get-ADOrganizationalUnit -Filter * | Select-Object Name, DistinguishedName | Out-File "$cfg\ou.txt" -Width 200
+    Get-ADUser -Filter * -Properties Enabled, UserPrincipalName, MemberOf | Select-Object SamAccountName, UserPrincipalName, Enabled, DistinguishedName | Out-File "$cfg\usuaris-ad.txt" -Width 250
+    Get-ADComputer -Filter * -Properties OperatingSystem | Select-Object Name, OperatingSystem, DistinguishedName | Out-File "$cfg\equips-ad.txt" -Width 250
+    Get-DnsServerZone | Out-File "$cfg\zones-dns.txt" -Width 200
+    $gpo = "$share\srv-ws2025\gpo-$(Get-Date -Format 'yyyy-MM-dd_HHmm')"; New-Item -ItemType Directory -Force $gpo | Out-Null
+    Backup-GPO -All -Path $gpo | Select-Object DisplayName, Id | Out-File "$cfg\gpo-copiades.txt" -Width 200
+    "GPO copiades a $gpo"
+} else {
+    Get-LocalUser | Out-File "$cfg\usuaris.txt"
+}
 Get-WindowsFeature | Where-Object Installed | Out-File "$cfg\rols-i-caracteristiques.txt" -Width 200
 "config exportada: $((Get-ChildItem $cfg).Count) fitxers"
-# 2) Estat del sistema i volums crítics amb Windows Server Backup
+# 2) Estat del sistema i volums crítics amb Windows Server Backup (en un DC, l'estat del sistema inclou la base de dades d'Active Directory i SYSVOL)
 if (-not (Get-WindowsFeature Windows-Server-Backup).Installed) { Install-WindowsFeature Windows-Server-Backup | Out-Null }
 "Windows Server Backup: $((Get-WindowsFeature Windows-Server-Backup).InstallState)"
 $t0=Get-Date
