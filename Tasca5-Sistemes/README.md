@@ -15,6 +15,6 @@ Els mateixos sistemes que el grup, amb la mateixa plantilla per a cada un: **ver
 | 6 | [Windows Server 2025 i domini](6-WS2025-Domini/) | a237–a241 | ✅ |
 | 7 | [Servidors Linux](7-Servidors-Linux/) | a242–a246 | ✅ |
 | 8 | [Clients W11 i Debian](8-Clients/) | a247–a250, a252–a255 | ✅ |
-| 9 | [Còpies de seguretat](9-Copies/) | a259, a105 (Apte+) | ✅ (a105: configuracions 🟡) |
+| 9 | [Còpies de seguretat](9-Copies/) | a259, a105 (Apte+) | ✅ (a105: 2 eines provades, instantànies de TrueNAS i backup de Proxmox) |
 
 **Credencials:** no apareixen al repositori. Els scripts les demanen o les reben en executar-se.

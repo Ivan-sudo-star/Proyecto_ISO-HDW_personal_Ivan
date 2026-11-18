@@ -1,0 +1,32 @@
+# a105 · Prova de l'automatització de TrueNAS: Periodic Snapshot Task · 18/11/2026 (equip de casa)
+# NAS 192.168.31.20 (TrueNAS SCALE 25.10.7). Configuració per l'API (/api/v2.0/pool/snapshottask) i comprovació per SSH com a usuari copies.
+
+## 1. Tasca creada (horari de PROVA: cada 2 min, es guarden 1 h)
+{'id': 1, 'dataset': 'copies', 'recursive': True, 'exclude': [], 'naming_schema': 'auto-%Y-%m-%d_%H-%M', 'lifetime_value': 1, 'lifetime_unit': 'HOUR', 'enabled': True, 'schedule': {'minute': '*/2', 'hour': '*', 'dom': '*', 'month': '*', 'dow': '*', 'begin': '00:00', 'end': '23:59'}}
+
+## 2. Fitxer de prova creat a les 11:45 (abans de la primera instantània)
+fc6b7aa71e56a331807dd38c7aa19fd7c50ad520de2bcbd053fac9a28e4dfdc2  /mnt/copies/routers/prova-a105.txt
+
+## 3. Instantànies creades soles pel NAS (sense cap intervenció)
+total 1
+drwxrwxrwx 1 root   root   0 2026-11-18_11:46:00 auto-2026-11-18_11-46
+drwxrwx--- 5 copies copies 6 2026-11-18_11:45:19 auto-2026-11-18_11-48
+Instantànies per dataset (la tasca és recursiva):
+  /mnt/copies: 2 instantànies auto- (auto-2026-11-18_11-46 auto-2026-11-18_11-48 )
+  /mnt/copies/clients/: 2 instantànies auto- (auto-2026-11-18_11-46 auto-2026-11-18_11-48 )
+  /mnt/copies/linux/: 2 instantànies auto- (auto-2026-11-18_11-46 auto-2026-11-18_11-48 )
+  /mnt/copies/nas/: 2 instantànies auto- (auto-2026-11-18_11-46 auto-2026-11-18_11-48 )
+  /mnt/copies/proxmox/: 2 instantànies auto- (auto-2026-11-18_11-46 auto-2026-11-18_11-48 )
+  /mnt/copies/routers/: 2 instantànies auto- (auto-2026-11-18_11-46 auto-2026-11-18_11-48 )
+  /mnt/copies/usuaris/: 2 instantànies auto- (auto-2026-11-18_11-46 auto-2026-11-18_11-48 )
+  /mnt/copies/windows/: 2 instantànies auto- (auto-2026-11-18_11-46 auto-2026-11-18_11-48 )
+
+## 4. Prova de recuperació: s'esborra el fitxer i es recupera de la instantània
+esborrat: ls: cannot access 'prova-a105.txt': No such file or directory
+restaurat:
+-rw-r--r-- 1 copies copies 52 Nov 18 11:45 prova-a105.txt
+fc6b7aa71e56a331807dd38c7aa19fd7c50ad520de2bcbd053fac9a28e4dfdc2  prova-a105.txt
+Resultat: el SHA-256 coincideix amb el del fitxer original (secció 2) -> recuperació correcta, sense eines externes.
+
+## 5. Horari definitiu (després de la prova): cada dia a les 02:00, es guarden 14 dies; s'exclouen proxmox i windows (ja tenen versions pròpies i són grans)
+{'dataset': 'copies', 'recursive': True, 'exclude': ['copies/proxmox', 'copies/windows'], 'lifetime_value': 14, 'lifetime_unit': 'DAY', 'schedule': {'minute': '00', 'hour': '02', 'dom': '*', 'month': '*', 'dow': '*', 'begin': '00:00', 'end': '23:59'}, 'enabled': True}

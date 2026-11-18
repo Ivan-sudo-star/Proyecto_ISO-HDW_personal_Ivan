@@ -19,10 +19,30 @@
 
 ## Còpies automàtiques (a105)
 
-| Part | Estat |
-|---|---|
-| Imatges (VM 220, VM 230, CT 100) | ✅ **Automàtica:** tasca de clúster `copia-setmanal` (diumenge 03:00, es guarden les 3 últimes). Provada avançant l'hora: s'executa sola → [`a105-copia-automatica-vzdump.txt`](../5-Proxmox/evidencies/a105-copia-automatica-vzdump.txt) |
-| Configuracions | 🟡 Orquestrador [`copia-configs.sh`](scripts/copia-configs.sh) + timer de systemd instal·lat a SRV-SERVEIS; falta repartir la clau SSH als equips (cal autorització) |
+**Objectiu:** buscar una eina que faça les còpies sola, explicar com funciona, provar-la i comprovar que funciona.
+
+### Eines estudiades
+
+| Eina | Què fa | Com funcionaria aquí | Provada? |
+|---|---|---|---|
+| **TrueNAS · Periodic Snapshot Task** | Instantànies ZFS automàtiques del pool amb horari i caducitat. Només guarden els canvis, així que ocupen poc | Versions diàries de totes les còpies del NAS: si s'esborra o es xifra (ransomware) una còpia, es recupera de la instantània | ✅ **Sí** (sota) |
+| **Proxmox · Backup job** | `vzdump` programat de VM i CT cap a un emmagatzematge | Imatge setmanal de les VM 220, 230 i el CT 100 al NAS, guardant les 3 últimes | ✅ **Sí**: tasca `copia-setmanal`, provada avançant l'hora ([evidència](../5-Proxmox/evidencies/a105-copia-automatica-vzdump.txt)) |
+| TrueNAS · Rsync Task | `rsync` programat que porta (*pull*) o envia (*push*) carpetes d'un altre equip per SSH | El NAS aniria a buscar cada nit el `/etc` dels servidors Linux | ➖ Necessita una clau SSH del NAS als servidors (accés permanent) |
+| TrueNAS · Replication Task | Envia les instantànies a un altre equip ZFS | La còpia fora del disc (regla 3-2-1) | ➖ No hi ha un segon NAS |
+| TrueNAS · Cloud Sync | Puja carpetes a un núvol (S3, Drive…) | Còpia fora de l'empresa | ➖ Necessita un compte al núvol |
+| MikroTik · `/system scheduler` | Executa un script amb horari | R1 faria `/export` + backup i el pujaria al NAS per SFTP ([`r1-scheduler-copia.rsc`](../1-R1-MikroTik/config/r1-scheduler-copia.rsc)) | ➖ L'script ha de guardar la contrasenya del NAS dins del router |
+| `copia-configs.sh` + timer de systemd | Script propi que recull les configuracions de tots els equips | Des de SRV-SERVEIS, cada nit, per SSH ([`scripts/`](scripts/)) | 🟡 Instal·lat; falta repartir la clau SSH |
+
+### Prova: instantànies automàtiques de TrueNAS (18/11)
+
+1. **Configuració** (per l'API; a la web: *Data Protection → Periodic Snapshot Tasks*): pool `copies`, recursiva, nom `auto-%Y-%m-%d_%H-%M`. Per a la prova: **cada 2 minuts** i es guarden 1 h.
+2. **Funciona sola:** sense fer res, el NAS va crear les instantànies de les 11:46 i les 11:48 a **tots els datasets**.
+3. **Recuperació:** s'esborra un fitxer de prova i es copia des de `.zfs/snapshot/auto-…_11-48/`: **mateix SHA-256** que l'original.
+4. **Horari definitiu:** cada dia a les **02:00**, es guarden **14 dies**; s'exclouen `proxmox` i `windows` (ja tenen versions pròpies i són grans).
+
+Evidència: [`a105-truenas-snapshots-automatiques.txt`](evidencies/a105-truenas-snapshots-automatiques.txt)
+
+**Conclusió:** les instantànies **no substitueixen** la còpia (són al mateix NAS), però hi afigen el que faltava: **versions automàtiques**. Un error o un ransomware que esborre una còpia ja no és definitiu durant 14 dies.
 
 ## Còpies refetes amb el lloc 31 (17/11)
 
