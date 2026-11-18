@@ -61,7 +61,7 @@ Totes les mesures són a [`evidencies/`](evidencies/) (un fitxer per escenari).
 
 ## 5. Informe i conclusions (a121)
 
-*Redactat amb l'IA a partir de les mesures; l'alumne l'ha de revisar i saber-lo explicar.*
+*Redactat amb l'IA a partir de les mesures*
 
 - **Límit:** la **RAM**; la CPU no ha passat del 34 % i el disc no ha donat espera d'E/S apreciable.
 - **Capacitat:** 9 VM a casa (sense WS2025) i 8 a classe (amb WS2025 a VirtualBox).
