@@ -33,7 +33,6 @@ TascaN-.../         una carpeta per tasca
 Tasca5-Sistemes/    una subcarpeta per sistema (0-Comprovacions … 9-Copies)
 rubrica/            rúbrica, estat i seguiment
 ia-log.md           registre d'ús d'IA (proposta, contrast i decisió)
-arxiu/              material antic o substituït (no cal per corregir)
 ```
 
 ## Notes
