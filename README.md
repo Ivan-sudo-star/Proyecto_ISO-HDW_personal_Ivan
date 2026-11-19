@@ -28,7 +28,7 @@ Entorn individual en VirtualBox (SSD USB portable, funciona a classe i a casa) q
 ```
 TascaN-.../         una carpeta per tasca
   README.md         el document de la tasca
-  evidencies/       registres de text i captures (MAC tapades)
+  evidencies/       les proves clau: cada registre comença amb «QUÈ DEMOSTRA» (MAC tapades)
   scripts/ config/  el que s'ha fet servir per a la tasca
 Tasca5-Sistemes/    una subcarpeta per sistema (0-Comprovacions … 9-Copies)
 rubrica/            rúbrica, estat i seguiment

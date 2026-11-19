@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Inventari de les còpies refetes amb la xarxa .31 (17/11): fitxers al NAS amb la mida i el SHA-256 de cada un.
+# ======================================================
+
 # Còpies de seguretat refetes després del canvi de lloc 13 -> 31 · 17/11/2026
 # Totes al NAS 192.168.31.20 (pool copies). Llistat fet des del NAS com a usuari copies.
 

@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Windows Server 2025 a VirtualBox: edició i versió, usuaris, IP fixa .21 i proves de xarxa (ping, DNS, HTTPS, SMB al NAS) (a237-a239).
+# ======================================================
+
 # SRV-WS2025 com a VM de VirtualBox (16/11/2026, equip de classe) — a237, a238, a239 després de moure-la
 # Disc copiat de la VM 210 de PVE1 (sense reinstal·lar) · controlador virtio-scsi i targeta virtio-net de VirtualBox
 # Recollit per SSH (admin-ivan@192.168.13.21) amb scripts/ws2025/ws-info.ps1. L'hora del Windows anava 1 h endarrere (RTC en UTC, corregit després).

@@ -14,7 +14,7 @@
 |---|---|---|
 | a237–a239 instal·lació, usuaris, xarxa | ✅ ping, DNS, HTTPS i SMB al NAS correctes | [`a237-a239-srv-ws2025-virtualbox.txt`](evidencies/a237-a239-srv-ws2025-virtualbox.txt) |
 | a240 còpia | ✅ [`ws-copia.ps1`](scripts/ws-copia.ps1): configuració, AD i GPO + `wbadmin` (estat del sistema i volums crítics). **Codi 0**, recuperable fins a *Bare Metal Recovery* i *System State* | [`a240-copia-ws2025-dc-lloc31.txt`](evidencies/a240-copia-ws2025-dc-lloc31.txt) |
-| a79 actualització | ✅ acumulativa de novembre, 0 pendents | [`a79-ws2025-windows-update.txt`](evidencies/a79-ws2025-windows-update.txt) |
+| a79 actualització | ✅ acumulativa de novembre, 0 pendents | — |
 | a241 domini | ✅ explicació (sota) i domini implantat | [`domini-ivan-cambra-31.txt`](evidencies/domini/domini-ivan-cambra-31.txt) |
 
 **Per què a VirtualBox:** primer es va instal·lar dins de PVE1 (com al grup), però la virtualització niuada (VirtualBox → KVM → Windows) penjava el node. Es va traslladar copiant el disc, sense reinstal·lar.

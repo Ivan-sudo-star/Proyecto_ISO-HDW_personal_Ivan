@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# DRBD: cau el servidor A i el B passa a primari; les dades de la carpeta de Comercial hi són íntegres (sha256sum -c: 4/4 OK) (a109).
+# ======================================================
+
 # 04 · Promoció del node B (srv-dades) — 2026-11-12 16:06:38
 $ drbdadm primary r0
 rol: Primary/Unknown

@@ -12,8 +12,8 @@
 
 | Evidència | |
 |---|---|
-| W11 | [`a247-a249-w11.txt`](evidencies/a247-a249-w11.txt) · [`a247-w11-pro.txt`](evidencies/a247-w11-pro.txt) (Home → Pro) · [`a250-w11-copia.txt`](evidencies/a250-w11-copia.txt) · [`a79-w11-windows-update.txt`](evidencies/a79-w11-windows-update.txt) |
-| CLI-Debian | [`a252-a253-cli-debian.txt`](evidencies/a252-a253-cli-debian.txt) · [`a255-cli-debian-copia.txt`](evidencies/a255-cli-debian-copia.txt) |
+| W11 | [`a247-a249-w11.txt`](evidencies/a247-a249-w11.txt) |
+| CLI-Debian | [`a252-a253-cli-debian.txt`](evidencies/a252-a253-cli-debian.txt) |
 | Domini | [WS2025 i domini](../6-WS2025-Domini/) |
 
 **Windows 11 Home → Pro:** la VM existent era Home, que no es pot unir a un domini. Es va canviar l'edició *in situ* amb la clau genèrica de Pro (no activa el sistema); es conserven usuaris i dades.

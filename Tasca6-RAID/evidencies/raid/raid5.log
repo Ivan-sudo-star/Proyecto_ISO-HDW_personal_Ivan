@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# RAID 5 amb disc de reserva: falla un disc i el de reserva entra sol; reconstrucció automàtica en 12 s (a102).
+# ======================================================
+
 # RAID 5 — srv-dades — 2026-11-12 15:58:28
 NAME   SIZE TYPE
 sdb      1G disk

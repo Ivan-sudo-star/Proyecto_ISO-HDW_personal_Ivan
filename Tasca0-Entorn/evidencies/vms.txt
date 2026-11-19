@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Llista de les VM de VirtualBox (grup /ISO_HWD) amb la RAM, les vCPU i el firmware de cadascuna. Demostra que l'entorn existeix (a17) i els recursos assignats (a18).
+# ======================================================
+
 # VM del grup /ISO_HWD — 2026-11-12 11:41:17 (VBoxManage, des de l'amfitrió)
 
 VM                   RAM       vCPU   FW    Estat

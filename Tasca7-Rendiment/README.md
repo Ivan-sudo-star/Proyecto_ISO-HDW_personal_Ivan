@@ -76,4 +76,4 @@ Totes les mesures són a [`evidencies/`](evidencies/) (un fitxer per escenari).
 | 1 | Sense escriptori (`multi-user.target`), RAM 4 → 1 GB, 2 → 1 vCPU | R3 | 806 MB usats · 200 processos · arrencada 11,45 s | **284 MB** · 120 processos · **5,56 s** | ✅ −65 % de RAM, arrencada el doble de ràpida, 3 GB alliberats a l'amfitrió |
 | 2 | Desactivar serveis innecessaris (CUPS, Avahi, ModemManager…) | CLI-Debian | 26 serveis · **8 ports oberts** · 632 MB | **20 serveis · 2 ports (només SSH)** · 626 MB | ✅ en seguretat; RAM −1 %; el temps d'arrencada no es va poder comparar (W11 s'actualitzava al mateix disc) |
 
-Evidències: [`opt1-r3-abans.txt`](evidencies/opt1-r3-abans.txt) · [`opt1-r3-despres.txt`](evidencies/opt1-r3-despres.txt) · [`opt2-cli-serveis.txt`](evidencies/opt2-cli-serveis.txt)
+Evidències: [`opt1-r3-despres.txt`](evidencies/opt1-r3-despres.txt) · [`opt2-cli-serveis.txt`](evidencies/opt2-cli-serveis.txt)

@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Temperatura de la CPU del portàtil de classe cada 10 s amb moltes VM: arriba a 97-100 °C (límit tèrmic, Tasca 2 i 7).
+# ======================================================
+
 # Temperatura del paquet de CPU (sensors) cada 10 s · equip de classe · 16/11 (WS2025 actualitzant + 7 VM)
 09:41:29 81
 09:41:39 79

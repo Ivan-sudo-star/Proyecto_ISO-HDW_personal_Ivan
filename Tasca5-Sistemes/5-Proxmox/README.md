@@ -1,6 +1,6 @@
 # Proxmox VE · clúster `cluster31`
 
-**a228–a232, a235, a236** · Estat: ✅ · Scripts: [`crea-vm-debian.sh`](scripts/crea-vm-debian.sh), [`infra-config.sh`](scripts/infra-config.sh)
+**a228–a232, a235, a236** · Estat: ✅
 
 | | |
 |---|---|
@@ -19,13 +19,13 @@ Les VM es creen des de la imatge cloud oficial de Debian (SHA-512 verificat) amb
 
 | Acció | Resultat | Evidència |
 |---|---|---|
-| a228 instal·lació i versió | ✅ 3 nodes actualitzats | [`a79-actualitzacio-nodes.txt`](evidencies/a79-actualitzacio-nodes.txt) |
-| a229 usuaris | ✅ | [`a229-usuaris.txt`](evidencies/a229-usuaris.txt) |
+| a228 instal·lació i versió | ✅ 3 nodes actualitzats | — |
+| a229 usuaris | ✅ | — |
 | a230 xarxa | ✅ IP fixa a `vmbr0`, `/etc/hosts` correcte | [Tasca 4](../../Tasca4-Xarxa/evidencies/) |
-| a232 clúster i quòrum | ✅ 3 vots, en calen 2; amb un node apagat continua *Quorate* | [`a232-cluster.txt`](evidencies/a232-cluster.txt) · [`a232-quorum-amb-un-node-apagat.txt`](evidencies/a232-quorum-amb-un-node-apagat.txt) |
+| a232 clúster i quòrum | ✅ 3 vots, en calen 2; amb un node apagat continua *Quorate* | [`a232-cluster.txt`](evidencies/a232-cluster.txt) |
 | a235 migració | ✅ CT 100 (amb reinici) i VM 220 **en calent** | [`a235-a236-migracio.txt`](evidencies/a235-a236-migracio.txt) |
 | a236 temps i espai | ✅ vegeu la taula | ídem |
-| a231 còpies | ✅ `vzdump` al NAS + configuració dels nodes | [`a231-copies-proxmox.txt`](evidencies/a231-copies-proxmox.txt) |
+| a231 còpies | ✅ `vzdump` al NAS + configuració dels nodes | — |
 
 | Migració | Temps | Observació |
 |---|---|---|

@@ -14,7 +14,7 @@
 | RAID 5 | 3 + spare | 2,0 G | `--fail` | ✅ íntegres, **el spare entra sol** | **12 s**, automàtica |
 | RAID 10 | 4 (+1) | 2,0 G | `--fail` | ✅ íntegres | **3 s** |
 
-Registres: [`raid0`](evidencies/raid/raid0.log) · [`raid1`](evidencies/raid/raid1.log) · [`raid5`](evidencies/raid/raid5.log) · [`raid10`](evidencies/raid/raid10.log). El rendiment no es pot comparar perquè tots els discos són al mateix SSD USB ([`rendiment-escriptura.txt`](evidencies/raid/rendiment-escriptura.txt)).
+Registres: [`raid1`](evidencies/raid/raid1.log) · [`raid5`](evidencies/raid/raid5.log). El rendiment no es pot comparar perquè tots els discos són al mateix SSD USB.
 
 **Conclusions a partir de les proves** (redactades amb l'IA a partir dels registres; l'alumne les ha de revisar i saber explicar):
 - **RAID 0** dona la capacitat dels dos discos, però la prova demostra que **perdre'n un és perdre-ho tot**: no hi ha manera d'assemblar-lo. Només per a dades que es poden regenerar.
@@ -44,12 +44,12 @@ Registres: [`raid0`](evidencies/raid/raid0.log) · [`raid1`](evidencies/raid/rai
 
 | Pas | Resultat | Evidència |
 |---|---|---|
-| Sincronització inicial | `UpToDate/UpToDate` en 87 s | [`01-sync`](evidencies/drbd/01-sync.txt) |
-| Escriptura al primari | 4 fitxers amb SHA-256 | [`02-escriptura`](evidencies/drbd/02-escriptura.txt) |
-| Caiguda brusca del node A | detectada pel node B | [`03-caiguda`](evidencies/drbd/03-caiguda.txt) |
+| Sincronització inicial | `UpToDate/UpToDate` en 87 s | — |
+| Escriptura al primari | 4 fitxers amb SHA-256 | — |
+| Caiguda brusca del node A | detectada pel node B | — |
 | B passa a primari | **4/4 fitxers íntegres** | [`04-failover`](evidencies/drbd/04-failover.txt) |
-| Torna A | entra com a secundari i rep el que s'havia escrit a B | [`06-retorn`](evidencies/drbd/06-retorn.txt) |
-| Canvi planificat de primari | 2,8 s, 5/5 OK | [`07-failback`](evidencies/drbd/07-failback.txt) |
+| Torna A | entra com a secundari i rep el que s'havia escrit a B | — |
+| Canvi planificat de primari | 2,8 s, 5/5 OK | — |
 | **Temps sense servei** | **7,3 s**, cap fitxer perdut | — |
 
 **Límits:** failover manual (automàtic necessitaria Pacemaker i un tercer vot); risc de *split-brain* si els dos són primaris; la latència de xarxa s'afig a cada escriptura; **no substitueix la còpia**.

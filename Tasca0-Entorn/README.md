@@ -9,7 +9,6 @@
 | Suport | SSD extern Intenso 1 TB per USB amb Linux Mint 22.3 (funciona igual a classe i a casa) |
 | Hipervisor | VirtualBox 7.2.18 · grup de VM **`/ISO_HWD`** |
 | Xarxa | LAN interna **`LAN31`** = 192.168.31.0/24 · WAN dels routers = NAT de VirtualBox |
-| Creació reproduïble | [`scripts/crear-entorn.sh`](scripts/crear-entorn.sh) (no toca les VM que ja existeixen) |
 
 ## 2. Equips amfitrió
 

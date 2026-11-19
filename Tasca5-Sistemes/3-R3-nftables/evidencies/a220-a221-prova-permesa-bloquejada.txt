@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# R3 (nftables): connexió permesa (NFT-FWD-OK, port 443) i bloquejada (NFT-FWD-BLOQ-SSH, port 22) amb els comptadors de cada regla (a220-a221).
+# ======================================================
+
 # a220/a221 — CLI-Debian fa servir R3 (.3) com a porta d'enllaç durant la prova — 2026-11-11 16:56:31
 default via 192.168.13.3 dev enp0s3 
 

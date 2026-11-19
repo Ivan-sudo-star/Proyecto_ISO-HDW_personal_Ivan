@@ -11,12 +11,12 @@
 
 | Acció | Resultat | Evidència |
 |---|---|---|
-| a203 instal·lació i versió | ✅ paquet `system`, x86_64 | [`a203-versio.txt`](evidencies/a203-versio.txt) |
-| a204 usuaris | ✅ `admin-ivan` i `suport`; `admin` desactivat | [`a204-usuaris.txt`](evidencies/a204-usuaris.txt) |
-| a205 xarxa | ✅ WAN per DHCP, LAN estàtica al bridge | [`a205-xarxa.txt`](evidencies/a205-xarxa.txt) · [`bridge-r1.txt`](evidencies/bridge-r1.txt) |
-| a206 Internet per a la LAN | ✅ NAT masquerade + DHCP | [`a206-nat-dhcp.txt`](evidencies/a206-nat-dhcp.txt) |
-| a207 permesa / bloquejada | ✅ HTTPS permés (`R1-FWD-OK`); SSH cap a Internet bloquejat i registrat (`R1-BLOQ-SSH`) | [`a207-prova-permesa-bloquejada.txt`](evidencies/a207-prova-permesa-bloquejada.txt) · [`a207-filtre.txt`](evidencies/a207-filtre.txt) |
-| a208 còpia al NAS | ✅ `/export` + `/system backup` (xifrat) per SFTP a `routers/r1` | [`a208-copia-al-nas.txt`](evidencies/a208-copia-al-nas.txt) |
+| a203 instal·lació i versió | ✅ paquet `system`, x86_64 | — |
+| a204 usuaris | ✅ `admin-ivan` i `suport`; `admin` desactivat | — |
+| a205 xarxa | ✅ WAN per DHCP, LAN estàtica al bridge | — |
+| a206 Internet per a la LAN | ✅ NAT masquerade + DHCP | — |
+| a207 permesa / bloquejada | ✅ HTTPS permés (`R1-FWD-OK`); SSH cap a Internet bloquejat i registrat (`R1-BLOQ-SSH`) | [`a207-prova-permesa-bloquejada.txt`](evidencies/a207-prova-permesa-bloquejada.txt) |
+| a208 còpia al NAS | ✅ `/export` + `/system backup` (xifrat) per SFTP a `routers/r1` | — |
 | a209 fallada i recuperació | ✅ s'esborren IP de LAN i NAT → `backup load` des del NAS: **42 s** sense servei | [`a209-fallada-recuperacio.txt`](evidencies/a209-fallada-recuperacio.txt) |
 | a79 actualització | ✅ 7.24.5 → 7.25.1 (la llicència de prova no deixa actualitzar: còpia, reinstal·lació des de la ISO verificada i `backup load`) | [Comprovacions](../0-Comprovacions/) |
 

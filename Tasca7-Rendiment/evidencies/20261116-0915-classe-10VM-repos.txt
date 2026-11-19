@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Mesura amb 10 VM: només 1,7 GB lliures i ja hi ha swap -> es trenca el criteri (a24, a120).
+# ======================================================
+
 # Mesura 'classe-10VM-repos' — 2026-11-16 09:15:18 — durada 60s
 VM en marxa:
   "Debian_NFtables" {25fe3e48-11b8-44a2-9036-7586f7ad5457}

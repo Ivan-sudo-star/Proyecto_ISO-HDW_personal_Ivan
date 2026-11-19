@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Després del canvi a la xarxa .31 (17/11): adreces de R1 i proves des de CLI-Debian (ping a R1, NAS i servidor, DNS del domini, HTTPS). Tot funciona amb el lloc 31.
+# ======================================================
+
 ## R1 (MikroTik) després del canvi
 Flags: D - DYNAMIC
 Columns: ADDRESS, NETWORK, INTERFACE, VRF

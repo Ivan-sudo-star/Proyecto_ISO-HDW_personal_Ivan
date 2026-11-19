@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# RAID 1 (espill): falla un disc, les dades continuen íntegres ([U_]) i es reconstrueix en 8 s en afegir-ne un de nou (a102).
+# ======================================================
+
 # RAID 1 — srv-dades — 2026-11-12 15:57:52
 NAME  SIZE TYPE
 sdb     1G disk

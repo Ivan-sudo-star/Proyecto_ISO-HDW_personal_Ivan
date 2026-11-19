@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Client Windows 11: versió (Pro), usuaris i xarxa per DHCP (a247-a249). Adreces .13: és d'abans del canvi de lloc.
+# ======================================================
+
 # Cliente_windows_1 (client Windows 11) - 2026-11-12 11:17:17
 ## a247 versio i funcionament
 

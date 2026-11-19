@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# R1: s'esborra la IP de la LAN i el NAT (avaria provocada), els clients es queden sense Internet i es recupera amb la còpia del NAS en 42 s (a209).
+# ======================================================
+
 # a209 — Fallada controlada i recuperació de R1 des de la còpia del NAS — 2026-11-11 16:41:22
 Punt de retorn previ: instantània VirtualBox R1-instal-ok + còpia r1-backup.backup al NAS (a208)
 

@@ -12,7 +12,7 @@
 |---|---|---|
 | a210–a213 instal·lació, usuaris, xarxa, Internet | ✅ Outbound NAT automàtic; client amb `HTTP/2 200` | [`a210-a214-opnsense.txt`](evidencies/a210-a214-opnsense.txt) |
 | a214 permesa / bloquejada | ✅ mateixa política que R1: *block* tcp/22 + *pass* la resta, tots dos amb registre; «Default allow LAN» desactivada | ídem |
-| a215 còpia al NAS | ✅ `config.xml` a `routers/r2` (porta hash de contrasenyes: només al NAS) | [`a215-copia-al-nas.txt`](evidencies/a215-copia-al-nas.txt) |
+| a215 còpia al NAS | ✅ `config.xml` a `routers/r2` (porta hash de contrasenyes: només al NAS) | — |
 | a216 fallada i recuperació | ✅ s'esborren les regles de LAN → es restaura `config.xml`: **48 s** | [`a216-fallada-recuperacio.txt`](evidencies/a216-fallada-recuperacio.txt) |
 | a79 actualització | ✅ 26.7 → 26.7.9 (96 paquets, 4 avisos de seguretat) | captures 04–07 |
 

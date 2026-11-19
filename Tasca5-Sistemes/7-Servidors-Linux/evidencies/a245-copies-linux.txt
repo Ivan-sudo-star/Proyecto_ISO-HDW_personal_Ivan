@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Còpia dels servidors Linux (/etc + llista de paquets) al NAS, i prova: s'esborra un fitxer de configuració i es recupera en 2,8 s (a245).
+# ======================================================
+
 # a245 — Còpia dels servidors GNU/Linux d'infraestructura al NAS — 2026-11-12
 
 ## Què es copia i on

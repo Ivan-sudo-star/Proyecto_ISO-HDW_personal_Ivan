@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# R3: s'esborren les regles i el reenviament (avaria) i es restaura la configuració des del NAS en 22 s (a223).
+# ======================================================
+
 # a223 — Fallada controlada de R3 i recuperació des del NAS — 2026-11-11 16:57:42
 Escenari: CLI-Debian usa R3 com a porta d'enllaç. Punt de retorn: còpia etc-2026-11-11_1657.tgz al NAS.
 abans: HTTP/2 200 

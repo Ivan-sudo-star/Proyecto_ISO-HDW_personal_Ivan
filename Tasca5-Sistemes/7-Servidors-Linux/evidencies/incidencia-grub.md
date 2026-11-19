@@ -1,3 +1,5 @@
+> **Què demostra:** Incidència d'arrencada provocada (GRUB trencat) al CLI-Debian: símptoma, diagnòstic i solució en 1,5 min (a258).
+
 # a258 · Incidència d'arrencada provocada: GRUB sense configuració (CLI-Debian, 12/11/2026)
 
 **Punt de retorn:** instantània de VirtualBox `CLI-abans-incidencia-grub`.

@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Optimització 2: CLI-Debian sense serveis innecessaris: de 8 ports oberts a 2 (només SSH) (a124-a125).
+# ======================================================
+
 # Optimització 2 (a124, a125): CLI-Debian sense els serveis que no necessita — 12/11/2026, equip de casa
 # Mètode: mateixes condicions abans i després: reinici, 2 min sense tocar res i scripts de mesura idèntics (2 arrencades de cada).
 # Condició externa: durant les 4 arrencades, Cliente_windows_1 descarregava/instal·lava Windows Update al mateix SSD USB.

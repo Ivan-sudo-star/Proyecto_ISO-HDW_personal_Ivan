@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Mesura amb 8 VM enceses a classe: queden 4,5 GB de RAM i no hi ha swap -> l'equip aguanta 8 VM (a24, a120). Mira 'Mem:' i el 'Consum per VM'.
+# ======================================================
+
 # Mesura 'classe-8VM-repos' — 2026-11-16 09:13:06 — durada 60s
 VM en marxa:
   "Cliente_windows_1" {8295a796-9ae0-4311-85e3-4cd6c4b23e3f}

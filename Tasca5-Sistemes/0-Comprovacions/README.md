@@ -14,7 +14,7 @@
 | Windows 11 | `w11.iso` (23H2 multiedició) | ➖ Microsoft no publica el hash d'aquesta versió |
 | Windows Server 2025 | ISO d'avaluació | ➖ Microsoft no en publica el hash; `setup.exe` signat per Microsoft |
 
-**5 de 7 verificades** contra el fabricant; les dues de Windows estan justificades. Evidència: [`verificacio.txt`](evidencies/verificacio.txt) · [`sha256-local.txt`](evidencies/sha256-local.txt) · [`sha256-oficial.txt`](evidencies/sha256-oficial.txt)
+**5 de 7 verificades** contra el fabricant; les dues de Windows estan justificades. Evidència: [`verificacio.txt`](evidencies/verificacio.txt)
 
 ## a79 · Actualització abans de «producció»
 
@@ -28,7 +28,7 @@
 | Windows 11 | **25H2** 26200.9974, al dia |
 | Windows Server 2025 | **26100.33822**, 0 pendents |
 
-Evidència: [`a79-actualitzacions.txt`](evidencies/a79-actualitzacions.txt) i les de cada sistema.
+Evidència: a la carpeta de cada sistema.
 
 ## a258 · Problemes d'arrencada i temps de resposta
 

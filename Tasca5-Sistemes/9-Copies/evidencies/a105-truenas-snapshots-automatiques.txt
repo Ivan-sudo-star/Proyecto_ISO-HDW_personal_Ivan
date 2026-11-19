@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Eina d'automatització de TrueNAS: instantànies cada 2 minuts creades soles i recuperació d'un fitxer esborrat amb el mateix SHA-256 (a105).
+# ======================================================
+
 # a105 · Prova de l'automatització de TrueNAS: Periodic Snapshot Task · 18/11/2026 (equip de casa)
 # NAS 192.168.31.20 (TrueNAS SCALE 25.10.7). Configuració per l'API (/api/v2.0/pool/snapshottask) i comprovació per SSH com a usuari copies.
 

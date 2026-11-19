@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# NAS: versió, usuaris (truenas_admin i copies), IP fixa i el pool 'copies' amb els seus datasets i serveis SMB/NFS/SSH (a224-a227).
+# ======================================================
+
 # NAS-TrueNAS (192.168.13.20) — 2026-11-12 13:02:49
 # Exportat per l'API REST (/api/v2.0, només lectura) a través d'un túnel SSH per R1. Sense claus ni hash de contrasenyes.
 

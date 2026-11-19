@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Comprovació de la integritat de les ISO: el SHA-256 calculat coincideix amb l'oficial del fabricant (a78). Les de Windows no es poden verificar així (està justificat).
+# ======================================================
+
 # sha256sum -c contra els hashes oficials — 2026-11-11 15:22:09
   debian-13.1.0-amd64-netinst.iso: La suma coincide
   proxmox-ve_9.2-1.iso: La suma coincide

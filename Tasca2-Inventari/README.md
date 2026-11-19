@@ -2,7 +2,7 @@
 
 **FDM RA1** · a19–a21 (Apte), a27–a29 (Apte+) · Estat: ✅
 
-**Mètode:** [`scripts/inventari.sh`](scripts/inventari.sh) (lscpu, free, lsblk, lshw, lspci, inxi, DMI, SMART amb `sudo`) i [`scripts/tests-diagnostic.sh`](scripts/tests-diagnostic.sh). Fet als dos equips: casa (11/11) i classe (12/11).
+**Mètode:** ordres `lscpu`, `free`, `lsblk`, `lshw`, `lspci`, `inxi` i `smartctl` (inventari), i `memtester`, `fio`, `dd`, `iperf3` i `ping` (tests). Fet als dos equips: casa (11/11) i classe (12/11).
 
 ## 1. Inventari i comparativa (a19, a20)
 
@@ -43,5 +43,4 @@
 
 ## 4. Evidències
 
-- Inventari: [`classe`](evidencies/inventari/inventari-classe-raw.txt) · [`casa`](evidencies/inventari/inventari-casa-raw.txt)
-- Tests: [`classe`](evidencies/tests/tests-classe-20261112-0800.txt) · [`casa`](evidencies/tests/tests-casa-20261111-1545.txt) · [`iperf3`](evidencies/tests/iperf3-classe-20261112-0816.txt)
+- Tests: [`classe`](evidencies/tests/tests-classe-20261112-0800.txt) · [`casa`](evidencies/tests/tests-casa-20261111-1545.txt)

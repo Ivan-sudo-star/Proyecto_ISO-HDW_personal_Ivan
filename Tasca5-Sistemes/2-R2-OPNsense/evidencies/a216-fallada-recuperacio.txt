@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# R2: s'esborren les regles de la LAN (avaria), no hi ha Internet i es restaura el config.xml del NAS en 48 s (a216).
+# ======================================================
+
 # a216 — Fallada controlada de R2 i recuperació des del NAS — 2026-11-11 17:38:31
 abans: HTTP/2 200 
 

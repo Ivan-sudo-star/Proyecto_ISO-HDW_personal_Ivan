@@ -47,7 +47,7 @@ Màscara /24 a tota la LAN. WAN: 10.0.2.15/24, porta d'enllaç 10.0.2.2.
 |---|---|---|
 | Interfícies i rutes de cada equip | ✅ `default via .1` (routers: via 10.0.2.2) | [`ifaces-rutes-*.txt`](evidencies/) |
 | Ping dins la LAN (R1, NAS, nodes) | ✅ 0 % de pèrdua | [`ping-lan-i-internet.txt`](evidencies/ping-lan-i-internet.txt) |
-| DNS i traceroute | ✅ salt 1 = .1, salt 2 = 10.0.2.2 | [`traceroute-dns-cli-debian.txt`](evidencies/traceroute-dns-cli-debian.txt) |
+| DNS i traceroute | ✅ salt 1 = .1, salt 2 = 10.0.2.2 | — |
 | Prova que ha de fallar: SSH cap a Internet | ✅ bloquejada i registrada | [Tasca 5 · R1](../Tasca5-Sistemes/1-R1-MikroTik/) |
 | Aïllament: l'amfitrió no arriba a la LAN | ✅ 100 % de pèrdua | [`aillament-amfitrio.txt`](evidencies/aillament-amfitrio.txt) |
 | **Xarxa .31 després del canvi de lloc** | ✅ ping a R1, NAS i DC; DNS del domini; HTTPS | [`canvi-lloc31/xarxa-r1-cli-31.txt`](evidencies/canvi-lloc31/xarxa-r1-cli-31.txt) |

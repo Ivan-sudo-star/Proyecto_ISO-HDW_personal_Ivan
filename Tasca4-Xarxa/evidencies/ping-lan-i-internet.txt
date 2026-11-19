@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Pings des de CLI-Debian a R1, al NAS i als nodes (0 % de pèrdua) i eixida a Internet. Demostra que la xarxa funciona (a129). Adreces .13: és d'abans del canvi de lloc.
+# ======================================================
+
 # Pings dins la LAN i cap a fora — 2026-11-11 16:47:02
 $ ping -c3 192.168.13.1
 3 packets transmitted, 3 received, 0% packet loss, time 2106ms

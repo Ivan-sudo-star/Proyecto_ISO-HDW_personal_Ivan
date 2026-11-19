@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Tests de l'equip de CLASSE: memòria (memtester), disc (dd i fio) i xarxa. Mira 'fsync': ~179 IOPS -> el disc USB és el coll de botella (a27-a29).
+# ======================================================
+
 # Tests de diagnòstic — equip: classe — 2026-11-12 08:00:15
 ## Condicions
 - Host: canvia-al-teu-nom | Kernel: 6.8.0-142-generic | Uptime: up 4 minutes

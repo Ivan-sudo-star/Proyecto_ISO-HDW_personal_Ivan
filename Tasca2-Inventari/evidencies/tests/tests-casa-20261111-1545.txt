@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Els mateixos tests a l'equip de CASA. Amb fsync ~422 IOPS (millor que a classe, però igualment lent). La xarxa de casa va a 100 Mb/s pel PLC.
+# ======================================================
+
 # Tests de diagnòstic — equip: casa — 2026-11-11 15:45:46
 ## Condicions
 - Host: canvia-al-teu-nom | Kernel: 6.8.0-142-generic | Uptime: up 3 minutes

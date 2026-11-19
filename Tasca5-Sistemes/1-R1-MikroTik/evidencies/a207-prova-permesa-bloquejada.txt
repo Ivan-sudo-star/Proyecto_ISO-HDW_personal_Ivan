@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# R1: una connexió permesa (HTTPS, registre R1-FWD-OK) i una bloquejada (SSH al port 22, registre R1-BLOQ-SSH). Cada línia diu origen, destí, port i acció (a207).
+# ======================================================
+
 # Prova permesa / bloquejada a través de R1 (a206, a207) — 2026-11-11 16:40:46
 ## Des de CLI-Debian (192.168.13.200)
 $ ip route

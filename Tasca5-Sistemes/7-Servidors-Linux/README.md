@@ -1,6 +1,6 @@
 # Servidors GNU/Linux d'infraestructura
 
-**a242–a246** · Estat: ✅ · Configuració aplicada amb [`infra-config.sh`](../5-Proxmox/scripts/infra-config.sh)
+**a242–a246** · Estat: ✅
 
 | | VM 220 SRV-SERVEIS | VM 230 SRV-DADES |
 |---|---|---|
@@ -11,7 +11,7 @@
 
 | Acció | Resultat | Evidència |
 |---|---|---|
-| a242–a244 versió, usuaris, xarxa | ✅ 0 paquets pendents, IP fixa per cloud-init | [`srv-serveis`](evidencies/a242-a246-srv-serveis.txt) · [`srv-dades`](evidencies/a242-a246-srv-dades.txt) |
+| a242–a244 versió, usuaris, xarxa | ✅ 0 paquets pendents, IP fixa per cloud-init | — |
 | a246 programari | ✅ cap servei addicional (l'enunciat ho diu); només `qemu-guest-agent` | ídem |
 | a245 còpia | ✅ `/etc` + llista de paquets al NAS. Prova: s'esborra la configuració SSH i es recupera en **2,8 s** | [`a245-copies-linux.txt`](evidencies/a245-copies-linux.txt) |
 | a258 incidència d'arrencada | ✅ GRUB trencat a propòsit al CLI-Debian → arreglat en ≈ 1,5 min | [`incidencia-grub.md`](evidencies/incidencia-grub.md) |

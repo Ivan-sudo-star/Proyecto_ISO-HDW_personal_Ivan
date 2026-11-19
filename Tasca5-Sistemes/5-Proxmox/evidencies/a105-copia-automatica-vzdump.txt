@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Còpia automàtica de Proxmox: la tasca programada 'copia-setmanal' s'executa sola (vzdump de VM 220, VM 230 i CT 100 al NAS). És una de les eines provades per a a105.
+# ======================================================
+
 # a105 — Còpia automàtica de les VM i el CT (tasca programada de Proxmox) — 2026-11-12 16:21:07
 
 ## 1. Tasca programada (Datacenter → Backup), definida una sola vegada per a tot el clúster

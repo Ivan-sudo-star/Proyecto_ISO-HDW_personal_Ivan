@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Client CLI-Debian: versió, usuaris i xarxa (a252-a254).
+# ======================================================
+
 # CLI-Debian (client GNU/Linux) — a252, a253 — 2026-11-12 08:35:44
 ## a252 versió i funcionament
 PRETTY_NAME="Debian GNU/Linux 13 (trixie)"

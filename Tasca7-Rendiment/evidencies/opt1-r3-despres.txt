@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Optimització 1: R3 sense escriptori i amb 1 GB: 284 MB de RAM usats i arrencada en 5,56 s (abans 806 MB i 11,45 s) (a123).
+# ======================================================
+
 # Optimització 1 (R3) — DESPRÉS — 2026-11-11 17:42:26
 VM: Debian_NFtables · memory=1024 cpus=1 
 target: multi-user.target

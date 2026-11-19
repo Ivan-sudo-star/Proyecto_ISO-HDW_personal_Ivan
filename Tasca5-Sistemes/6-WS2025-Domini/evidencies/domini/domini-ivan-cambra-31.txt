@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Domini ivan-cambra-31.lan: controlador, OU, usuari ivan, GPO i els dos clients units (W11 i CLI-Debian) amb inici de sessió comprovat.
+# ======================================================
+
 # Domini ivan-cambra-31.lan (NetBIOS IVANCAMBRA31) · 17/11/2026 · SRV-WS2025 192.168.31.21
 # Refet després del canvi de lloc 13 -> 31 (instantànies abans-domini + domini-ivan-cambra-31.ps1)
 

@@ -10,9 +10,9 @@
 
 | Acció | Resultat | Evidència |
 |---|---|---|
-| a217–a219 versió, usuaris, xarxa | ✅ | [`a217-a219-versio-usuaris-xarxa.txt`](evidencies/a217-a219-versio-usuaris-xarxa.txt) |
+| a217–a219 versió, usuaris, xarxa | ✅ | — |
 | a220–a221 Internet, permesa / bloquejada | ✅ `NFT-FWD-OK` (443) i `NFT-FWD-BLOQ-SSH` (22) amb comptadors | [`a220-a221-prova-permesa-bloquejada.txt`](evidencies/a220-a221-prova-permesa-bloquejada.txt) |
-| a222 còpia al NAS | ✅ `tgz` de la configuració + ruleset a `routers/r3` | [`a222-copia-al-nas.txt`](evidencies/a222-copia-al-nas.txt) |
+| a222 còpia al NAS | ✅ `tgz` de la configuració + ruleset a `routers/r3` | — |
 | a223 fallada i recuperació | ✅ `nft flush` + `ip_forward=0` → restauració des del NAS: **22 s** | [`a223-fallada-recuperacio.txt`](evidencies/a223-fallada-recuperacio.txt) |
 
 ## Els 3 routers, configurats igual

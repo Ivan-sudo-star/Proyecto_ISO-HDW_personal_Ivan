@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Clúster Proxmox: 3 nodes, 3 vots, quòrum 2 i 'Quorate: Yes' (a232). Adreces .13: és d'abans del canvi de lloc.
+# ======================================================
+
 # a232 — Clúster cluster13 — 2026-11-11 17:13:07
 ## PVE1: pvecm create cluster13
 Writing corosync key to /etc/corosync/authkey.

@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Des del PC (amfitrió) NO s'arriba a la LAN: 100 % de pèrdua. Demostra que la LAN està aïllada i només s'hi entra pel router (a149).
+# ======================================================
+
 # Aïllament: des de l'amfitrió (fora de LAN13) — 2026-11-11 16:47:18
 $ ip route get 192.168.13.20
 192.168.13.20 via 192.168.1.1 dev enp7s0 src 192.168.1.86 uid 1001 

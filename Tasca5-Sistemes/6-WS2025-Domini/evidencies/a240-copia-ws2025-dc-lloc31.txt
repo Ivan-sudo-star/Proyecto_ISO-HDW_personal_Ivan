@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# Còpia del servidor amb wbadmin: codi 0 i 'Can recover: ... Bare Metal Recovery, System State' (es pot recuperar tot, inclòs Active Directory) (a240).
+# ======================================================
+
 # a240 · Còpia de SRV-WS2025 (controlador del domini ivan-cambra-31.lan) al NAS · 17/11/2026, equip de casa
 # ws-copia.ps1 executat com a tasca programada de SYSTEM (lloc31-copia-ara). Registre complet (sense les línies de progrés):
 

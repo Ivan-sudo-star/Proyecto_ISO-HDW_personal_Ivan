@@ -1,3 +1,7 @@
+# ==== QUÈ DEMOSTRA (explicació afegida el 19/11) ====
+# R2 (OPNsense): versió, usuaris, xarxa, NAT i les regles (bloqueig del port 22 i eixida permesa), amb el registre del tallafocs (a210-a214).
+# ======================================================
+
 # R2 OPNsense — a210–a214 — 2026-11-11 17:37:12
 ## a210 versió
 producte: OPNsense 26.7 | arquitectura: amd64
