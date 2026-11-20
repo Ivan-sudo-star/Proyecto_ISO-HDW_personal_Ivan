@@ -39,7 +39,7 @@ Detall a la [Tasca 2](../Tasca2-Inventari/).
 ## 4. Càlculs i limitacions (a18)
 
 - Disponible per a VM: 30,6 − 6 GB per a l'amfitrió ≈ **24 GB**; vCPU: **≤ 10 a casa**, ≤ 16 a classe.
-- Totes alhora (amb un sol router): **26,5 GB i 15 vCPU** → no hi caben. Es treballa per **escenaris**:
+- Totes alhora (amb un sol router): **27,5 GB i 15 vCPU** → no hi caben. Es treballa per **escenaris**:
 
 | Escenari | VM | RAM | Cap? |
 |---|---|---|---|

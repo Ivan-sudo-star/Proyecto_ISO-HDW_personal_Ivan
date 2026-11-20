@@ -33,7 +33,7 @@
 | Previst | Dades | Confirmat? | Solució |
 |---|---|---|---|
 | **E/S síncrona del SSD USB** | Amb fsync, de ~20 000 a **179–422 IOPS** | ✅ | No fer dues tasques pesades de disc alhora; port USB directe; memòria cau de l'amfitrió als discos dels nodes |
-| RAM per a totes les VM | 26,5 GB necessaris, 24 disponibles | ✅ | Treballar per escenaris; R3 a 1 GB ([Tasca 7](../Tasca7-Rendiment/)) |
+| RAM per a totes les VM | 27,5 GB necessaris, 24 disponibles | ✅ | Treballar per escenaris; R3 a 1 GB ([Tasca 7](../Tasca7-Rendiment/)) |
 | Fils de CPU a casa | 12 fils | ✅ | ≤ 10 vCPU a casa |
 | Xarxa de casa | PLC a 100 Mb/s | ✅ | PLC Gigabit o cable (no afecta la LAN interna) |
 | Temperatura del portàtil | 97–100 °C amb 7 VM ([registre](../Tasca7-Rendiment/evidencies/20261116-temperatura-classe.txt)) | ✅ | No fer actualitzacions de Windows amb totes les VM enceses |
