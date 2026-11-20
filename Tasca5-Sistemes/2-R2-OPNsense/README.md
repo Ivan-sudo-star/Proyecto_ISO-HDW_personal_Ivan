@@ -26,7 +26,7 @@ Captures reals de les VM (MAC tapades). Les fetes abans del 17/11 mostren l'adre
 |---|---|
 | ![](evidencies/captures/01-panell-opnsense-26.7.9.png) | a210/a212: OPNsense **26.7.9** (després d'actualitzar), WAN 10.0.2.15 i LAN 192.168.13.2 |
 | ![](evidencies/captures/02-regles-lan.png) | a214: regles de la LAN: «Default allow» desactivada, bloqueig de tcp/22 (R2-BLOQ-SSH) i eixida permesa |
-| ![](evidencies/captures/03-registre-en-viu-bloquejat-i-permes.png) | a214: registre en viu filtrat pel client .200, ja amb la 26.7.9: connexions SSH **bloquejades** per R2-BLOQ-SSH (vermell). L'HTTPS permés per R2 funciona (HTTP 200) però no apareix amb l'etiqueta R2-FWD-OK: pendent d'investigar |
+| ![](evidencies/captures/03-registre-en-viu-bloquejat-i-permes.png) | a214: registre en viu filtrat pel client .200, ja amb la 26.7.9: connexions SSH **bloquejades** per R2-BLOQ-SSH (vermell). L'HTTPS permés funciona (HTTP 200); la línia del registre amb l'etiqueta **R2-FWD-OK** (`pass em1 … :443`) és a l'evidència de text [a210-a214-opnsense.txt](evidencies/a210-a214-opnsense.txt) |
 | ![](evidencies/captures/04-firmware-abans-26.7.png) | a79: firmware **abans**: 26.7, mai comprovat |
 | ![](evidencies/captures/05-actualitzacions-pendents-26.7.9.png) | a79: 96 actualitzacions (`base` i `kernel` 26.7 → 26.7.9, amb 4 avisos de seguretat) |
 | ![](evidencies/captures/06-firmware-despres-26.7.9.png) | a79: firmware **després**: 26.7.9 |
